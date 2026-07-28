@@ -14,7 +14,7 @@ One or more titled sections of documentation content. Use it for anything a guid
 | --- | --- | --- | --- |
 | `kind` | `"sections"` | ✓ | Identifies this block as sections. |
 | `items` | [sectionEntry](document-blocks-sections.md#sectionentry)[] | ✓ | The sections, in order. Tools SHOULD keep this order. (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [sectionEntry](document-blocks-sections.md#sectionentry), [extensions](common-extensions.md#extensions)
 

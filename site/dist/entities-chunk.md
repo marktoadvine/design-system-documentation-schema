@@ -19,7 +19,7 @@ A ready-to-use block of code — a layout, a settings form, a confirmation dialo
 | `agentDocumentBlocks` | [generalDocumentBlock](document-blocks-document-blocks.md#generaldocumentblock)[] |  | Docs for AI agents only, using the same general block kinds as `documentBlocks`. Agent-only content: hard must/must-not rules, verification checklists, and constraints an agent needs when adapting this chunk into an app. Guidance for humans belongs in `documentBlocks`. (Min items: 1) |
 | `relationships` | [relationships](common-relationship.md#relationships) |  | Links from this chunk to the entities it uses — mainly 'composes' the components it's built from (mark `required` true for the essential ones). Tools derive the reverse edges. |
 | `metadata` | [entityMetadata](metadata-metadata.md#entitymetadata) |  | Optional metadata (see metadata/metadata.schema.json). Declare the components this chunk uses as `relationships`, not links. |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [richText](common-rich-text.md#richtext), [generalDocumentBlock](document-blocks-document-blocks.md#generaldocumentblock), [relationships](common-relationship.md#relationships), [entityMetadata](metadata-metadata.md#entitymetadata), [extensions](common-extensions.md#extensions)
 

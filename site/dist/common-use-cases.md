@@ -15,7 +15,7 @@ When to use an artifact and when to choose something else. Optional `purpose` su
 | `kind` | `"use-cases"` | ✓ | Identifies this block as `use-cases`. |
 | `items` | [useCase](common-use-cases.md#usecase)[] | ✓ | The use-case scenarios. Order matters: tools SHOULD keep it for display, and authors SHOULD lead with recommended scenarios. (Min items: 1) |
 | `purpose` | [richText](common-rich-text.md#richtext) |  | One or two sentences on what the artifact is for, framing the `items` below (ex: 'Buttons trigger immediate actions within a surface.'). |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [richText](common-rich-text.md#richtext), [useCase](common-use-cases.md#usecase), [extensions](common-extensions.md#extensions)
 

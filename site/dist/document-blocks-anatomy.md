@@ -16,7 +16,7 @@ Documents the visual structure of a component or pattern by listing its named su
 | `parts` | [anatomyEntry](document-blocks-anatomy.md#anatomyentry)[] | ✓ | The named sub-elements of the artifact, in visual order (typically outside-in or top-to-bottom). Each part documents an element that can be styled, tested, or referenced independently. (Min items: 1) |
 | `description` | [richText](common-rich-text.md#richtext) |  | Provides an overview of the artifact's visual structure: how the parts relate and any notable structural constraints. |
 | `examples` | [example](common-example.md#example)[] |  | Examples of the anatomy, typically annotated diagrams with numbered callouts that map to the parts array. Multiple examples allow different views (ex: expanded vs. collapsed, with icon vs. without). (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [richText](common-rich-text.md#richtext), [anatomyEntry](document-blocks-anatomy.md#anatomyentry), [example](common-example.md#example), [extensions](common-extensions.md#extensions)
 

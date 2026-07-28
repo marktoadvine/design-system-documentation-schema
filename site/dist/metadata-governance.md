@@ -12,8 +12,8 @@ Who's accountable for this entity's docs, and their review state. `owner` is req
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `owner` | [owner](metadata-governance.md#owner) | ✓ |  |
-| `lastReviewed` | [lastReviewed](metadata-governance.md#lastreviewed) |  |  |
+| `owner` | [owner](metadata-governance.md#owner) | ✓ | Who's accountable for this entity's docs. A bare string names the owner — the common case. Use the object form to add contact info. Owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'), not individuals — a named person goes stale the moment they leave, which is exactly what this field is meant to survive. Tools SHOULD show the owner wherever a reader might need to flag a problem. |
+| `lastReviewed` | [lastReviewed](metadata-governance.md#lastreviewed) |  | When a human last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree. |
 
 **References:** [owner](metadata-governance.md#owner), [lastReviewed](metadata-governance.md#lastreviewed)
 

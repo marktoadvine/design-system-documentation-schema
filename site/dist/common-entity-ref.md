@@ -12,8 +12,8 @@ A reference to another entity by `identifier`, with an optional `role`. Use when
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `identifier` | [entityIdentifier](common-entity-ref.md#entityidentifier) | ✓ |  |
-| `role` | [entityRole](common-entity-ref.md#entityrole) |  |  |
+| `identifier` | [entityIdentifier](common-entity-ref.md#entityidentifier) | ✓ | Identifier of a documented DSDS entity (ex: 'button', 'color-text-primary'). MUST match that entity's `identifier`. Tools SHOULD resolve it to build cross-references. |
+| `role` | [entityRole](common-entity-ref.md#entityrole) |  | What the referenced entity does here (ex: 'Displays the inline error'). The association is generic when `entityRole` isn't defined. |
 
 **References:** [entityIdentifier](common-entity-ref.md#entityidentifier), [entityRole](common-entity-ref.md#entityrole)
 

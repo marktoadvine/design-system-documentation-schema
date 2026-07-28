@@ -16,7 +16,7 @@ A label dictionary and localization notes for an artifact or the whole system. E
 | `labels` | [contentLabelEntry](document-blocks-content.md#contentlabelentry)[] | at least 1 | The label dictionary. Order matters for display, so tools SHOULD keep it; authors MAY sort alphabetically or by frequency. (Min items: 1) |
 | `localization` | [localizationEntry](document-blocks-content.md#localizationentry)[] | at least 1 | The localization notes. Order matters for display, so tools SHOULD keep it; authors SHOULD lead with the highest-impact concerns. (Min items: 1) |
 | `description` | [richText](common-rich-text.md#richtext) |  | A short overview of what this block covers. Voice-and-tone philosophy belongs in a `guidelines` block (category 'content'), not here. |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **Constraint:** At least one of `labels`, `localization` must be present.
 

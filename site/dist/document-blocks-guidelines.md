@@ -14,7 +14,7 @@ Usage rules for an artifact — each a do/don't statement with a reason. Answers
 | --- | --- | --- | --- |
 | `items` | [guidelineEntry](document-blocks-guidelines.md#guidelineentry)[] | ✓ | The rules, in order. Tools SHOULD keep this order; authors SHOULD lead with the most important or group by category. (Min items: 1) |
 | `kind` | `"guidelines"` | ✓ | Identifies this block as a guidelines spec. |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [guidelineEntry](document-blocks-guidelines.md#guidelineentry), [extensions](common-extensions.md#extensions)
 

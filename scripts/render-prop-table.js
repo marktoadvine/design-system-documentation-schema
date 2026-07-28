@@ -144,8 +144,13 @@ function buildDefIndex({
       } catch (e) {
         continue;
       }
-      for (const defName of Object.keys(data.$defs || {})) {
-        index[defName] = { pageSlug, filename, group };
+      for (const [defName, def] of Object.entries(data.$defs || {})) {
+        index[defName] = {
+          pageSlug,
+          filename,
+          group,
+          description: def.description || "",
+        };
       }
     }
   }
@@ -155,11 +160,12 @@ function buildDefIndex({
     if (fs.existsSync(rootPath)) {
       try {
         const rootData = JSON.parse(fs.readFileSync(rootPath, "utf-8"));
-        for (const defName of Object.keys(rootData.$defs || {})) {
+        for (const [defName, def] of Object.entries(rootData.$defs || {})) {
           index[defName] = {
             pageSlug: "root",
             filename: "dsds.schema.json",
             group: "documentation",
+            description: def.description || "",
           };
         }
       } catch (e) {
@@ -358,12 +364,24 @@ function propTableRows(defSchema, defIndex = {}, opts = {}) {
       sortOrder = 2;
     }
 
+    // A bare `{ "$ref": "..." }` property (no local description) inherits
+    // the referenced def's description, so docs don't render an empty cell
+    // just because the description lives on the $ref target instead.
+    let description = propSchema.description || "";
+    if (!description && propSchema.$ref) {
+      const refName = linkToRef(propSchema.$ref);
+      const refTarget = refName && defIndex[refName];
+      if (refTarget && refTarget.description) {
+        description = refTarget.description;
+      }
+    }
+
     rows.push({
       sortOrder,
       name: propName,
       type,
       status,
-      description: propSchema.description || "",
+      description,
       notes,
     });
   }

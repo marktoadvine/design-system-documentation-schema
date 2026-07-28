@@ -203,7 +203,7 @@
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-checklist.html#checklistitem&quot;&gt;checklistItem&lt;/ds-type-ref&gt;[]" required>The checklist items, in order. Order matters when <ds-code inline>ordered</ds-code> is true, so tools MUST preserve it.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="title" type="string">An optional heading naming the checklist (ex: 'Accessibility review', 'Before you ship').</ds-prop>
   <ds-prop name="ordered" type="boolean">Whether items must be done in order. Defaults to false — items can be checked off in any order. Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list.<br><small>Default: <ds-code inline>false</ds-code></small></ds-prop>
-  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;"></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;">All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-checklist.html#checklistitem">checklistItem</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">extensions</ds-type-ref></ds-cross-refs>
 <ds-def-example>

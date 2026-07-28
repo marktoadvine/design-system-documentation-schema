@@ -20,3 +20,12 @@
   for = "/v*/*.schema.json"
   [headers.values]
     Content-Type = "application/schema+json; charset=utf-8"
+
+# A bare version root (ex: /v0.15.2, no trailing path) has no file of its own —
+# send it to the bundled schema for that version. Split schema files under
+# /v<version>/… (ex: /v0.15.2/common/criterion.schema.json) are real files on
+# disk, so they're served directly and never reach this rule.
+[[redirects]]
+  from = "/v*"
+  to = "/v:splat/dsds.bundled.schema.json"
+  status = 301

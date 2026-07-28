@@ -21,7 +21,7 @@ Specialized, structured accessibility documentation for an artifact. Every field
 | `focusBehaviors` | [focusBehavior](document-blocks-accessibility.md#focusbehavior)[] | at least 1 | Focus movement, one entry per trigger: how focus enters, moves within, and leaves the artifact. Includes trapping and restoration. (Min items: 1) |
 | `colorContrast` | [colorContrastEntry](document-blocks-accessibility.md#colorcontrastentry)[] | at least 1 | The foreground/background color pairings this artifact uses, one entry per pairing. Pairs are declarations of intent; measure them with an automated contrast criterion, not by hand. (Min items: 1) |
 | `reducedMotion` | [reducedMotionEntry](document-blocks-accessibility.md#reducedmotionentry)[] | at least 1 | Animations and their prefers-reduced-motion behavior, one entry per animation. (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **Constraint:** At least one of `wcagLevel`, `criteria`, `keyboardInteractions`, `ariaAttributes`, `announcements`, `focusBehaviors`, `colorContrast`, `reducedMotion` must be present.
 

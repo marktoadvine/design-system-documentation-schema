@@ -14,7 +14,7 @@ Every interactive state of a component or pattern. List them in a sensible order
 | --- | --- | --- | --- |
 | `kind` | `"states"` | ✓ | Identifies this block as a states spec. |
 | `items` | [stateEntry](document-blocks-states.md#stateentry)[] | ✓ | The states, in order. Tools SHOULD keep this order for display. (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [stateEntry](document-blocks-states.md#stateentry), [extensions](common-extensions.md#extensions)
 

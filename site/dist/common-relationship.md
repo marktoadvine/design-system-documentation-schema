@@ -42,7 +42,7 @@ Defines what entity the source relates to (`target`: the other entity's `identif
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `relation` | [relationType](common-relationship.md#relationtype) | ✓ |  |
+| `relation` | [relationType](common-relationship.md#relationtype) | ✓ | The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes'). |
 | `target` | [entityIdentifier](common-entity-ref.md#entityidentifier) | ✓ | Identifier of the target entity. MUST match a documented entity. |
 | `role` | [entityRole](common-entity-ref.md#entityrole) |  | What the target does here (ex: 'Provides semantic text color'). When omitted, the edge is a general association. |
 | `required` | boolean |  | Whether the target is required for the source to function. Meaningful for 'depends-on' and 'composes'; ignored for symmetric relations. Defaults to false. (Default: `false`) |

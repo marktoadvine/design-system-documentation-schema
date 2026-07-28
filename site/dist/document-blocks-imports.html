@@ -190,7 +190,7 @@
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;imports&quot;&lt;/ds-code&gt;" required>Identifies this block as an imports spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-imports.html#importentry&quot;&gt;importEntry&lt;/ds-type-ref&gt;[]" required>The per-platform import entries, primary platform first.<br><small>Min items: 1</small></ds-prop>
-  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;"></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;">All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-imports.html#importentry">importEntry</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">extensions</ds-type-ref></ds-cross-refs>
 <ds-def-example>

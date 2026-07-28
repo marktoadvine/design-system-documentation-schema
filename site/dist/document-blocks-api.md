@@ -21,7 +21,7 @@ Documents the code-level interface of a component on a single platform. Lists co
 | `dataAttributes` | [apiDataAttribute](document-blocks-api.md#apidataattribute)[] | at least 1 | Data attributes that reflect component state or config into the DOM. (Min items: 1) |
 | `methods` | [apiMethod](document-blocks-api.md#apimethod)[] | at least 1 | Public methods on the component instance. (Min items: 1) |
 | `platform` | string |  | The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When omitted, the API is taken to be the single/default platform. |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **Constraint:** At least one of `properties`, `events`, `slots`, `cssCustomProperties`, `cssParts`, `dataAttributes`, `methods` must be present.
 

@@ -166,8 +166,12 @@ function discoverPages() {
 function buildDefIndex(pages) {
   const index = {};
   for (const page of pages) {
-    for (const defName of Object.keys(page.data.$defs || {})) {
-      index[defName] = { pageSlug: page.slug, filename: page.filename };
+    for (const [defName, def] of Object.entries(page.data.$defs || {})) {
+      index[defName] = {
+        pageSlug: page.slug,
+        filename: page.filename,
+        description: def.description || "",
+      };
     }
   }
   return index;
@@ -1398,6 +1402,34 @@ async function build() {
       fs.copyFileSync(bundledSchemaPath, versionedBundle);
       console.log(
         `  ✓  ${relTarget}  ← spec/schema/dsds.bundled.schema.json${changed ? " (refreshed)" : ""}\n`,
+      );
+
+      // ── Versioned split schema files ────────────────────────────────
+      //
+      // Every split schema file's `$id` (ex: "https://.../v0.15.2/common/
+      // criterion.schema.json") is a promise that the file is servable at
+      // that exact URL. Mirror the whole spec/schema/ tree — root file and
+      // every group subdirectory — into site/dist/v<version>/ so each $id
+      // resolves instead of 404ing. The bundle above is copied separately
+      // since it isn't part of this walk (it has no group subdirectory).
+      const splitSchemaFiles = [path.join(SCHEMA_DIR, "dsds.schema.json")];
+      for (const group of DIR_GROUPS) {
+        const dirPath = path.join(SCHEMA_DIR, group.dir);
+        if (!fs.existsSync(dirPath)) continue;
+        for (const filename of fs.readdirSync(dirPath)) {
+          if (filename.endsWith(".schema.json")) {
+            splitSchemaFiles.push(path.join(dirPath, filename));
+          }
+        }
+      }
+      for (const srcPath of splitSchemaFiles) {
+        const relPath = path.relative(SCHEMA_DIR, srcPath);
+        const destPath = path.join(versionDir, relPath);
+        fs.mkdirSync(path.dirname(destPath), { recursive: true });
+        fs.copyFileSync(srcPath, destPath);
+      }
+      console.log(
+        `  ✓  site/dist/v${version}/{${DIR_GROUPS.map((g) => g.dir).join(",")}}/*.schema.json  ← spec/schema/ (${splitSchemaFiles.length} files mirrored)\n`,
       );
     }
   }

@@ -16,7 +16,7 @@ A checklist for an artifact — the concrete steps an agent (or a person) works 
 | `items` | [checklistItem](document-blocks-checklist.md#checklistitem)[] | ✓ | The checklist items, in order. Order matters when `ordered` is true, so tools MUST preserve it. (Min items: 1) |
 | `title` | string |  | An optional heading naming the checklist (ex: 'Accessibility review', 'Before you ship'). |
 | `ordered` | boolean |  | Whether items must be done in order. Defaults to false — items can be checked off in any order. Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list. (Default: `false`) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [checklistItem](document-blocks-checklist.md#checklistitem), [extensions](common-extensions.md#extensions)
 

@@ -18,7 +18,7 @@ The component's default, baseline specs — properties, spacing, size, typograph
 | `sizing` | [sizingSpec](document-blocks-design-specifications.md#sizingspec) | at least 1 | The default size limits. |
 | `typography` | [typographySpec](document-blocks-design-specifications.md#typographyspec) | at least 1 | The default typography. |
 | `responsive` | [responsiveEntry](document-blocks-design-specifications.md#responsiveentry)[] | at least 1 | How the component adapts across breakpoints, smallest to largest. (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **Constraint:** At least one of `properties`, `spacing`, `sizing`, `typography`, `responsive` must be present.
 

@@ -10,12 +10,12 @@ Source: `documentation/dsds.schema.json`
 | --- | --- | --- | --- |
 | `dsdsVersion` | `"0.15.2"` | ✓ | The DSDS spec version this document follows. |
 | `$schema` | string |  | URI reference to the DSDS JSON Schema for validation. |
-| `systemInfo` | [systemInfo](common-system-info.md#systeminfo) |  |  |
+| `systemInfo` | [systemInfo](common-system-info.md#systeminfo) |  | Identity of the design system. |
 | `extends` | [documentExtends](common-extends.md#documentextends) |  | Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them. |
 | `documentBlocks` | [generalDocumentBlock](document-blocks-document-blocks.md#generaldocumentblock)[] |  | Structured docs for the design system as a whole — its purpose, system-wide guidelines, overviews. Accepts the general block kinds: `use-cases`, `guidelines`, `sections`, `accessibility`, `content`, or `checklist`. (Min items: 1) |
 | `entityGroups` | [entityGroup](root.md#entitygroup) \| [fileRef](root.md#fileref)[] |  | One or more entity groups. Each group has a name and an `entities` array holding any mix of entities — components, tokens, token groups, themes, foundations, patterns, guides, chunks — in display order. Multiple groups let one file organize entities into sections (ex: one for foundations, one for components). A group can be inline or a `$ref` to another DSDS file. (Min items: 1) |
 | `entity` | [anyEntity](root.md#anyentity) |  | A single entity — component, token, token group, theme, foundation, pattern, guide, or chunk. Use this instead of `entityGroups` when each entity lives in its own file. The `kind` field says which type it is. |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **3 definitions** in this file: `entityGroup`, `anyEntity`, `fileRef`
 
@@ -27,8 +27,8 @@ A named collection of entities. They all live in one `entities` array, in displa
 | --- | --- | --- | --- |
 | `name` | string | ✓ | Human-readable name of the collection (ex: 'Acme Design System', 'Color Tokens', 'Button Documentation'). Used only as a display label. |
 | `entities` | [anyEntity](root.md#anyentity) \| [fileRef](root.md#fileref)[] | ✓ | The group's entities, in display order — any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters; tools SHOULD keep it. (Min items: 1) |
-| `description` | [richText](common-rich-text.md#richtext) |  |  |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `description` | [richText](common-rich-text.md#richtext) |  | Human-written documentation content, read as CommonMark markdown (0.27 minimum). Plain text, markdown, and inline HTML are all valid. Tools MUST render the value as markdown. |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [richText](common-rich-text.md#richtext), [anyEntity](root.md#anyentity), [fileRef](root.md#fileref), [extensions](common-extensions.md#extensions)
 

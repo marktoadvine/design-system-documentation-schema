@@ -14,7 +14,7 @@ How to import a component across platforms, one entry per platform. List the mai
 | --- | --- | --- | --- |
 | `kind` | `"imports"` | ✓ | Identifies this block as an imports spec. |
 | `items` | [importEntry](document-blocks-imports.md#importentry)[] | ✓ | The per-platform import entries, primary platform first. (Min items: 1) |
-| `$extensions` | [extensions](common-extensions.md#extensions) |  |  |
+| `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **References:** [importEntry](document-blocks-imports.md#importentry), [extensions](common-extensions.md#extensions)
 
