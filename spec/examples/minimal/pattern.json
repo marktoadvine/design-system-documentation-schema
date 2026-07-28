@@ -12,7 +12,7 @@
       "feedback",
       "inline-error",
       "error-summary",
-      "alert"
+      "callout"
     ]
   },
   "agentDocumentBlocks": [
@@ -24,7 +24,7 @@
           "description": "Use form-validation for input errors the user can fix at the field; use alert for system or status messages not tied to a field.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "alert"
+            "identifier": "callout"
           }
         },
         {
@@ -63,7 +63,7 @@
     },
     {
       "relation": "composes",
-      "target": "button",
+      "target": "icon-button",
       "role": "Triggers form submission"
     },
     {

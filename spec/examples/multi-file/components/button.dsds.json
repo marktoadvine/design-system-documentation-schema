@@ -3,31 +3,17 @@
   "dsdsVersion": "0.15.2",
   "entity": {
     "kind": "component",
-    "identifier": "button",
-    "name": "Button",
-    "description": "An interactive element that triggers an action when activated. Buttons communicate what will happen when the user interacts with them.",
+    "identifier": "icon-button",
+    "name": "Icon Button",
+    "description": "A minimal icon-only button: a slotted icon plus a required accessible label. It has no built-in positioning, color variants, or sizes.",
     "metadata": {
-      "status": {
-        "overall": "stable",
-        "platforms": {
-          "react": {
-            "status": "stable",
-            "since": "1.0.0"
-          },
-          "ios": {
-            "status": "stable",
-            "since": "2.0.0"
-          }
-        }
-      },
+      "status": "stable",
       "since": "1.0.0",
       "tags": [
         "action",
-        "form",
+        "icon",
+        "button",
         "interactive",
-        "submit",
-        "click",
-        "CTA",
         "trigger"
       ]
     },
@@ -36,14 +22,14 @@
         "kind": "use-cases",
         "items": [
           {
-            "description": "When the user needs to trigger an action such as submitting a form, saving data, or confirming a decision.",
+            "description": "When the user needs to trigger an in-page action such as saving data or confirming a decision, with no room for a visible text label.",
             "stance": "recommended"
           },
           {
             "description": "When the action navigates the user to a different page or URL.",
             "stance": "discouraged",
             "alternative": {
-              "identifier": "link",
+              "identifier": "type-ref",
               "rationale": "Links carry native navigation semantics. Screen readers announce them as links, and browsers support open-in-new-tab."
             }
           }
@@ -53,16 +39,16 @@
         "kind": "guidelines",
         "items": [
           {
-            "guidance": "Limit each surface to one primary button.",
-            "rationale": "Multiple primary buttons dilute visual hierarchy. When everything is emphasized, nothing is.",
+            "guidance": "Always provide a descriptive label attribute — it is the button's only accessible name.",
+            "rationale": "The button has no visible text; without a label it has no accessible name at all.",
             "level": "must",
-            "category": "visual-design"
+            "category": "accessibility"
           },
           {
-            "guidance": "Use a verb or verb phrase that describes the action the button performs.",
-            "rationale": "Action-oriented labels set clear expectations about what will happen on activation.",
-            "level": "must",
-            "category": "content"
+            "guidance": "Wrap the element to control position and size.",
+            "rationale": "The component exposes no size, color, or placement variants by design.",
+            "level": "should",
+            "category": "development"
           }
         ]
       }
@@ -70,13 +56,13 @@
     "agentDocumentBlocks": [
       {
         "kind": "use-cases",
-        "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+        "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
         "items": [
           {
-            "description": "Use button for in-page actions; use link for navigation to a URL.",
+            "description": "Use icon-button for icon-only, in-page actions; use type-ref for navigation to a URL.",
             "stance": "discouraged",
             "alternative": {
-              "identifier": "link"
+              "identifier": "type-ref"
             }
           }
         ]
@@ -90,9 +76,9 @@
             "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
           },
           {
-            "guidance": "Limit each surface to one primary-emphasis button.",
+            "guidance": "Always set the label attribute.",
             "level": "must",
-            "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
+            "rationale": "The button carries no visible text; omitting label leaves it with no accessible name at all."
           }
         ]
       }

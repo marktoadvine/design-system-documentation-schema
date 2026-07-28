@@ -77,39 +77,34 @@
       "entities": [
         {
           "kind": "component",
-          "identifier": "button",
-          "name": "Button",
-          "description": "The enterprise Button extends the core Button with an additional 'enterprise' variant for admin interfaces, a 'theme' prop for sub-brand switching, and stricter content guidelines. All core anatomy, states, accessibility behavior, and base variants (primary, secondary, ghost, danger) are inherited without modification.",
+          "identifier": "icon-button",
+          "name": "Icon Button",
+          "description": "The enterprise Icon Button extends the core Icon Button with an additional 'tone' attribute for danger-styled destructive actions in admin interfaces, and stricter content guidelines. The core anatomy (a required accessible `label`, a slotted icon, no built-in sizing) is inherited without modification.",
           "metadata": {
             "status": "stable",
             "since": "1.0.0",
             "category": "action",
             "extends": {
-              "identifier": "button",
+              "identifier": "icon-button",
               "system": "Acme Core Design System",
               "version": "2.0.0",
-              "url": "https://design.acme.com/components/button",
-              "description": "Extends the core Button with an 'enterprise' variant, a 'theme' prop for sub-brand theming, and stricter content guidelines for enterprise compliance.",
+              "url": "https://design.acme.com/components/icon-button",
+              "description": "Extends the core Icon Button with a 'tone' attribute for danger-styled admin actions and stricter content guidelines for enterprise compliance.",
               "modifications": [
                 {
                   "changeType": "added",
-                  "target": "variant:enterprise",
-                  "description": "A new high-emphasis variant using the enterprise brand color. Used for primary actions in admin interfaces where the standard primary blue conflicts with status indicators."
-                },
-                {
-                  "changeType": "added",
-                  "target": "prop:theme",
-                  "description": "A 'theme' prop accepting 'default' or 'admin' that switches the button's token set to the admin sub-brand palette."
+                  "target": "prop:tone",
+                  "description": "A 'tone' prop accepting 'default' or 'danger' that switches the button's token set to the enterprise danger palette. Used for destructive admin actions such as permanently deleting a record."
                 },
                 {
                   "changeType": "modified",
                   "target": "guideline:guidelines",
-                  "description": "Added enterprise-specific content guidelines requiring action verbs from an approved terminology list for compliance with enterprise UX writing standards."
+                  "description": "Added enterprise-specific content guidelines requiring the `label` attribute to use terminology from an approved list for compliance with enterprise UX writing standards."
                 },
                 {
                   "changeType": "inherited",
                   "target": "guideline:anatomy",
-                  "description": "Anatomy (container, label, icon, focus-ring) inherited from core without changes."
+                  "description": "Anatomy (slotted icon, required accessible label, no built-in size or color variants) inherited from core without changes."
                 },
                 {
                   "changeType": "inherited",
@@ -121,27 +116,25 @@
             "links": [
               {
                 "kind": "parent",
-                "url": "https://design.acme.com/components/button",
-                "label": "Core Button (base component)"
+                "url": "https://design.acme.com/components/icon-button",
+                "label": "Core Icon Button (base component)"
               },
               {
                 "kind": "source",
-                "url": "https://code.acme.com/enterprise-ds/src/components/button/button.tsx",
-                "label": "Enterprise Button source"
+                "url": "https://code.acme.com/enterprise-ds/src/components/icon-button/icon-button.tsx",
+                "label": "Enterprise Icon Button source"
               },
               {
                 "kind": "storybook",
-                "url": "https://enterprise-storybook.acme.com/?path=/docs/components-button--docs",
+                "url": "https://enterprise-storybook.acme.com/?path=/docs/components-icon-button--docs",
                 "label": "Enterprise Storybook"
               }
             ],
             "tags": [
               "action",
-              "submit",
-              "click",
-              "CTA",
+              "icon",
+              "button",
               "trigger",
-              "call-to-action",
               "interactive"
             ]
           },
@@ -150,7 +143,7 @@
               "kind": "use-cases",
               "items": [
                 {
-                  "description": "When the user needs to trigger an action such as submitting a form, saving data, or opening a dialog.",
+                  "description": "When the user needs to trigger an in-page action such as saving data or dismissing a panel, and no room exists for a visible text label.",
                   "stance": "recommended"
                 },
                 {
@@ -164,38 +157,22 @@
               "items": [
                 {
                   "kind": "enum",
-                  "identifier": "emphasis",
-                  "name": "Emphasis (extended)",
-                  "description": "Extends the core emphasis variants with an enterprise-specific option.",
+                  "identifier": "tone",
+                  "name": "Tone (extension-only)",
+                  "description": "Added by extension. No equivalent attribute exists on the core component.",
                   "values": [
                     {
-                      "identifier": "primary",
-                      "name": "Primary",
-                      "description": "Inherited from core. High-emphasis — the main action on the surface. Uses a solid, filled background."
-                    },
-                    {
-                      "identifier": "secondary",
-                      "name": "Secondary",
-                      "description": "Inherited from core. Medium-emphasis — important but not the primary action. Uses a visible border and transparent background."
-                    },
-                    {
-                      "identifier": "ghost",
-                      "name": "Ghost",
-                      "description": "Inherited from core. Low-emphasis — tertiary actions, toolbar actions, or dense layouts. No background or border in the default state."
+                      "identifier": "default",
+                      "name": "Default",
+                      "description": "Added by extension. The standard icon-button appearance, matching the core component's default styling."
                     },
                     {
                       "identifier": "danger",
                       "name": "Danger",
-                      "description": "Inherited from core. High-emphasis destructive — signals an irreversible action."
-                    },
-                    {
-                      "identifier": "enterprise",
-                      "name": "Enterprise",
-                      "description": "Added by extension. A high-emphasis variant using the enterprise teal palette. Used for primary actions in admin dashboards where the standard primary blue conflicts with informational status indicators.",
-                      "rationale": "- Use when: When the primary action sits alongside blue informational badges or status indicators in admin interfaces, and the standard primary blue would not be visually distinct.\n- Avoid when: When building consumer-facing UI that uses the standard Acme brand palette. Use `primary` instead — The enterprise variant's teal color is specific to the admin sub-brand. Consumer products use the standard primary blue.",
+                      "description": "Added by extension. Uses the enterprise danger palette. Reserved for destructive admin actions.",
+                      "rationale": "- Use when: The action permanently deletes or revokes something in an admin interface.\n- Avoid when: Building consumer-facing UI, or for any non-destructive action. Use `default` instead — the danger tone exists to make irreversible actions visually distinct from routine ones.",
                       "tokens": {
                         "background": "button-enterprise-bg",
-                        "text-color": "button-enterprise-text",
                         "icon-color": "button-enterprise-text"
                       }
                     }
@@ -207,21 +184,21 @@
               "kind": "api",
               "properties": [
                 {
-                  "identifier": "theme",
+                  "identifier": "tone",
                   "type": "string",
                   "values": [
                     "default",
-                    "admin"
+                    "danger"
                   ],
                   "schema": {
                     "type": "string",
                     "enum": [
                       "default",
-                      "admin"
+                      "danger"
                     ],
                     "default": "default"
                   },
-                  "description": "Switches the button's token set to the admin sub-brand palette. When set to 'admin', the button uses enterprise-specific color tokens for all variants. This prop is additive — it does not change the core API surface.",
+                  "description": "Switches the button's token set to the enterprise danger palette. When set to 'danger', the button uses enterprise-specific color tokens. This prop is additive — it does not change the core API surface.",
                   "required": false,
                   "defaultValue": "default",
                   "since": "1.0.0"
@@ -232,10 +209,6 @@
               "kind": "design-specifications",
               "properties": {
                 "background": "button-enterprise-bg",
-                "text-color": "button-enterprise-text",
-                "border-color": "transparent",
-                "border-width": "0px",
-                "border-radius": "button-radius",
                 "icon-color": "button-enterprise-text"
               }
             },
@@ -243,15 +216,15 @@
               "kind": "guidelines",
               "items": [
                 {
-                  "guidance": "Use action verbs from the enterprise approved terminology list for all button labels in admin interfaces.",
+                  "guidance": "Use terminology from the enterprise approved list for the `label` attribute on all icon buttons in admin interfaces.",
                   "rationale": "Enterprise products are subject to UX writing reviews. Approved terminology ensures consistency across the admin suite and reduces review cycles.",
                   "level": "must",
                   "category": "content",
                   "target": "label"
                 },
                 {
-                  "guidance": "Do not use the enterprise variant outside of admin interfaces. Use the standard primary variant for all other contexts.",
-                  "rationale": "The enterprise teal color is tied to the admin sub-brand. Using it in consumer or marketing contexts violates the brand guidelines and creates visual inconsistency.",
+                  "guidance": "Do not use the danger tone outside of destructive admin actions. Use the default tone for all other contexts.",
+                  "rationale": "The enterprise danger color is tied to irreversible actions. Using it elsewhere dilutes the signal and creates visual inconsistency.",
                   "level": "must-not",
                   "category": "visual-design"
                 }
@@ -261,21 +234,11 @@
           "agentDocumentBlocks": [
             {
               "kind": "use-cases",
-              "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+              "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
               "items": [
                 {
-                  "description": "Use button for in-page actions; use link for navigation to a URL.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "link"
-                  }
-                },
-                {
-                  "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "icon-button"
-                  }
+                  "description": "Use icon-button for icon-only, in-page actions; use a link for navigation to a URL.",
+                  "stance": "discouraged"
                 }
               ]
             },
@@ -288,12 +251,12 @@
                   "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
                 },
                 {
-                  "guidance": "Limit each surface to one primary-emphasis button.",
+                  "guidance": "Reserve the danger tone for irreversible actions.",
                   "level": "must",
-                  "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
+                  "rationale": "When several tones compete for attention, the signal that an action is destructive gets lost."
                 },
                 {
-                  "guidance": "Always provide an accessible label via visible text or aria-label.",
+                  "guidance": "Always set the `label` attribute.",
                   "level": "must",
                   "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value)."
                 }
@@ -303,37 +266,59 @@
         },
         {
           "kind": "component",
-          "identifier": "data-grid",
-          "name": "Data Grid",
-          "description": "A high-performance, virtualized data grid for displaying and interacting with large tabular datasets. This component is enterprise-only — it has no equivalent in the core design system. It composes core components (Button, Checkbox, Badge, Tooltip) for its internal UI.",
+          "identifier": "table",
+          "name": "Table",
+          "description": "The enterprise Table extends the core Table with a 'density' attribute for compact, data-heavy admin views, plus stricter guidance for large datasets. The core anatomy — a styled wrapper around a slotted native `<table>`, with a sticky header and responsive horizontal scroll on narrow viewports — is inherited without modification.",
           "metadata": {
             "status": "stable",
             "since": "1.0.0",
             "category": "data-display",
+            "extends": {
+              "identifier": "table",
+              "system": "Acme Core Design System",
+              "version": "2.0.0",
+              "url": "https://design.acme.com/components/table",
+              "description": "Extends the core Table with a 'density' attribute for compact admin data views.",
+              "modifications": [
+                {
+                  "changeType": "added",
+                  "target": "prop:density",
+                  "description": "A 'density' prop accepting 'default' or 'compact' that tightens row padding for data-heavy admin views such as audit logs."
+                },
+                {
+                  "changeType": "modified",
+                  "target": "guideline:guidelines",
+                  "description": "Added enterprise-specific guidance for datasets that regularly exceed a single viewport."
+                },
+                {
+                  "changeType": "inherited",
+                  "target": "guideline:anatomy",
+                  "description": "Anatomy (styled wrapper around a slotted native `<table>`) inherited from core without changes."
+                },
+                {
+                  "changeType": "inherited",
+                  "target": "guideline:accessibility",
+                  "description": "All accessibility requirements inherited from core. The enterprise extension does not weaken any WCAG compliance behavior."
+                }
+              ]
+            },
             "tags": [
               "table",
               "data",
               "enterprise",
               "admin",
-              "virtualized",
-              "action",
-              "submit",
-              "click",
-              "CTA",
-              "trigger",
-              "call-to-action",
-              "interactive"
+              "data-display"
             ],
             "links": [
               {
-                "kind": "source",
-                "url": "https://code.acme.com/enterprise-ds/src/components/data-grid/data-grid.tsx",
-                "label": "Data Grid source"
+                "kind": "parent",
+                "url": "https://design.acme.com/components/table",
+                "label": "Core Table (base component)"
               },
               {
-                "kind": "related",
-                "url": "https://design.acme.com/components/data-table",
-                "label": "Core Data Table (simpler alternative)"
+                "kind": "source",
+                "url": "https://code.acme.com/enterprise-ds/src/components/table/table.tsx",
+                "label": "Enterprise Table source"
               }
             ]
           },
@@ -342,16 +327,42 @@
               "kind": "use-cases",
               "items": [
                 {
-                  "description": "When displaying datasets with more than 50 rows that require sorting, filtering, pagination, or inline editing.",
+                  "description": "When displaying tabular admin data — audit logs, user lists, permission grids — inside a bounded, scrollable container.",
                   "stance": "recommended"
                 },
                 {
-                  "description": "When displaying a simple list of fewer than 20 items without sorting or filtering needs.",
+                  "description": "When the content has fewer than a handful of rows and no real column structure.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "data-table",
-                    "rationale": "The core data-table component is lighter weight and more appropriate for simple tabular displays. The data grid's virtualization and advanced features add unnecessary complexity for small datasets."
+                    "identifier": "callout",
+                    "rationale": "A short, unstructured summary is often better served by a definition list or a callout than by a table wrapper."
                   }
+                }
+              ]
+            },
+            {
+              "kind": "variants",
+              "items": [
+                {
+                  "kind": "enum",
+                  "identifier": "density",
+                  "name": "Density (extension-only)",
+                  "description": "Added by extension. No equivalent attribute exists on the core component.",
+                  "values": [
+                    {
+                      "identifier": "default",
+                      "name": "Default",
+                      "description": "Added by extension. Standard row padding, matching the core component's default styling."
+                    },
+                    {
+                      "identifier": "compact",
+                      "name": "Compact",
+                      "description": "Added by extension. Tightened row padding for dense, data-heavy admin views such as audit logs.",
+                      "tokens": {
+                        "row-padding": "table-enterprise-row-padding-compact"
+                      }
+                    }
+                  ]
                 }
               ]
             },
@@ -359,48 +370,46 @@
               "kind": "api",
               "properties": [
                 {
-                  "identifier": "columns",
-                  "type": "ColumnDef[]",
-                  "description": "Column definitions specifying header labels, data accessors, sort behavior, filter type, and cell renderers.",
-                  "required": true,
-                  "since": "1.0.0"
-                },
-                {
-                  "identifier": "data",
-                  "type": "T[]",
-                  "description": "The dataset to display. Accepts an array of objects where each object represents a row. The grid virtualizes rendering — only visible rows are in the DOM.",
-                  "required": true,
-                  "since": "1.0.0"
-                },
-                {
-                  "identifier": "pageSize",
-                  "type": "number",
-                  "description": "Number of rows per page. When set, the grid displays pagination controls.",
+                  "identifier": "density",
+                  "type": "string",
+                  "values": [
+                    "default",
+                    "compact"
+                  ],
+                  "schema": {
+                    "type": "string",
+                    "enum": [
+                      "default",
+                      "compact"
+                    ],
+                    "default": "default"
+                  },
+                  "description": "Tightens row padding for data-heavy admin views. This prop is additive — it does not change the core API surface.",
                   "required": false,
-                  "defaultValue": 50,
-                  "since": "1.0.0"
-                },
-                {
-                  "identifier": "selectable",
-                  "type": "boolean",
-                  "description": "When true, each row displays a checkbox for selection. A header checkbox toggles select-all.",
-                  "required": false,
-                  "defaultValue": false,
+                  "defaultValue": "default",
                   "since": "1.0.0"
                 }
-              ],
-              "events": [
+              ]
+            },
+            {
+              "kind": "design-specifications",
+              "properties": {
+                "row-padding": "table-enterprise-row-padding-compact"
+              }
+            },
+            {
+              "kind": "guidelines",
+              "items": [
                 {
-                  "identifier": "onSort",
-                  "description": "Fires when a column header is clicked to change sort order.",
-                  "since": "1.0.0",
-                  "payload": "(column: string, direction: 'asc' | 'desc') => void"
+                  "guidance": "Always give the slotted table an accessible name via aria-label or a `<caption>` element.",
+                  "level": "must",
+                  "rationale": "Screen reader users need the table announced by name to understand what dataset they are navigating (WCAG 4.1.2)."
                 },
                 {
-                  "identifier": "onSelectionChange",
-                  "description": "Fires when the row selection changes.",
-                  "since": "1.0.0",
-                  "payload": "(selectedRows: T[]) => void"
+                  "guidance": "Do not use the compact density for tables containing primary actions or long text content.",
+                  "level": "must-not",
+                  "category": "visual-design",
+                  "rationale": "Tightened padding that works for short, scannable values (IDs, statuses, timestamps) crowds out interactive controls and wrapped text."
                 }
               ]
             }
@@ -408,17 +417,10 @@
           "agentDocumentBlocks": [
             {
               "kind": "use-cases",
-              "purpose": "Display and operate on large tabular datasets — sorting, filtering, selection, and pagination — in admin interfaces.",
+              "purpose": "Display tabular admin records — audit logs, user lists, permission grids — inside a scrollable, bounded container.",
               "items": [
                 {
-                  "description": "Use data-grid when the dataset needs sorting, filtering, selection, or virtualization; use the core data-table for simple read-only tables.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "data-table"
-                  }
-                },
-                {
-                  "description": "Use data-grid for tabular records; use a card or list pattern for content-first collections.",
+                  "description": "Use table for structured tabular records; use a card or list pattern for content-first collections.",
                   "stance": "discouraged"
                 }
               ]
@@ -429,15 +431,15 @@
                 {
                   "guidance": "Always render inside a container with a bounded height.",
                   "level": "must",
-                  "rationale": "Row virtualization measures the visible viewport. In an unbounded container every row renders and the performance benefit disappears."
+                  "rationale": "The sticky header and horizontal-scroll fallback both depend on a bounded, scrollable container to have any effect."
                 },
                 {
-                  "guidance": "Always give the grid an accessible name via aria-label or an associated caption.",
+                  "guidance": "Always give the table an accessible name via aria-label or an associated caption.",
                   "level": "must",
-                  "rationale": "Screen reader users need the grid announced by name to understand what dataset they are navigating (WCAG 4.1.2)."
+                  "rationale": "Screen reader users need the table announced by name to understand what dataset they are navigating (WCAG 4.1.2)."
                 },
                 {
-                  "guidance": "Do not use the grid as a page-layout primitive.",
+                  "guidance": "Do not use the table as a page-layout primitive.",
                   "level": "must-not",
                   "rationale": "It is a data component. Using it to arrange arbitrary UI couples layout to row/column semantics that assistive technology announces as data."
                 }
@@ -877,14 +879,14 @@
             },
             {
               "kind": "token",
-              "identifier": "color-data-grid-header-bg",
+              "identifier": "color-table-header-bg",
               "description": "A subtle background color that distinguishes the header row from data rows. Enterprise-only token — no core equivalent.",
               "metadata": {
                 "category": "component",
-                "summary": "Background color for data grid column headers.",
+                "summary": "Background color for table column headers.",
                 "tags": [
                   "color",
-                  "data-grid",
+                  "table",
                   "background",
                   "header",
                   "component"
@@ -892,16 +894,16 @@
               },
               "tokenType": "color",
               "source": {
-                "file": "tokens/components/data-grid.tokens.json",
-                "path": "data-grid.header.bg"
+                "file": "tokens/components/table.tokens.json",
+                "path": "table.header.bg"
               },
               "agentDocumentBlocks": [
                 {
                   "kind": "use-cases",
-                  "purpose": "Distinguish the data grid's header row from its data rows.",
+                  "purpose": "Distinguish the table's header row from its data rows.",
                   "items": [
                     {
-                      "description": "Use only for the data grid header row; page-level and panel backgrounds use the core surface tokens.",
+                      "description": "Use only for the table header row; page-level and panel backgrounds use the core surface tokens.",
                       "stance": "discouraged"
                     }
                   ]
@@ -925,13 +927,13 @@
             },
             {
               "kind": "token",
-              "identifier": "color-data-grid-row-hover",
+              "identifier": "color-table-row-hover",
               "metadata": {
                 "category": "component",
-                "summary": "Hover background for data grid rows.",
+                "summary": "Hover background for table rows.",
                 "tags": [
                   "color",
-                  "data-grid",
+                  "table",
                   "background",
                   "hover",
                   "state",
@@ -940,19 +942,19 @@
               },
               "tokenType": "color",
               "source": {
-                "file": "tokens/components/data-grid.tokens.json",
-                "path": "data-grid.row.hover"
+                "file": "tokens/components/table.tokens.json",
+                "path": "table.row.hover"
               },
               "agentDocumentBlocks": [
                 {
                   "kind": "use-cases",
-                  "purpose": "Give pointer-hover feedback on data grid rows.",
+                  "purpose": "Give pointer-hover feedback on table rows.",
                   "items": [
                     {
-                      "description": "Use for transient pointer feedback only; persistent selection uses color-data-grid-row-selected.",
+                      "description": "Use for transient pointer feedback only; persistent selection uses color-table-row-selected.",
                       "stance": "discouraged",
                       "alternative": {
-                        "identifier": "color-data-grid-row-selected"
+                        "identifier": "color-table-row-selected"
                       }
                     }
                   ]
@@ -961,7 +963,7 @@
                   "kind": "guidelines",
                   "items": [
                     {
-                      "guidance": "Keep visually distinct from color-data-grid-row-selected — users rely on the difference to tell hover from selection.",
+                      "guidance": "Keep visually distinct from color-table-row-selected — users rely on the difference to tell hover from selection.",
                       "level": "must",
                       "rationale": "When hover and selected states look alike, users lose track of what is actually selected during bulk operations."
                     },
@@ -976,13 +978,13 @@
             },
             {
               "kind": "token",
-              "identifier": "color-data-grid-row-selected",
+              "identifier": "color-table-row-selected",
               "metadata": {
                 "category": "component",
-                "summary": "Background for selected data grid rows.",
+                "summary": "Background for selected table rows.",
                 "tags": [
                   "color",
-                  "data-grid",
+                  "table",
                   "background",
                   "selected",
                   "state",
@@ -991,19 +993,19 @@
               },
               "tokenType": "color",
               "source": {
-                "file": "tokens/components/data-grid.tokens.json",
-                "path": "data-grid.row.selected"
+                "file": "tokens/components/table.tokens.json",
+                "path": "table.row.selected"
               },
               "agentDocumentBlocks": [
                 {
                   "kind": "use-cases",
-                  "purpose": "Mark selected data grid rows.",
+                  "purpose": "Mark selected table rows.",
                   "items": [
                     {
-                      "description": "Use for persistent selection only; transient pointer feedback uses color-data-grid-row-hover.",
+                      "description": "Use for persistent selection only; transient pointer feedback uses color-table-row-hover.",
                       "stance": "discouraged",
                       "alternative": {
-                        "identifier": "color-data-grid-row-hover"
+                        "identifier": "color-table-row-hover"
                       }
                     }
                   ]
@@ -1012,9 +1014,56 @@
                   "kind": "guidelines",
                   "items": [
                     {
-                      "guidance": "Keep visually distinct from color-data-grid-row-hover — users rely on the difference to tell selection from hover.",
+                      "guidance": "Keep visually distinct from color-table-row-hover — users rely on the difference to tell selection from hover.",
                       "level": "must",
                       "rationale": "When hover and selected states look alike, users lose track of what is actually selected during bulk operations."
+                    },
+                    {
+                      "guidance": "Do not override this token value at the component level.",
+                      "level": "must-not",
+                      "rationale": "An override forks the value from its source of truth: palette updates stop propagating and contrast audits no longer see the real value."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "table-enterprise-row-padding-compact",
+              "description": "Row block-padding used by the Table's enterprise-only 'compact' density. Enterprise-only token — no core equivalent, since the core Table exposes no density variant.",
+              "metadata": {
+                "category": "component",
+                "summary": "Row padding for the table's compact density variant.",
+                "tags": [
+                  "spacing",
+                  "table",
+                  "density",
+                  "component"
+                ]
+              },
+              "tokenType": "dimension",
+              "source": {
+                "file": "tokens/components/table.tokens.json",
+                "path": "table.enterprise.row-padding.compact"
+              },
+              "agentDocumentBlocks": [
+                {
+                  "kind": "use-cases",
+                  "purpose": "Set row block-padding when the table's compact density is active.",
+                  "items": [
+                    {
+                      "description": "Use only on the table's compact density; the default density uses the core row-padding token.",
+                      "stance": "discouraged"
+                    }
+                  ]
+                },
+                {
+                  "kind": "guidelines",
+                  "items": [
+                    {
+                      "guidance": "Do not apply outside of the compact density variant.",
+                      "level": "must-not",
+                      "rationale": "This value is tuned for short, scannable cell content only — applying it more broadly reintroduces the readability problems compact density is meant to avoid elsewhere."
                     },
                     {
                       "guidance": "Do not override this token value at the component level.",
@@ -1040,7 +1089,7 @@
               "items": [
                 {
                   "title": "Intent",
-                  "body": "The enterprise color layer over the core system: the teal action ramp (resting, hover, active) and component tokens for the enterprise button variant and the data grid."
+                  "body": "The enterprise color layer over the core system: the teal action ramp (resting, hover, active) and component tokens for the enterprise icon button variant and the enterprise table."
                 }
               ]
             },

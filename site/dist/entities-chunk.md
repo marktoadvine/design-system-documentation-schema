@@ -40,7 +40,7 @@ A ready-to-use block of code — a layout, a settings form, a confirmation dialo
     },
     {
       "relation": "composes",
-      "target": "button",
+      "target": "icon-button",
       "role": "Renders the confirm and cancel actions",
       "required": true
     },

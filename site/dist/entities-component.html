@@ -191,9 +191,9 @@
 <ds-def-example>
 <ds-code language="json" label="example">{
   &quot;kind&quot;: &quot;component&quot;,
-  &quot;identifier&quot;: &quot;button&quot;,
-  &quot;name&quot;: &quot;Button&quot;,
-  &quot;description&quot;: &quot;An interactive element that triggers an action when activated. Buttons communicate what will happen when the user interacts with them and are the primary mechanism for initiating actions within a surface.&quot;,
+  &quot;identifier&quot;: &quot;icon-button&quot;,
+  &quot;name&quot;: &quot;Icon Button&quot;,
+  &quot;description&quot;: &quot;An interactive element that triggers an action when activated. Icon buttons communicate what will happen when the user interacts with them and are the primary mechanism for initiating icon-only actions within a surface.&quot;,
   &quot;metadata&quot;: {
     &quot;status&quot;: {
       &quot;overall&quot;: &quot;stable&quot;,
@@ -276,13 +276,8 @@
       },
       {
         &quot;kind&quot;: &quot;alternative&quot;,
-        &quot;url&quot;: &quot;https://design.acme.com/components/link&quot;,
-        &quot;label&quot;: &quot;link (component)&quot;
-      },
-      {
-        &quot;kind&quot;: &quot;child&quot;,
-        &quot;url&quot;: &quot;https://design.acme.com/components/icon-button&quot;,
-        &quot;label&quot;: &quot;icon-button (component)&quot;
+        &quot;url&quot;: &quot;https://design.acme.com/components/type-ref&quot;,
+        &quot;label&quot;: &quot;type-ref (component)&quot;
       },
       {
         &quot;kind&quot;: &quot;parent&quot;,
@@ -793,7 +788,7 @@
           &quot;description&quot;: &quot;When the action navigates the user to a different page or URL.&quot;,
           &quot;stance&quot;: &quot;discouraged&quot;,
           &quot;alternative&quot;: {
-            &quot;identifier&quot;: &quot;link&quot;,
+            &quot;identifier&quot;: &quot;type-ref&quot;,
             &quot;rationale&quot;: &quot;Links carry native navigation semantics. Screen readers announce them as links, and browsers support standard navigation behaviors such as open-in-new-tab.&quot;
           }
         },
@@ -803,14 +798,6 @@
           &quot;alternative&quot;: {
             &quot;identifier&quot;: &quot;radio-group&quot;,
             &quot;rationale&quot;: &quot;Radio groups communicate exclusivity through their semantic role. A set of buttons styled to look like a selector does not convey mutual exclusivity to assistive technology.&quot;
-          }
-        },
-        {
-          &quot;description&quot;: &quot;When the only content is an icon with no visible text label.&quot;,
-          &quot;stance&quot;: &quot;discouraged&quot;,
-          &quot;alternative&quot;: {
-            &quot;identifier&quot;: &quot;icon-button&quot;,
-            &quot;rationale&quot;: &quot;Icon buttons enforce an aria-label requirement and apply size adjustments for icon-only touch targets. A standard button with its label removed may fail accessibility requirements silently.&quot;
           }
         }
       ]
@@ -1051,20 +1038,13 @@
   &quot;agentDocumentBlocks&quot;: [
     {
       &quot;kind&quot;: &quot;use-cases&quot;,
-      &quot;purpose&quot;: &quot;Trigger a user-initiated action within the current view without causing page navigation.&quot;,
+      &quot;purpose&quot;: &quot;Trigger a user-initiated in-page action using an icon, with no visible text label.&quot;,
       &quot;items&quot;: [
         {
-          &quot;description&quot;: &quot;Use button for in-page actions; use link for navigation to a URL.&quot;,
+          &quot;description&quot;: &quot;Use icon-button for icon-only, in-page actions; use type-ref for navigation to a URL.&quot;,
           &quot;stance&quot;: &quot;discouraged&quot;,
           &quot;alternative&quot;: {
-            &quot;identifier&quot;: &quot;link&quot;
-          }
-        },
-        {
-          &quot;description&quot;: &quot;Use button when a visible text label is present; use icon-button for icon-only affordances.&quot;,
-          &quot;stance&quot;: &quot;discouraged&quot;,
-          &quot;alternative&quot;: {
-            &quot;identifier&quot;: &quot;icon-button&quot;
+            &quot;identifier&quot;: &quot;type-ref&quot;
           }
         }
       ]

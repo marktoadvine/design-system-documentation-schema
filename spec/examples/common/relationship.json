@@ -10,7 +10,7 @@
     [
       {
         "relation": "composes",
-        "target": "button",
+        "target": "icon-button",
         "role": "Renders the confirm and cancel actions",
         "required": true
       },
@@ -21,7 +21,7 @@
       },
       {
         "relation": "alternative-to",
-        "target": "link"
+        "target": "type-ref"
       }
     ]
   ]

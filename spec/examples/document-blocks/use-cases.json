@@ -18,7 +18,7 @@
         "description": "When the action navigates the user to a different page or URL.",
         "stance": "discouraged",
         "alternative": {
-          "identifier": "link",
+          "identifier": "type-ref",
           "rationale": "Links carry native navigation semantics. Screen readers announce them as links, and browsers support standard navigation behaviors such as open-in-new-tab. Using a button for navigation creates a mismatch between the announced role and the actual behavior."
         }
       },

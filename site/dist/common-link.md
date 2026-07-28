@@ -20,8 +20,8 @@ The typed pointer to external content, defined by `url`. Standard `kind`s includ
 [
   {
     "kind": "source",
-    "url": "https://code.acme.com/design-system/src/components/button/button.tsx",
-    "label": "React component source"
+    "url": "https://design.acme.com/site/components/icon-button.js",
+    "label": "Component source"
   },
   {
     "kind": "design",
@@ -30,12 +30,12 @@ The typed pointer to external content, defined by `url`. Standard `kind`s includ
   },
   {
     "kind": "documentation",
-    "url": "https://design.acme.com/components/button",
-    "label": "Button documentation"
+    "url": "https://design.acme.com/components/icon-button",
+    "label": "Icon Button documentation"
   },
   {
     "kind": "storybook",
-    "url": "https://storybook.acme.com/?path=/docs/components-button--docs",
+    "url": "https://storybook.acme.com/?path=/docs/components-icon-button--docs",
     "label": "Interactive docs"
   },
   {
@@ -50,8 +50,8 @@ The typed pointer to external content, defined by `url`. Standard `kind`s includ
   },
   {
     "kind": "alternative",
-    "url": "https://design.acme.com/components/link",
-    "label": "Link component (alternative)"
+    "url": "https://design.acme.com/components/type-ref",
+    "label": "Type Reference component (alternative)"
   },
   {
     "kind": "parent",

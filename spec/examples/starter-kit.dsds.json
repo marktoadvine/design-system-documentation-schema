@@ -123,85 +123,38 @@
       "entities": [
         {
           "kind": "component",
-          "identifier": "button",
-          "name": "Button",
-          "description": "A clickable element that triggers an action. Buttons are the primary mechanism for submitting forms, opening dialogs, confirming decisions, and initiating operations.",
+          "identifier": "icon-button",
+          "name": "Icon Button",
+          "description": "A minimal icon-only button: a slotted icon plus a required accessible label. It has no built-in positioning, color variants, or sizes — that's left to whatever's using it (for example, wrapping it and setting `:host` on the wrapper to make a fixed floating button).",
           "metadata": {
             "status": "stable",
             "since": "1.0.0",
             "lastUpdated": {
               "date": "2026-05-28",
-              "note": "Added focus-visible guidance and tightened tap-target language."
+              "note": "Added guidance on keeping the slotted icon decorative."
             },
             "category": "action",
             "links": [
               {
                 "kind": "source",
-                "url": "https://code.acme.com/design-system/src/components/button/button.tsx",
+                "url": "https://design.acme.com/site/components/icon-button.js",
                 "label": "Source code"
               },
               {
                 "kind": "documentation",
-                "url": "https://design.acme.com/components/button",
+                "url": "https://design.acme.com/components/icon-button",
                 "label": "Documentation"
               }
             ],
             "tags": [
               "action",
-              "submit",
-              "click",
-              "CTA",
+              "icon",
+              "button",
               "trigger",
-              "call-to-action",
               "interactive"
             ]
           },
           "documentBlocks": [
-            {
-              "kind": "variants",
-              "items": [
-                {
-                  "kind": "enum",
-                  "identifier": "emphasis",
-                  "name": "Emphasis",
-                  "description": "The visual weight of the button, indicating the relative importance of the action.",
-                  "values": [
-                    {
-                      "identifier": "primary",
-                      "description": "The highest-emphasis button. Used for the single most important action on the surface."
-                    },
-                    {
-                      "identifier": "secondary",
-                      "description": "A medium-emphasis button with a visible border. Used alongside a primary button for secondary actions."
-                    },
-                    {
-                      "identifier": "ghost",
-                      "description": "A low-emphasis button with no border or background. Used for tertiary actions in dense layouts."
-                    }
-                  ]
-                },
-                {
-                  "kind": "enum",
-                  "identifier": "size",
-                  "name": "Size",
-                  "description": "Controls padding, font size, and minimum touch target area.",
-                  "values": [
-                    {
-                      "identifier": "small",
-                      "description": "Compact size for dense layouts such as toolbars and table rows."
-                    },
-                    {
-                      "identifier": "medium",
-                      "description": "Default size for most contexts."
-                    },
-                    {
-                      "identifier": "large",
-                      "description": "Large size for hero surfaces and mobile-first layouts."
-                    }
-                  ]
-                }
-              ]
-            },
             {
               "kind": "states",
               "items": [
@@ -217,16 +170,6 @@
                   "tokens": {
                     "button-background": "color-action-primary-hover"
                   }
-                },
-                {
-                  "identifier": "focus",
-                  "name": "Focus",
-                  "description": "Visible focus ring when the button receives keyboard focus."
-                },
-                {
-                  "identifier": "disabled",
-                  "name": "Disabled",
-                  "description": "Non-interactive state. The button is visible but cannot be activated."
                 }
               ]
             },
@@ -234,18 +177,14 @@
               "kind": "use-cases",
               "items": [
                 {
-                  "description": "When the user needs to trigger an action such as submitting a form, saving data, or opening a dialog.",
-                  "stance": "recommended"
-                },
-                {
-                  "description": "When a destructive action needs to be initiated, such as deleting a record. Pair with a confirmation dialog.",
+                  "description": "When triggering an in-page action (for example, toggling a view or dismissing a panel) that has no room for a visible text label.",
                   "stance": "recommended"
                 },
                 {
                   "description": "When the action navigates to a different page or URL.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "link",
+                    "identifier": "type-ref",
                     "rationale": "Links carry native navigation semantics. Screen readers announce them as links, and browsers support open-in-new-tab."
                   }
                 }
@@ -255,20 +194,8 @@
               "kind": "guidelines",
               "items": [
                 {
-                  "guidance": "Limit each surface to one primary button.",
-                  "rationale": "Multiple primary buttons dilute visual hierarchy.",
-                  "level": "must",
-                  "category": "visual-design"
-                },
-                {
-                  "guidance": "Use the loading state instead of disabling the button during async operations.",
-                  "rationale": "A disabled button gives no feedback that an action is in progress.",
-                  "level": "should",
-                  "category": "interaction"
-                },
-                {
-                  "guidance": "When using an icon-only button, provide an aria-label.",
-                  "rationale": "Screen readers need a text equivalent for every interactive control.",
+                  "guidance": "Always provide a descriptive `label` attribute — it is the button's only accessible name; the element has no visible text.",
+                  "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value).",
                   "level": "must",
                   "category": "accessibility",
                   "references": [
@@ -276,6 +203,18 @@
                       "url": "https://www.w3.org/TR/WCAG22/#name-role-value"
                     }
                   ]
+                },
+                {
+                  "guidance": "Keep the slotted icon purely decorative. The accessible name comes entirely from `label`, not the icon markup.",
+                  "rationale": "Duplicating or contradicting the label inside the icon's own markup (for example, a title element on the SVG) creates two competing announcements for the same control.",
+                  "level": "should",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Wrap the element to control position and size.",
+                  "rationale": "The component exposes no size, color, or placement variants by design — those decisions belong to the surface that hosts it, not the component itself.",
+                  "level": "should",
+                  "category": "development"
                 }
               ]
             },
@@ -297,20 +236,13 @@
           "agentDocumentBlocks": [
             {
               "kind": "use-cases",
-              "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+              "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
               "items": [
                 {
-                  "description": "Use button for in-page actions; use link for navigation to a URL.",
+                  "description": "Use icon-button for icon-only, in-page actions; use type-ref when the action navigates to a URL.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "link"
-                  }
-                },
-                {
-                  "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "icon-button"
+                    "identifier": "type-ref"
                   }
                 }
               ]
@@ -324,23 +256,13 @@
                   "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
                 },
                 {
-                  "guidance": "Limit each surface to one primary-emphasis button.",
+                  "guidance": "Always set the `label` attribute.",
                   "level": "must",
-                  "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
+                  "rationale": "The button carries no visible text; omitting `label` leaves it with no accessible name at all."
                 },
                 {
-                  "guidance": "Always provide an accessible label via visible text or aria-label.",
-                  "level": "must",
-                  "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value)."
-                },
-                {
-                  "guidance": "Using a button to navigate to another page.",
-                  "rationale": "Instead: Use a link element with href.",
-                  "level": "must-not"
-                },
-                {
-                  "guidance": "Placing multiple primary buttons on the same surface.",
-                  "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
+                  "guidance": "Omitting the `label` attribute because the icon seems self-explanatory.",
+                  "rationale": "Instead: Set `label` to a short, specific description of the action (for example, \"Toggle JSON view\").",
                   "level": "must-not"
                 }
               ]
@@ -349,27 +271,30 @@
         },
         {
           "kind": "component",
-          "identifier": "link",
-          "name": "Link",
-          "description": "A navigational element that takes the user to a different page or URL.",
+          "identifier": "type-ref",
+          "name": "Type Reference",
+          "description": "An inline hyperlink styled to reference a schema type, definition, or other resource — monospace text on an inverse background. It renders its light-DOM text content as the link label inside an `<a href>`.",
           "metadata": {
             "status": "stable",
             "since": "1.0.0",
             "category": "navigation",
             "links": [
               {
+                "kind": "source",
+                "url": "https://design.acme.com/site/components/type-ref.js",
+                "label": "Source code"
+              },
+              {
                 "kind": "documentation",
-                "url": "https://design.acme.com/components/link",
+                "url": "https://design.acme.com/components/type-ref",
                 "label": "Documentation"
               }
             ],
             "tags": [
-              "action",
-              "submit",
-              "click",
-              "CTA",
-              "trigger",
-              "call-to-action",
+              "navigation",
+              "link",
+              "reference",
+              "inline",
               "interactive"
             ]
           },
@@ -378,14 +303,14 @@
               "kind": "use-cases",
               "items": [
                 {
-                  "description": "When the action navigates the user to a different page, section, or external resource.",
+                  "description": "When linking inline to a schema type, definition, or other page or URL, especially within reference prose.",
                   "stance": "recommended"
                 },
                 {
                   "description": "When the action triggers a state change or submits data without navigation.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "button",
+                    "identifier": "icon-button",
                     "rationale": "Buttons have action semantics. Using a link for non-navigation actions creates a mismatch between role and behavior."
                   }
                 }
@@ -395,8 +320,130 @@
               "kind": "guidelines",
               "items": [
                 {
-                  "guidance": "Always pair link color with an underline for inline links within body text.",
-                  "rationale": "Color alone is insufficient to distinguish links for users with color vision deficiency.",
+                  "guidance": "Always provide a resolvable `href`.",
+                  "rationale": "The component falls back to `#` when `href` is omitted, which is not a real destination and traps keyboard and screen-reader users on activation.",
+                  "level": "must",
+                  "category": "development"
+                },
+                {
+                  "guidance": "Do not override the component's styling to remove the underline.",
+                  "rationale": "Color alone is insufficient to distinguish links for users with color vision deficiency; the built-in underline is load-bearing.",
+                  "level": "must-not",
+                  "category": "accessibility",
+                  "references": [
+                    {
+                      "url": "https://www.w3.org/TR/WCAG22/#use-of-color"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "agentDocumentBlocks": [
+            {
+              "kind": "use-cases",
+              "purpose": "Provide inline navigation to a schema type, definition, or other resource without disrupting reading flow.",
+              "items": [
+                {
+                  "description": "Use type-ref for navigation to a URL; use icon-button for in-page actions.",
+                  "stance": "discouraged",
+                  "alternative": {
+                    "identifier": "icon-button"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Do not use to trigger an in-page action.",
+                  "level": "must-not",
+                  "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
+                },
+                {
+                  "guidance": "Always set a real `href`.",
+                  "level": "must",
+                  "rationale": "An empty or default `#` href renders a link that looks and reads as navigation but goes nowhere."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "component",
+          "identifier": "callout",
+          "name": "Callout",
+          "description": "An info box: a bold title above a plain content area. The variant's meaning lives in the title's background color, not an icon.",
+          "metadata": {
+            "status": "stable",
+            "since": "1.0.0",
+            "category": "feedback",
+            "links": [
+              {
+                "kind": "source",
+                "url": "https://design.acme.com/site/components/callout.js",
+                "label": "Source code"
+              },
+              {
+                "kind": "documentation",
+                "url": "https://design.acme.com/components/callout",
+                "label": "Documentation"
+              }
+            ],
+            "tags": [
+              "feedback",
+              "notice",
+              "info",
+              "tip",
+              "warning"
+            ]
+          },
+          "documentBlocks": [
+            {
+              "kind": "use-cases",
+              "items": [
+                {
+                  "description": "When surfacing supporting information, a tip, or a caution alongside body content that benefits from visual separation.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "When confirming a routine, successful action — quiet inline feedback keeps attention on the task; reserve callouts for information that needs to stand apart.",
+                  "stance": "discouraged"
+                }
+              ]
+            },
+            {
+              "kind": "variants",
+              "items": [
+                {
+                  "kind": "enum",
+                  "identifier": "variant",
+                  "name": "Variant",
+                  "description": "The visual treatment and semantic meaning of the callout. Default: info.",
+                  "values": [
+                    {
+                      "identifier": "info",
+                      "description": "Neutral informational message. The default when `variant` is omitted."
+                    },
+                    {
+                      "identifier": "tip",
+                      "description": "A helpful suggestion, not required reading to proceed."
+                    },
+                    {
+                      "identifier": "warning",
+                      "description": "Flags a caution the reader should note before proceeding."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Do not rely on the title's background color alone to convey meaning.",
+                  "rationale": "Pair the color with a visible text label (for example, \"Warning:\") set via the `title` attribute — color vision deficiency and non-visual browsing both defeat color-only signaling.",
                   "level": "must",
                   "category": "accessibility",
                   "references": [
@@ -411,189 +458,25 @@
           "agentDocumentBlocks": [
             {
               "kind": "use-cases",
-              "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+              "purpose": "Surface supporting information, a tip, or a warning alongside body content, set apart from the surrounding flow.",
               "items": [
                 {
-                  "description": "Use button for in-page actions; use link for navigation to a URL.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "link"
-                  }
-                },
-                {
-                  "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "icon-button"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "guidelines",
-              "items": [
-                {
-                  "guidance": "Do not use for navigating to a different page or URL.",
-                  "level": "must-not",
-                  "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
-                },
-                {
-                  "guidance": "Limit each surface to one primary-emphasis button.",
-                  "level": "must",
-                  "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
-                },
-                {
-                  "guidance": "Always provide an accessible label via visible text or aria-label.",
-                  "level": "must",
-                  "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value)."
-                },
-                {
-                  "guidance": "Using a button to navigate to another page.",
-                  "rationale": "Instead: Use a link element with href.",
-                  "level": "must-not"
-                },
-                {
-                  "guidance": "Placing multiple primary buttons on the same surface.",
-                  "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
-                  "level": "must-not"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "kind": "component",
-          "identifier": "alert",
-          "name": "Alert",
-          "description": "A message bar that communicates status, errors, warnings, or informational messages to the user.",
-          "metadata": {
-            "status": "stable",
-            "since": "1.0.0",
-            "category": "feedback",
-            "links": [
-              {
-                "kind": "documentation",
-                "url": "https://design.acme.com/components/alert",
-                "label": "Documentation"
-              }
-            ],
-            "tags": [
-              "action",
-              "submit",
-              "click",
-              "CTA",
-              "trigger",
-              "call-to-action",
-              "interactive"
-            ]
-          },
-          "documentBlocks": [
-            {
-              "kind": "use-cases",
-              "items": [
-                {
-                  "description": "When a system condition needs the user's attention — an error, a warning, or a status change that affects their work.",
-                  "stance": "recommended"
-                },
-                {
-                  "description": "When confirming a routine successful action — quiet inline feedback keeps attention on the task; reserve alerts for conditions that need action.",
+                  "description": "Use callout for static, page-authored notices; use a live-region pattern for dynamic, user-triggered status messages.",
                   "stance": "discouraged"
                 }
               ]
             },
             {
-              "kind": "variants",
-              "items": [
-                {
-                  "kind": "enum",
-                  "identifier": "severity",
-                  "name": "Severity",
-                  "description": "The visual treatment and semantic meaning of the alert.",
-                  "values": [
-                    {
-                      "identifier": "info",
-                      "description": "Neutral informational message."
-                    },
-                    {
-                      "identifier": "success",
-                      "description": "Confirms a successful action."
-                    },
-                    {
-                      "identifier": "warning",
-                      "description": "Warns about a potential issue that doesn't block the user."
-                    },
-                    {
-                      "identifier": "error",
-                      "description": "Communicates an error that requires attention."
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "kind": "guidelines",
               "items": [
                 {
-                  "guidance": "Use role='alert' or aria-live='assertive' for error alerts so screen readers announce them immediately.",
-                  "rationale": "Without a live region, dynamically injected error messages are invisible to assistive technology.",
-                  "level": "must",
-                  "category": "accessibility",
-                  "references": [
-                    {
-                      "url": "https://www.w3.org/TR/WCAG22/#status-messages"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "agentDocumentBlocks": [
-            {
-              "kind": "use-cases",
-              "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
-              "items": [
-                {
-                  "description": "Use button for in-page actions; use link for navigation to a URL.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "link"
-                  }
+                  "guidance": "Always set `title` when the callout needs a lead-in label; omit it for untitled content.",
+                  "level": "should",
+                  "rationale": "An empty title renders no visible lead-in at all — the component collapses it rather than showing a blank bar."
                 },
                 {
-                  "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "icon-button"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "guidelines",
-              "items": [
-                {
-                  "guidance": "Do not use for navigating to a different page or URL.",
-                  "level": "must-not",
-                  "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
-                },
-                {
-                  "guidance": "Limit each surface to one primary-emphasis button.",
-                  "level": "must",
-                  "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
-                },
-                {
-                  "guidance": "Always provide an accessible label via visible text or aria-label.",
-                  "level": "must",
-                  "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value)."
-                },
-                {
-                  "guidance": "Using a button to navigate to another page.",
-                  "rationale": "Instead: Use a link element with href.",
-                  "level": "must-not"
-                },
-                {
-                  "guidance": "Placing multiple primary buttons on the same surface.",
-                  "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
+                  "guidance": "Choosing `variant` for decoration rather than meaning.",
+                  "rationale": "Instead: Reserve `tip` and `warning` for content that is actually a suggestion or a caution; use the default `info` variant otherwise.",
                   "level": "must-not"
                 }
               ]
@@ -1523,7 +1406,7 @@
               "feedback",
               "inline-error",
               "error-summary",
-              "alert"
+              "callout"
             ]
           },
           "documentBlocks": [
@@ -1603,10 +1486,10 @@
                   }
                 },
                 {
-                  "description": "Use error-messaging for form validation flows; use alert for non-form system or status messages.",
+                  "description": "Use error-messaging for form validation flows; use callout for non-form informational or cautionary content.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "alert"
+                    "identifier": "callout"
                   }
                 }
               ]
@@ -1635,14 +1518,14 @@
           "relationships": [
             {
               "relation": "composes",
-              "target": "alert",
+              "target": "callout",
               "role": "Page-level error summary listing all current errors.",
               "required": true
             },
             {
               "relation": "composes",
-              "target": "button",
-              "role": "Submit trigger that initiates client-side validation.",
+              "target": "icon-button",
+              "role": "Icon-only submit trigger that initiates client-side validation, paired with a visible label elsewhere in the form.",
               "required": true
             }
           ]

@@ -1,18 +1,16 @@
 {
   "kind": "component",
-  "identifier": "button",
-  "name": "Button",
-  "description": "A clickable element that triggers an action.",
+  "identifier": "icon-button",
+  "name": "Icon Button",
+  "description": "A minimal icon-only button with a required accessible label.",
   "metadata": {
     "status": "stable",
     "category": "action",
     "tags": [
       "action",
-      "submit",
-      "click",
-      "CTA",
+      "icon",
+      "button",
       "trigger",
-      "call-to-action",
       "interactive"
     ]
   },
@@ -21,14 +19,14 @@
       "kind": "use-cases",
       "items": [
         {
-          "description": "When the user needs to trigger an action such as submitting a form or confirming a dialog.",
+          "description": "When triggering an in-page action that has no room for a visible text label.",
           "stance": "recommended"
         },
         {
           "description": "When the action is navigation to another page.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "link",
+            "identifier": "type-ref",
             "rationale": "Links communicate navigation; buttons communicate actions."
           }
         }
@@ -38,20 +36,13 @@
   "agentDocumentBlocks": [
     {
       "kind": "use-cases",
-      "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+      "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
       "items": [
         {
-          "description": "Use button for in-page actions; use link for navigation to a URL.",
+          "description": "Use icon-button for icon-only, in-page actions; use type-ref for navigation to a URL.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "link"
-          }
-        },
-        {
-          "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-          "stance": "discouraged",
-          "alternative": {
-            "identifier": "icon-button"
+            "identifier": "type-ref"
           }
         }
       ]
@@ -64,21 +55,12 @@
           "level": "must-not"
         },
         {
-          "guidance": "Limit each surface to one primary-emphasis button.",
+          "guidance": "Always set the label attribute.",
           "level": "must"
         },
         {
-          "guidance": "Always provide an accessible label via visible text or aria-label.",
-          "level": "must"
-        },
-        {
-          "guidance": "Using a button to navigate to another page.",
+          "guidance": "Using an icon button to navigate to another page.",
           "rationale": "Instead: Use a link element with href.",
-          "level": "must-not"
-        },
-        {
-          "guidance": "Placing multiple primary buttons on the same surface.",
-          "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
           "level": "must-not"
         }
       ]

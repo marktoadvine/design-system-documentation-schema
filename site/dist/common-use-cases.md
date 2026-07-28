@@ -37,7 +37,7 @@ When to use an artifact and when to choose something else. Optional `purpose` su
       "stance": "discouraged",
       "description": "When the action navigates the user to a different page or external URL.",
       "alternative": {
-        "identifier": "link",
+        "identifier": "type-ref",
         "rationale": "Links carry semantic meaning for navigation, are crawlable by assistive technology, and respect the user's default browser behavior (open in new tab, copy URL, etc.)."
       }
     }
@@ -73,7 +73,7 @@ One scenario where an artifact is or isn't a good fit.
     "stance": "discouraged",
     "description": "When the action navigates the user to a different page or external URL.",
     "alternative": {
-      "identifier": "link",
+      "identifier": "type-ref",
       "rationale": "Links carry semantic meaning for navigation, are crawlable by assistive technology, and respect the user's default browser behavior (open in new tab, copy URL, etc.)."
     }
   },

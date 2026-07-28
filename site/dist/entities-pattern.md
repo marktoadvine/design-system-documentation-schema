@@ -61,7 +61,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
       "form",
       "inline-error",
       "error-summary",
-      "alert"
+      "callout"
     ],
     "summary": "A pattern for communicating errors through inline validation, summary banners, and toast notifications.",
     "links": [
@@ -91,7 +91,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
           "description": "Client-side validation runs on all required fields. If one or more fields are invalid, submission is prevented and the error state is activated.",
           "components": [
             {
-              "identifier": "button"
+              "identifier": "icon-button"
             },
             {
               "identifier": "form-field"
@@ -133,10 +133,10 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
           "description": "An error summary alert appears at the top of the form. The summary lists every current error as an anchor link. Each link, when activated, moves focus to the corresponding invalid field. Focus is programmatically moved to the error summary so screen reader users are immediately aware of it.",
           "components": [
             {
-              "identifier": "alert"
+              "identifier": "callout"
             },
             {
-              "identifier": "link"
+              "identifier": "type-ref"
             },
             {
               "identifier": "form-field"
@@ -161,7 +161,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
               "identifier": "form-field"
             },
             {
-              "identifier": "alert"
+              "identifier": "callout"
             }
           ]
         },
@@ -176,7 +176,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
               "identifier": "form-field"
             },
             {
-              "identifier": "button"
+              "identifier": "icon-button"
             }
           ],
           "examples": [
@@ -436,7 +436,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
           "description": "Use error-messaging for form validation flows; use alert for non-form system or status messages.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "alert"
+            "identifier": "callout"
           }
         }
       ]
@@ -469,7 +469,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
     },
     {
       "relation": "composes",
-      "target": "alert",
+      "target": "callout",
       "role": "Page-level error summary. Appears at the top of the form or page listing all current errors with anchor links to each invalid field.",
       "required": true
     },
@@ -486,13 +486,13 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
     },
     {
       "relation": "composes",
-      "target": "button",
+      "target": "icon-button",
       "role": "Submit trigger for the form. Initiates client-side validation before submission.",
       "required": true
     },
     {
       "relation": "composes",
-      "target": "link",
+      "target": "type-ref",
       "role": "Anchor links within the error summary that navigate the user to the corresponding invalid field.",
       "required": true
     },

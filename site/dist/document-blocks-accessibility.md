@@ -54,7 +54,7 @@ Specialized, structured accessibility documentation for an artifact. Every field
   "ariaAttributes": [
     {
       "attribute": "role",
-      "value": "button",
+      "value": "icon-button",
       "description": "Applied automatically by the <button> element. Only set explicitly when using a non-button element as a button.",
       "required": false
     },
@@ -195,7 +195,7 @@ An ARIA attribute used by the artifact: what it communicates and when to apply i
 [
   {
     "attribute": "role",
-    "value": "button",
+    "value": "icon-button",
     "description": "Applied automatically by the <button> element. Only set explicitly when using a non-button element as a button.",
     "required": false
   },

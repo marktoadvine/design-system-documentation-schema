@@ -5,11 +5,11 @@
       "role": "Carries the inline error"
     },
     {
-      "identifier": "button"
+      "identifier": "icon-button"
     }
   ],
   "entityIdentifier": [
-    "button",
+    "icon-button",
     "color-text-primary"
   ],
   "entityRole": "Submit, disabled while invalid"

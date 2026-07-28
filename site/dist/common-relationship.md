@@ -19,7 +19,7 @@ The links this entity points at other entities. You list each one here, on this 
   [
     {
       "relation": "composes",
-      "target": "button",
+      "target": "icon-button",
       "role": "Renders the confirm and cancel actions",
       "required": true
     },
@@ -30,7 +30,7 @@ The links this entity points at other entities. You list each one here, on this 
     },
     {
       "relation": "alternative-to",
-      "target": "link"
+      "target": "type-ref"
     }
   ]
 ]

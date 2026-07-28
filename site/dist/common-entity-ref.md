@@ -26,7 +26,7 @@ A reference to another entity by `identifier`, with an optional `role`. Use when
     "role": "Carries the inline error"
   },
   {
-    "identifier": "button"
+    "identifier": "icon-button"
   }
 ]
 ```

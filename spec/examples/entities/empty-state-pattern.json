@@ -31,7 +31,7 @@
         "form",
         "inline-error",
         "error-summary",
-        "alert"
+        "callout"
       ],
       "aliases": [
         "blank-state",
@@ -209,7 +209,7 @@
             "description": "The empty state is rendered in place of the content area. If there is a primary action, it is the first focusable element within the empty state region.",
             "components": [
               {
-                "identifier": "button"
+                "identifier": "icon-button"
               }
             ]
           },
@@ -218,7 +218,7 @@
             "description": "The system initiates the creation flow — this may open a dialog, navigate to a new page, or begin an inline creation experience. The empty state remains visible until the action completes and data becomes available.",
             "components": [
               {
-                "identifier": "button"
+                "identifier": "icon-button"
               },
               {
                 "identifier": "dialog"
@@ -243,10 +243,10 @@
             "description": "The error-management variant of the empty state is displayed. The message identifies the problem in plain language and provides a corrective action (ex: 'Check your permissions', 'Retry', 'View activity log'). If a retry button is present, it is the first focusable element.",
             "components": [
               {
-                "identifier": "button"
+                "identifier": "icon-button"
               },
               {
-                "identifier": "alert"
+                "identifier": "callout"
               }
             ]
           }
@@ -481,7 +481,7 @@
             "description": "Use error-messaging for form validation flows; use alert for non-form system or status messages.",
             "stance": "discouraged",
             "alternative": {
-              "identifier": "alert"
+              "identifier": "callout"
             }
           }
         ]
@@ -508,17 +508,17 @@
     "relationships": [
       {
         "relation": "composes",
-        "target": "button",
+        "target": "icon-button",
         "role": "Primary and secondary call-to-action triggers within the empty state."
       },
       {
         "relation": "composes",
-        "target": "link",
+        "target": "type-ref",
         "role": "Secondary action links to documentation or related resources."
       },
       {
         "relation": "composes",
-        "target": "alert",
+        "target": "callout",
         "role": "Used in error-management variants to display structured error information when the empty state requires more detail than the standard body text provides."
       },
       {

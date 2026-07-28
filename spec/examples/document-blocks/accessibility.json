@@ -25,7 +25,7 @@
   "ariaAttribute": [
     {
       "attribute": "role",
-      "value": "button",
+      "value": "icon-button",
       "description": "Applied automatically by the <button> element. Only set explicitly when using a non-button element as a button.",
       "required": false
     },
@@ -100,7 +100,7 @@
     "ariaAttributes": [
       {
         "attribute": "role",
-        "value": "button",
+        "value": "icon-button",
         "description": "Applied automatically by the <button> element. Only set explicitly when using a non-button element as a button.",
         "required": false
       },

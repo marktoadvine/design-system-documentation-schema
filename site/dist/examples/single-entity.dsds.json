@@ -3,9 +3,9 @@
   "dsdsVersion": "0.15.2",
   "entity": {
     "kind": "component",
-    "identifier": "button",
-    "name": "Button",
-    "description": "An interactive element that triggers an action when activated.",
+    "identifier": "icon-button",
+    "name": "Icon Button",
+    "description": "A minimal icon-only button with a required accessible label, triggered by activation.",
     "metadata": {
       "status": "stable"
     },
@@ -14,7 +14,7 @@
         "kind": "use-cases",
         "items": [
           {
-            "description": "When the user needs to trigger an action such as submitting a form, saving data, or opening a dialog.",
+            "description": "When the user needs to trigger an in-page action such as saving data or dismissing a panel.",
             "stance": "recommended"
           },
           {

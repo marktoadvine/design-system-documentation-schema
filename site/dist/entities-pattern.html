@@ -225,7 +225,7 @@
       &quot;form&quot;,
       &quot;inline-error&quot;,
       &quot;error-summary&quot;,
-      &quot;alert&quot;
+      &quot;callout&quot;
     ],
     &quot;summary&quot;: &quot;A pattern for communicating errors through inline validation, summary banners, and toast notifications.&quot;,
     &quot;links&quot;: [
@@ -255,7 +255,7 @@
           &quot;description&quot;: &quot;Client-side validation runs on all required fields. If one or more fields are invalid, submission is prevented and the error state is activated.&quot;,
           &quot;components&quot;: [
             {
-              &quot;identifier&quot;: &quot;button&quot;
+              &quot;identifier&quot;: &quot;icon-button&quot;
             },
             {
               &quot;identifier&quot;: &quot;form-field&quot;
@@ -297,10 +297,10 @@
           &quot;description&quot;: &quot;An error summary alert appears at the top of the form. The summary lists every current error as an anchor link. Each link, when activated, moves focus to the corresponding invalid field. Focus is programmatically moved to the error summary so screen reader users are immediately aware of it.&quot;,
           &quot;components&quot;: [
             {
-              &quot;identifier&quot;: &quot;alert&quot;
+              &quot;identifier&quot;: &quot;callout&quot;
             },
             {
-              &quot;identifier&quot;: &quot;link&quot;
+              &quot;identifier&quot;: &quot;type-ref&quot;
             },
             {
               &quot;identifier&quot;: &quot;form-field&quot;
@@ -325,7 +325,7 @@
               &quot;identifier&quot;: &quot;form-field&quot;
             },
             {
-              &quot;identifier&quot;: &quot;alert&quot;
+              &quot;identifier&quot;: &quot;callout&quot;
             }
           ]
         },
@@ -340,7 +340,7 @@
               &quot;identifier&quot;: &quot;form-field&quot;
             },
             {
-              &quot;identifier&quot;: &quot;button&quot;
+              &quot;identifier&quot;: &quot;icon-button&quot;
             }
           ],
           &quot;examples&quot;: [
@@ -600,7 +600,7 @@
           &quot;description&quot;: &quot;Use error-messaging for form validation flows; use alert for non-form system or status messages.&quot;,
           &quot;stance&quot;: &quot;discouraged&quot;,
           &quot;alternative&quot;: {
-            &quot;identifier&quot;: &quot;alert&quot;
+            &quot;identifier&quot;: &quot;callout&quot;
           }
         }
       ]
@@ -633,7 +633,7 @@
     },
     {
       &quot;relation&quot;: &quot;composes&quot;,
-      &quot;target&quot;: &quot;alert&quot;,
+      &quot;target&quot;: &quot;callout&quot;,
       &quot;role&quot;: &quot;Page-level error summary. Appears at the top of the form or page listing all current errors with anchor links to each invalid field.&quot;,
       &quot;required&quot;: true
     },
@@ -650,13 +650,13 @@
     },
     {
       &quot;relation&quot;: &quot;composes&quot;,
-      &quot;target&quot;: &quot;button&quot;,
+      &quot;target&quot;: &quot;icon-button&quot;,
       &quot;role&quot;: &quot;Submit trigger for the form. Initiates client-side validation before submission.&quot;,
       &quot;required&quot;: true
     },
     {
       &quot;relation&quot;: &quot;composes&quot;,
-      &quot;target&quot;: &quot;link&quot;,
+      &quot;target&quot;: &quot;type-ref&quot;,
       &quot;role&quot;: &quot;Anchor links within the error summary that navigate the user to the corresponding invalid field.&quot;,
       &quot;required&quot;: true
     },

@@ -1,9 +1,9 @@
 {
   "component": {
     "kind": "component",
-    "identifier": "button",
-    "name": "Button",
-    "description": "An interactive element that triggers an action when activated. Buttons communicate what will happen when the user interacts with them and are the primary mechanism for initiating actions within a surface.",
+    "identifier": "icon-button",
+    "name": "Icon Button",
+    "description": "An interactive element that triggers an action when activated. Icon buttons communicate what will happen when the user interacts with them and are the primary mechanism for initiating icon-only actions within a surface.",
     "metadata": {
       "status": {
         "overall": "stable",
@@ -86,13 +86,8 @@
         },
         {
           "kind": "alternative",
-          "url": "https://design.acme.com/components/link",
-          "label": "link (component)"
-        },
-        {
-          "kind": "child",
-          "url": "https://design.acme.com/components/icon-button",
-          "label": "icon-button (component)"
+          "url": "https://design.acme.com/components/type-ref",
+          "label": "type-ref (component)"
         },
         {
           "kind": "parent",
@@ -603,7 +598,7 @@
             "description": "When the action navigates the user to a different page or URL.",
             "stance": "discouraged",
             "alternative": {
-              "identifier": "link",
+              "identifier": "type-ref",
               "rationale": "Links carry native navigation semantics. Screen readers announce them as links, and browsers support standard navigation behaviors such as open-in-new-tab."
             }
           },
@@ -613,14 +608,6 @@
             "alternative": {
               "identifier": "radio-group",
               "rationale": "Radio groups communicate exclusivity through their semantic role. A set of buttons styled to look like a selector does not convey mutual exclusivity to assistive technology."
-            }
-          },
-          {
-            "description": "When the only content is an icon with no visible text label.",
-            "stance": "discouraged",
-            "alternative": {
-              "identifier": "icon-button",
-              "rationale": "Icon buttons enforce an aria-label requirement and apply size adjustments for icon-only touch targets. A standard button with its label removed may fail accessibility requirements silently."
             }
           }
         ]
@@ -861,20 +848,13 @@
     "agentDocumentBlocks": [
       {
         "kind": "use-cases",
-        "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+        "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
         "items": [
           {
-            "description": "Use button for in-page actions; use link for navigation to a URL.",
+            "description": "Use icon-button for icon-only, in-page actions; use type-ref for navigation to a URL.",
             "stance": "discouraged",
             "alternative": {
-              "identifier": "link"
-            }
-          },
-          {
-            "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-            "stance": "discouraged",
-            "alternative": {
-              "identifier": "icon-button"
+              "identifier": "type-ref"
             }
           }
         ]

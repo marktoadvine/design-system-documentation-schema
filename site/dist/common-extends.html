@@ -244,21 +244,16 @@
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref></ds-cross-refs>
 <ds-def-example>
 <ds-code language="json" label="example">{
-  &quot;identifier&quot;: &quot;button&quot;,
+  &quot;identifier&quot;: &quot;icon-button&quot;,
   &quot;system&quot;: &quot;acme-core&quot;,
-  &quot;url&quot;: &quot;https://design.acme.com/v2/components/button&quot;,
+  &quot;url&quot;: &quot;https://design.acme.com/v2/components/icon-button&quot;,
   &quot;version&quot;: &quot;2.0.0&quot;,
-  &quot;description&quot;: &quot;Adds the **enterprise** variant for Acme Cloud Console workflows and tightens the minimum touch target for compliance with our internal accessibility audit.&quot;,
+  &quot;description&quot;: &quot;Adds a **tone** attribute for Acme Cloud Console workflows and tightens the minimum touch target for compliance with our internal accessibility audit.&quot;,
   &quot;modifications&quot;: [
     {
       &quot;changeType&quot;: &quot;added&quot;,
-      &quot;target&quot;: &quot;variant:enterprise&quot;,
-      &quot;description&quot;: &quot;New `enterprise` variant with a heavier visual weight, used inside the Cloud Console primary surface.&quot;
-    },
-    {
-      &quot;changeType&quot;: &quot;modified&quot;,
-      &quot;target&quot;: &quot;prop:size&quot;,
-      &quot;description&quot;: &quot;Default size is `medium` (was `small` in the base entity). The `small` size remains available.&quot;
+      &quot;target&quot;: &quot;prop:tone&quot;,
+      &quot;description&quot;: &quot;New `tone` attribute accepting `default` or `danger`, used inside the Cloud Console for destructive admin actions.&quot;
     },
     {
       &quot;changeType&quot;: &quot;modified&quot;,
@@ -266,14 +261,9 @@
       &quot;description&quot;: &quot;Minimum touch target raised to 44px in all viewports (base requires 44px on mobile only).&quot;
     },
     {
-      &quot;changeType&quot;: &quot;removed&quot;,
-      &quot;target&quot;: &quot;variant:ghost&quot;,
-      &quot;description&quot;: &quot;The `ghost` variant from the base entity is not exposed in this system. Use `tertiary` instead.&quot;
-    },
-    {
       &quot;changeType&quot;: &quot;inherited&quot;,
       &quot;target&quot;: &quot;anatomy&quot;,
-      &quot;description&quot;: &quot;Anatomy is inherited unchanged from the base Button.&quot;
+      &quot;description&quot;: &quot;Anatomy is inherited unchanged from the base Icon Button.&quot;
     }
   ]
 }</ds-code>

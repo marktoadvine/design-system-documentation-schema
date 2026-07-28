@@ -312,19 +312,17 @@
 <p>A component needs <ds-code inline>kind</ds-code>, <ds-code inline>identifier</ds-code>, <ds-code inline>name</ds-code>, and <ds-code inline>description</ds-code>. Everything else is optional.</p>
 <ds-code language="json">{
   "kind": "component",
-  "identifier": "button",
-  "name": "Button",
-  "description": "A clickable element that triggers an action.",
+  "identifier": "icon-button",
+  "name": "Icon Button",
+  "description": "A minimal icon-only button with a required accessible label.",
   "metadata": {
     "status": "stable",
     "category": "action",
     "tags": [
       "action",
-      "submit",
-      "click",
-      "CTA",
+      "icon",
+      "button",
       "trigger",
-      "call-to-action",
       "interactive"
     ]
   },
@@ -333,14 +331,14 @@
       "kind": "use-cases",
       "items": [
         {
-          "description": "When the user needs to trigger an action such as submitting a form or confirming a dialog.",
+          "description": "When triggering an in-page action that has no room for a visible text label.",
           "stance": "recommended"
         },
         {
           "description": "When the action is navigation to another page.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "link",
+            "identifier": "type-ref",
             "rationale": "Links communicate navigation; buttons communicate actions."
           }
         }
@@ -350,20 +348,13 @@
   "agentDocumentBlocks": [
     {
       "kind": "use-cases",
-      "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+      "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
       "items": [
         {
-          "description": "Use button for in-page actions; use link for navigation to a URL.",
+          "description": "Use icon-button for icon-only, in-page actions; use type-ref for navigation to a URL.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "link"
-          }
-        },
-        {
-          "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-          "stance": "discouraged",
-          "alternative": {
-            "identifier": "icon-button"
+            "identifier": "type-ref"
           }
         }
       ]
@@ -376,21 +367,12 @@
           "level": "must-not"
         },
         {
-          "guidance": "Limit each surface to one primary-emphasis button.",
+          "guidance": "Always set the label attribute.",
           "level": "must"
         },
         {
-          "guidance": "Always provide an accessible label via visible text or aria-label.",
-          "level": "must"
-        },
-        {
-          "guidance": "Using a button to navigate to another page.",
+          "guidance": "Using an icon button to navigate to another page.",
           "rationale": "Instead: Use a link element with href.",
-          "level": "must-not"
-        },
-        {
-          "guidance": "Placing multiple primary buttons on the same surface.",
-          "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
           "level": "must-not"
         }
       ]
@@ -630,7 +612,7 @@
       "feedback",
       "inline-error",
       "error-summary",
-      "alert"
+      "callout"
     ]
   },
   "agentDocumentBlocks": [
@@ -642,7 +624,7 @@
           "description": "Use form-validation for input errors the user can fix at the field; use alert for system or status messages not tied to a field.",
           "stance": "discouraged",
           "alternative": {
-            "identifier": "alert"
+            "identifier": "callout"
           }
         },
         {
@@ -681,7 +663,7 @@
     },
     {
       "relation": "composes",
-      "target": "button",
+      "target": "icon-button",
       "role": "Triggers form submission"
     },
     {
@@ -706,39 +688,27 @@
       "entities": [
         {
           "kind": "component",
-          "identifier": "button",
-          "name": "Button",
-          "description": "A clickable button for triggering actions.",
+          "identifier": "icon-button",
+          "name": "Icon Button",
+          "description": "A minimal icon-only button for triggering actions.",
           "metadata": {
             "status": "stable",
             "tags": [
               "action",
-              "submit",
-              "click",
-              "CTA",
+              "icon",
+              "button",
               "trigger",
-              "call-to-action",
               "interactive"
             ]
           },
           "agentDocumentBlocks": [
             {
               "kind": "use-cases",
-              "purpose": "Trigger a user-initiated action within the current view without causing page navigation.",
+              "purpose": "Trigger a user-initiated in-page action using an icon, with no visible text label.",
               "items": [
                 {
-                  "description": "Use button for in-page actions; use link for navigation to a URL.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "link"
-                  }
-                },
-                {
-                  "description": "Use button when a visible text label is present; use icon-button for icon-only affordances.",
-                  "stance": "discouraged",
-                  "alternative": {
-                    "identifier": "icon-button"
-                  }
+                  "description": "Use icon-button for icon-only, in-page actions; use a link for navigation to a URL.",
+                  "stance": "discouraged"
                 }
               ]
             },
@@ -751,23 +721,13 @@
                   "rationale": "Buttons signal actions and links signal navigation. Assistive technology announces each differently, and users rely on that distinction to predict what a control will do."
                 },
                 {
-                  "guidance": "Limit each surface to one primary-emphasis button.",
-                  "level": "must",
-                  "rationale": "A single primary action keeps the visual hierarchy clear. When several buttons compete at primary emphasis, the intended next step becomes ambiguous."
-                },
-                {
-                  "guidance": "Always provide an accessible label via visible text or aria-label.",
+                  "guidance": "Always set the label attribute.",
                   "level": "must",
                   "rationale": "Icon-only buttons without an accessible name are unusable with screen readers and fail WCAG 4.1.2 (Name, Role, Value)."
                 },
                 {
-                  "guidance": "Using a button to navigate to another page.",
+                  "guidance": "Using an icon button to navigate to another page.",
                   "rationale": "Instead: Use a link element with href.",
-                  "level": "must-not"
-                },
-                {
-                  "guidance": "Placing multiple primary buttons on the same surface.",
-                  "rationale": "Instead: Use one primary and one or more secondary or tertiary buttons.",
                   "level": "must-not"
                 }
               ]
@@ -778,7 +738,7 @@
               "kind": "use-cases",
               "items": [
                 {
-                  "description": "When the user needs to trigger an action such as submitting a form, saving data, or opening a dialog.",
+                  "description": "When the user needs to trigger an in-page action such as saving data or dismissing a panel.",
                   "stance": "recommended"
                 },
                 {
@@ -1010,7 +970,7 @@
               "feedback",
               "inline-error",
               "error-summary",
-              "alert"
+              "callout"
             ]
           },
           "agentDocumentBlocks": [
@@ -1019,10 +979,10 @@
               "purpose": "Guide multi-component composition for surfacing, communicating, and resolving form validation errors.",
               "items": [
                 {
-                  "description": "Use form-validation for input errors the user can fix at the field; use alert for system or status messages not tied to a field.",
+                  "description": "Use form-validation for input errors the user can fix at the field; use callout for system or status messages not tied to a field.",
                   "stance": "discouraged",
                   "alternative": {
-                    "identifier": "alert"
+                    "identifier": "callout"
                   }
                 },
                 {
