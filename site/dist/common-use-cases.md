@@ -93,7 +93,7 @@ One scenario where an artifact is or isn't a good fit.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/use-cases.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/use-cases.schema.json",
   "title": "Use cases definition",
   "description": "When an artifact is the right choice and when another fits better. An optional `purpose` sums up what it is for; `items` holds scenarios marked 'recommended' or 'discouraged'.",
   "$defs": {

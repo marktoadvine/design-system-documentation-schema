@@ -43,10 +43,6 @@
         "cta",
         "action-button"
       ],
-      "thumbnail": {
-        "url": "https://design.acme.com/assets/thumbnails/button.png",
-        "alt": "A primary button labeled 'Save changes'."
-      },
       "preview": {
         "kind": "url",
         "url": "https://storybook.acme.com/?path=/story/components-button--primary"

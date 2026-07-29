@@ -32,7 +32,7 @@ All vendor-specific extensions . Keys MUST use a namespace of at least two dot-s
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/extensions.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/extensions.schema.json",
   "title": "Extensions",
   "description": "Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces.",
   "$defs": {

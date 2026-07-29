@@ -82,13 +82,21 @@ function gatherFiles(targets) {
   return out.sort();
 }
 
-const hasTokenLayer = (node) => {
-  if (Array.isArray(node)) return node.some(hasTokenLayer);
+const hasTokenEntity = (node) => {
+  if (Array.isArray(node)) return node.some(hasTokenEntity);
   if (node && typeof node === "object") {
     if (node.kind === "token" || node.kind === "token-group") return true;
-    return Object.values(node).some(hasTokenLayer);
+    return Object.values(node).some(hasTokenEntity);
   }
   return false;
+};
+
+// Does this document have a token layer? Prefer the explicit signal on
+// systemInfo; fall back to whether any token entity appears in the file.
+const hasTokenLayer = (data) => {
+  const declared = data && data.systemInfo && data.systemInfo.hasTokenLayer;
+  if (typeof declared === "boolean") return declared;
+  return hasTokenEntity(data);
 };
 
 // --- slot scanners ---------------------------------------------------------

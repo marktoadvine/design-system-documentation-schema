@@ -6,7 +6,7 @@
   "name": "Pattern",
   "page": "https://designsystemdocspec.org/entities-pattern",
   "markdown": "https://designsystemdocspec.org/entities-pattern.md",
-  "schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
+  "schema": "https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json",
   "example": "https://designsystemdocspec.org/examples/pattern.json",
   "acceptsBlocks": [
     "checklist",

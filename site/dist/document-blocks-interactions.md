@@ -143,7 +143,7 @@ One step in the flow: what triggers it, what happens, which components are invol
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/interactions.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/interactions.schema.json",
   "title": "Interactions document block",
   "description": "The step-by-step flow of a pattern: what triggers each step, what happens, and which components are involved. Read the items in order to follow the user's journey from start to finish.",
   "$defs": {

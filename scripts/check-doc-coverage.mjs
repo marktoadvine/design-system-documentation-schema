@@ -127,7 +127,7 @@ for (const base of blockSchemaBases) {
 const DEF_FIXTURE_ALLOWLIST = new Set([
   // common/ leaves — exercised inside their parent defs' fixtures
   "deprecationNotice", // inside status fixtures
-  "mediaAlt", "mediaUrl", // presentation/thumbnail leaves
+  "mediaAlt", "mediaUrl", // presentation leaves
   "relationType", // value def, inside relationship
   // metadata/ nested defs — exercised inside governance / doc-origin fixtures
   "authorshipValue", "docOriginValue", "lastReviewed", "owner",

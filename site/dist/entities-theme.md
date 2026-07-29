@@ -422,7 +422,7 @@ One token override in a theme: which token changes, and why. The value itself li
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/theme.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/theme.schema.json",
   "title": "Theme definitions",
   "description": "A theme documents an alternative set of token values — a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships; the actual override values live in the DTCG file `source` points to. Put internal links in `links` metadata, not a block.",
   "$defs": {

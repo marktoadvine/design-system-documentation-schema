@@ -70,13 +70,14 @@ Each fixture pins one guard:
 | `step-entry-title` | the pre-0.14 `title` field on step entries is rejected — the actionable line is `label` |
 | `system-info-system-name` | the pre-0.14 `systemName`/`systemVersion` fields are rejected — systemInfo uses `name`/`version` |
 | `theme-override-unresolved` | semantic: theme override tokens must resolve against the documented token layer |
-| `thumbnail-alt-empty` | thumbnail `alt` must not be empty |
+| `preview-image-alt-empty` | a preview image's `alt` must not be empty |
 | `token-missing-token-type` | semantic: a bare token with no `tokenType` and no ancestor token group to inherit one from is rejected |
 | `token-source-empty` | token `source` requires `file` |
 | `token-tokentype-uninherited` | semantic: `tokenType` must be present or inherited — a group without one cannot cover its children |
 | `unknown-block-kind` | block `kind` must be a known value |
 | `unknown-entity-kind` | entity `kind` must be a known value |
 | `use-case-missing-stance` | use case items require `stance` |
+| `variant-constraint-unresolved` | semantic: an exclusion/requirement selection must name a flag or enum value defined in the same variants block |
 | `wrong-dsds-version` | `dsdsVersion` must be the spec version string (numeric here so bump-version cannot rewrite it) |
 
 When adding a guard to the schema or to the semantic checks, add a fixture

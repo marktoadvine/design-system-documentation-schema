@@ -4,6 +4,49 @@ All notable changes to the DSDS specification are documented in this file.
 
 ---
 
+## [0.16.0] — 2026-07-29
+
+Minor release — the full response to the 0.15.2 evaluation: corrections, additive hardening, and the pre-1.0 blockers, shipped together. Most changes are additive and leave existing documents valid; a few tightenings reject documents that carried a latent ambiguity (each is called out below). Schema files are served at `https://designsystemdocspec.org/v0.16.0/...`.
+
+### Tightenings (schema- or validator-enforced; may require edits)
+
+- **Entity identifiers are now unique across the whole document, not just within a group.** Every entity — every kind, including tokens, token groups, and nested token-group children — MUST have a document-wide-unique `identifier`, because references (relationships, entity references, token overrides, checklist criteria) resolve to identifiers document-wide. Two groups each holding a `button` used to validate and left every such reference ambiguous; that is now a defect. Token and token-group identifiers, which previously had no stated uniqueness rule at all, are covered too.
+- **A checklist item's `criterion` must resolve.** It MUST name a criterion (by `identifier`) defined on the same entity, in one of its guideline or accessibility blocks. A dangling criterion reference is now a defect.
+- **One `api` block per platform per entity.** A new semantic check rejects an entity that declares two `api` blocks for the same `platform` (a block with no `platform` counts as the single default). Documenting the same platform twice was always ambiguous; it is now a defect.
+
+### Removals (breaking)
+
+- **`thumbnail` metadata removed — use `preview`.** The two media fields carried the same kind of thing and differed only by intended display size, which is a rendering decision, not data. `preview` is now the single media surface; a consumer scales it to whatever size a slot needs (a thumbnail included). Move a `thumbnail` (`{ url, alt }`) to `preview` as an image presentation (`{ "kind": "image", url, alt }`).
+
+### Additions
+
+- **Guidelines can be named.** `guidelineEntry` gains an optional `identifier` (lowercase kebab-case, unique within the entity, not reused once published). It gives a linter, a test report, or an agent block a stable way to cite a specific rule. Nothing else could point at a guideline before.
+- **Agent rules can say which human rule they sharpen.** `guidelineEntry` and `checklistItem` gain an optional `refines` pointer — the `identifier` of a human guideline in the same entity's `documentBlocks`. An agent-block rule uses it to tighten a human rule (ex: an agent `must-not` hardening a human `should`); when the two conflict, the refining rule wins for agents.
+- **Evidence can be structured.** `guidelineEntry.evidence` now accepts either the existing plain string or an object with `result` and `date` (both required) plus optional `method`, `sampleSize`, and `source`. The date lets tools flag a rule resting on stale test data.
+- **Deprecation has a machine-readable replacement.** The `status` object form gains optional `replacedBy` (an entity reference) and `removeIn` (a version); `apiProperty` gains the same two (with `replacedBy` naming the replacement property). `deprecationNotice` stays prose for the migration path; the pointer no longer has to be parsed out of it.
+- **Platforms can be declared once.** `systemInfo` gains an optional `platforms` list. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of the declared identifiers — so 'react' / 'React' / 'web' can't drift apart across blocks.
+- **Design values say whether they are a token or a literal.** `designValue` (the values in a `design-specifications` block) now uses DTCG alias syntax: a token reference is written in braces (`{color.action.primary}`), and anything not in braces is a raw literal (`#0055b3`, `16px`). This removes the old ambiguity where a bare `space-4` might be a token or a hardcoded value depending on undeclared system state. The `tokens` override maps on anatomy/variants/states are unchanged — their values are always references, so they stay bare.
+- **`systemInfo.hasTokenLayer`** — an explicit boolean saying whether the system has a token layer, instead of tools guessing from whether token entities happen to appear in the file (tokens often live in an external DTCG file). The token-reference lint honors it.
+- **`entityGroup.identifier`** — an optional, unique-among-groups identifier so a group is addressable, not just a display `name`.
+- **`lastUpdated` is the documentation cache key.** Its description now says so explicitly: documentation can change without the design system's version moving, so tools SHOULD pin an entity's docs to `lastUpdated` and re-fetch when it advances. No new version field — the date you already keep is the handle.
+- **Variant combinations can be constrained.** A `variants` block gains two optional arrays: `exclusions` (combinations that must not be used together, ex: `icon-only` + `full-width`) and `requirements` (combinations that must hold, ex: a `danger` button must show an icon). Each rule carries an RFC 2119 `level`, and every selection it names must resolve to a flag or enum value defined in the same block (a new semantic check).
+
+### Fixes
+
+- **The scoped-block-union table now renders.** The generator that builds the "Scoped document block unions" table on the Schema architecture page still read the old `oneOf` branch shape, which the unions no longer use, so every "Used by" and "Accepts" cell rendered as an em dash. It now reads the current `if`/`then` branch shape, so the table shows the real scope for all five unions.
+- **`checklist` is documented as a general block.** It was filed under a "Shared document block types" section whose intro wrongly said those blocks are not accepted on tokens, themes, or guides. `checklist` is a general block accepted on every entity type, so it moved into the general block section, the misleading section was removed, and the root-block prose now lists it alongside the other general kinds.
+- **The block-list naming section was rewritten.** It cited block kinds that don't exist (`guideline`, `section`) and misfiled others. It now states the real rule: a block's list is called `items` unless a domain name reads more clearly (`parts` on anatomy, `steps` on scale).
+- **The criterion identifier-reuse rule moved to the right field.** "Once published, an identifier MUST NOT be reused for a different requirement" was attached to the `since` description; it now lives on the `identifier` description where it belongs, re-homing its citation ID.
+- **Prose typos fixed** — a doubled word ("direction direction") in the `relationType` description and a garbled sentence on the Conformance page.
+
+### Documentation
+
+- **The Conformance page now lists the complete set of semantic rules** the reference validator enforces (twelve, up from a summary of seven), and calls out the one reference resolved against the assembled system rather than a single file (`useCase.alternative.identifier`).
+- The entity-identifier and design-value sections of the Schema architecture page were updated to match.
+- **Conformance Level 2 was redefined and renamed from "Complete" to "Documented."** It is now reached the same way for every entity type — a `use-cases` block plus a `guidelines` block (guidance with rationale) — instead of requiring structural blocks (anatomy/api/variants) for components. This resolves a contradiction where the spec's own minimal example counted as only Level 1 and a richly-guided component could never reach Level 2. The levels are now described as a shared baseline, not a measure of "completeness," since what a document needs depends on the design system. Structural and domain blocks stay strongly encouraged but are no longer a separate bar.
+
+---
+
 ## [0.15.2] — 2026-07-16
 
 Patch release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.15.2/...`.

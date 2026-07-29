@@ -11,7 +11,7 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"component"` | ✓ | Identifies this entity as a component. |
-| `identifier` | string | ✓ | Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique within its entity group. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique across the whole document, because references resolve to it document-wide. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `name` | string | ✓ | Display name shown in docs (ex: 'Button', 'Dialog', 'Form Field', 'Data Table'). |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this component is, what it does, and its role in the design system. CommonMark supported. |
 | `metadata` | [entityMetadata](metadata-metadata.md#entitymetadata) |  | Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json). |
@@ -559,21 +559,21 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
     {
       "kind": "design-specifications",
       "properties": {
-        "background": "button-bg",
-        "text-color": "button-text",
-        "border-color": "button-border",
+        "background": "{button-bg}",
+        "text-color": "{button-text}",
+        "border-color": "{button-border}",
         "border-width": "1px",
-        "border-radius": "button-radius",
-        "padding-horizontal": "space-4",
-        "padding-vertical": "space-2",
-        "font-family": "font-family-body",
+        "border-radius": "{button-radius}",
+        "padding-horizontal": "{space-4}",
+        "padding-vertical": "{space-2}",
+        "font-family": "{font-family-body}",
         "font-size": "14px",
         "font-weight": "500",
         "line-height": "20px",
         "icon-size": "16px",
         "icon-color": "inherit",
         "icon-gap": "8px",
-        "focus-ring-color": "color-focus",
+        "focus-ring-color": "{color-focus}",
         "focus-ring-width": "2px",
         "focus-ring-offset": "2px",
         "min-height": "40px",
@@ -582,13 +582,13 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
       },
       "spacing": {
         "internal": {
-          "container-horizontal": "space-4",
-          "container-vertical": "space-2",
-          "icon-to-label": "space-2"
+          "container-horizontal": "{space-4}",
+          "container-vertical": "{space-2}",
+          "icon-to-label": "{space-2}"
         },
         "external": {
-          "button-to-button": "space-3",
-          "button-group-gap": "space-3"
+          "button-to-button": "{space-3}",
+          "button-group-gap": "{space-3}"
         }
       },
       "sizing": {
@@ -986,7 +986,7 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/component.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/component.schema.json",
   "title": "Component definitions",
   "description": "A component document: the identity of a reusable UI element, plus its metadata (see metadata/metadata.schema.json) and its docs. `documentBlocks` accepts the component-specific kinds (imports, anatomy, api, variants, states, design-specifications) plus every general kind (guidelines, use-cases, accessibility, content, sections, checklist).",
   "$defs": {
@@ -1007,7 +1007,7 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique within its entity group."
+          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

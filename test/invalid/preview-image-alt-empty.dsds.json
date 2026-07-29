@@ -1,12 +1,13 @@
 {
-  "dsdsVersion": "0.15.2",
+  "dsdsVersion": "0.16.0",
   "entity": {
     "kind": "component",
     "identifier": "button",
     "name": "Button",
     "metadata": {
-      "thumbnail": {
-        "url": "https://design.acme.com/assets/button-thumb.png",
+      "preview": {
+        "kind": "image",
+        "url": "https://design.acme.com/assets/button.png",
         "alt": ""
       }
     }

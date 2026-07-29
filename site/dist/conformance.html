@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Conformance — DSDS 0.15.2</title>
+  <title>Conformance — DSDS 0.16.0</title>
   <meta name="description" content="Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas.">
   <link rel="canonical" href="https://designsystemdocspec.org/conformance">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="conformance.md">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Conformance — DSDS 0.15.2">
+  <meta property="og:title" content="Conformance — DSDS 0.16.0">
   <meta property="og:description" content="Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas.">
   <meta property="og:url" content="https://designsystemdocspec.org/conformance">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -18,18 +18,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Conformance — DSDS 0.15.2","description":"Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas.","url":"https://designsystemdocspec.org/conformance","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/conformance.md"}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Conformance — DSDS 0.16.0","description":"Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas.","url":"https://designsystemdocspec.org/conformance","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/conformance.md"}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="conformance">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="conformance">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -98,32 +98,38 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Conformance — DSDS 0.15.2" description="Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas."></ds-header>
+    <ds-header title="Conformance — DSDS 0.16.0" description="Conformance classes, RFC 2119 requirement levels, enforcement tiers, and the generated index of every normative statement in the DSDS schemas."></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
-          <p>This page defines what it means to conform to the Design System Doc Spec 0.15.2, and indexes every normative statement the spec makes.</p>
+          <p>This page defines what it means to conform to the Design System Doc Spec 0.16.0, and indexes every normative statement the spec makes.</p>
 <p>The key words <strong>MUST</strong>, <strong>MUST NOT</strong>, <strong>SHOULD</strong>, <strong>SHOULD NOT</strong>, and <strong>MAY</strong> in the DSDS schemas and on this page are to be interpreted as described in <a href="https://www.rfc-editor.org/rfc/rfc2119">RFC 2119</a> (as clarified by <a href="https://www.rfc-editor.org/rfc/rfc8174">RFC 8174</a>): they are normative only when they appear in upper case.</p>
 <ds-heading level="2" anchor="where-the-normative-text-lives">Where the normative text lives</ds-heading>
-<p>DSDS keeps its normative language inside the schema <ds-code inline>description</ds-code> strings, next to the structures that enforce it. The schema <em>is</em> the specification. The index at the bottom of this page is generated from the schemas on every build to avoid drift. Cite statements by their location-based ID (ex: <ds-code inline>common/link§link.kind.1</ds-code>). An ID only changes when the schema path it points to changes. That's signals a citation needs to be checked.</p>
+<p>DSDS keeps its normative language inside the schema <ds-code inline>description</ds-code> strings, next to the structures that enforce it. The schema <em>is</em> the specification. The index at the bottom of this page is generated from the schemas on every build to avoid drift. Cite statements by their location-based ID (ex: <ds-code inline>common/link§link.kind.1</ds-code>). An ID only changes when the schema path it points to changes. That signals a citation needs re-checking.</p>
 <ds-heading level="2" anchor="conformance-classes">Conformance classes</ds-heading>
 <p>DSDS defines four conformance classes. A claim of conformance names the class it applies to.</p>
 <ds-heading level="3" anchor="conforming-document">Conforming document</ds-heading>
-<p>A JSON document that validates against the DSDS schema for the version its <ds-code inline>dsdsVersion</ds-code> declares, <strong>and</strong> satisfies the semantic rules that JSON Schema alone can't express:</p>
+<p>A JSON document that validates against the DSDS schema for the version its <ds-code inline>dsdsVersion</ds-code> declares, <strong>and</strong> satisfies the semantic rules that JSON Schema alone can't express. This is the complete list the reference implementation (<ds-code inline>scripts/validate.js</ds-code>) enforces as blocking errors:</p>
 <ul>
-<li>identifier uniqueness</li>
-<li>reference resolution</li>
-<li>relationship-graph integrity</li>
-<li>token-layer resolution</li>
-<li><ds-code inline>tokenType</ds-code> inheritance</li>
-<li><ds-code inline>docOrigin</ds-code> block-key resolution</li>
-<li>extension-key namespacing</li>
+<li><strong>Entity identifier uniqueness</strong> — every entity <ds-code inline>identifier</ds-code> (every kind, including tokens, token groups, and nested token-group children) is unique across the whole document.</li>
+<li><strong>Entity-group identifier uniqueness</strong> — group identifiers, when present, are unique among the groups.</li>
+<li><strong>Criterion identifier uniqueness</strong> — within one entity, no two criteria share an <ds-code inline>identifier</ds-code>.</li>
+<li><strong>Section anchor uniqueness</strong> — within one <ds-code inline>sections</ds-code> block, no two entries share an <ds-code inline>anchor</ds-code>.</li>
+<li><strong>Relationship-graph integrity</strong> — every <ds-code inline>relationships[].target</ds-code> resolves to a documented entity, no edge points at its own entity, no duplicate edges, and <ds-code inline>composes</ds-code>/<ds-code inline>depends-on</ds-code> stay acyclic.</li>
+<li><strong>Interaction component resolution</strong> — every <ds-code inline>interactions</ds-code> <ds-code inline>components[].identifier</ds-code> resolves to a documented entity.</li>
+<li><strong>Checklist criterion resolution</strong> — every checklist item's <ds-code inline>criterion</ds-code> resolves to a criterion defined on the same entity.</li>
+<li><strong>Variant constraint resolution</strong> — every selection in a <ds-code inline>variants</ds-code> block's <ds-code inline>exclusions</ds-code> and <ds-code inline>requirements</ds-code> resolves to a flag or enum value defined in that block.</li>
+<li><strong>Token-layer resolution</strong> — when the system documents a token layer, token-override maps (anatomy, states, variants) and string token references (<ds-code inline>scaleStep.token</ds-code>, theme overrides, motion entries) resolve to a documented token.</li>
+<li><strong><ds-code inline>tokenType</ds-code> inheritance</strong> — a token omits <ds-code inline>tokenType</ds-code> only when an ancestor token group declares it.</li>
+<li><strong><ds-code inline>docOrigin</ds-code> block-key resolution</strong> — every <ds-code inline>metadata.docOrigin.blocks</ds-code> key matches a block kind on the entity.</li>
+<li><strong>API platform uniqueness</strong> — an entity declares at most one <ds-code inline>api</ds-code> block per platform.</li>
+<li><strong>Extension-key namespacing</strong> — every <ds-code inline>$extensions</ds-code> key uses a vendor namespace.</li>
 </ul>
+<p>One reference is resolved against the assembled system rather than a single file, so it is <strong>not</strong> a blocking error here: <ds-code inline>useCase.alternative.identifier</ds-code> (the alternative artifact may live in another file). Tools SHOULD resolve it when the full catalog is available.</p>
 <p>Schema validity alone is necessary, but not enough.</p>
 <ds-heading level="3" anchor="conforming-producer">Conforming producer</ds-heading>
 <p>A tool or person that emits DSDS documents. A conforming producer:</p>
@@ -146,7 +152,7 @@
 <p>Every normative statement is enforced at one of three tiers, or is explicitly advisory:</p>
 <ds-table><table><thead><tr><th>Tier</th><th>Mechanism</th><th>Failure mode</th></tr></thead><tbody><tr><td>Structural</td><td>JSON Schema (patterns, required, minItems, conditionals)</td><td>Validation error — blocking</td></tr><tr><td>Semantic</td><td>Reference implementation checks (resolution, uniqueness, inheritance, cycles)</td><td>Validation error — blocking</td></tr><tr><td>Lint</td><td>Rules catalog (<ds-code inline>rules/rules.yaml</ds-code>, DSDS-001…)</td><td>Warning — never blocking</td></tr><tr><td>Advisory</td><td>SHOULD/MAY statements consumed by judgment</td><td>None</td></tr></tbody></table></ds-table>
 <ds-heading level="2" anchor="normative-statements-index">Normative statements index</ds-heading>
-<p><em>Generated from the v0.15.2 schemas by <ds-code inline>scripts/extract-normative.mjs</ds-code> — do not edit by hand. 148 statements: 54 MUST, 23 MUST NOT, 55 SHOULD, 2 SHOULD NOT, 14 MAY.</em></p>
+<p><em>Generated from the v0.16.0 schemas by <ds-code inline>scripts/extract-normative.mjs</ds-code> — do not edit by hand. 167 statements: 67 MUST, 23 MUST NOT, 61 SHOULD, 2 SHOULD NOT, 14 MAY.</em></p>
 <ds-heading level="3" anchor="common">common</ds-heading>
 <ds-heading level="4" anchor="commoncriterion">common/criterion</ds-heading>
 <ul>
@@ -158,10 +164,10 @@
 <li><strong>MAY</strong> — When omitted, tools MAY build a label from the URL. <small><ds-code inline>common/criterion§reference.label.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>common/criterion§criterion.identifier.1</ds-code></small></li>
 <li><strong>SHOULD NOT</strong> — Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. <small><ds-code inline>common/criterion§criterion.identifier.2</ds-code></small></li>
+<li><strong>MUST NOT</strong> — Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. <small><ds-code inline>common/criterion§criterion.identifier.3</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD render it in docs and test reports beside the identifier. <small><ds-code inline>common/criterion§criterion.title.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be objectively verifiable by inspection, static analysis, or runtime measurement. <small><ds-code inline>common/criterion§criterion.statement.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — A criterion referenced by a guideline SHOULD inherit the guideline's <ds-code inline>level</ds-code> when omitted; a standalone criterion SHOULD declare its own. <small><ds-code inline>common/criterion§criterion.level.1</ds-code></small></li>
-<li><strong>MUST NOT</strong> — Criterion identifiers are stable: once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. <small><ds-code inline>common/criterion§criterion.since.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commondated-note">common/dated-note</ds-heading>
 <ul>
@@ -206,7 +212,7 @@
 <ds-heading level="4" anchor="commonrelationship">common/relationship</ds-heading>
 <ul>
 <li><strong>MUST</strong> — A relationship's target MUST be a documented entity. <small><ds-code inline>common/relationship§(root).1</ds-code></small></li>
-<li><strong>MUST NOT</strong> — Tools work out the reverse relationship direction direction (target → source) and MUST NOT require them to be manually authored. <small><ds-code inline>common/relationship§relationType.1</ds-code></small></li>
+<li><strong>MUST NOT</strong> — Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. <small><ds-code inline>common/relationship§relationType.1</ds-code></small></li>
 <li><strong>MUST</strong> — Custom relations MUST be vendor-namespaced (e.g. 'acme.themes'). <small><ds-code inline>common/relationship§relationType.2</ds-code></small></li>
 <li><strong>MUST</strong> — MUST match a documented entity. <small><ds-code inline>common/relationship§relationship.target.1</ds-code></small></li>
 </ul>
@@ -223,11 +229,14 @@
 <ds-heading level="4" anchor="commonsystem-info">common/system-info</ds-heading>
 <ul>
 <li><strong>SHOULD</strong> — SHOULD follow semver so tools can compare it against <ds-code inline>extends.version</ds-code> and <ds-code inline>reviewedAgainst</ds-code>. <small><ds-code inline>common/system-info§systemInfo.version.1</ds-code></small></li>
+<li><strong>MUST</strong> — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token. <small><ds-code inline>common/system-info§systemInfo.hasTokenLayer.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — When present, an <ds-code inline>api</ds-code> block's <ds-code inline>platform</ds-code>, an <ds-code inline>imports</ds-code> entry's <ds-code inline>platform</ds-code>, and per-platform <ds-code inline>status</ds-code> keys SHOULD each match one of these identifiers. <small><ds-code inline>common/system-info§systemInfo.platforms.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>common/system-info§platform.identifier.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commontoken-overrides">common/token-overrides</ds-heading>
 <ul>
 <li><strong>MUST</strong> — Token references MUST name a documented token, never a raw value. <small><ds-code inline>common/token-overrides§(root).1</ds-code></small></li>
-<li><strong>MUST</strong> — When the system documents a token layer, each value MUST resolve to a documented token. <small><ds-code inline>common/token-overrides§tokenOverrides.1</ds-code></small></li>
+<li><strong>MUST</strong> — (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. <small><ds-code inline>common/token-overrides§tokenOverrides.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commonuse-cases">common/use-cases</ds-heading>
 <ul>
@@ -239,12 +248,15 @@
 <li><strong>MUST NOT</strong> — When <ds-code inline>schema</ds-code> is present it is authoritative; <ds-code inline>type</ds-code> is its display summary and MUST NOT disagree with it. <small><ds-code inline>document-blocks/api§apiProperty.type.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — When <ds-code inline>schema</ds-code> is present it is authoritative; <ds-code inline>values</ds-code> is its display summary and MUST NOT disagree with it. <small><ds-code inline>document-blocks/api§apiProperty.values.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — When present, <ds-code inline>schema</ds-code> is the authoritative type definition; <ds-code inline>type</ds-code> and <ds-code inline>values</ds-code> are display summaries of it and MUST NOT disagree. <small><ds-code inline>document-blocks/api§apiProperty.schema.1</ds-code></small></li>
-<li><strong>MUST</strong> — MUST say what to use instead (non-empty) and SHOULD give a migration path. <small><ds-code inline>document-blocks/api§apiProperty.deprecationNotice.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST give the migration path in prose. <small><ds-code inline>document-blocks/api§apiProperty.deprecationNotice.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — When the system declares <ds-code inline>systemInfo.platforms</ds-code>, this SHOULD match one of those identifiers. <small><ds-code inline>document-blocks/api§api.platform.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="document-blockschecklist">document-blocks/checklist</ds-heading>
 <ul>
 <li><strong>MUST</strong> — MUST be specific — not 'check accessibility'. <small><ds-code inline>document-blocks/checklist§checklistItem.label.1</ds-code></small></li>
-<li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/checklist§checklistItem.criterion.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST name a criterion (by its <ds-code inline>identifier</ds-code>) defined on the same entity — in one of this entity's guideline or accessibility blocks. <small><ds-code inline>document-blocks/checklist§checklistItem.criterion.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/checklist§checklistItem.criterion.2</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small><ds-code inline>document-blocks/checklist§checklistItem.refines.1</ds-code></small></li>
 <li><strong>MAY</strong> — Tools MAY mark optional items differently. <small><ds-code inline>document-blocks/checklist§checklistItem.optional.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list. <small><ds-code inline>document-blocks/checklist§checklist.ordered.1</ds-code></small></li>
 <li><strong>MUST</strong> — Order matters when <ds-code inline>ordered</ds-code> is true, so tools MUST preserve it. <small><ds-code inline>document-blocks/checklist§checklist.items.1</ds-code></small></li>
@@ -257,7 +269,8 @@
 </ul>
 <ds-heading level="4" anchor="document-blocksdesign-specifications">document-blocks/design-specifications</ds-heading>
 <ul>
-<li><strong>MUST</strong> — If the system has tokens, this MUST be a token identifier (ex: 'color-action-primary', 'space-4'), not a raw value — that keeps it from drifting out of sync with the token system. <small><ds-code inline>document-blocks/design-specifications§designValue.1</ds-code></small></li>
+<li><strong>MUST</strong> — A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. <small><ds-code inline>document-blocks/design-specifications§designValue.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal. <small><ds-code inline>document-blocks/design-specifications§designValue.2</ds-code></small></li>
 <li><strong>MUST</strong> — Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/design-specifications§designProperties.1</ds-code></small></li>
 <li><strong>MUST</strong> — Keys name the relationship (ex: 'icon-to-label') and MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/design-specifications§spacingSpec.internal.1</ds-code></small></li>
 <li><strong>MUST</strong> — Keys name the relationship (ex: 'button-to-button') and MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/design-specifications§spacingSpec.external.1</ds-code></small></li>
@@ -265,12 +278,16 @@
 </ul>
 <ds-heading level="4" anchor="document-blocksguidelines">document-blocks/guidelines</ds-heading>
 <ul>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>document-blocks/guidelines§guidelineEntry.identifier.1</ds-code></small></li>
+<li><strong>MUST NOT</strong> — Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead. <small><ds-code inline>document-blocks/guidelines§guidelineEntry.identifier.2</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be concrete and clear — not 'use sparingly' or 'when possible'. <small><ds-code inline>document-blocks/guidelines§guidelineEntry.guidance.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — MUST NOT just repeat the guidance. <small><ds-code inline>document-blocks/guidelines§guidelineEntry.rationale.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small><ds-code inline>document-blocks/guidelines§guidelineEntry.refines.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order; authors SHOULD lead with the most important or group by category. <small><ds-code inline>document-blocks/guidelines§guidelines.items.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="document-blocksimports">document-blocks/imports</ds-heading>
 <ul>
+<li><strong>SHOULD</strong> — When the system declares <ds-code inline>systemInfo.platforms</ds-code>, this SHOULD match one of those identifiers (the same set the <ds-code inline>api</ds-code> block uses). <small><ds-code inline>document-blocks/imports§importEntry.platform.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — SHOULD be copy-paste ready. <small><ds-code inline>document-blocks/imports§importEntry.code.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="document-blocksinteractions">document-blocks/interactions</ds-heading>
@@ -319,6 +336,9 @@
 </ul>
 <ds-heading level="4" anchor="document-blocksvariants">document-blocks/variants</ds-heading>
 <ul>
+<li><strong>MUST</strong> — The <ds-code inline>variant</ds-code> MUST match an item in the same block's <ds-code inline>items</ds-code>. <small><ds-code inline>document-blocks/variants§variantSelection.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST match one of this block's <ds-code inline>items</ds-code>. <small><ds-code inline>document-blocks/variants§variantSelection.variant.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be one of that dimension's values. <small><ds-code inline>document-blocks/variants§variantSelection.value.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order. <small><ds-code inline>document-blocks/variants§enumVariant.values.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order. <small><ds-code inline>document-blocks/variants§variants.items.1</ds-code></small></li>
 </ul>
@@ -328,39 +348,40 @@
 <li><strong>MUST</strong> — MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small><ds-code inline>dsds§fileRef.$ref.1</ds-code></small></li>
 <li><strong>MUST</strong> — Resolvers MUST catch cycles, MUST treat a broken file, pointer, or shape mismatch as a fatal error, and MUST only fetch remote files from an allow-list (see the spec's security rules). <small><ds-code inline>dsds§fileRef.$ref.2</ds-code></small></li>
 <li><strong>MUST</strong> — A group MUST hold at least one entity. <small><ds-code inline>dsds§entityGroup.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case and unique among the groups. <small><ds-code inline>dsds§entityGroup.identifier.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Order matters; tools SHOULD keep it. <small><ds-code inline>dsds§entityGroup.entities.1</ds-code></small></li>
 </ul>
 <ds-heading level="3" anchor="entities">entities</ds-heading>
 <ds-heading level="4" anchor="entitieschunk">entities/chunk</ds-heading>
 <ul>
-<li><strong>MUST</strong> — MUST be lowercase kebab-case and unique within its entity group. <small><ds-code inline>entities/chunk§chunk.identifier.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/chunk§chunk.identifier.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small><ds-code inline>entities/chunk§chunk.code[oneOf][1].src.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Resolvers SHOULD only fetch from an allow-list, the same rule a <ds-code inline>$ref</ds-code> fileRef follows. <small><ds-code inline>entities/chunk§chunk.code[oneOf][1].src.2</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="entitiescomponent">entities/component</ds-heading>
 <ul>
-<li><strong>MUST</strong> — MUST be unique within its entity group. <small><ds-code inline>entities/component§component.identifier.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/component§component.identifier.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order for display. <small><ds-code inline>entities/component§component.documentBlocks.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/component§component.agentDocumentBlocks.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Agents SHOULD read both arrays, human docs first. <small><ds-code inline>entities/component§component.agentDocumentBlocks.2</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="entitiesfoundation">entities/foundation</ds-heading>
 <ul>
-<li><strong>MUST</strong> — MUST be unique within its entity group. <small><ds-code inline>entities/foundation§foundation.identifier.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/foundation§foundation.identifier.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order for display. <small><ds-code inline>entities/foundation§foundation.documentBlocks.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/foundation§foundation.agentDocumentBlocks.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Agents SHOULD read both arrays, human docs first. <small><ds-code inline>entities/foundation§foundation.agentDocumentBlocks.2</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="entitiesguide">entities/guide</ds-heading>
 <ul>
-<li><strong>MUST</strong> — MUST be lowercase kebab-case and unique within its entity group. <small><ds-code inline>entities/guide§guide.identifier.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/guide§guide.identifier.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — A guide reads top to bottom, so tools SHOULD keep this order. <small><ds-code inline>entities/guide§guide.documentBlocks.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/guide§guide.agentDocumentBlocks.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Agents SHOULD read both arrays, human docs first. <small><ds-code inline>entities/guide§guide.agentDocumentBlocks.2</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="entitiespattern">entities/pattern</ds-heading>
 <ul>
-<li><strong>MUST</strong> — MUST be unique within its entity group. <small><ds-code inline>entities/pattern§pattern.identifier.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/pattern§pattern.identifier.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Order matters — <ds-code inline>interactions</ds-code> uses it to show the flow over time, and tools SHOULD keep it. <small><ds-code inline>entities/pattern§pattern.documentBlocks.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/pattern§pattern.agentDocumentBlocks.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Agents SHOULD read both arrays, human docs first. <small><ds-code inline>entities/pattern§pattern.agentDocumentBlocks.2</ds-code></small></li>
@@ -374,10 +395,12 @@
 </ul>
 <ds-heading level="4" anchor="entitiestoken">entities/token</ds-heading>
 <ul>
+<li><strong>MUST</strong> — MUST be unique across the whole document, because token overrides and references resolve to it document-wide. <small><ds-code inline>entities/token§token.identifier.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be set here unless a parent group already declares it — a token inherits the group's value if it skips its own. <small><ds-code inline>entities/token§token.tokenType.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD keep this order for display. <small><ds-code inline>entities/token§token.documentBlocks.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/token§token.agentDocumentBlocks.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Agents SHOULD read both arrays, human docs first. <small><ds-code inline>entities/token§token.agentDocumentBlocks.2</ds-code></small></li>
+<li><strong>MUST</strong> — MUST be unique across the whole document, because references resolve to it document-wide. <small><ds-code inline>entities/token§tokenGroup.identifier.1</ds-code></small></li>
 <li><strong>MAY</strong> — A child MAY override it. <small><ds-code inline>entities/token§tokenGroup.tokenType.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Order often shows a real progression (lightest to darkest, smallest to largest), so tools SHOULD keep it. <small><ds-code inline>entities/token§tokenGroup.children.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools MUST NOT show these blocks to humans. <small><ds-code inline>entities/token§tokenGroup.agentDocumentBlocks.1</ds-code></small></li>
@@ -410,6 +433,7 @@
 </ul>
 <ds-heading level="4" anchor="metadatalast-updated">metadata/last-updated</ds-heading>
 <ul>
+<li><strong>SHOULD</strong> — This date is also the entity's version handle: documentation can change without the design system's version moving, so tools SHOULD treat <ds-code inline>lastUpdated</ds-code> as the cache key for an entity's docs — pin to it and re-fetch when it advances. <small><ds-code inline>metadata/last-updated§lastUpdated.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — MUST NOT contain markup. <small><ds-code inline>metadata/last-updated§lastUpdated[oneOf][1].note.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="metadatastatus">metadata/status</ds-heading>
@@ -418,16 +442,14 @@
 <li><strong>MAY</strong> — An entity MAY be 'stable' overall while some platforms are still 'experimental' or 'draft'. <small><ds-code inline>metadata/status§status[oneOf][1].1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD show this as the main status indicator. <small><ds-code inline>metadata/status§status[oneOf][1].overall.1</ds-code></small></li>
 <li><strong>MAY</strong> — Tools MAY surface this alongside the status indicator. <small><ds-code inline>metadata/status§status[oneOf][1].note.1</ds-code></small></li>
-<li><strong>MUST</strong> — MUST say what to use instead (non-empty) and give a migration path. <small><ds-code inline>metadata/status§status[oneOf][1].deprecationNotice.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — When the system declares <ds-code inline>systemInfo.platforms</ds-code>, each key SHOULD match one of those identifiers. <small><ds-code inline>metadata/status§status[oneOf][1].platforms.1</ds-code></small></li>
+<li><strong>MUST</strong> — MUST give the migration path in prose. <small><ds-code inline>metadata/status§status[oneOf][1].deprecationNotice.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD display this prominently next to the status indicator. <small><ds-code inline>metadata/status§status[oneOf][1].deprecationNotice.2</ds-code></small></li>
+<li><strong>MUST</strong> — The identifier MUST resolve to an entity in the system. <small><ds-code inline>metadata/status§status[oneOf][1].replacedBy.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="metadatasummary">metadata/summary</ds-heading>
 <ul>
 <li><strong>MUST NOT</strong> — MUST NOT contain markup. <small><ds-code inline>metadata/summary§summary.1</ds-code></small></li>
-</ul>
-<ds-heading level="4" anchor="metadatathumbnail">metadata/thumbnail</ds-heading>
-<ul>
-<li><strong>MUST NOT</strong> — MUST NOT be empty. <small><ds-code inline>metadata/thumbnail§thumbnail.alt.1</ds-code></small></li>
 </ul>
 
           <ds-back-to-top></ds-back-to-top>

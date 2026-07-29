@@ -66,7 +66,7 @@ The typed pointer to external content, defined by `url`. Standard `kind`s includ
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/link.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/link.schema.json",
   "title": "Link definition",
   "description": "A typed pointer to an external resource — source, design, docs, packages. Every link needs a `kind` and a `url`. Use the `relationships` array for references between entities instead of links.",
   "$defs": {

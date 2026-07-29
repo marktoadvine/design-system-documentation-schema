@@ -17,10 +17,12 @@ One of:
 | --- | --- | --- | --- |
 | `overall` | [statusValue](common-status.md#statusvalue) | ✓ | The entity's overall status. Status is an editorial call on maturity that doesn't have to match its most or least advanced platform. Tools SHOULD show this as the main status indicator. |
 | `note` | [plainNote](common-dated-note.md#plainnote) |  | Optional plain-text note explaining what this status represents for the entity. Includes the reasoning behind it, its scope, or any caveats (ex: 'Stable on web; the API is frozen and changes follow semver. Mobile parity is still in progress.'). Separate from deprecationNotice, which covers only the deprecated case. Tools MAY surface this alongside the status indicator. |
-| `platforms` | map<string, [platformStatus](common-status.md#platformstatus)> |  | Per-platform readiness. Keys are platform identifiers (freeform strings; common values include 'react', 'web-component', 'ios', 'android', 'flutter', 'figma', 'sketch', 'compose'). Values describe the entity's status on that platform. |
-| `deprecationNotice` | [deprecationNotice](common-status.md#deprecationnotice) |  | Required when overall status is 'deprecated'. MUST say what to use instead (non-empty) and give a migration path. Tools SHOULD display this prominently next to the status indicator. |
+| `platforms` | map<string, [platformStatus](common-status.md#platformstatus)> |  | Per-platform readiness. Keys are platform identifiers (ex: 'react', 'web-component', 'ios', 'android'). When the system declares `systemInfo.platforms`, each key SHOULD match one of those identifiers. Values describe the entity's status on that platform. |
+| `deprecationNotice` | [deprecationNotice](common-status.md#deprecationnotice) |  | Required when overall status is 'deprecated'. MUST give the migration path in prose. Name the replacement in `replacedBy` (not here) so tools can follow it. Tools SHOULD display this prominently next to the status indicator. |
+| `replacedBy` | [entityRef](common-entity-ref.md#entityref) |  | For a deprecated entity, the entity that replaces it, by `identifier`. A machine-readable pointer, so tools can link straight to the replacement instead of parsing it out of `deprecationNotice`. The identifier MUST resolve to an entity in the system. |
+| `removeIn` | string |  | For a deprecated entity, the version it is planned to be removed in (ex: '2.0.0'). Lets tools warn how long the entity will keep working. |
 
-**References:** [statusValue](common-status.md#statusvalue), [plainNote](common-dated-note.md#plainnote), [platformStatus](common-status.md#platformstatus), [deprecationNotice](common-status.md#deprecationnotice)
+**References:** [statusValue](common-status.md#statusvalue), [plainNote](common-dated-note.md#plainnote), [platformStatus](common-status.md#platformstatus), [deprecationNotice](common-status.md#deprecationnotice), [entityRef](common-entity-ref.md#entityref)
 
 **Example:**
 
@@ -65,7 +67,7 @@ One of:
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/status.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/status.schema.json",
   "title": "Status metadata field",
   "description": "Lifecycle status of an entity. A bare string sets the overall status. The object form adds per-platform readiness, an optional explanatory note, and a deprecation notice.",
   "$defs": {
@@ -95,7 +97,7 @@ One of:
             },
             "platforms": {
               "type": "object",
-              "description": "Per-platform readiness. Keys are platform identifiers (freeform strings; common values include 'react', 'web-component', 'ios', 'android', 'flutter', 'figma', 'sketch', 'compose'). Values describe the entity's status on that platform.",
+              "description": "Per-platform readiness. Keys are platform identifiers (ex: 'react', 'web-component', 'ios', 'android'). When the system declares `systemInfo.platforms`, each key SHOULD match one of those identifiers. Values describe the entity's status on that platform.",
               "additionalProperties": {
                 "$ref": "../common/status.schema.json#/$defs/platformStatus"
               },
@@ -106,7 +108,15 @@ One of:
             },
             "deprecationNotice": {
               "$ref": "../common/status.schema.json#/$defs/deprecationNotice",
-              "description": "Required when overall status is 'deprecated'. MUST say what to use instead (non-empty) and give a migration path. Tools SHOULD display this prominently next to the status indicator."
+              "description": "Required when overall status is 'deprecated'. MUST give the migration path in prose. Name the replacement in `replacedBy` (not here) so tools can follow it. Tools SHOULD display this prominently next to the status indicator."
+            },
+            "replacedBy": {
+              "$ref": "../common/entity-ref.schema.json#/$defs/entityRef",
+              "description": "For a deprecated entity, the entity that replaces it, by `identifier`. A machine-readable pointer, so tools can link straight to the replacement instead of parsing it out of `deprecationNotice`. The identifier MUST resolve to an entity in the system."
+            },
+            "removeIn": {
+              "type": "string",
+              "description": "For a deprecated entity, the version it is planned to be removed in (ex: '2.0.0'). Lets tools warn how long the entity will keep working."
             }
           },
           "if": {

@@ -71,7 +71,8 @@ One thing to check, do, or confirm. `label` is the action itself. `description` 
 | `label` | [richText](common-rich-text.md#richtext) | ✓ | The check itself, written as an instruction you can act on and mark done or not (ex: 'Give every icon-only button an aria-label'). MUST be specific — not 'check accessibility'. |
 | `description` | [richText](common-rich-text.md#richtext) |  | Extra detail — how to do it, what to watch for, or why it matters. Keep the instruction itself in `label`. |
 | `level` | [conformanceLevel](common-criterion.md#conformancelevel) |  | How strict this item is: 'must' (a hard requirement), 'should' (do it unless you have a reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable. Left out, it's just a recommendation. |
-| `criterion` | string |  | Optional link to a testable criterion (from a guideline or accessibility block) that proves this item passes. MUST be lowercase kebab-case. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `criterion` | string |  | Optional link to a testable criterion that proves this item passes. MUST name a criterion (by its `identifier`) defined on the same entity — in one of this entity's guideline or accessibility blocks. MUST be lowercase kebab-case. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `refines` | string |  | The `identifier` of a human guideline (in this entity's `documentBlocks`) that this item sharpens. Used by agent-block checklists to tighten a human rule. When they conflict, the refining item wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `category` | string |  | Groups items in a long checklist by discipline: 'visual-design', 'interaction', 'accessibility', 'content', 'motion', 'development', or a custom lowercase kebab-case value. |
 | `optional` | boolean |  | Whether this item can be skipped. Defaults to false. Tools MAY mark optional items differently. (Default: `false`) |
 
@@ -94,7 +95,7 @@ One thing to check, do, or confirm. `label` is the action itself. `description` 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/checklist.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/checklist.schema.json",
   "title": "Checklist document block",
   "description": "A checklist of things to check off — built for agents, but useful for people too. Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use `checklist` for a hands-on pass over something; use `guidelines` for the rules behind it.",
   "$defs": {
@@ -120,7 +121,12 @@ One thing to check, do, or confirm. `label` is the action itself. `description` 
         "criterion": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Optional link to a testable criterion (from a guideline or accessibility block) that proves this item passes. MUST be lowercase kebab-case."
+          "description": "Optional link to a testable criterion that proves this item passes. MUST name a criterion (by its `identifier`) defined on the same entity — in one of this entity's guideline or accessibility blocks. MUST be lowercase kebab-case."
+        },
+        "refines": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this item sharpens. Used by agent-block checklists to tighten a human rule. When they conflict, the refining item wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
         },
         "category": {
           "type": "string",

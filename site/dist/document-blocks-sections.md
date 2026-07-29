@@ -92,7 +92,7 @@ One section: a heading, a body, and optionally examples, links, and nested sub-s
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/sections.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/sections.schema.json",
   "title": "Sections document block",
   "description": "Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.",
   "$defs": {

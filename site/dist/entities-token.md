@@ -13,7 +13,7 @@ A group of related tokens — a full collection, a family (all color tokens), a 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"token-group"` | ✓ | Identifies this entity as a token-group. |
-| `identifier` | string | ✓ | The token group identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. |
+| `identifier` | string | ✓ | The token group identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. MUST be unique across the whole document, because references resolve to it document-wide. |
 | `name` | string |  | Optional display name (ex: 'Primary Text'). Left out, the `identifier` is the label — the same rule every entity follows. |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this token group covers and how it is organized. Optional, so keep it terse at scale. CommonMark supported. |
 | `tokenType` | string |  | If every token in this group shares a type, declare it here instead of repeating it on each child. A child MAY override it. Common values: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'. |
@@ -34,7 +34,7 @@ One design token: identifier, type, use cases, guidelines, accessibility notes. 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"token"` | ✓ | Identifies this entity as a token. |
-| `identifier` | string | ✓ | The token identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. |
+| `identifier` | string | ✓ | The token identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. MUST be unique across the whole document, because token overrides and references resolve to it document-wide. |
 | `name` | string |  | Optional display name (ex: 'Primary Text'). Left out, the `identifier` is the label — the same rule every entity follows. |
 | `tokenType` | string |  | The token's type, per the DTCG spec (ex: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'). MUST be set here unless a parent group already declares it — a token inherits the group's value if it skips its own. Every token needs a `tokenType` somewhere in its ancestry; having none anywhere is a defect. |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this token represents and when to use it. Optional, so keep it terse at scale. CommonMark supported. |
@@ -241,7 +241,7 @@ One design token: identifier, type, use cases, guidelines, accessibility notes. 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/token.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/token.schema.json",
   "title": "Token and token group definitions",
   "description": "Docs for individual tokens and token groups. Token values, aliases, and type live in the DTCG file — DSDS documents only the purpose, guidelines, and organization. A token group is a flexible unit: a full collection, a family (all color tokens), or a sub-family (one hue). Groups can hold tokens, nested groups, or both, forming a hierarchy. Both tokens and groups have an optional display `name` — when it's left out, the `identifier` serves as the label. Description and status are optional, to keep things terse at scale.",
   "$defs": {
@@ -260,7 +260,7 @@ One design token: identifier, type, use cases, guidelines, accessibility notes. 
         },
         "identifier": {
           "type": "string",
-          "description": "The token identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label."
+          "description": "The token identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. MUST be unique across the whole document, because token overrides and references resolve to it document-wide."
         },
         "name": {
           "type": "string",
@@ -337,7 +337,7 @@ One design token: identifier, type, use cases, guidelines, accessibility notes. 
         },
         "identifier": {
           "type": "string",
-          "description": "The token group identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label."
+          "description": "The token group identifier. No fixed pattern, to support DTCG and design-tool naming styles (dots, slashes, dashes). Also serves as the display label. MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

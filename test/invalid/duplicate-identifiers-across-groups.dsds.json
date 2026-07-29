@@ -1,0 +1,25 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entityGroups": [
+    {
+      "name": "Group A",
+      "entities": [
+        {
+          "kind": "component",
+          "identifier": "button",
+          "name": "Button"
+        }
+      ]
+    },
+    {
+      "name": "Group B",
+      "entities": [
+        {
+          "kind": "component",
+          "identifier": "button",
+          "name": "Button (other group)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entity": {
+    "kind": "component",
+    "identifier": "button",
+    "name": "Button",
+    "documentBlocks": [
+      {
+        "kind": "variants",
+        "items": [
+          {
+            "kind": "flag",
+            "identifier": "icon-only",
+            "name": "Icon Only",
+            "description": "The button renders a single icon with no visible label."
+          }
+        ],
+        "exclusions": [
+          {
+            "variants": [
+              { "variant": "icon-only" },
+              { "variant": "full-width" }
+            ],
+            "level": "must-not",
+            "description": "full-width is not a variant defined in this block."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -524,8 +524,10 @@ const EXTENSION_KEY_REGEX = /^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
 
 /**
  * Walk a parsed DSDS document and apply the semantic rules:
- *   1. Entity identifiers MUST be unique within their entity group (and
- *      token/token-group identifiers within their parent's `children`).
+ *   1. Entity identifiers (every kind, including tokens and token groups, and
+ *      nested token-group children) MUST be unique across the whole document,
+ *      because references resolve to them document-wide. Entity-group
+ *      identifiers MUST be unique among the groups.
  *   2. `$extensions` keys MUST be vendor-namespaced.
  *   3. Criterion identifiers MUST be unique within their entity
  *      (rules/rules.yaml DSDS-002 — test runs report against them).
@@ -537,7 +539,18 @@ const EXTENSION_KEY_REGEX = /^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
  *   7. String token references (theme overrides, scale steps, motion entries)
  *      MUST resolve; token `tokenType` MUST be present or group-inherited;
  *      section anchors MUST be unique within their parent block.
+ *   8. An entity MUST NOT declare more than one `api` block per platform.
+ *   9. Interaction `components[].identifier` MUST resolve to a documented
+ *      entity (whole-document catalog).
+ *  10. A checklist item's `criterion` MUST resolve to a criterion defined on
+ *      the same entity (entity-scoped).
+ *  11. Variant exclusion/requirement selections MUST resolve to a flag or an
+ *      enum value defined in the same variants block.
  * Returns an array of { path, message } findings.
+ *
+ * Not hard-gated here (resolved against the assembled system, which a single
+ * file may not contain): `useCase.alternative.identifier`. Tools SHOULD resolve
+ * it when the full catalog is available.
  */
 const ENTITY_KIND_SET = new Set([
   "component",
@@ -657,19 +670,45 @@ function semanticFindings(doc) {
     scan(entity, entityPath);
   }
 
-  function checkIdentifierScope(items, pathPrefix) {
+  // Every entity identifier — any kind, at any depth, including nested
+  // token-group children — MUST be unique across the whole document. References
+  // (relationships, entityRef, token overrides, checklist criteria) resolve to
+  // identifiers document-wide, so a reused identifier makes them ambiguous.
+  function checkEntityIdentifierUniqueness() {
     const seen = new Map();
-    items.forEach((item, i) => {
-      if (!item || typeof item !== "object" || item.$ref) return;
-      const id = item.identifier;
-      if (typeof id !== "string") return;
+    (function scan(node, p) {
+      if (Array.isArray(node)) return node.forEach((v, i) => scan(v, `${p}/${i}`));
+      if (!node || typeof node !== "object") return;
+      if (ENTITY_KIND_SET.has(node.kind) && typeof node.identifier === "string") {
+        const id = node.identifier;
+        if (seen.has(id)) {
+          findings.push({
+            path: `${p}/identifier`,
+            message: `entity identifier '${id}' is used more than once (first at ${seen.get(id)}) — entity identifiers MUST be unique across the whole document, because references resolve to them document-wide`,
+          });
+        } else {
+          seen.set(id, p);
+        }
+      }
+      for (const [k, v] of Object.entries(node)) scan(v, `${p}/${k}`);
+    })(doc, "");
+  }
+
+  // Entity-group identifiers (when present) MUST be unique among the groups.
+  function checkGroupIdentifierUniqueness() {
+    if (!Array.isArray(doc.entityGroups)) return;
+    const seen = new Map();
+    doc.entityGroups.forEach((g, i) => {
+      if (!g || typeof g !== "object" || typeof g.identifier !== "string") return;
+      const id = g.identifier;
+      const p = `/entityGroups/${i}/identifier`;
       if (seen.has(id)) {
         findings.push({
-          path: `${pathPrefix}/${i}/identifier`,
-          message: `duplicate identifier '${id}' in the same scope (first used at ${pathPrefix}/${seen.get(id)})`,
+          path: p,
+          message: `entity-group identifier '${id}' is used more than once (first at ${seen.get(id)}) — group identifiers MUST be unique`,
         });
       } else {
-        seen.set(id, i);
+        seen.set(id, p);
       }
     });
   }
@@ -791,8 +830,8 @@ function semanticFindings(doc) {
     }
   }
 
-  // Section anchors MUST be unique within their parent block — same rule as
-  // checkIdentifierScope, keyed on `anchor` (sections deep-link by anchor,
+  // Section anchors MUST be unique within their parent block — a per-block
+  // uniqueness check keyed on `anchor` (sections deep-link by anchor,
   // not identifier).
   function checkAnchorScope(items, pathPrefix) {
     const seen = new Map();
@@ -870,6 +909,117 @@ function semanticFindings(doc) {
     }
   }
 
+  // A checklist item's `criterion` MUST name a criterion defined on the same
+  // entity (in one of its guideline or accessibility blocks). Resolution is
+  // entity-scoped: the same scan used for criterion uniqueness, so nested token
+  // -group children are their own scopes. Also runs on the document root for a
+  // root-level checklist (scan stops at entity boundaries either way).
+  function checkChecklistCriterionScope(scope, scopePath) {
+    const defined = new Set();
+    const refs = [];
+    (function scan(node, p) {
+      if (Array.isArray(node)) return node.forEach((v, i) => scan(v, `${p}/${i}`));
+      if (!node || typeof node !== "object") return;
+      if (node !== scope && ENTITY_KIND_SET.has(node.kind)) return; // child = own scope
+      if (Array.isArray(node.criteria)) {
+        node.criteria.forEach((c) => {
+          if (c && typeof c.identifier === "string") defined.add(c.identifier);
+        });
+      }
+      if (node.kind === "checklist" && Array.isArray(node.items)) {
+        node.items.forEach((it, i) => {
+          if (it && typeof it.criterion === "string") {
+            refs.push({ id: it.criterion, path: `${p}/items/${i}/criterion` });
+          }
+        });
+      }
+      for (const [k, v] of Object.entries(node)) scan(v, `${p}/${k}`);
+    })(scope, scopePath);
+    for (const { id, path: refPath } of refs) {
+      if (!defined.has(id)) {
+        findings.push({
+          path: refPath,
+          message: `checklist criterion '${id}' matches no criterion defined on this entity — a checklist criterion MUST name a criterion from one of the entity's guideline or accessibility blocks`,
+        });
+      }
+    }
+  }
+
+  // Variant exclusion/requirement selections MUST resolve within the same
+  // variants block: `variant` names a flag or enum dimension in `items`, and
+  // for an enum the `value` is one of that dimension's values.
+  function checkVariantConstraints(node, nodePath) {
+    if (node.kind !== "variants" || !Array.isArray(node.items)) return;
+    const flags = new Set();
+    const enums = new Map();
+    node.items.forEach((it) => {
+      if (!it || typeof it.identifier !== "string") return;
+      if (it.kind === "flag") flags.add(it.identifier);
+      else if (it.kind === "enum") {
+        enums.set(
+          it.identifier,
+          new Set((it.values || []).map((v) => v && v.identifier).filter((x) => typeof x === "string")),
+        );
+      }
+    });
+    const checkSel = (sel, p) => {
+      if (!sel || typeof sel.variant !== "string") return;
+      const v = sel.variant;
+      if (flags.has(v)) return;
+      if (enums.has(v)) {
+        if (typeof sel.value !== "string") {
+          findings.push({
+            path: p,
+            message: `variant constraint references enum variant '${v}' without a value — name one of its values`,
+          });
+        } else if (!enums.get(v).has(sel.value)) {
+          findings.push({
+            path: `${p}/value`,
+            message: `variant constraint references value '${sel.value}', which is not a value of variant '${v}'`,
+          });
+        }
+        return;
+      }
+      findings.push({
+        path: `${p}/variant`,
+        message: `variant constraint references '${v}', which is not a flag or enum variant defined in this block`,
+      });
+    };
+    (node.exclusions || []).forEach((ex, i) =>
+      (ex.variants || []).forEach((sel, j) =>
+        checkSel(sel, `${nodePath}/exclusions/${i}/variants/${j}`),
+      ),
+    );
+    (node.requirements || []).forEach((rq, i) => {
+      (rq.when || []).forEach((sel, j) => checkSel(sel, `${nodePath}/requirements/${i}/when/${j}`));
+      (rq.requires || []).forEach((sel, j) =>
+        checkSel(sel, `${nodePath}/requirements/${i}/requires/${j}`),
+      );
+    });
+  }
+
+  // Within one entity, at most one `api` block per platform. A block with no
+  // `platform` counts as the single default platform, so two of those collide
+  // too. Keeps the api → platform mapping unambiguous.
+  function checkApiPlatformScope(entity, entityPath) {
+    const blocks = entity.documentBlocks;
+    if (!Array.isArray(blocks)) return;
+    const seen = new Map();
+    blocks.forEach((block, i) => {
+      if (!block || block.kind !== "api") return;
+      const platform = typeof block.platform === "string" ? block.platform : "";
+      const label = platform || "(default)";
+      if (seen.has(platform)) {
+        findings.push({
+          path: `${entityPath}/documentBlocks/${i}/platform`,
+          message: `entity '${entity.identifier}' has more than one api block for platform '${label}' (first at ${entityPath}/documentBlocks/${seen.get(platform)}) — only one api block per platform is allowed`,
+        });
+      } else {
+        seen.set(platform, i);
+      }
+    });
+  }
+
   function walk(node, nodePath) {
     if (!node || typeof node !== "object") return;
     if (Array.isArray(node)) {
@@ -880,6 +1030,8 @@ function semanticFindings(doc) {
       checkCriterionScope(node, nodePath);
       checkRelationships(node, nodePath);
       checkDocOriginBlocks(node, nodePath);
+      checkApiPlatformScope(node, nodePath);
+      checkChecklistCriterionScope(node, nodePath);
     }
     if (node.$extensions && typeof node.$extensions === "object") {
       for (const key of Object.keys(node.$extensions)) {
@@ -892,6 +1044,7 @@ function semanticFindings(doc) {
       }
     }
     checkComponentRefs(node, nodePath);
+    checkVariantConstraints(node, nodePath);
     checkTokenOverrides(node, nodePath);
     checkTokenRefString(node, nodePath);
     if (node.kind === "sections" && Array.isArray(node.items)) {
@@ -900,12 +1053,6 @@ function semanticFindings(doc) {
     if (Array.isArray(node.sections)) {
       checkAnchorScope(node.sections, `${nodePath}/sections`);
     }
-    if (Array.isArray(node.entities)) {
-      checkIdentifierScope(node.entities, `${nodePath}/entities`);
-    }
-    if (Array.isArray(node.children)) {
-      checkIdentifierScope(node.children, `${nodePath}/children`);
-    }
     for (const [key, value] of Object.entries(node)) {
       if (key === "$extensions") continue;
       walk(value, `${nodePath}/${key}`);
@@ -913,6 +1060,9 @@ function semanticFindings(doc) {
   }
 
   walk(doc, "");
+  checkChecklistCriterionScope(doc, ""); // root-level checklist + criteria
+  checkEntityIdentifierUniqueness();
+  checkGroupIdentifierUniqueness();
   checkRelationshipCycles();
   checkTokenTypeInheritance();
   return findings;

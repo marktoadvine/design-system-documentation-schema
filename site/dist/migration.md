@@ -1,4 +1,4 @@
-# Migration — DSDS 0.15.2
+# Migration — DSDS 0.16.0
 
 This page covers moving existing DSDS documents to a newer spec version. Each breaking release gets a section here: what changed, what the migration script does for you, and what it leaves for a human.
 

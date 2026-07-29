@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Design system doc spec (DSDS) v0.15.2</title>
+  <title>Design system doc spec (DSDS) v0.15.2 — DSDS 0.16.0</title>
   <meta name="description" content="DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.">
   <link rel="canonical" href="https://designsystemdocspec.org/root">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="root.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Design system doc spec (DSDS) v0.15.2">
+  <meta property="og:title" content="Design system doc spec (DSDS) v0.15.2 — DSDS 0.16.0">
   <meta property="og:description" content="DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.">
   <meta property="og:url" content="https://designsystemdocspec.org/root">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -19,18 +19,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Design system doc spec (DSDS) v0.15.2","description":"DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.","url":"https://designsystemdocspec.org/root","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/root.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"entityGroup","url":"https://designsystemdocspec.org/root#entitygroup"},{"@type":"DefinedTerm","name":"anyEntity","url":"https://designsystemdocspec.org/root#anyentity"},{"@type":"DefinedTerm","name":"fileRef","url":"https://designsystemdocspec.org/root#fileref"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Design system doc spec (DSDS) v0.15.2 — DSDS 0.16.0","description":"DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.","url":"https://designsystemdocspec.org/root","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/root.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"entityGroup","url":"https://designsystemdocspec.org/root#entitygroup"},{"@type":"DefinedTerm","name":"anyEntity","url":"https://designsystemdocspec.org/root#anyentity"},{"@type":"DefinedTerm","name":"fileRef","url":"https://designsystemdocspec.org/root#fileref"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="root">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="root">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,7 +99,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -111,7 +110,7 @@
           <ds-json-view label="documentation/dsds.schema.json">
   <ds-code language="json" label="documentation/dsds.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/dsds.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/dsds.schema.json&quot;,
   &quot;title&quot;: &quot;Design system doc spec (DSDS) v0.15.2&quot;,
   &quot;description&quot;: &quot;DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.&quot;,
   &quot;type&quot;: &quot;object&quot;,
@@ -137,7 +136,7 @@
     },
     &quot;dsdsVersion&quot;: {
       &quot;type&quot;: &quot;string&quot;,
-      &quot;const&quot;: &quot;0.15.2&quot;,
+      &quot;const&quot;: &quot;0.16.0&quot;,
       &quot;description&quot;: &quot;The DSDS spec version this document follows.&quot;
     },
     &quot;systemInfo&quot;: {
@@ -347,6 +346,11 @@
         &quot;entities&quot;
       ],
       &quot;properties&quot;: {
+        &quot;identifier&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;pattern&quot;: &quot;^[a-z][a-z0-9-]*$&quot;,
+          &quot;description&quot;: &quot;Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle — the `name` is only a display label.&quot;
+        },
         &quot;name&quot;: {
           &quot;type&quot;: &quot;string&quot;,
           &quot;description&quot;: &quot;Human-readable name of the collection (ex: 'Acme Design System', 'Color Tokens', 'Button Documentation'). Used only as a display label.&quot;,
@@ -381,7 +385,7 @@
 </ds-json-view>
 <ds-heading level="2" anchor="properties-heading">Root Properties</ds-heading>
 <ds-prop-table>
-  <ds-prop name="dsdsVersion" type="&lt;ds-code inline&gt;&quot;0.15.2&quot;&lt;/ds-code&gt;" required>The DSDS spec version this document follows.</ds-prop>
+  <ds-prop name="dsdsVersion" type="&lt;ds-code inline&gt;&quot;0.16.0&quot;&lt;/ds-code&gt;" required>The DSDS spec version this document follows.</ds-prop>
   <ds-prop name="$schema" type="string">URI reference to the DSDS JSON Schema for validation.</ds-prop>
   <ds-prop name="systemInfo" type="&lt;ds-type-ref href=&quot;common-system-info.html#systeminfo&quot;&gt;systemInfo&lt;/ds-type-ref&gt;">Identity of the design system.</ds-prop>
   <ds-prop name="extends" type="&lt;ds-type-ref href=&quot;common-extends.html#documentextends&quot;&gt;documentExtends&lt;/ds-type-ref&gt;">Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them.</ds-prop>
@@ -402,6 +406,7 @@
 <ds-prop-table>
   <ds-prop name="name" type="string" required>Human-readable name of the collection (ex: 'Acme Design System', 'Color Tokens', 'Button Documentation'). Used only as a display label.</ds-prop>
   <ds-prop name="entities" type="&lt;ds-type-ref href=&quot;root.html#anyentity&quot;&gt;anyEntity&lt;/ds-type-ref&gt; | &lt;ds-type-ref href=&quot;root.html#fileref&quot;&gt;fileRef&lt;/ds-type-ref&gt;[]" required>The group's entities, in display order — any mix of kinds. Each item can be inline or a <ds-code inline>$ref</ds-code> to another DSDS file. Order matters; tools SHOULD keep it.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="identifier" type="string">Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle — the <ds-code inline>name</ds-code> is only a display label.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Human-written documentation content, read as CommonMark markdown (0.27 minimum). Plain text, markdown, and inline HTML are all valid. Tools MUST render the value as markdown.</ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;">All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.</ds-prop>
 </ds-prop-table>

@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>System info definition — DSDS 0.15.2</title>
+  <title>System info definition — DSDS 0.16.0</title>
   <meta name="description" content="The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`.">
   <link rel="canonical" href="https://designsystemdocspec.org/common-system-info">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-system-info.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="System info definition — DSDS 0.15.2">
+  <meta property="og:title" content="System info definition — DSDS 0.16.0">
   <meta property="og:description" content="The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`.">
   <meta property="og:url" content="https://designsystemdocspec.org/common-system-info">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -19,18 +19,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"System info definition — DSDS 0.15.2","description":"The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`.","url":"https://designsystemdocspec.org/common-system-info","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-system-info.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"systemInfo","url":"https://designsystemdocspec.org/common-system-info#systeminfo"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"System info definition — DSDS 0.16.0","description":"The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`.","url":"https://designsystemdocspec.org/common-system-info","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-system-info.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"systemInfo","url":"https://designsystemdocspec.org/common-system-info#systeminfo"},{"@type":"DefinedTerm","name":"platform","url":"https://designsystemdocspec.org/common-system-info#platform"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="common-system-info">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="common-system-info">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,7 +99,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -111,7 +110,7 @@
           <ds-json-view label="common/system-info.schema.json">
   <ds-code language="json" label="common/system-info.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/common/system-info.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/common/system-info.schema.json&quot;,
   &quot;title&quot;: &quot;System info definition&quot;,
   &quot;description&quot;: &quot;The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`.&quot;,
   &quot;$defs&quot;: {
@@ -142,6 +141,37 @@
         &quot;license&quot;: {
           &quot;type&quot;: &quot;string&quot;,
           &quot;description&quot;: &quot;License as an SPDX identifier (ex: 'MIT', 'Apache-2.0') or a URL to the license text.&quot;
+        },
+        &quot;hasTokenLayer&quot;: {
+          &quot;type&quot;: &quot;boolean&quot;,
+          &quot;description&quot;: &quot;Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token.&quot;
+        },
+        &quot;platforms&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/platform&quot;
+          },
+          &quot;minItems&quot;: 1
+        }
+      },
+      &quot;additionalProperties&quot;: false
+    },
+    &quot;platform&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;description&quot;: &quot;One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label.&quot;,
+      &quot;required&quot;: [
+        &quot;identifier&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;identifier&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;pattern&quot;: &quot;^[a-z][a-z0-9-]*$&quot;,
+          &quot;description&quot;: &quot;The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at.&quot;
+        },
+        &quot;name&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS').&quot;
         }
       },
       &quot;additionalProperties&quot;: false
@@ -149,6 +179,13 @@
   }
 }</ds-code>
 </ds-json-view>
+<ds-def-index title="2 definitions">
+<!--<p><strong>2 definitions</strong> in this file:</p>-->
+<ul>
+<li><a href="#systeminfo"><ds-code inline>systemInfo</ds-code></a></li>
+<li><a href="#platform"><ds-code inline>platform</ds-code></a></li>
+</ul>
+</ds-def-index>
 <ds-def-section name="systemInfo" anchor="systeminfo" description="Identity of the design system." type="object">
 <ds-prop-table>
   <ds-prop name="name" type="string" required>Human-readable name of the design system (ex: 'Acme Design System'). Not a package name — those belong in <ds-code inline>extends.system</ds-code> or platform imports.</ds-prop>
@@ -156,14 +193,39 @@
   <ds-prop name="organization" type="string">The organization that maintains the system.</ds-prop>
   <ds-prop name="url" type="string (uri)">URL to the system's documentation site.</ds-prop>
   <ds-prop name="license" type="string">License as an SPDX identifier (ex: 'MIT', 'Apache-2.0') or a URL to the license text.</ds-prop>
+  <ds-prop name="hasTokenLayer" type="boolean">Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token.</ds-prop>
+  <ds-prop name="platforms" type="&lt;ds-type-ref href=&quot;common-system-info.html#platform&quot;&gt;platform&lt;/ds-type-ref&gt;[]">The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an <ds-code inline>api</ds-code> block's <ds-code inline>platform</ds-code>, an <ds-code inline>imports</ds-code> entry's <ds-code inline>platform</ds-code>, and per-platform <ds-code inline>status</ds-code> keys SHOULD each match one of these identifiers.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-system-info.html#platform">platform</ds-type-ref></ds-cross-refs>
 <ds-def-example>
 <ds-code language="json" label="example">{
   &quot;organization&quot;: &quot;Acme Corp&quot;,
   &quot;url&quot;: &quot;https://design.acme.com&quot;,
   &quot;license&quot;: &quot;MIT&quot;,
   &quot;name&quot;: &quot;Acme Design System&quot;,
-  &quot;version&quot;: &quot;2.4.0&quot;
+  &quot;version&quot;: &quot;2.4.0&quot;,
+  &quot;platforms&quot;: [
+    {
+      &quot;identifier&quot;: &quot;react&quot;,
+      &quot;name&quot;: &quot;React&quot;
+    },
+    {
+      &quot;identifier&quot;: &quot;web-component&quot;,
+      &quot;name&quot;: &quot;Web Component&quot;
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="platform" anchor="platform" description="One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label." type="object">
+<ds-prop-table>
+  <ds-prop name="identifier" type="string" required>The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value <ds-code inline>api</ds-code>, <ds-code inline>imports</ds-code>, and per-platform <ds-code inline>status</ds-code> point at.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
+  <ds-prop name="name" type="string">Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS').</ds-prop>
+</ds-prop-table>
+<ds-def-example>
+<ds-code language="json" label="example">{
+  &quot;identifier&quot;: &quot;react&quot;,
+  &quot;name&quot;: &quot;React&quot;
 }</ds-code>
 </ds-def-example>
 </ds-def-section>

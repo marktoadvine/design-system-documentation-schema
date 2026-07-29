@@ -140,7 +140,7 @@ One state — a visual or behavioral change triggered by user interaction, a sys
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/states.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/states.schema.json",
   "title": "States document block",
   "description": "Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.",
   "$defs": {

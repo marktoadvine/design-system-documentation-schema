@@ -104,7 +104,7 @@ One step: a short label, an instruction for what to do, and optionally examples,
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/steps.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/steps.schema.json",
   "title": "Steps document block",
   "description": "The steps a reader follows to complete a task, like getting started, a tutorial, or a migration. Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.",
   "$defs": {

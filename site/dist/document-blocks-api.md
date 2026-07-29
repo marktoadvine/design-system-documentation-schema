@@ -20,7 +20,7 @@ Documents the code-level interface of a component on a single platform. Lists co
 | `cssParts` | [apiCssPart](document-blocks-api.md#apicsspart)[] | at least 1 | CSS shadow parts exposed for external styling via ::part() selectors. (Min items: 1) |
 | `dataAttributes` | [apiDataAttribute](document-blocks-api.md#apidataattribute)[] | at least 1 | Data attributes that reflect component state or config into the DOM. (Min items: 1) |
 | `methods` | [apiMethod](document-blocks-api.md#apimethod)[] | at least 1 | Public methods on the component instance. (Min items: 1) |
-| `platform` | string |  | The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When omitted, the API is taken to be the single/default platform. |
+| `platform` | string |  | The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. Only one `api` block per platform is allowed on an entity. When omitted, the API is taken to be the single/default platform. |
 | `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
 **Constraint:** At least one of `properties`, `events`, `slots`, `cssCustomProperties`, `cssParts`, `dataAttributes`, `methods` must be present.
@@ -129,7 +129,9 @@ A configurable property of a component.
 | `examples` | [example](common-example.md#example)[] |  | Example values for this property. (Min items: 1) |
 | `since` | string |  | The version in which this property was introduced. |
 | `deprecated` | boolean |  | Whether this property is deprecated. Defaults to false. (Default: `false`) |
-| `deprecationNotice` | [deprecationNotice](common-status.md#deprecationnotice) |  | Required when `deprecated` is true. MUST say what to use instead (non-empty) and SHOULD give a migration path. |
+| `deprecationNotice` | [deprecationNotice](common-status.md#deprecationnotice) |  | Required when `deprecated` is true. MUST give the migration path in prose. Name the replacement property in `replacedBy` (not here) so tools can follow it. |
+| `replacedBy` | string |  | For a deprecated property, the name of the property that replaces it (ex: 'variant'). A machine-readable pointer, so tools can link straight to the replacement instead of parsing it out of `deprecationNotice`. |
+| `removeIn` | string |  | For a deprecated property, the version it is planned to be removed in (ex: '3.0.0'). Lets tools warn how long the property will keep working. |
 
 **Conditional:** When `deprecated` is `"true"`, then `deprecationNotice` is required.
 
@@ -458,7 +460,7 @@ A public method on a component instance.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/api.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/api.schema.json",
   "title": "API document block",
   "description": "Documents the code-level interface of a component: configurable properties, emitted events, content slots, CSS custom properties, CSS shadow parts, data attributes, and public methods. When a component supports multiple platforms, each platform gets its own API block. The `platform` property says which implementation it describes.",
   "$defs": {
@@ -522,7 +524,15 @@ A public method on a component instance.
         },
         "deprecationNotice": {
           "$ref": "../common/status.schema.json#/$defs/deprecationNotice",
-          "description": "Required when `deprecated` is true. MUST say what to use instead (non-empty) and SHOULD give a migration path."
+          "description": "Required when `deprecated` is true. MUST give the migration path in prose. Name the replacement property in `replacedBy` (not here) so tools can follow it."
+        },
+        "replacedBy": {
+          "type": "string",
+          "description": "For a deprecated property, the name of the property that replaces it (ex: 'variant'). A machine-readable pointer, so tools can link straight to the replacement instead of parsing it out of `deprecationNotice`."
+        },
+        "removeIn": {
+          "type": "string",
+          "description": "For a deprecated property, the version it is planned to be removed in (ex: '3.0.0'). Lets tools warn how long the property will keep working."
         }
       },
       "if": {
@@ -728,7 +738,7 @@ A public method on a component instance.
         },
         "platform": {
           "type": "string",
-          "description": "The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When omitted, the API is taken to be the single/default platform."
+          "description": "The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. Only one `api` block per platform is allowed on an entity. When omitted, the API is taken to be the single/default platform."
         },
         "properties": {
           "type": "array",

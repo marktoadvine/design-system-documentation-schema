@@ -30,21 +30,21 @@ The component's default, baseline specs — properties, spacing, size, typograph
 {
   "kind": "design-specifications",
   "properties": {
-    "background": "button-bg",
-    "text-color": "button-text",
-    "border-color": "button-border",
+    "background": "{button-bg}",
+    "text-color": "{button-text}",
+    "border-color": "{button-border}",
     "border-width": "1px",
-    "border-radius": "button-radius",
-    "padding-horizontal": "button-padding-x",
-    "padding-vertical": "button-padding-y",
-    "font-family": "font-family-body",
+    "border-radius": "{button-radius}",
+    "padding-horizontal": "{button-padding-x}",
+    "padding-vertical": "{button-padding-y}",
+    "font-family": "{font-family-body}",
     "font-size": "14px",
     "font-weight": "500",
     "line-height": "20px",
     "icon-size": "16px",
     "icon-color": "inherit",
     "icon-gap": "8px",
-    "focus-ring-color": "color-focus",
+    "focus-ring-color": "{color-focus}",
     "focus-ring-width": "2px",
     "focus-ring-offset": "2px",
     "min-height": "40px",
@@ -53,13 +53,13 @@ The component's default, baseline specs — properties, spacing, size, typograph
   },
   "spacing": {
     "internal": {
-      "container-horizontal": "space-4",
-      "container-vertical": "space-2",
-      "icon-to-label": "space-2"
+      "container-horizontal": "{space-4}",
+      "container-vertical": "{space-2}",
+      "icon-to-label": "{space-2}"
     },
     "external": {
-      "button-to-button": "space-2",
-      "button-group-gap": "space-3"
+      "button-to-button": "{space-2}",
+      "button-group-gap": "{space-3}"
     }
   },
   "sizing": {
@@ -68,7 +68,7 @@ The component's default, baseline specs — properties, spacing, size, typograph
   },
   "typography": {
     "label": {
-      "fontFamily": "font-family-body",
+      "fontFamily": "{font-family-body}",
       "fontSize": "14px",
       "fontWeight": "500",
       "lineHeight": "20px",
@@ -94,7 +94,7 @@ The component's default, baseline specs — properties, spacing, size, typograph
 
 ## designProperties {#designproperties}
 
-A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token names ('color-action-primary') or raw CSS ('#0055b3', '16px') — use either, or mix them.
+A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them.
 
 Open map — values are `any`.
 
@@ -181,24 +181,24 @@ Typography for one text element in the component. Maps CSS typography properties
 
 ## designValue {#designvalue}
 
-A design value. If the system has tokens, this MUST be a token identifier (ex: 'color-action-primary', 'space-4'), not a raw value — that keeps it from drifting out of sync with the token system. A raw CSS value (ex: '#0055b3', '16px') is only allowed when there's no token layer.
+A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal.
 
 ## Full schema JSON
 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/design-specifications.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/design-specifications.schema.json",
   "title": "Design specifications document block",
   "description": "The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync.",
   "$defs": {
     "designValue": {
-      "description": "A design value. If the system has tokens, this MUST be a token identifier (ex: 'color-action-primary', 'space-4'), not a raw value — that keeps it from drifting out of sync with the token system. A raw CSS value (ex: '#0055b3', '16px') is only allowed when there's no token layer.",
+      "description": "A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal.",
       "type": "string"
     },
     "designProperties": {
       "type": "object",
-      "description": "A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token names ('color-action-primary') or raw CSS ('#0055b3', '16px') — use either, or mix them.",
+      "description": "A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them.",
       "additionalProperties": {
         "$ref": "#/$defs/designValue"
       },
@@ -207,22 +207,17 @@ A design value. If the system has tokens, this MUST be a token identifier (ex: '
       },
       "examples": [
         {
-          "background": "color-action-primary",
-          "text-color": "color-text-on-action",
+          "background": "{color.action.primary}",
+          "text-color": "{color.text.on-action}",
           "border-color": "transparent",
           "border-width": "0px",
-          "border-radius": "radius-medium"
+          "border-radius": "{radius.medium}"
         },
         {
           "background": "#0055b3",
           "text-color": "#ffffff",
           "border-radius": "8px",
           "min-height": "40px"
-        },
-        {
-          "background": "button-primary-bg",
-          "text-color": "button-primary-text",
-          "border-color": "button-primary-border"
         }
       ],
       "minProperties": 1

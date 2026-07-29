@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Variants document block — DSDS 0.15.2</title>
+  <title>Variants document block — DSDS 0.16.0</title>
   <meta name="description" content="Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.">
   <link rel="canonical" href="https://designsystemdocspec.org/document-blocks-variants">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="document-blocks-variants.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Variants document block — DSDS 0.15.2">
+  <meta property="og:title" content="Variants document block — DSDS 0.16.0">
   <meta property="og:description" content="Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.">
   <meta property="og:url" content="https://designsystemdocspec.org/document-blocks-variants">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -19,18 +19,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Variants document block — DSDS 0.15.2","description":"Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.","url":"https://designsystemdocspec.org/document-blocks-variants","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-variants.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"variants","url":"https://designsystemdocspec.org/document-blocks-variants#variants"},{"@type":"DefinedTerm","name":"flagVariant","url":"https://designsystemdocspec.org/document-blocks-variants#flagvariant"},{"@type":"DefinedTerm","name":"enumVariant","url":"https://designsystemdocspec.org/document-blocks-variants#enumvariant"},{"@type":"DefinedTerm","name":"variantValue","url":"https://designsystemdocspec.org/document-blocks-variants#variantvalue"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Variants document block — DSDS 0.16.0","description":"Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.","url":"https://designsystemdocspec.org/document-blocks-variants","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-variants.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"variants","url":"https://designsystemdocspec.org/document-blocks-variants#variants"},{"@type":"DefinedTerm","name":"variantExclusion","url":"https://designsystemdocspec.org/document-blocks-variants#variantexclusion"},{"@type":"DefinedTerm","name":"variantRequirement","url":"https://designsystemdocspec.org/document-blocks-variants#variantrequirement"},{"@type":"DefinedTerm","name":"flagVariant","url":"https://designsystemdocspec.org/document-blocks-variants#flagvariant"},{"@type":"DefinedTerm","name":"enumVariant","url":"https://designsystemdocspec.org/document-blocks-variants#enumvariant"},{"@type":"DefinedTerm","name":"variantSelection","url":"https://designsystemdocspec.org/document-blocks-variants#variantselection"},{"@type":"DefinedTerm","name":"variantValue","url":"https://designsystemdocspec.org/document-blocks-variants#variantvalue"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="document-blocks-variants">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="document-blocks-variants">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,7 +99,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -111,10 +110,91 @@
           <ds-json-view label="document-blocks/variants.schema.json">
   <ds-code language="json" label="document-blocks/variants.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/document-blocks/variants.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/document-blocks/variants.schema.json&quot;,
   &quot;title&quot;: &quot;Variants document block&quot;,
   &quot;description&quot;: &quot;Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.&quot;,
   &quot;$defs&quot;: {
+    &quot;variantSelection&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;description&quot;: &quot;A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`.&quot;,
+      &quot;required&quot;: [
+        &quot;variant&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;variant&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;Identifier of the flag or enum dimension this points at (ex: 'icon-only', 'emphasis'). MUST match one of this block's `items`.&quot;
+        },
+        &quot;value&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on.&quot;
+        }
+      },
+      &quot;additionalProperties&quot;: false
+    },
+    &quot;variantExclusion&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;description&quot;: &quot;A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.&quot;,
+      &quot;required&quot;: [
+        &quot;variants&quot;,
+        &quot;level&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;variants&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;Two or more selections that conflict. The rule says they must not all be active at the same time.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantSelection&quot;
+          },
+          &quot;minItems&quot;: 2
+        },
+        &quot;level&quot;: {
+          &quot;$ref&quot;: &quot;../common/criterion.schema.json#/$defs/conformanceLevel&quot;,
+          &quot;description&quot;: &quot;How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.&quot;
+        },
+        &quot;description&quot;: {
+          &quot;$ref&quot;: &quot;../common/rich-text.schema.json#/$defs/richText&quot;,
+          &quot;description&quot;: &quot;Why the combination is disallowed.&quot;
+        }
+      },
+      &quot;additionalProperties&quot;: false
+    },
+    &quot;variantRequirement&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;description&quot;: &quot;A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.&quot;,
+      &quot;required&quot;: [
+        &quot;when&quot;,
+        &quot;requires&quot;,
+        &quot;level&quot;
+      ],
+      &quot;properties&quot;: {
+        &quot;when&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;The triggering selection(s). When all of these are active, `requires` applies.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantSelection&quot;
+          },
+          &quot;minItems&quot;: 1
+        },
+        &quot;requires&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;The selection(s) that must also be active whenever `when` holds.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantSelection&quot;
+          },
+          &quot;minItems&quot;: 1
+        },
+        &quot;level&quot;: {
+          &quot;$ref&quot;: &quot;../common/criterion.schema.json#/$defs/conformanceLevel&quot;,
+          &quot;description&quot;: &quot;How hard the requirement is: 'must' (required) or 'should' (recommended). Use the positive levels here.&quot;
+        },
+        &quot;description&quot;: {
+          &quot;$ref&quot;: &quot;../common/rich-text.schema.json#/$defs/richText&quot;,
+          &quot;description&quot;: &quot;Why the requirement exists.&quot;
+        }
+      },
+      &quot;additionalProperties&quot;: false
+    },
     &quot;variantValue&quot;: {
       &quot;type&quot;: &quot;object&quot;,
       &quot;description&quot;: &quot;A single option within an enum variant dimension.&quot;,
@@ -250,6 +330,22 @@
           &quot;const&quot;: &quot;variants&quot;,
           &quot;description&quot;: &quot;Identifies this block as a variants spec.&quot;
         },
+        &quot;exclusions&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;Combinations that must not be used together (ex: 'icon-only' + 'full-width'). Each entry lists the conflicting selections and how hard the ban is.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantExclusion&quot;
+          },
+          &quot;minItems&quot;: 1
+        },
+        &quot;requirements&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;Combinations that must hold (ex: a 'danger' button must show an icon). Each entry says which selection triggers the requirement and what it then requires.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantRequirement&quot;
+          },
+          &quot;minItems&quot;: 1
+        },
         &quot;items&quot;: {
           &quot;type&quot;: &quot;array&quot;,
           &quot;description&quot;: &quot;The variant dimensions, in order. Tools SHOULD keep this order.&quot;,
@@ -311,12 +407,15 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-index title="4 definitions">
-<!--<p><strong>4 definitions</strong> in this file:</p>-->
+<ds-def-index title="7 definitions">
+<!--<p><strong>7 definitions</strong> in this file:</p>-->
 <ul>
 <li><a href="#variants"><ds-code inline>variants</ds-code></a></li>
+<li><a href="#variantexclusion"><ds-code inline>variantExclusion</ds-code></a></li>
+<li><a href="#variantrequirement"><ds-code inline>variantRequirement</ds-code></a></li>
 <li><a href="#flagvariant"><ds-code inline>flagVariant</ds-code></a></li>
 <li><a href="#enumvariant"><ds-code inline>enumVariant</ds-code></a></li>
+<li><a href="#variantselection"><ds-code inline>variantSelection</ds-code></a></li>
 <li><a href="#variantvalue"><ds-code inline>variantValue</ds-code></a></li>
 </ul>
 </ds-def-index>
@@ -324,9 +423,11 @@
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;variants&quot;&lt;/ds-code&gt;" required>Identifies this block as a variants spec.</ds-prop>
   <ds-prop name="items" type="object {kind}[]" required>The variant dimensions, in order. Tools SHOULD keep this order.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="exclusions" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantexclusion&quot;&gt;variantExclusion&lt;/ds-type-ref&gt;[]">Combinations that must not be used together (ex: 'icon-only' + 'full-width'). Each entry lists the conflicting selections and how hard the ban is.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="requirements" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantrequirement&quot;&gt;variantRequirement&lt;/ds-type-ref&gt;[]">Combinations that must hold (ex: a 'danger' button must show an icon). Each entry says which selection triggers the requirement and what it then requires.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;extensions&lt;/ds-type-ref&gt;">All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.</ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-variants.html#flagvariant">flagVariant</ds-type-ref>, <ds-type-ref href="document-blocks-variants.html#enumvariant">enumVariant</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">extensions</ds-type-ref></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-variants.html#variantexclusion">variantExclusion</ds-type-ref>, <ds-type-ref href="document-blocks-variants.html#variantrequirement">variantRequirement</ds-type-ref>, <ds-type-ref href="document-blocks-variants.html#flagvariant">flagVariant</ds-type-ref>, <ds-type-ref href="document-blocks-variants.html#enumvariant">enumVariant</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">extensions</ds-type-ref></ds-cross-refs>
 <ds-def-example>
 <ds-code language="json" label="example">{
   &quot;kind&quot;: &quot;variants&quot;,
@@ -389,8 +490,93 @@
       &quot;identifier&quot;: &quot;icon-only&quot;,
       &quot;name&quot;: &quot;Icon Only&quot;,
       &quot;description&quot;: &quot;The button renders a single icon with no visible label. An aria-label is required.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;flag&quot;,
+      &quot;identifier&quot;: &quot;with-icon&quot;,
+      &quot;name&quot;: &quot;With Icon&quot;,
+      &quot;description&quot;: &quot;The button shows a leading icon alongside its label.&quot;
+    }
+  ],
+  &quot;exclusions&quot;: [
+    {
+      &quot;variants&quot;: [
+        {
+          &quot;variant&quot;: &quot;icon-only&quot;
+        },
+        {
+          &quot;variant&quot;: &quot;full-width&quot;
+        }
+      ],
+      &quot;level&quot;: &quot;must-not&quot;,
+      &quot;description&quot;: &quot;An icon-only button is sized to its icon; stretching it full-width contradicts that.&quot;
+    }
+  ],
+  &quot;requirements&quot;: [
+    {
+      &quot;when&quot;: [
+        {
+          &quot;variant&quot;: &quot;emphasis&quot;,
+          &quot;value&quot;: &quot;danger&quot;
+        }
+      ],
+      &quot;requires&quot;: [
+        {
+          &quot;variant&quot;: &quot;with-icon&quot;
+        }
+      ],
+      &quot;level&quot;: &quot;must&quot;,
+      &quot;description&quot;: &quot;A danger button must show an icon so its destructive intent is not carried by color alone.&quot;
     }
   ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="variantExclusion" anchor="variantexclusion" description="A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is." type="object">
+<ds-prop-table>
+  <ds-prop name="variants" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>Two or more selections that conflict. The rule says they must not all be active at the same time.<br><small>Min items: 2</small></ds-prop>
+  <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.</ds-prop>
+  <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why the combination is disallowed.</ds-prop>
+</ds-prop-table>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-variants.html#variantselection">variantSelection</ds-type-ref>, <ds-type-ref href="common-criterion.html#conformancelevel">conformanceLevel</ds-type-ref>, <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref></ds-cross-refs>
+<ds-def-example>
+<ds-code language="json" label="example">{
+  &quot;variants&quot;: [
+    {
+      &quot;variant&quot;: &quot;icon-only&quot;
+    },
+    {
+      &quot;variant&quot;: &quot;full-width&quot;
+    }
+  ],
+  &quot;level&quot;: &quot;must-not&quot;,
+  &quot;description&quot;: &quot;An icon-only button is sized to its icon; stretching it full-width contradicts that.&quot;
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="variantRequirement" anchor="variantrequirement" description="A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion." type="object">
+<ds-prop-table>
+  <ds-prop name="when" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The triggering selection(s). When all of these are active, <ds-code inline>requires</ds-code> applies.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="requires" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The selection(s) that must also be active whenever <ds-code inline>when</ds-code> holds.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How hard the requirement is: 'must' (required) or 'should' (recommended). Use the positive levels here.</ds-prop>
+  <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why the requirement exists.</ds-prop>
+</ds-prop-table>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-variants.html#variantselection">variantSelection</ds-type-ref>, <ds-type-ref href="common-criterion.html#conformancelevel">conformanceLevel</ds-type-ref>, <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref></ds-cross-refs>
+<ds-def-example>
+<ds-code language="json" label="example">{
+  &quot;when&quot;: [
+    {
+      &quot;variant&quot;: &quot;emphasis&quot;,
+      &quot;value&quot;: &quot;danger&quot;
+    }
+  ],
+  &quot;requires&quot;: [
+    {
+      &quot;variant&quot;: &quot;with-icon&quot;
+    }
+  ],
+  &quot;level&quot;: &quot;must&quot;,
+  &quot;description&quot;: &quot;A danger button must show an icon so its destructive intent is not carried by color alone.&quot;
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
@@ -479,6 +665,18 @@
     ]
   }
 ]</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="variantSelection" anchor="variantselection" description="A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`." type="object">
+<ds-prop-table>
+  <ds-prop name="variant" type="string" required>Identifier of the flag or enum dimension this points at (ex: 'icon-only', 'emphasis'). MUST match one of this block's <ds-code inline>items</ds-code>.</ds-prop>
+  <ds-prop name="value" type="string">For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on.</ds-prop>
+</ds-prop-table>
+<ds-def-example>
+<ds-code language="json" label="example">{
+  &quot;variant&quot;: &quot;emphasis&quot;,
+  &quot;value&quot;: &quot;danger&quot;
+}</ds-code>
 </ds-def-example>
 </ds-def-section>
 <ds-def-section name="variantValue" anchor="variantvalue" description="A single option within an enum variant dimension." type="object">

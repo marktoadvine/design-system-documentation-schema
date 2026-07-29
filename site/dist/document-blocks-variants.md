@@ -4,7 +4,7 @@ Every way a component can be configured — a toggle (flag variant, like 'disabl
 
 Source: `document-blocks/variants.schema.json`
 
-**4 definitions** in this file: `variants`, `flagVariant`, `enumVariant`, `variantValue`
+**7 definitions** in this file: `variants`, `variantExclusion`, `variantRequirement`, `flagVariant`, `enumVariant`, `variantSelection`, `variantValue`
 
 ## variants {#variants}
 
@@ -14,9 +14,11 @@ Every way a component or pattern can be configured — a toggle or a set of opti
 | --- | --- | --- | --- |
 | `kind` | `"variants"` | ✓ | Identifies this block as a variants spec. |
 | `items` | object {kind}[] | ✓ | The variant dimensions, in order. Tools SHOULD keep this order. (Min items: 1) |
+| `exclusions` | [variantExclusion](document-blocks-variants.md#variantexclusion)[] |  | Combinations that must not be used together (ex: 'icon-only' + 'full-width'). Each entry lists the conflicting selections and how hard the ban is. (Min items: 1) |
+| `requirements` | [variantRequirement](document-blocks-variants.md#variantrequirement)[] |  | Combinations that must hold (ex: a 'danger' button must show an icon). Each entry says which selection triggers the requirement and what it then requires. (Min items: 1) |
 | `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
-**References:** [flagVariant](document-blocks-variants.md#flagvariant), [enumVariant](document-blocks-variants.md#enumvariant), [extensions](common-extensions.md#extensions)
+**References:** [variantExclusion](document-blocks-variants.md#variantexclusion), [variantRequirement](document-blocks-variants.md#variantrequirement), [flagVariant](document-blocks-variants.md#flagvariant), [enumVariant](document-blocks-variants.md#enumvariant), [extensions](common-extensions.md#extensions)
 
 **Example:**
 
@@ -82,8 +84,107 @@ Every way a component or pattern can be configured — a toggle or a set of opti
       "identifier": "icon-only",
       "name": "Icon Only",
       "description": "The button renders a single icon with no visible label. An aria-label is required."
+    },
+    {
+      "kind": "flag",
+      "identifier": "with-icon",
+      "name": "With Icon",
+      "description": "The button shows a leading icon alongside its label."
+    }
+  ],
+  "exclusions": [
+    {
+      "variants": [
+        {
+          "variant": "icon-only"
+        },
+        {
+          "variant": "full-width"
+        }
+      ],
+      "level": "must-not",
+      "description": "An icon-only button is sized to its icon; stretching it full-width contradicts that."
+    }
+  ],
+  "requirements": [
+    {
+      "when": [
+        {
+          "variant": "emphasis",
+          "value": "danger"
+        }
+      ],
+      "requires": [
+        {
+          "variant": "with-icon"
+        }
+      ],
+      "level": "must",
+      "description": "A danger button must show an icon so its destructive intent is not carried by color alone."
     }
   ]
+}
+```
+
+## variantExclusion {#variantexclusion}
+
+A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `variants` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | Two or more selections that conflict. The rule says they must not all be active at the same time. (Min items: 2) |
+| `level` | [conformanceLevel](common-criterion.md#conformancelevel) | ✓ | How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here. |
+| `description` | [richText](common-rich-text.md#richtext) |  | Why the combination is disallowed. |
+
+**References:** [variantSelection](document-blocks-variants.md#variantselection), [conformanceLevel](common-criterion.md#conformancelevel), [richText](common-rich-text.md#richtext)
+
+**Example:**
+
+```json
+{
+  "variants": [
+    {
+      "variant": "icon-only"
+    },
+    {
+      "variant": "full-width"
+    }
+  ],
+  "level": "must-not",
+  "description": "An icon-only button is sized to its icon; stretching it full-width contradicts that."
+}
+```
+
+## variantRequirement {#variantrequirement}
+
+A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `when` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | The triggering selection(s). When all of these are active, `requires` applies. (Min items: 1) |
+| `requires` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | The selection(s) that must also be active whenever `when` holds. (Min items: 1) |
+| `level` | [conformanceLevel](common-criterion.md#conformancelevel) | ✓ | How hard the requirement is: 'must' (required) or 'should' (recommended). Use the positive levels here. |
+| `description` | [richText](common-rich-text.md#richtext) |  | Why the requirement exists. |
+
+**References:** [variantSelection](document-blocks-variants.md#variantselection), [conformanceLevel](common-criterion.md#conformancelevel), [richText](common-rich-text.md#richtext)
+
+**Example:**
+
+```json
+{
+  "when": [
+    {
+      "variant": "emphasis",
+      "value": "danger"
+    }
+  ],
+  "requires": [
+    {
+      "variant": "with-icon"
+    }
+  ],
+  "level": "must",
+  "description": "A danger button must show an icon so its destructive intent is not carried by color alone."
 }
 ```
 
@@ -188,6 +289,24 @@ A set of options where you pick one, like 'size' (sm | md | lg) or 'emphasis' (p
 ]
 ```
 
+## variantSelection {#variantselection}
+
+A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `variant` | string | ✓ | Identifier of the flag or enum dimension this points at (ex: 'icon-only', 'emphasis'). MUST match one of this block's `items`. |
+| `value` | string |  | For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on. |
+
+**Example:**
+
+```json
+{
+  "variant": "emphasis",
+  "value": "danger"
+}
+```
+
 ## variantValue {#variantvalue}
 
 A single option within an enum variant dimension.
@@ -237,10 +356,91 @@ A single option within an enum variant dimension.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/variants.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/variants.schema.json",
   "title": "Variants document block",
   "description": "Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.",
   "$defs": {
+    "variantSelection": {
+      "type": "object",
+      "description": "A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`.",
+      "required": [
+        "variant"
+      ],
+      "properties": {
+        "variant": {
+          "type": "string",
+          "description": "Identifier of the flag or enum dimension this points at (ex: 'icon-only', 'emphasis'). MUST match one of this block's `items`."
+        },
+        "value": {
+          "type": "string",
+          "description": "For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on."
+        }
+      },
+      "additionalProperties": false
+    },
+    "variantExclusion": {
+      "type": "object",
+      "description": "A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.",
+      "required": [
+        "variants",
+        "level"
+      ],
+      "properties": {
+        "variants": {
+          "type": "array",
+          "description": "Two or more selections that conflict. The rule says they must not all be active at the same time.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 2
+        },
+        "level": {
+          "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
+          "description": "How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
+        },
+        "description": {
+          "$ref": "../common/rich-text.schema.json#/$defs/richText",
+          "description": "Why the combination is disallowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "variantRequirement": {
+      "type": "object",
+      "description": "A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.",
+      "required": [
+        "when",
+        "requires",
+        "level"
+      ],
+      "properties": {
+        "when": {
+          "type": "array",
+          "description": "The triggering selection(s). When all of these are active, `requires` applies.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 1
+        },
+        "requires": {
+          "type": "array",
+          "description": "The selection(s) that must also be active whenever `when` holds.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 1
+        },
+        "level": {
+          "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
+          "description": "How hard the requirement is: 'must' (required) or 'should' (recommended). Use the positive levels here."
+        },
+        "description": {
+          "$ref": "../common/rich-text.schema.json#/$defs/richText",
+          "description": "Why the requirement exists."
+        }
+      },
+      "additionalProperties": false
+    },
     "variantValue": {
       "type": "object",
       "description": "A single option within an enum variant dimension.",
@@ -375,6 +575,22 @@ A single option within an enum variant dimension.
           "type": "string",
           "const": "variants",
           "description": "Identifies this block as a variants spec."
+        },
+        "exclusions": {
+          "type": "array",
+          "description": "Combinations that must not be used together (ex: 'icon-only' + 'full-width'). Each entry lists the conflicting selections and how hard the ban is.",
+          "items": {
+            "$ref": "#/$defs/variantExclusion"
+          },
+          "minItems": 1
+        },
+        "requirements": {
+          "type": "array",
+          "description": "Combinations that must hold (ex: a 'danger' button must show an icon). Each entry says which selection triggers the requirement and what it then requires.",
+          "items": {
+            "$ref": "#/$defs/variantRequirement"
+          },
+          "minItems": 1
         },
         "items": {
           "type": "array",

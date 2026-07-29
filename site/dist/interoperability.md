@@ -1,4 +1,4 @@
-# Interoperability — DSDS 0.15.2
+# Interoperability — DSDS 0.16.0
 
 No open standard covers the whole of design-system documentation — components, tokens, and guidelines together. The standards that do exist each cover one layer well. The [W3C Design Tokens format](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) (DTCG) trades token **values**. [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM) describes component **code APIs**. DSDS sits in the layer above both: it documents meaning, usage, and intent, and **points at** the other formats instead of duplicating what they already own. This page spells out each relationship.
 
@@ -9,7 +9,7 @@ No open standard covers the whole of design-system documentation — components,
 | Token values and platform mappings | DTCG token files | `token`/`tokenGroup`/`theme` `source` (`file` + `path`) |
 | Component code API facts | CEM manifest (web components) or framework typings | `api` block, generatable from the manifest; `links` kind `manifest` |
 | Live component demos | Storybook or equivalent | `preview` metadata, `presentationUrl`, `links` kind `storybook` |
-| Design artifacts | Design tool files | `links` kind `design`, `thumbnail` |
+| Design artifacts | Design tool files | `links` kind `design`, `preview` metadata |
 | Source code | The repository | `links` kinds `source` / `repository`, chunk `code.src` |
 
 DSDS owns what none of those formats carry:
@@ -58,8 +58,8 @@ The DSDS document owns the meaning, and points at it via `source` — no value i
 {/* dsds:include spec/examples/interop/color-action-primary.dsds.json */}
 ```json
 {
-  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
-  "dsdsVersion": "0.15.2",
+  "$schema": "https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json",
+  "dsdsVersion": "0.16.0",
   "entity": {
     "kind": "token",
     "identifier": "color-action-primary",
@@ -183,8 +183,8 @@ Run through the mapping table above, it becomes this valid DSDS component docume
 {/* dsds:include spec/examples/interop/my-element.dsds.json */}
 ```json
 {
-  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
-  "dsdsVersion": "0.15.2",
+  "$schema": "https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json",
+  "dsdsVersion": "0.16.0",
   "entity": {
     "kind": "component",
     "identifier": "my-element",

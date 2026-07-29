@@ -48,7 +48,7 @@ One platform's import instructions. Includes the platform, and the code to impor
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `code` | string | ✓ | The import code. SHOULD be copy-paste ready. Use newlines for multi-line snippets. |
-| `platform` | string |  | The platform this applies to (ex: 'react', 'vue', 'ios'). Use the same identifiers as the `api` block. When left out, it's assumed to be the only/default platform. |
+| `platform` | string |  | The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform. |
 | `package` | string |  | The package to install (ex: '@acme/ui'), exactly as it appears in the package manager. |
 | `language` | string |  | The language or format of the code (ex: 'tsx', 'js', 'vue', 'swift', 'kotlin'). Omit when obvious from the platform. |
 | `description` | [richText](common-rich-text.md#richtext) |  | Extra context to describe when to use this path over another, version requirements, or setup steps. |
@@ -89,7 +89,7 @@ One platform's import instructions. Includes the platform, and the code to impor
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/imports.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/imports.schema.json",
   "title": "Imports document block",
   "description": "How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.",
   "$defs": {
@@ -102,7 +102,7 @@ One platform's import instructions. Includes the platform, and the code to impor
       "properties": {
         "platform": {
           "type": "string",
-          "description": "The platform this applies to (ex: 'react', 'vue', 'ios'). Use the same identifiers as the `api` block. When left out, it's assumed to be the only/default platform."
+          "description": "The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
         },
         "package": {
           "type": "string",

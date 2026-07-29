@@ -12,7 +12,7 @@ A testable success criterion: an objectively verifiable condition an implementat
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `identifier` | string | ✓ | Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `statement` | [richText](common-rich-text.md#richtext) | ✓ | The testable statement of what success looks like. MUST be objectively verifiable by inspection, static analysis, or runtime measurement. Statements should be concrete and measurable (ex: 'Interactive elements present a hit area of at least 44×44 px'). |
 | `title` | string |  | A short display name for the criterion (ex: 'Touch Target Minimum'). Tools SHOULD render it in docs and test reports beside the identifier. |
 | `techniques` | [richText](common-rich-text.md#richtext)[] |  | Sufficient ways to satisfy this criterion — the passing patterns (ex: 'Apply `min-height: 44px` to every interactive element', 'Use the `<Button>` component without overriding its default height'). (Min items: 1) |
@@ -23,7 +23,7 @@ A testable success criterion: an objectively verifiable condition an implementat
 | `level` | [conformanceLevel](common-criterion.md#conformancelevel) |  | The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own. |
 | `verification` | [verificationMode](common-criterion.md#verificationmode) |  | How a result for this criterion is determined. 'automated': a fully objective test checked programmatically; a `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision; `check` diagnostics are advisory. 'manual': pure subjective judgment; no `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: a design review) belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable. |
 | `check` | [criterionCheck](common-criterion.md#criterioncheck) |  | Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification. |
-| `since` | string |  | The design system version in which this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers are stable: once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. |
+| `since` | string |  | The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). |
 
 **References:** [richText](common-rich-text.md#richtext), [reference](common-criterion.md#reference), [criterionTestCase](common-criterion.md#criteriontestcase), [conformanceLevel](common-criterion.md#conformancelevel), [verificationMode](common-criterion.md#verificationmode), [criterionCheck](common-criterion.md#criterioncheck)
 
@@ -257,7 +257,7 @@ A citation of an external standard or requirement. This is a published rule the 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/criterion.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/criterion.schema.json",
   "title": "Criterion definitions",
   "description": "Definitions for testable success criteria, conformance, and external standard references. Criteria are the test-definition layer of DSDS documentation: each has a unique identifier with an objectively verifiable statement, an optional conformance `level`, a `verification` mode (automated, assisted, or manual), and an optional machine-dispatchable `check`. Test cases with declared outcomes make criteria self-verifying. Used by guideline entries and accessibility document blocks. Observed results belong in a guideline entry's `evidence`.",
   "$defs": {
@@ -382,7 +382,7 @@ A citation of an external standard or requirement. This is a published rule the 
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it."
+          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead."
         },
         "title": {
           "type": "string",
@@ -443,7 +443,7 @@ A citation of an external standard or requirement. This is a published rule the 
         },
         "since": {
           "type": "string",
-          "description": "The design system version in which this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers are stable: once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead."
+          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0')."
         }
       },
       "additionalProperties": false,

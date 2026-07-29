@@ -59,7 +59,7 @@ A non-empty notice for a deprecated artifact. MUST say what to use instead and, 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/status.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/status.schema.json",
   "title": "Status definition",
   "description": "Shared status vocabulary. `statusValue` is the lifecycle string (draft, experimental, stable, deprecated, or custom). `platformStatus` captures one platform's readiness, and requires a `deprecationNotice` when that platform is deprecated.",
   "$defs": {

@@ -6,7 +6,7 @@ Source: `common/token-overrides.schema.json`
 
 ## tokenOverrides {#tokenoverrides}
 
-Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are token `identifier` (ex: 'color-action-primary', 'radius-md'). When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.
+Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are a token `identifier` (ex: 'color-action-primary', 'radius-md'). Every value here is a token reference, so it's written as a plain identifier — no braces. (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.
 
 Open map — values are `any`.
 
@@ -28,14 +28,14 @@ Open map — values are `any`.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/token-overrides.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/token-overrides.schema.json",
   "title": "Token overrides definition",
   "description": "Shared token-override map used by anatomy parts, variant values, and states. Keys name the visual attribute; values reference the token used. Token references MUST name a documented token, never a raw value.",
   "$defs": {
     "tokenOverrides": {
       "type": "object",
       "minProperties": 1,
-      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are token `identifier` (ex: 'color-action-primary', 'radius-md'). When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
+      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are a token `identifier` (ex: 'color-action-primary', 'radius-md'). Every value here is a token reference, so it's written as a plain identifier — no braces. (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
       "propertyNames": {
         "pattern": "^[a-z][a-z0-9-]*$"
       },

@@ -1,12 +1,12 @@
 # Preview metadata field
 
-A visual or interactive preview.
+A visual or interactive preview of the entity.
 
 Source: `metadata/preview.schema.json`
 
 ## preview {#preview}
 
-A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type.
+A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object; its `kind` tag selects the media type. This is the single media surface for an entity — how big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.
 
 One of:
 
@@ -38,12 +38,12 @@ One of:
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/preview.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/preview.schema.json",
   "title": "Preview metadata field",
-  "description": "A visual or interactive preview.",
+  "description": "A visual or interactive preview of the entity.",
   "$defs": {
     "preview": {
-      "description": "A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type.",
+      "description": "A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object; its `kind` tag selects the media type. This is the single media surface for an entity — how big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.",
       "oneOf": [
         {
           "$ref": "../common/presentation.schema.json#/$defs/presentationImage"

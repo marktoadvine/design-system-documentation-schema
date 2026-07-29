@@ -1,0 +1,32 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entity": {
+    "kind": "component",
+    "identifier": "button",
+    "name": "Button",
+    "documentBlocks": [
+      {
+        "kind": "api",
+        "platform": "react",
+        "properties": [
+          {
+            "identifier": "variant",
+            "type": "string",
+            "description": "The visual style of the button."
+          }
+        ]
+      },
+      {
+        "kind": "api",
+        "platform": "react",
+        "properties": [
+          {
+            "identifier": "size",
+            "type": "string",
+            "description": "The size of the button."
+          }
+        ]
+      }
+    ]
+  }
+}

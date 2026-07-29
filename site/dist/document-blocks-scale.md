@@ -120,7 +120,7 @@ One step in the scale — a `token` (if it's token-backed), a literal `value` (i
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/scale.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/scale.schema.json",
   "title": "Scale document block",
   "description": "An ordered progression of values — a type scale, spacing scale, elevation scale, or similar. Each step links to a token, with an optional name, display value, and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.",
   "$defs": {

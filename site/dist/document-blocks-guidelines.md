@@ -62,16 +62,18 @@ Usage rules for an artifact — each a do/don't statement with a reason. Answers
 
 ## guidelineEntry {#guidelineentry}
 
-One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.
+One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `guidance` | [richText](common-rich-text.md#richtext) | ✓ | The rule itself. MUST be concrete and clear — not 'use sparingly' or 'when possible'. |
 | `level` | [conformanceLevel](common-criterion.md#conformancelevel) | ✓ | How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code. |
+| `identifier` | string |  | Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `rationale` | [richText](common-rich-text.md#richtext) |  | Why the rule exists — cite evidence, accessibility standards, or research when you have it. MUST NOT just repeat the guidance. |
-| `evidence` | string |  | Data backing this rule — test results, audit findings, or cited sources (ex: '9/10 agent test runs failed touch-target minimums below 36px'). Kept separate from `rationale` so tools can tell tested rules from conventional guidance. |
+| `evidence` | string \| object |  | Data backing this rule — test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered. |
 | `category` | string |  | Groups the rule by discipline: 'visual-design', 'interaction', 'accessibility', 'content', 'motion', or 'development'. Custom values allowed, in lowercase kebab-case. |
 | `target` | string |  | The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact. |
+| `refines` | string |  | The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule — for example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `criteria` | [criterion](common-criterion.md#criterion)[] |  | Tests that prove this rule is met. Only add these when success can be objectively verified. Test results belong in `evidence`, not here. (Min items: 1) |
 | `references` | [reference](common-criterion.md#reference)[] |  | Outside standards this rule follows (ex: WCAG, MDN, platform guidelines) — a URL and an optional label. (Min items: 1) |
 | `examples` | [example](common-example.md#example)[] |  | Examples showing encouraged and discouraged approaches. (Min items: 1) |
@@ -185,18 +187,23 @@ One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/guidelines.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/guidelines.schema.json",
   "title": "Guidelines document block",
   "description": "Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.",
   "$defs": {
     "guidelineEntry": {
       "type": "object",
-      "description": "One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
+      "description": "One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
       "required": [
         "guidance",
         "level"
       ],
       "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead."
+        },
         "guidance": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
           "description": "The rule itself. MUST be concrete and clear — not 'use sparingly' or 'when possible'."
@@ -210,8 +217,46 @@ One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict 
           "description": "How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code."
         },
         "evidence": {
-          "type": "string",
-          "description": "Data backing this rule — test results, audit findings, or cited sources (ex: '9/10 agent test runs failed touch-target minimums below 36px'). Kept separate from `rationale` so tools can tell tested rules from conventional guidance."
+          "description": "Data backing this rule — test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.",
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "A short prose note (ex: '9/10 agent test runs failed touch-target minimums below 36px')."
+            },
+            {
+              "type": "object",
+              "description": "Structured backing. `result` is the finding and `date` is when it was gathered — both required so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.",
+              "required": [
+                "result",
+                "date"
+              ],
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "description": "What was found (ex: '9 of 10 runs failed the touch-target minimum')."
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "When the evidence was gathered, as YYYY-MM-DD. Lets tools flag a rule resting on stale data."
+                },
+                "method": {
+                  "type": "string",
+                  "description": "How the evidence was gathered (ex: 'agent test harness', 'manual audit', 'usability study')."
+                },
+                "sampleSize": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "How many runs, participants, or cases the finding is based on."
+                },
+                "source": {
+                  "type": "string",
+                  "description": "Where to find the full evidence — a URL, issue reference, or report name."
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
         },
         "category": {
           "type": "string",
@@ -220,6 +265,11 @@ One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict 
         "target": {
           "type": "string",
           "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact."
+        },
+        "refines": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule — for example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
         },
         "criteria": {
           "type": "array",

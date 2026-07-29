@@ -11,7 +11,7 @@ A ready-to-use block of code — a layout, a settings form, a confirmation dialo
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"chunk"` | ✓ | Identifies this entity as a chunk. |
-| `identifier` | string | ✓ | Machine-readable identifier for the chunk (ex: 'search-bar', 'settings-form', 'confirmation-dialog'). MUST be lowercase kebab-case and unique within its entity group. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Machine-readable identifier for the chunk (ex: 'search-bar', 'settings-form', 'confirmation-dialog'). MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `name` | string | ✓ | Display name shown in docs (ex: 'Search bar', 'Settings form', 'Confirmation dialog'). |
 | `code` | object {code, language} \| object {src, language} | ✓ | The code consumers copy to use the chunk. Give it one of two ways: inline (`code` + `language`) when it travels with the document, or referenced (`src` + `language`) when it lives in an outside file. Referenced code keeps long sources readable and lets a chunk share one file with a live app. `src` is resolved when read — there's no build step. |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this chunk is, the pattern it captures, and which components it composes. CommonMark supported. |
@@ -134,7 +134,7 @@ A ready-to-use block of code — a layout, a settings form, a confirmation dialo
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/chunk.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/chunk.schema.json",
   "title": "Chunk definitions",
   "description": "A chunk is a ready-to-use block of code — a copy-paste starting point built from the system's components, like a layout or a settings form. A chunk document holds its identity, the code itself, and general docs (guidelines, use-cases, accessibility, and so on). Chunks sit alongside components: a component documents one building block, a chunk documents a composition of them, captured as code.",
   "$defs": {
@@ -156,7 +156,7 @@ A ready-to-use block of code — a layout, a settings form, a confirmation dialo
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the chunk (ex: 'search-bar', 'settings-form', 'confirmation-dialog'). MUST be lowercase kebab-case and unique within its entity group."
+          "description": "Machine-readable identifier for the chunk (ex: 'search-bar', 'settings-form', 'confirmation-dialog'). MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

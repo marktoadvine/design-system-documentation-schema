@@ -3,34 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Preview metadata field — DSDS 0.15.2</title>
-  <meta name="description" content="A visual or interactive preview.">
+  <title>Preview metadata field — DSDS 0.16.0</title>
+  <meta name="description" content="A visual or interactive preview of the entity.">
   <link rel="canonical" href="https://designsystemdocspec.org/metadata-preview">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="metadata-preview.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Preview metadata field — DSDS 0.15.2">
-  <meta property="og:description" content="A visual or interactive preview.">
+  <meta property="og:title" content="Preview metadata field — DSDS 0.16.0">
+  <meta property="og:description" content="A visual or interactive preview of the entity.">
   <meta property="og:url" content="https://designsystemdocspec.org/metadata-preview">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Preview metadata field — DSDS 0.15.2","description":"A visual or interactive preview.","url":"https://designsystemdocspec.org/metadata-preview","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-preview.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"preview","url":"https://designsystemdocspec.org/metadata-preview#preview"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Preview metadata field — DSDS 0.16.0","description":"A visual or interactive preview of the entity.","url":"https://designsystemdocspec.org/metadata-preview","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-preview.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"preview","url":"https://designsystemdocspec.org/metadata-preview#preview"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="metadata-preview">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="metadata-preview">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,24 +99,23 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Preview metadata field" description="A visual or interactive preview." source="metadata/preview.schema.json"></ds-header>
+    <ds-header title="Preview metadata field" description="A visual or interactive preview of the entity." source="metadata/preview.schema.json"></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
           <ds-json-view label="metadata/preview.schema.json">
   <ds-code language="json" label="metadata/preview.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/metadata/preview.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/metadata/preview.schema.json&quot;,
   &quot;title&quot;: &quot;Preview metadata field&quot;,
-  &quot;description&quot;: &quot;A visual or interactive preview.&quot;,
+  &quot;description&quot;: &quot;A visual or interactive preview of the entity.&quot;,
   &quot;$defs&quot;: {
     &quot;preview&quot;: {
-      &quot;description&quot;: &quot;A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type.&quot;,
+      &quot;description&quot;: &quot;A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object; its `kind` tag selects the media type. This is the single media surface for an entity — how big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.&quot;,
       &quot;oneOf&quot;: [
         {
           &quot;$ref&quot;: &quot;../common/presentation.schema.json#/$defs/presentationImage&quot;
@@ -135,7 +134,7 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-section name="preview" anchor="preview" description="A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type.">
+<ds-def-section name="preview" anchor="preview" description="A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object; its `kind` tag selects the media type. This is the single media surface for an entity — how big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.">
 <p><strong>Accepts one of:</strong></p>
 <ul>
 <li><a href="common-presentation.html#presentationimage">presentationImage</a></li>

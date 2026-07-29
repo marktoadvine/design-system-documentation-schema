@@ -25,7 +25,7 @@ Alternative names for this entity across teams, tools, or legacy systems. Used t
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/aliases.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/aliases.schema.json",
   "title": "Aliases metadata field",
   "description": "Alternative names for entities to support search, migration, and cross-referencing.",
   "$defs": {

@@ -44,7 +44,7 @@ What the referenced entity does here (ex: 'Displays the inline error'). The asso
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/entity-ref.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/entity-ref.schema.json",
   "title": "Entity reference definitions",
   "description": "References to other entities. `entityRef` is the standalone reference object; the `entityIdentifier` and `entityRole` defs are shared by `relationship`, use-case alternatives, and token overrides. Every identifier MUST match a documented entity. (Links, by contrast, address external resources by URL.)",
   "$defs": {

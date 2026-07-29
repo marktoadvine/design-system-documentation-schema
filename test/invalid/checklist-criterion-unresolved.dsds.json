@@ -1,0 +1,37 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entity": {
+    "kind": "component",
+    "identifier": "button",
+    "name": "Button",
+    "documentBlocks": [
+      {
+        "kind": "guidelines",
+        "items": [
+          {
+            "guidance": "Give every icon-only button an accessible name.",
+            "rationale": "Screen readers announce nothing for an unlabeled icon.",
+            "level": "must",
+            "criteria": [
+              {
+                "identifier": "icon-button-accessible-name",
+                "statement": "Every icon-only button exposes an accessible name."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "checklist",
+        "title": "Accessibility review",
+        "items": [
+          {
+            "label": "Confirm the touch target is at least 44x44 px.",
+            "level": "should",
+            "criterion": "touch-target-minimum"
+          }
+        ]
+      }
+    ]
+  }
+}

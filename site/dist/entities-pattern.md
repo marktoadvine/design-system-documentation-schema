@@ -11,7 +11,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"pattern"` | ✓ | Identifies this entity as a pattern. |
-| `identifier` | string | ✓ | Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique within its entity group. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique across the whole document, because references resolve to it document-wide. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `name` | string | ✓ | Display name shown in docs (ex: 'Error Messaging', 'Navigation', 'Empty State'). |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this pattern is, the UX problem it solves, and how its components compose to meet a user need. CommonMark supported. |
 | `metadata` | [entityMetadata](metadata-metadata.md#entitymetadata) |  | Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json). |
@@ -513,7 +513,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/pattern.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/pattern.schema.json",
   "title": "Pattern definitions",
   "description": "A pattern is a repeated answer to a common UX problem — navigation, error messaging, form validation, empty states, loading, onboarding. A pattern document holds the identity of a multi-component solution, its metadata, and its docs.",
   "$defs": {
@@ -534,7 +534,7 @@ A repeated, multi-component answer to a common UX problem. A pattern sits above 
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique within its entity group."
+          "description": "Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

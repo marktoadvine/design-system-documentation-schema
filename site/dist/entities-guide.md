@@ -11,7 +11,7 @@ A long-form document meant to be read: a getting-started walkthrough, a contribu
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"guide"` | ✓ | Identifies this entity as a guide. |
-| `identifier` | string | ✓ | Machine-readable identifier for the guide (ex: 'getting-started', 'contributing', 'theming-tutorial', 'migrating-to-v2'). MUST be lowercase kebab-case and unique within its entity group. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Machine-readable identifier for the guide (ex: 'getting-started', 'contributing', 'theming-tutorial', 'migrating-to-v2'). MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `name` | string | ✓ | Display name shown in docs (ex: 'Getting started', 'Contributing', 'Theming tutorial', 'Migrating to v2'). |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this guide covers, who it is for, and what the reader will accomplish. CommonMark supported. |
 | `metadata` | [entityMetadata](metadata-metadata.md#entitymetadata) |  | Optional metadata (see metadata/metadata.schema.json). Use `category` to classify the guide (ex: 'getting-started', 'tutorial', 'migration'). |
@@ -184,7 +184,7 @@ A long-form document meant to be read: a getting-started walkthrough, a contribu
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/guide.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/guide.schema.json",
   "title": "Guide definitions",
   "description": "A guide is long-form guidance not tied to one component, token, foundation, or pattern — a getting-started walkthrough, contribution guide, tutorial, overview, or migration guide. It holds identity and metadata; the `category` field says what kind of guide it is. Its docs are sections, procedures (steps), guidelines, and use-cases.",
   "$defs": {
@@ -205,7 +205,7 @@ A long-form document meant to be read: a getting-started walkthrough, a contribu
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the guide (ex: 'getting-started', 'contributing', 'theming-tutorial', 'migrating-to-v2'). MUST be lowercase kebab-case and unique within its entity group."
+          "description": "Machine-readable identifier for the guide (ex: 'getting-started', 'contributing', 'theming-tutorial', 'migrating-to-v2'). MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

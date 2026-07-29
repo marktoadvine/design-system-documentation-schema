@@ -69,6 +69,15 @@
   "criterion-duplicate-identifier.dsds.json": {
     "rejectedBy": "semantic"
   },
+  "checklist-criterion-unresolved.dsds.json": {
+    "rejectedBy": "semantic"
+  },
+  "variant-constraint-unresolved.dsds.json": {
+    "rejectedBy": "semantic"
+  },
+  "duplicate-api-platform.dsds.json": {
+    "rejectedBy": "semantic"
+  },
   "criterion-test-case-without-outcome.dsds.json": {
     "rejectedBy": "schema",
     "errorAt": "/entity/documentBlocks/0/items/0/criteria/0/examples/0"
@@ -113,6 +122,9 @@
     "errorAt": "/entity/metadata/docOrigin/authorship"
   },
   "duplicate-identifiers-in-group.dsds.json": {
+    "rejectedBy": "semantic"
+  },
+  "duplicate-identifiers-across-groups.dsds.json": {
     "rejectedBy": "semantic"
   },
   "empty-accessibility-block.dsds.json": {
@@ -240,9 +252,9 @@
   "theme-override-unresolved.dsds.json": {
     "rejectedBy": "semantic"
   },
-  "thumbnail-alt-empty.dsds.json": {
+  "preview-image-alt-empty.dsds.json": {
     "rejectedBy": "schema",
-    "errorAt": "/entity/metadata/thumbnail/alt"
+    "errorAt": "/entity/metadata/preview"
   },
   "token-missing-token-type.dsds.json": {
     "rejectedBy": "semantic"

@@ -317,14 +317,16 @@ function renderBlockAppliesTable(opts = {}) {
 /** Scope table: each entity's union → entities that use it → blocks accepted. */
 function renderBlockScopeTable(opts = {}) {
   const schemaDir = opts.schemaDir || SCHEMA_DIR;
-  const { defs, root } = loadAllDefs(schemaDir);
+  const { defs } = loadAllDefs(schemaDir);
   const generalNames = new Set(
-    ((defs.generalDocumentBlock && defs.generalDocumentBlock.oneOf) || []).map((o) => linkToRef(o.$ref)),
+    unionBranchRefs(defs.generalBranches)
+      .map((r) => linkToRef(r))
+      .filter(Boolean),
   );
 
   // entity def name → union it uses (via its documentBlocks ref).
-  const entityNames = ((defs.anyEntity && defs.anyEntity.oneOf) || [])
-    .map((o) => linkToRef(o.$ref))
+  const entityNames = unionBranchRefs(defs.anyEntity)
+    .map((r) => linkToRef(r))
     .filter(Boolean);
   const usedBy = {}; // union name → [entity kind consts]
   for (const name of entityNames) {
@@ -338,13 +340,15 @@ function renderBlockScopeTable(opts = {}) {
 
   const rows = UNION_ORDER.filter((u) => defs[u]).map((union) => {
     const u = defs[union];
-    // A union may be a bare $ref alias (e.g. tokenDocumentBlock → general).
-    const alts = u.oneOf || (u.$ref ? [{ $ref: u.$ref }] : []);
-    const members = alts.map((o) => linkToRef(o.$ref)).filter(Boolean);
-    // General kinds arrive via a `generalDocumentBlock` branch (or, legacy, inlined).
+    const members = unionBranchRefs(u).map((r) => linkToRef(r)).filter(Boolean);
+    // General kinds arrive via the shared `generalBranches` fragment.
     const hasGeneral =
-      members.includes("generalDocumentBlock") || members.some((m) => generalNames.has(m));
-    const specific = members.filter((m) => m !== "generalDocumentBlock" && !generalNames.has(m));
+      members.includes("generalBranches") ||
+      members.includes("generalDocumentBlock") ||
+      members.some((m) => generalNames.has(m));
+    const specific = members.filter(
+      (m) => m !== "generalBranches" && m !== "generalDocumentBlock" && !generalNames.has(m),
+    );
     const accepts = specific.length
       ? specific.map((m) => code(kindConst(defs[m]) || m)).join(", ") + (hasGeneral ? " + general" : "")
       : hasGeneral

@@ -12,7 +12,7 @@ The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** in
 
 ## Where the normative text lives
 
-DSDS keeps its normative language inside the schema `description` strings, next to the structures that enforce it. The schema *is* the specification. The index at the bottom of this page is generated from the schemas on every build to avoid drift. Cite statements by their location-based ID (ex: `common/link§link.kind.1`). An ID only changes when the schema path it points to changes. That's signals a citation needs to be checked.
+DSDS keeps its normative language inside the schema `description` strings, next to the structures that enforce it. The schema *is* the specification. The index at the bottom of this page is generated from the schemas on every build to avoid drift. Cite statements by their location-based ID (ex: `common/link§link.kind.1`). An ID only changes when the schema path it points to changes. That signals a citation needs re-checking.
 
 ## Conformance classes
 
@@ -20,15 +20,23 @@ DSDS defines four conformance classes. A claim of conformance names the class it
 
 ### Conforming document
 
-A JSON document that validates against the DSDS schema for the version its `dsdsVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express:
+A JSON document that validates against the DSDS schema for the version its `dsdsVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express. This is the complete list the reference implementation (`scripts/validate.js`) enforces as blocking errors:
 
-- identifier uniqueness
-- reference resolution
-- relationship-graph integrity
-- token-layer resolution
-- `tokenType` inheritance
-- `docOrigin` block-key resolution
-- extension-key namespacing
+- **Entity identifier uniqueness** — every entity `identifier` (every kind, including tokens, token groups, and nested token-group children) is unique across the whole document.
+- **Entity-group identifier uniqueness** — group identifiers, when present, are unique among the groups.
+- **Criterion identifier uniqueness** — within one entity, no two criteria share an `identifier`.
+- **Section anchor uniqueness** — within one `sections` block, no two entries share an `anchor`.
+- **Relationship-graph integrity** — every `relationships[].target` resolves to a documented entity, no edge points at its own entity, no duplicate edges, and `composes`/`depends-on` stay acyclic.
+- **Interaction component resolution** — every `interactions` `components[].identifier` resolves to a documented entity.
+- **Checklist criterion resolution** — every checklist item's `criterion` resolves to a criterion defined on the same entity.
+- **Variant constraint resolution** — every selection in a `variants` block's `exclusions` and `requirements` resolves to a flag or enum value defined in that block.
+- **Token-layer resolution** — when the system documents a token layer, token-override maps (anatomy, states, variants) and string token references (`scaleStep.token`, theme overrides, motion entries) resolve to a documented token.
+- **`tokenType` inheritance** — a token omits `tokenType` only when an ancestor token group declares it.
+- **`docOrigin` block-key resolution** — every `metadata.docOrigin.blocks` key matches a block kind on the entity.
+- **API platform uniqueness** — an entity declares at most one `api` block per platform.
+- **Extension-key namespacing** — every `$extensions` key uses a vendor namespace.
+
+One reference is resolved against the assembled system rather than a single file, so it is **not** a blocking error here: `useCase.alternative.identifier` (the alternative artifact may live in another file). Tools SHOULD resolve it when the full catalog is available.
 
 Schema validity alone is necessary, but not enough.
 
@@ -68,7 +76,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 {/* dsds:normative-index */}
 
-*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 148 statements: 54 MUST, 23 MUST NOT, 55 SHOULD, 2 SHOULD NOT, 14 MAY.*
+*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 167 statements: 67 MUST, 23 MUST NOT, 61 SHOULD, 2 SHOULD NOT, 14 MAY.*
 
 ### common
 
@@ -82,10 +90,10 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 - **MAY** — When omitted, tools MAY build a label from the URL. <small>`common/criterion§reference.label.1`</small>
 - **MUST** — MUST be lowercase kebab-case. <small>`common/criterion§criterion.identifier.1`</small>
 - **SHOULD NOT** — Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. <small>`common/criterion§criterion.identifier.2`</small>
+- **MUST NOT** — Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. <small>`common/criterion§criterion.identifier.3`</small>
 - **SHOULD** — Tools SHOULD render it in docs and test reports beside the identifier. <small>`common/criterion§criterion.title.1`</small>
 - **MUST** — MUST be objectively verifiable by inspection, static analysis, or runtime measurement. <small>`common/criterion§criterion.statement.1`</small>
 - **SHOULD** — A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own. <small>`common/criterion§criterion.level.1`</small>
-- **MUST NOT** — Criterion identifiers are stable: once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. <small>`common/criterion§criterion.since.1`</small>
 
 #### common/dated-note
 
@@ -130,7 +138,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 #### common/relationship
 
 - **MUST** — A relationship's target MUST be a documented entity. <small>`common/relationship§(root).1`</small>
-- **MUST NOT** — Tools work out the reverse relationship direction direction (target → source) and MUST NOT require them to be manually authored. <small>`common/relationship§relationType.1`</small>
+- **MUST NOT** — Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. <small>`common/relationship§relationType.1`</small>
 - **MUST** — Custom relations MUST be vendor-namespaced (e.g. 'acme.themes'). <small>`common/relationship§relationType.2`</small>
 - **MUST** — MUST match a documented entity. <small>`common/relationship§relationship.target.1`</small>
 
@@ -147,11 +155,14 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 #### common/system-info
 
 - **SHOULD** — SHOULD follow semver so tools can compare it against `extends.version` and `reviewedAgainst`. <small>`common/system-info§systemInfo.version.1`</small>
+- **MUST** — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '\{color.action.primary\}'), not as a hardcoded raw value that copies the token. <small>`common/system-info§systemInfo.hasTokenLayer.1`</small>
+- **SHOULD** — When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers. <small>`common/system-info§systemInfo.platforms.1`</small>
+- **MUST** — MUST be lowercase kebab-case. <small>`common/system-info§platform.identifier.1`</small>
 
 #### common/token-overrides
 
 - **MUST** — Token references MUST name a documented token, never a raw value. <small>`common/token-overrides§(root).1`</small>
-- **MUST** — When the system documents a token layer, each value MUST resolve to a documented token. <small>`common/token-overrides§tokenOverrides.1`</small>
+- **MUST** — (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. <small>`common/token-overrides§tokenOverrides.1`</small>
 
 #### common/use-cases
 
@@ -164,12 +175,15 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 - **MUST NOT** — When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.type.1`</small>
 - **MUST NOT** — When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.values.1`</small>
 - **MUST NOT** — When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. <small>`document-blocks/api§apiProperty.schema.1`</small>
-- **MUST** — MUST say what to use instead (non-empty) and SHOULD give a migration path. <small>`document-blocks/api§apiProperty.deprecationNotice.1`</small>
+- **MUST** — MUST give the migration path in prose. <small>`document-blocks/api§apiProperty.deprecationNotice.1`</small>
+- **SHOULD** — When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. <small>`document-blocks/api§api.platform.1`</small>
 
 #### document-blocks/checklist
 
 - **MUST** — MUST be specific — not 'check accessibility'. <small>`document-blocks/checklist§checklistItem.label.1`</small>
-- **MUST** — MUST be lowercase kebab-case. <small>`document-blocks/checklist§checklistItem.criterion.1`</small>
+- **MUST** — MUST name a criterion (by its `identifier`) defined on the same entity — in one of this entity's guideline or accessibility blocks. <small>`document-blocks/checklist§checklistItem.criterion.1`</small>
+- **MUST** — MUST be lowercase kebab-case. <small>`document-blocks/checklist§checklistItem.criterion.2`</small>
+- **MUST** — MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small>`document-blocks/checklist§checklistItem.refines.1`</small>
 - **MAY** — Tools MAY mark optional items differently. <small>`document-blocks/checklist§checklistItem.optional.1`</small>
 - **SHOULD** — Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list. <small>`document-blocks/checklist§checklist.ordered.1`</small>
 - **MUST** — Order matters when `ordered` is true, so tools MUST preserve it. <small>`document-blocks/checklist§checklist.items.1`</small>
@@ -182,7 +196,8 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### document-blocks/design-specifications
 
-- **MUST** — If the system has tokens, this MUST be a token identifier (ex: 'color-action-primary', 'space-4'), not a raw value — that keeps it from drifting out of sync with the token system. <small>`document-blocks/design-specifications§designValue.1`</small>
+- **MUST** — A token reference MUST be written as a DTCG alias in braces — '\{color.action.primary\}', '\{space.4\}' — which marks it clearly as a pointer into the token layer. <small>`document-blocks/design-specifications§designValue.1`</small>
+- **SHOULD** — Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal. <small>`document-blocks/design-specifications§designValue.2`</small>
 - **MUST** — Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. <small>`document-blocks/design-specifications§designProperties.1`</small>
 - **MUST** — Keys name the relationship (ex: 'icon-to-label') and MUST be lowercase kebab-case. <small>`document-blocks/design-specifications§spacingSpec.internal.1`</small>
 - **MUST** — Keys name the relationship (ex: 'button-to-button') and MUST be lowercase kebab-case. <small>`document-blocks/design-specifications§spacingSpec.external.1`</small>
@@ -190,12 +205,16 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### document-blocks/guidelines
 
+- **MUST** — MUST be lowercase kebab-case. <small>`document-blocks/guidelines§guidelineEntry.identifier.1`</small>
+- **MUST NOT** — Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead. <small>`document-blocks/guidelines§guidelineEntry.identifier.2`</small>
 - **MUST** — MUST be concrete and clear — not 'use sparingly' or 'when possible'. <small>`document-blocks/guidelines§guidelineEntry.guidance.1`</small>
 - **MUST NOT** — MUST NOT just repeat the guidance. <small>`document-blocks/guidelines§guidelineEntry.rationale.1`</small>
+- **MUST** — MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small>`document-blocks/guidelines§guidelineEntry.refines.1`</small>
 - **SHOULD** — Tools SHOULD keep this order; authors SHOULD lead with the most important or group by category. <small>`document-blocks/guidelines§guidelines.items.1`</small>
 
 #### document-blocks/imports
 
+- **SHOULD** — When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). <small>`document-blocks/imports§importEntry.platform.1`</small>
 - **SHOULD** — SHOULD be copy-paste ready. <small>`document-blocks/imports§importEntry.code.1`</small>
 
 #### document-blocks/interactions
@@ -244,6 +263,9 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### document-blocks/variants
 
+- **MUST** — The `variant` MUST match an item in the same block's `items`. <small>`document-blocks/variants§variantSelection.1`</small>
+- **MUST** — MUST match one of this block's `items`. <small>`document-blocks/variants§variantSelection.variant.1`</small>
+- **MUST** — MUST be one of that dimension's values. <small>`document-blocks/variants§variantSelection.value.1`</small>
 - **SHOULD** — Tools SHOULD keep this order. <small>`document-blocks/variants§enumVariant.values.1`</small>
 - **SHOULD** — Tools SHOULD keep this order. <small>`document-blocks/variants§variants.items.1`</small>
 
@@ -254,40 +276,41 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 - **MUST** — MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`dsds§fileRef.$ref.1`</small>
 - **MUST** — Resolvers MUST catch cycles, MUST treat a broken file, pointer, or shape mismatch as a fatal error, and MUST only fetch remote files from an allow-list (see the spec's security rules). <small>`dsds§fileRef.$ref.2`</small>
 - **MUST** — A group MUST hold at least one entity. <small>`dsds§entityGroup.1`</small>
+- **MUST** — MUST be lowercase kebab-case and unique among the groups. <small>`dsds§entityGroup.identifier.1`</small>
 - **SHOULD** — Order matters; tools SHOULD keep it. <small>`dsds§entityGroup.entities.1`</small>
 
 ### entities
 
 #### entities/chunk
 
-- **MUST** — MUST be lowercase kebab-case and unique within its entity group. <small>`entities/chunk§chunk.identifier.1`</small>
+- **MUST** — MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. <small>`entities/chunk§chunk.identifier.1`</small>
 - **MUST** — MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`entities/chunk§chunk.code[oneOf][1].src.1`</small>
 - **SHOULD** — Resolvers SHOULD only fetch from an allow-list, the same rule a `$ref` fileRef follows. <small>`entities/chunk§chunk.code[oneOf][1].src.2`</small>
 
 #### entities/component
 
-- **MUST** — MUST be unique within its entity group. <small>`entities/component§component.identifier.1`</small>
+- **MUST** — MUST be unique across the whole document, because references resolve to it document-wide. <small>`entities/component§component.identifier.1`</small>
 - **SHOULD** — Tools SHOULD keep this order for display. <small>`entities/component§component.documentBlocks.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/component§component.agentDocumentBlocks.1`</small>
 - **SHOULD** — Agents SHOULD read both arrays, human docs first. <small>`entities/component§component.agentDocumentBlocks.2`</small>
 
 #### entities/foundation
 
-- **MUST** — MUST be unique within its entity group. <small>`entities/foundation§foundation.identifier.1`</small>
+- **MUST** — MUST be unique across the whole document, because references resolve to it document-wide. <small>`entities/foundation§foundation.identifier.1`</small>
 - **SHOULD** — Tools SHOULD keep this order for display. <small>`entities/foundation§foundation.documentBlocks.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/foundation§foundation.agentDocumentBlocks.1`</small>
 - **SHOULD** — Agents SHOULD read both arrays, human docs first. <small>`entities/foundation§foundation.agentDocumentBlocks.2`</small>
 
 #### entities/guide
 
-- **MUST** — MUST be lowercase kebab-case and unique within its entity group. <small>`entities/guide§guide.identifier.1`</small>
+- **MUST** — MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. <small>`entities/guide§guide.identifier.1`</small>
 - **SHOULD** — A guide reads top to bottom, so tools SHOULD keep this order. <small>`entities/guide§guide.documentBlocks.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/guide§guide.agentDocumentBlocks.1`</small>
 - **SHOULD** — Agents SHOULD read both arrays, human docs first. <small>`entities/guide§guide.agentDocumentBlocks.2`</small>
 
 #### entities/pattern
 
-- **MUST** — MUST be unique within its entity group. <small>`entities/pattern§pattern.identifier.1`</small>
+- **MUST** — MUST be unique across the whole document, because references resolve to it document-wide. <small>`entities/pattern§pattern.identifier.1`</small>
 - **SHOULD** — Order matters — `interactions` uses it to show the flow over time, and tools SHOULD keep it. <small>`entities/pattern§pattern.documentBlocks.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/pattern§pattern.agentDocumentBlocks.1`</small>
 - **SHOULD** — Agents SHOULD read both arrays, human docs first. <small>`entities/pattern§pattern.agentDocumentBlocks.2`</small>
@@ -301,10 +324,12 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### entities/token
 
+- **MUST** — MUST be unique across the whole document, because token overrides and references resolve to it document-wide. <small>`entities/token§token.identifier.1`</small>
 - **MUST** — MUST be set here unless a parent group already declares it — a token inherits the group's value if it skips its own. <small>`entities/token§token.tokenType.1`</small>
 - **SHOULD** — Tools SHOULD keep this order for display. <small>`entities/token§token.documentBlocks.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/token§token.agentDocumentBlocks.1`</small>
 - **SHOULD** — Agents SHOULD read both arrays, human docs first. <small>`entities/token§token.agentDocumentBlocks.2`</small>
+- **MUST** — MUST be unique across the whole document, because references resolve to it document-wide. <small>`entities/token§tokenGroup.identifier.1`</small>
 - **MAY** — A child MAY override it. <small>`entities/token§tokenGroup.tokenType.1`</small>
 - **SHOULD** — Order often shows a real progression (lightest to darkest, smallest to largest), so tools SHOULD keep it. <small>`entities/token§tokenGroup.children.1`</small>
 - **MUST NOT** — Tools MUST NOT show these blocks to humans. <small>`entities/token§tokenGroup.agentDocumentBlocks.1`</small>
@@ -338,6 +363,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### metadata/last-updated
 
+- **SHOULD** — This date is also the entity's version handle: documentation can change without the design system's version moving, so tools SHOULD treat `lastUpdated` as the cache key for an entity's docs — pin to it and re-fetch when it advances. <small>`metadata/last-updated§lastUpdated.1`</small>
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/last-updated§lastUpdated[oneOf][1].note.1`</small>
 
 #### metadata/status
@@ -346,15 +372,13 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 - **MAY** — An entity MAY be 'stable' overall while some platforms are still 'experimental' or 'draft'. <small>`metadata/status§status[oneOf][1].1`</small>
 - **SHOULD** — Tools SHOULD show this as the main status indicator. <small>`metadata/status§status[oneOf][1].overall.1`</small>
 - **MAY** — Tools MAY surface this alongside the status indicator. <small>`metadata/status§status[oneOf][1].note.1`</small>
-- **MUST** — MUST say what to use instead (non-empty) and give a migration path. <small>`metadata/status§status[oneOf][1].deprecationNotice.1`</small>
+- **SHOULD** — When the system declares `systemInfo.platforms`, each key SHOULD match one of those identifiers. <small>`metadata/status§status[oneOf][1].platforms.1`</small>
+- **MUST** — MUST give the migration path in prose. <small>`metadata/status§status[oneOf][1].deprecationNotice.1`</small>
 - **SHOULD** — Tools SHOULD display this prominently next to the status indicator. <small>`metadata/status§status[oneOf][1].deprecationNotice.2`</small>
+- **MUST** — The identifier MUST resolve to an entity in the system. <small>`metadata/status§status[oneOf][1].replacedBy.1`</small>
 
 #### metadata/summary
 
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/summary§summary.1`</small>
-
-#### metadata/thumbnail
-
-- **MUST NOT** — MUST NOT be empty. <small>`metadata/thumbnail§thumbnail.alt.1`</small>
 
 {/* /dsds:normative-index */}

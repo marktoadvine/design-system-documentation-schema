@@ -101,7 +101,7 @@ Alt text for assistive technology. MUST NOT be empty.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/presentation.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/presentation.schema.json",
   "title": "Presentation definitions",
   "description": "Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.",
   "$defs": {

@@ -80,6 +80,8 @@ Each entry in `entityGroups` is a named group of entities. All of them live in o
 
 The `entities` array takes inline entity objects or `$ref` objects. A `$ref` points to an outside DSDS file (see [Multi-file documents](#multi-file-documents)). The `entityGroups` array also takes `$ref` objects, so a whole group can live in its own file.
 
+Every entity `identifier` MUST be unique across the whole document — not just within its group, and including tokens, token groups, and nested token-group children. References (relationships, entity references, token overrides, checklist criteria) resolve to identifiers document-wide, so two entities sharing one would make those references ambiguous. A group can carry its own optional `identifier` too; those MUST be unique among the groups.
+
 <ds-prop-table schema="root" def="entityGroup" />
 
 ### Single-entity documents
@@ -189,7 +191,7 @@ The root `systemInfo` object holds the design system's **identity** — its name
 
 System-wide docs live in an optional `documentBlocks` array on the root document. It works just like the one on entities, but it covers the whole system rather than a single artifact. **Position sets the scope.** A `use-cases` or `guidelines` block at the root describes the _system_. The same block inside an entity describes that _entity_. Both levels reuse one block definition.
 
-The root accepts the [general document block types](#general-document-block-types). These are `use-cases` (when to adopt the system), `guidelines` (system-wide rules like "always use semantic tokens"), `sections` (free-form overviews), `accessibility`, and `content`.
+The root accepts the [general document block types](#general-document-block-types). These are `use-cases` (when to adopt the system), `guidelines` (system-wide rules like "always use semantic tokens"), `sections` (free-form overviews), `accessibility`, `content`, and `checklist`.
 
 ```json
 {
@@ -397,7 +399,7 @@ Use it for guidance that would be noise to a human reader. Think generation limi
 }
 ```
 
-Agent content uses the same block language, so everything carries over: RFC 2119 `level`s, `evidence`, rationale, and the common example model. There is no separate agent grammar to learn. Search keywords belong in the entity's `tags`/`aliases` metadata, which help humans and agents alike. Some agent guidance spans entities — system-wide generation rules or cross-cutting checklists. For that, put `agentDocumentBlocks` on the right entities in the root document, or use a `guide` entity whose blocks live in its `agentDocumentBlocks`.
+Agent content uses the same block language, so everything carries over: RFC 2119 `level`s, `evidence`, rationale, and the common example model. There is no separate agent grammar to learn. When an agent rule sharpens a human one — say an agent `must-not` that hardens a human `should` — point at the human guideline with `refines` (its `identifier`), so the tightening is explicit and, on conflict, the refining rule wins for agents. Search keywords belong in the entity's `tags`/`aliases` metadata, which help humans and agents alike. Some agent guidance spans entities — system-wide generation rules or cross-cutting checklists. For that, put `agentDocumentBlocks` on the right entities in the root document, or use a `guide` entity whose blocks live in its `agentDocumentBlocks`.
 
 ---
 
@@ -606,6 +608,18 @@ Free-form documentation content in titled, optionally nested sections. It is the
 
 <ds-prop-table schema="document-blocks/sections" def="sectionEntry" />
 
+### Checklist (`checklist`)
+
+An explicit checklist of items to work through for an artifact. It is built primarily for agents: a concrete list of things to verify, do, or confirm when building, reviewing, or integrating an artifact, and it reads equally well from `agentDocumentBlocks`.
+
+Each item is a `checklistItem` with an actionable `label`, an optional RFC 2119 `level` that marks hard gates, optional `description` detail, and an optional `criterion` identifier linking to the testable success criterion that defines pass/fail. The block carries an optional `title` and an `ordered` flag (default `false`).
+
+> **Checklist vs. guidelines vs. steps:** [`guidelines`](#guidelines-guidelines) hold the rules and the *why*; `checklist` turns those rules into an explicit pass an agent can tick through; [`steps`](#steps-steps) (guides only) walk a reader through a *procedure* start to finish. Reach for `checklist` when the goal is an explicit review or integration pass over an existing artifact.
+
+#### Checklist entry
+
+<ds-prop-table schema="document-blocks/checklist" def="checklistItem" />
+
 ---
 
 ## Component-scoped document block types
@@ -673,28 +687,40 @@ Documents every dimension of visual or behavioral variation. Each item is one ax
 
 Each variant value — and each flag — carries a `tokens` map. These are the token overrides applied when that value is chosen (or the flag is on). Per-variant values live here, on the variants block. `design-specifications` documents only the baseline.
 
-The optional `exclusions` array documents invalid combinations across dimensions:
+Two optional arrays document how the dimensions constrain each other. **`exclusions`** lists combinations that must not be used together; **`requirements`** lists combinations that must hold — the opposite. Each selection points at a variant by `identifier`: a flag on its own, or an enum dimension with a chosen `value`. Every selection MUST resolve to a variant defined in the same block, and each rule carries an RFC 2119 `level` so a tool knows whether it is a hard constraint or a recommendation.
 
 ```json
 {
   "kind": "variants",
   "items": [
-    { "identifier": "emphasis", "description": "...", "values": [...] },
-    { "identifier": "size", "description": "...", "values": [...] }
+    { "kind": "enum", "identifier": "emphasis", "description": "...", "values": [ { "identifier": "danger", "description": "..." } ] },
+    { "kind": "flag", "identifier": "full-width", "description": "..." },
+    { "kind": "flag", "identifier": "icon-only", "description": "..." },
+    { "kind": "flag", "identifier": "with-icon", "description": "..." }
   ],
   "exclusions": [
     {
-      "conditions": [
-        { "dimension": "emphasis", "value": "ghost" },
-        { "dimension": "size", "value": "sm" }
-      ],
-      "description": "Ghost emphasis at small size does not provide adequate visual affordance."
+      "variants": [ { "variant": "icon-only" }, { "variant": "full-width" } ],
+      "level": "must-not",
+      "description": "An icon-only button is sized to its icon; stretching it full-width contradicts that."
+    }
+  ],
+  "requirements": [
+    {
+      "when": [ { "variant": "emphasis", "value": "danger" } ],
+      "requires": [ { "variant": "with-icon" } ],
+      "level": "must",
+      "description": "A danger button must show an icon so its destructive intent is not carried by color alone."
     }
   ]
 }
 ```
 
-Each exclusion needs at least two conditions. A single condition would rule out a whole value, which you should drop from the dimension's values array instead.
+An exclusion needs at least two selections. A single selection would rule out a whole value, which you should drop from the dimension's values array instead. Use `must-not` / `should-not` on exclusions and `must` / `should` on requirements.
+
+#### Exclusion / requirement selection
+
+<ds-prop-table schema="document-blocks/variants" def="variantSelection" />
 
 #### Variant value
 
@@ -714,7 +740,7 @@ Documents the **baseline** measurable specs of a component: default design prope
 
 <ds-prop-table schema="document-blocks/design-specifications" def="designSpecifications" />
 
-The base `properties` map is the default spec — usually the primary variant at medium size in the default state. Values are design token ids (required when the system has a token layer) or raw CSS values (token-less systems only).
+The base `properties` map is the default spec — usually the primary variant at medium size in the default state. Each value is either a token reference or a raw value, and the shape says which: a token reference is written as a DTCG alias in braces (`{color.action.primary}`), while a bare value like `16px` or `#0055b3` is a raw literal. When the system has a token layer (declare it with `systemInfo.hasTokenLayer`), reference tokens by alias rather than hardcoding a raw value that could drift. This differs from the `tokens` override maps on anatomy/variants/states, whose values are *always* token references and so stay bare (no braces).
 
 **Per-variant and per-state values are not documented here.** They live on the [variants](#variants-variants) and [states](#states-states) blocks. Each value there carries its own `tokens` overrides. `design-specifications` covers only the baseline and responsive behavior, so nothing is duplicated and nothing can drift.
 
@@ -773,24 +799,6 @@ An ordered or unordered procedure — the steps a reader follows to install, bui
 #### Step entry
 
 <ds-prop-table schema="document-blocks/steps" def="stepEntry" />
-
----
-
-## Shared document block types
-
-These block types are shared across more than one entity type without being general (they are not accepted on tokens, themes, or guides).
-
-### Checklist (`checklist`)
-
-An explicit checklist of items to work through for an artifact. A general block kind, accepted on **every** entity type. It is built primarily for agents: a concrete list of things to verify, do, or confirm when building, reviewing, or integrating an artifact, and it reads equally well from `agentDocumentBlocks`.
-
-Each item is a `checklistItem` with an actionable `label`, an optional RFC 2119 `level` that marks hard gates, optional `description` detail, and an optional `criterion` identifier linking to the testable success criterion that defines pass/fail. The block carries an optional `title` and an `ordered` flag (default `false`).
-
-> **Checklist vs. guidelines vs. steps:** [`guidelines`](#guidelines-guidelines) hold the rules and the *why*; `checklist` turns those rules into an explicit pass an agent can tick through; [`steps`](#steps-steps) (guides only) walk a reader through a *procedure* start to finish. Reach for `checklist` when the goal is an explicit review or integration pass over an existing artifact.
-
-#### Checklist entry
-
-<ds-prop-table schema="document-blocks/checklist" def="checklistItem" />
 
 ---
 
@@ -979,20 +987,11 @@ So one concept can appear in several forms — the `token-group` kind and the `t
 
 Most entity types enforce a strict `^[a-z][a-z0-9-]*$` pattern on `identifier`. Tokens and token groups are the exception by design. Their ids are left free to fit the W3C Design Tokens Format Module, design tool variables, and existing token setups. Those setups may use dots (`color.text.primary`), slashes (`color/text/primary`), or other separators. Token ids _SHOULD_ still be lowercase and readable, but the schema enforces no pattern.
 
-### Document block type naming
+### Document block list naming
 
-Document block type values follow two naming patterns based on their structural role:
+When a block wraps a list of like items, the array is called `items` — `guidelines`, `use-cases`, `checklist`, `variants`, `states`, `principles`, `interactions`, `steps`, and `motion` all follow this rule.
 
-- **Plural names** for block types that wrap a list of like items in an `items` array: `"variants"`, `"states"`, `"principles"`, `"interactions"`, `"steps"`, `"motion"`.
-- **Singular names** for block types that are self-contained with their own structure:
-  - `"scale"` (has `identifier`, `steps`)
-  - `"anatomy"` (has `parts`)
-  - `"api"` (has `properties`, `events`, etc.)
-  - `"accessibility"` (has `keyboardInteractions`, `ariaAttributes`, etc.)
-  - `"design-specifications"` (has `tokens`, `spacing`, etc.)
-  - `"use-cases"` (has `items` and an optional `purpose` statement)
-
-The split: a plural type is a container of like items, with no identity beyond its type. A singular type has real inner structure, where properties are named and distinct. Note: `"guideline"` and `"section"` use singular names even though they wrap an `items` list. Each names a concept — a body of guidelines, or a body of sections — rather than a generic container.
+The one exception: use a domain name when it reads more clearly than a generic `items`. `anatomy` uses `parts`, and `scale` uses `steps`, because those words name what the list holds. Blocks with real inner structure keep named properties instead of a single list — `api` has `properties` and `events`; `accessibility` has `keyboardInteractions`, `ariaAttributes`, and more.
 
 ---
 
@@ -1021,4 +1020,6 @@ The split: a plural type is a container of like items, with no identity beyond i
 | Level | Requirement |
 |---|---|
 | **Level 1: Core** | Identity only. Tokens: `kind`, `identifier`, `tokenType`. Token groups: `kind`, `identifier`. All others: `kind`, `identifier`, `name`. A top-level `description` and a `status` metadata field are strongly recommended. |
-| **Level 2: Complete** | Level 1 plus at least one real document block entry: anatomy/api/variants for components, principles/scale for foundations, interactions for patterns, sections/steps for guides, guidelines/use-cases for tokens. |
+| **Level 2: Documented** | Level 1 plus guidance a reader or an agent can act on: a `use-cases` block (when to reach for the entity, and when to pick something else) and a `guidelines` block (the rules for using it well, each with a reason). Both are general blocks, so every entity type — component, token, foundation, pattern, guide — reaches Level 2 the same way. |
+
+These levels mark a shared baseline, not a finish line. They don't measure whether a document is "done" — what a given entity needs to be well-documented depends on the design system, and only its authors can judge that. Level 2 asks for guidance with rationale (`use-cases` + `guidelines`) because that is what a reader or an agent needs to use an entity correctly, whatever the entity is. The structural and domain blocks — `anatomy`, `api`, `variants`, `states`, `design-specifications` on components; `principles`, `scale`, `motion` on foundations; `interactions` on patterns; `steps` on guides — add depth and are strongly encouraged where they apply, but they are not a second, competing bar. Add them because your system needs them documented, not to clear a level.

@@ -13,7 +13,7 @@ Where this entity fits in the design system's taxonomy (ex: 'action', 'navigatio
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/category.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/category.schema.json",
   "title": "Category metadata field",
   "description": "Where this entity fits in the design system's taxonomy.",
   "$defs": {

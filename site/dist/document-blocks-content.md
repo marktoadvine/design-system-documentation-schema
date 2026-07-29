@@ -248,7 +248,7 @@ One localization concern — something that affects how content is written, tran
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/content.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/content.schema.json",
   "title": "Content document block",
   "description": "Two kinds of content reference data: a dictionary of standard labels ('Add', 'Cancel', 'Delete') with definitions and usage notes, and localization notes (RTL, text expansion, pluralization, and other i18n concerns). At least one of `labels` or `localization` is required. For voice, tone, or capitalization rules, use a `guidelines` block (category 'content') instead.",
   "$defs": {

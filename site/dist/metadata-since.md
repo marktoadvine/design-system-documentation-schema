@@ -13,7 +13,7 @@ The design system version in which this entity was introduced (ex:, '1.0.0', '2.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/since.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/since.schema.json",
   "title": "Since metadata field",
   "description": "The design system version in which this entity was introduced.",
   "$defs": {

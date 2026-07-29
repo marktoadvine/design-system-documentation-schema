@@ -13,7 +13,7 @@ Human-written documentation content, read as CommonMark markdown (0.27 minimum).
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/rich-text.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/rich-text.schema.json",
   "title": "Rich text definition",
   "description": "A markdown text field for human-written documentation content, used across all DSDS schemas.",
   "$defs": {

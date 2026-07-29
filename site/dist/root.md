@@ -8,7 +8,7 @@ Source: `documentation/dsds.schema.json`
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `dsdsVersion` | `"0.15.2"` | ✓ | The DSDS spec version this document follows. |
+| `dsdsVersion` | `"0.16.0"` | ✓ | The DSDS spec version this document follows. |
 | `$schema` | string |  | URI reference to the DSDS JSON Schema for validation. |
 | `systemInfo` | [systemInfo](common-system-info.md#systeminfo) |  | Identity of the design system. |
 | `extends` | [documentExtends](common-extends.md#documentextends) |  | Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them. |
@@ -27,6 +27,7 @@ A named collection of entities. They all live in one `entities` array, in displa
 | --- | --- | --- | --- |
 | `name` | string | ✓ | Human-readable name of the collection (ex: 'Acme Design System', 'Color Tokens', 'Button Documentation'). Used only as a display label. |
 | `entities` | [anyEntity](root.md#anyentity) \| [fileRef](root.md#fileref)[] | ✓ | The group's entities, in display order — any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters; tools SHOULD keep it. (Min items: 1) |
+| `identifier` | string |  | Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle — the `name` is only a display label. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `description` | [richText](common-rich-text.md#richtext) |  | Human-written documentation content, read as CommonMark markdown (0.27 minimum). Plain text, markdown, and inline HTML are all valid. Tools MUST render the value as markdown. |
 | `$extensions` | [extensions](common-extensions.md#extensions) |  | All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields. |
 
@@ -55,7 +56,7 @@ A link to a DSDS entity or entity group in another file. A tool like `json-schem
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/dsds.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/dsds.schema.json",
   "title": "Design system doc spec (DSDS) v0.15.2",
   "description": "DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.",
   "type": "object",
@@ -81,7 +82,7 @@ A link to a DSDS entity or entity group in another file. A tool like `json-schem
     },
     "dsdsVersion": {
       "type": "string",
-      "const": "0.15.2",
+      "const": "0.16.0",
       "description": "The DSDS spec version this document follows."
     },
     "systemInfo": {
@@ -291,6 +292,11 @@ A link to a DSDS entity or entity group in another file. A tool like `json-schem
         "entities"
       ],
       "properties": {
+        "identifier": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle — the `name` is only a display label."
+        },
         "name": {
           "type": "string",
           "description": "Human-readable name of the collection (ex: 'Acme Design System', 'Color Tokens', 'Button Documentation'). Used only as a display label.",

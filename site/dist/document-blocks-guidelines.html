@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Guidelines document block — DSDS 0.15.2</title>
+  <title>Guidelines document block — DSDS 0.16.0</title>
   <meta name="description" content="Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.">
   <link rel="canonical" href="https://designsystemdocspec.org/document-blocks-guidelines">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="document-blocks-guidelines.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Guidelines document block — DSDS 0.15.2">
+  <meta property="og:title" content="Guidelines document block — DSDS 0.16.0">
   <meta property="og:description" content="Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.">
   <meta property="og:url" content="https://designsystemdocspec.org/document-blocks-guidelines">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -19,18 +19,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Guidelines document block — DSDS 0.15.2","description":"Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.","url":"https://designsystemdocspec.org/document-blocks-guidelines","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-guidelines.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"guidelines","url":"https://designsystemdocspec.org/document-blocks-guidelines#guidelines"},{"@type":"DefinedTerm","name":"guidelineEntry","url":"https://designsystemdocspec.org/document-blocks-guidelines#guidelineentry"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Guidelines document block — DSDS 0.16.0","description":"Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.","url":"https://designsystemdocspec.org/document-blocks-guidelines","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-guidelines.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"guidelines","url":"https://designsystemdocspec.org/document-blocks-guidelines#guidelines"},{"@type":"DefinedTerm","name":"guidelineEntry","url":"https://designsystemdocspec.org/document-blocks-guidelines#guidelineentry"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="document-blocks-guidelines">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="document-blocks-guidelines">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,7 +99,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -111,18 +110,23 @@
           <ds-json-view label="document-blocks/guidelines.schema.json">
   <ds-code language="json" label="document-blocks/guidelines.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/document-blocks/guidelines.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/document-blocks/guidelines.schema.json&quot;,
   &quot;title&quot;: &quot;Guidelines document block&quot;,
   &quot;description&quot;: &quot;Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.&quot;,
   &quot;$defs&quot;: {
     &quot;guidelineEntry&quot;: {
       &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.&quot;,
+      &quot;description&quot;: &quot;One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.&quot;,
       &quot;required&quot;: [
         &quot;guidance&quot;,
         &quot;level&quot;
       ],
       &quot;properties&quot;: {
+        &quot;identifier&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;pattern&quot;: &quot;^[a-z][a-z0-9-]*$&quot;,
+          &quot;description&quot;: &quot;Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead.&quot;
+        },
         &quot;guidance&quot;: {
           &quot;$ref&quot;: &quot;../common/rich-text.schema.json#/$defs/richText&quot;,
           &quot;description&quot;: &quot;The rule itself. MUST be concrete and clear — not 'use sparingly' or 'when possible'.&quot;
@@ -136,8 +140,46 @@
           &quot;description&quot;: &quot;How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code.&quot;
         },
         &quot;evidence&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;Data backing this rule — test results, audit findings, or cited sources (ex: '9/10 agent test runs failed touch-target minimums below 36px'). Kept separate from `rationale` so tools can tell tested rules from conventional guidance.&quot;
+          &quot;description&quot;: &quot;Data backing this rule — test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.&quot;,
+          &quot;oneOf&quot;: [
+            {
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;description&quot;: &quot;A short prose note (ex: '9/10 agent test runs failed touch-target minimums below 36px').&quot;
+            },
+            {
+              &quot;type&quot;: &quot;object&quot;,
+              &quot;description&quot;: &quot;Structured backing. `result` is the finding and `date` is when it was gathered — both required so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.&quot;,
+              &quot;required&quot;: [
+                &quot;result&quot;,
+                &quot;date&quot;
+              ],
+              &quot;properties&quot;: {
+                &quot;result&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+                  &quot;description&quot;: &quot;What was found (ex: '9 of 10 runs failed the touch-target minimum').&quot;
+                },
+                &quot;date&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+                  &quot;format&quot;: &quot;date&quot;,
+                  &quot;description&quot;: &quot;When the evidence was gathered, as YYYY-MM-DD. Lets tools flag a rule resting on stale data.&quot;
+                },
+                &quot;method&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+                  &quot;description&quot;: &quot;How the evidence was gathered (ex: 'agent test harness', 'manual audit', 'usability study').&quot;
+                },
+                &quot;sampleSize&quot;: {
+                  &quot;type&quot;: &quot;integer&quot;,
+                  &quot;minimum&quot;: 1,
+                  &quot;description&quot;: &quot;How many runs, participants, or cases the finding is based on.&quot;
+                },
+                &quot;source&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+                  &quot;description&quot;: &quot;Where to find the full evidence — a URL, issue reference, or report name.&quot;
+                }
+              },
+              &quot;additionalProperties&quot;: false
+            }
+          ]
         },
         &quot;category&quot;: {
           &quot;type&quot;: &quot;string&quot;,
@@ -146,6 +188,11 @@
         &quot;target&quot;: {
           &quot;type&quot;: &quot;string&quot;,
           &quot;description&quot;: &quot;The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact.&quot;
+        },
+        &quot;refines&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;pattern&quot;: &quot;^[a-z][a-z0-9-]*$&quot;,
+          &quot;description&quot;: &quot;The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule — for example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity.&quot;
         },
         &quot;criteria&quot;: {
           &quot;type&quot;: &quot;array&quot;,
@@ -266,14 +313,16 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="guidelineEntry" anchor="guidelineentry" description="One rule. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG." type="object">
+<ds-def-section name="guidelineEntry" anchor="guidelineentry" description="One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG." type="object">
 <ds-prop-table>
   <ds-prop name="guidance" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>The rule itself. MUST be concrete and clear — not 'use sparingly' or 'when possible'.</ds-prop>
   <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code.</ds-prop>
+  <ds-prop name="identifier" type="string">Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="rationale" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why the rule exists — cite evidence, accessibility standards, or research when you have it. MUST NOT just repeat the guidance.</ds-prop>
-  <ds-prop name="evidence" type="string">Data backing this rule — test results, audit findings, or cited sources (ex: '9/10 agent test runs failed touch-target minimums below 36px'). Kept separate from <ds-code inline>rationale</ds-code> so tools can tell tested rules from conventional guidance.</ds-prop>
+  <ds-prop name="evidence" type="string | object">Data backing this rule — test results, audit findings, or cited sources. Kept separate from <ds-code inline>rationale</ds-code> so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.</ds-prop>
   <ds-prop name="category" type="string">Groups the rule by discipline: 'visual-design', 'interaction', 'accessibility', 'content', 'motion', or 'development'. Custom values allowed, in lowercase kebab-case.</ds-prop>
   <ds-prop name="target" type="string">The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact.</ds-prop>
+  <ds-prop name="refines" type="string">The <ds-code inline>identifier</ds-code> of a human guideline (in this entity's <ds-code inline>documentBlocks</ds-code>) that this rule sharpens. Used by agent-block rules to tighten a human rule — for example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="criteria" type="&lt;ds-type-ref href=&quot;common-criterion.html#criterion&quot;&gt;criterion&lt;/ds-type-ref&gt;[]">Tests that prove this rule is met. Only add these when success can be objectively verified. Test results belong in <ds-code inline>evidence</ds-code>, not here.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="references" type="&lt;ds-type-ref href=&quot;common-criterion.html#reference&quot;&gt;reference&lt;/ds-type-ref&gt;[]">Outside standards this rule follows (ex: WCAG, MDN, platform guidelines) — a URL and an optional label.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples showing encouraged and discouraged approaches.<br><small>Min items: 1</small></ds-prop>

@@ -11,7 +11,7 @@ The principles, scales, and rules that govern a design domain — color, typogra
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `kind` | `"foundation"` | ✓ | Identifies this entity as a foundation. |
-| `identifier` | string | ✓ | Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing', 'elevation', 'motion', 'shape', 'accessibility', 'content'). MUST be unique within its entity group. (Pattern: `^[a-z][a-z0-9-]*$`) |
+| `identifier` | string | ✓ | Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing', 'elevation', 'motion', 'shape', 'accessibility', 'content'). MUST be unique across the whole document, because references resolve to it document-wide. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `name` | string | ✓ | Display name shown in docs (ex: 'Color', 'Typography', 'Spacing', 'Elevation', 'Accessibility', 'Content'). |
 | `description` | [richText](common-rich-text.md#richtext) |  | What this foundation covers, the design domain it governs, and its role in the system. CommonMark supported. |
 | `metadata` | [entityMetadata](metadata-metadata.md#entitymetadata) |  | Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json). |
@@ -350,7 +350,7 @@ The principles, scales, and rules that govern a design domain — color, typogra
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/entities/foundation.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/entities/foundation.schema.json",
   "title": "Foundation definitions",
   "description": "A foundation document covers a broad design domain a system is built on — color, typography, spacing, elevation, motion, shape, accessibility, content. It holds the domain's identity and metadata (see metadata/metadata.schema.json), plus its docs.",
   "$defs": {
@@ -371,7 +371,7 @@ The principles, scales, and rules that govern a design domain — color, typogra
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing', 'elevation', 'motion', 'shape', 'accessibility', 'content'). MUST be unique within its entity group."
+          "description": "Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing', 'elevation', 'motion', 'shape', 'accessibility', 'content'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

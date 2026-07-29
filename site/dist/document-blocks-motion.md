@@ -280,7 +280,7 @@ A recommended duration range, as a time value ('200ms') or token ('duration-quic
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/motion.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/motion.schema.json",
   "title": "Motion document block",
   "description": "The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes — enough for tools to generate CSS transitions or preview the curve.",
   "$defs": {

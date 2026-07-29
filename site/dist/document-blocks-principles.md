@@ -74,7 +74,7 @@ One principle: a short title and what it means in practice. Principles set direc
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/principles.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/principles.schema.json",
   "title": "Principles document block",
   "description": "The beliefs behind a foundation's decisions — each a short title plus what it means in practice. Principles answer 'what do we believe?' and sit above individual `guidelines`, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing).",
   "$defs": {

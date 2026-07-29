@@ -1,6 +1,6 @@
 # Doc origin metadata field
 
-How this entity's documentation came to exist, tracked on two separate scales: `origin` (how the doc relates to the code — written first, generated from it, extracted from it, or reconstructed from memory) and `authorship` (who wrote the words — a person, an AI, a script, or some mix). Two documents can read identically but mean very different things: one extracted from shipped code by its maintainer, the other written from memory by an AI months later. Recording both lets tools and agents judge how much to trust the doc. A bare string sets the overall origin; the object form adds authorship, a note, and per-block overrides for documents with mixed origins.
+How this entity's documentation came to exist, tracked on two separate scales: 1. `origin`—how the entity relates to the code (ex: written first, generated from it, extracted from it, or reconstructed from memory). 2. `authorship`—what generated the entity (ex: a person, an agent, a script, or some mix). This shares if the entity's content was extracted from shipped code by its maintainer, or written from by agent AI months later. This metadata allows people and agents judge how much to trust the doc.
 
 Source: `metadata/doc-origin.schema.json`
 
@@ -8,7 +8,7 @@ Source: `metadata/doc-origin.schema.json`
 
 ## docOrigin {#docorigin}
 
-How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed — say, a prop table extracted from code inside otherwise hand-written guidance — or when it needs explaining. This describes how the doc was produced, not how good it is: it just tells consumers how much to trust which parts.
+How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed (ex: a prop table extracted from code inside otherwise hand-written guidance) or when it needs explaining. This field only descirbes how the entity is product and cannot measure how good/bad it is.
 
 One of:
 
@@ -17,10 +17,10 @@ One of:
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `overall` | [docOriginValue](metadata-doc-origin.md#docoriginvalue) | ✓ | The main origin for the document as a whole. If blocks differ, pick the origin of its substantive content and list the exceptions in `blocks`. |
-| `authorship` | [authorshipValue](metadata-doc-origin.md#authorshipvalue) |  | Who wrote the document's words overall. If production was mixed, record the least-supervised method that contributed a real part (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted. |
+| `overall` | [docOriginValue](metadata-doc-origin.md#docoriginvalue) | ✓ | The main origin for the document as a whole. If blocks differ, pick the origin of its main content and list the exceptions in `blocks`. |
+| `authorship` | [authorshipValue](metadata-doc-origin.md#authorshipvalue) |  | Who wrote the document's words overall. If production was mixed, bias towards sharing automation (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted. |
 | `note` | [plainNote](common-dated-note.md#plainnote) |  | Plain-text note explaining the origin (ex: 'Authored as the spec for the v3 rebuild; prop table regenerated from source on each release'). MUST NOT contain markup. |
-| `blocks` | map<string, [docOriginValue](metadata-doc-origin.md#docoriginvalue) \| object {origin, authorship}> |  | Per-block overrides, for blocks whose origin or authorship differs from the document as a whole. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ — e.g., an otherwise hand-written doc whose prop table is AI-generated. List only the exceptions. A key that doesn't match any block in the entity is a defect. |
+| `blocks` | map<string, [docOriginValue](metadata-doc-origin.md#docoriginvalue) \| object {origin, authorship}> |  | Per-block overrides, for blocks where the author is different from document author. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ (ex: a hand-written doc except for an AI-generated prop table). List only the exceptions. A key that doesn't match any block in the entity is a defect. |
 
 **References:** [docOriginValue](metadata-doc-origin.md#docoriginvalue), [authorshipValue](metadata-doc-origin.md#authorshipvalue), [plainNote](common-dated-note.md#plainnote)
 
@@ -58,7 +58,7 @@ One of:
 
 ## authorshipValue {#authorshipvalue}
 
-Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review — it MAY contain plausible-sounding mistakes and SHOULD be checked before an agent trusts it as fact. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing — as trustworthy as its source and pipeline. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value — that's what matters most to know.
+Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value.
 
 Allowed values:
 
@@ -70,7 +70,7 @@ Allowed values:
 
 ## docOriginValue {#docoriginvalue}
 
-How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec — the code follows the doc. Best for intent, but MAY be behind the shipped API. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. Matches the API closely but says nothing about intent. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact — describes what exists. 'reconstructed': written from memory or institutional knowledge, without checking the code — the least reliable for API facts, and SHOULD be verified before an agent relies on it. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.
+How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact. 'reconstructed': written from memory or institutional knowledge, without checking the code. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.
 
 Allowed values:
 
@@ -84,13 +84,13 @@ Allowed values:
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/doc-origin.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/metadata/doc-origin.schema.json",
   "title": "Doc origin metadata field",
-  "description": "How this entity's documentation came to exist, tracked on two separate scales: `origin` (how the doc relates to the code — written first, generated from it, extracted from it, or reconstructed from memory) and `authorship` (who wrote the words — a person, an AI, a script, or some mix). Two documents can read identically but mean very different things: one extracted from shipped code by its maintainer, the other written from memory by an AI months later. Recording both lets tools and agents judge how much to trust the doc. A bare string sets the overall origin; the object form adds authorship, a note, and per-block overrides for documents with mixed origins.",
+  "description": "How this entity's documentation came to exist, tracked on two separate scales: 1. `origin`—how the entity relates to the code (ex: written first, generated from it, extracted from it, or reconstructed from memory). 2. `authorship`—what generated the entity (ex: a person, an agent, a script, or some mix). This shares if the entity's content was extracted from shipped code by its maintainer, or written from by agent AI months later. This metadata allows people and agents judge how much to trust the doc.",
   "$defs": {
     "authorshipValue": {
       "type": "string",
-      "description": "Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review — it MAY contain plausible-sounding mistakes and SHOULD be checked before an agent trusts it as fact. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing — as trustworthy as its source and pipeline. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value — that's what matters most to know.",
+      "description": "Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value.",
       "enum": [
         "human",
         "ai-assisted",
@@ -101,7 +101,7 @@ Allowed values:
     },
     "docOriginValue": {
       "type": "string",
-      "description": "How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec — the code follows the doc. Best for intent, but MAY be behind the shipped API. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. Matches the API closely but says nothing about intent. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact — describes what exists. 'reconstructed': written from memory or institutional knowledge, without checking the code — the least reliable for API facts, and SHOULD be verified before an agent relies on it. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.",
+      "description": "How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact. 'reconstructed': written from memory or institutional knowledge, without checking the code. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.",
       "enum": [
         "authored",
         "generated",
@@ -110,7 +110,7 @@ Allowed values:
       ]
     },
     "docOrigin": {
-      "description": "How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed — say, a prop table extracted from code inside otherwise hand-written guidance — or when it needs explaining. This describes how the doc was produced, not how good it is: it just tells consumers how much to trust which parts.",
+      "description": "How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed (ex: a prop table extracted from code inside otherwise hand-written guidance) or when it needs explaining. This field only descirbes how the entity is product and cannot measure how good/bad it is.",
       "oneOf": [
         {
           "$ref": "#/$defs/docOriginValue"
@@ -124,11 +124,11 @@ Allowed values:
           "properties": {
             "overall": {
               "$ref": "#/$defs/docOriginValue",
-              "description": "The main origin for the document as a whole. If blocks differ, pick the origin of its substantive content and list the exceptions in `blocks`."
+              "description": "The main origin for the document as a whole. If blocks differ, pick the origin of its main content and list the exceptions in `blocks`."
             },
             "authorship": {
               "$ref": "#/$defs/authorshipValue",
-              "description": "Who wrote the document's words overall. If production was mixed, record the least-supervised method that contributed a real part (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted."
+              "description": "Who wrote the document's words overall. If production was mixed, bias towards sharing automation (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted."
             },
             "note": {
               "$ref": "../common/dated-note.schema.json#/$defs/plainNote",
@@ -136,7 +136,7 @@ Allowed values:
             },
             "blocks": {
               "type": "object",
-              "description": "Per-block overrides, for blocks whose origin or authorship differs from the document as a whole. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ — e.g., an otherwise hand-written doc whose prop table is AI-generated. List only the exceptions. A key that doesn't match any block in the entity is a defect.",
+              "description": "Per-block overrides, for blocks where the author is different from document author. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ (ex: a hand-written doc except for an AI-generated prop table). List only the exceptions. A key that doesn't match any block in the entity is a defect.",
               "minProperties": 1,
               "propertyNames": {
                 "pattern": "^[a-z][a-z0-9-]*$"

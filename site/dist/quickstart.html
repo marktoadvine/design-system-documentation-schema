@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DSDS quick start guide — DSDS 0.15.2</title>
+  <title>DSDS quick start guide — DSDS 0.16.0</title>
   <meta name="description" content="Get started with DSDS — document structure, entity types, the document block system, and minimal examples you can copy.">
   <link rel="canonical" href="https://designsystemdocspec.org/quickstart">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="quickstart.md">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="DSDS quick start guide — DSDS 0.15.2">
+  <meta property="og:title" content="DSDS quick start guide — DSDS 0.16.0">
   <meta property="og:description" content="Get started with DSDS — document structure, entity types, the document block system, and minimal examples you can copy.">
   <meta property="og:url" content="https://designsystemdocspec.org/quickstart">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -18,18 +18,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"DSDS quick start guide — DSDS 0.15.2","description":"Get started with DSDS — document structure, entity types, the document block system, and minimal examples you can copy.","url":"https://designsystemdocspec.org/quickstart","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/quickstart.md"}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"DSDS quick start guide — DSDS 0.16.0","description":"Get started with DSDS — document structure, entity types, the document block system, and minimal examples you can copy.","url":"https://designsystemdocspec.org/quickstart","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/quickstart.md"}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="quickstart">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="quickstart">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -98,7 +98,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -124,8 +123,8 @@
 <ds-heading level="3" anchor="single-entity-files">Single-entity files</ds-heading>
 <p>Use <ds-code inline>entity</ds-code> when each component, token, or pattern lives in its own file. The <ds-code inline>kind</ds-code> field on the entity identifies its type.</p>
 <ds-code language="json">{
-  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
-  "dsdsVersion": "0.15.2",
+  "$schema": "https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json",
+  "dsdsVersion": "0.16.0",
   "entity": {
     "kind": "component",
     "identifier": "button",
@@ -139,7 +138,7 @@
 <ds-heading level="3" anchor="multi-entity-files">Multi-entity files</ds-heading>
 <p>Use <ds-code inline>entityGroups</ds-code> to put several entities in one file, or as a manifest that points to separate entity files.</p>
 <ds-code language="json">{
-  "dsdsVersion": "0.15.2",
+  "dsdsVersion": "0.16.0",
   "entityGroups": [
     {
       "name": "My Design System",
@@ -154,14 +153,14 @@
 }
 </ds-code>
 <ul>
-<li><ds-code inline>dsdsVersion</ds-code> — the spec version this document targets; <ds-code inline>"0.15.2"</ds-code> for this release</li>
+<li><ds-code inline>dsdsVersion</ds-code> — the spec version this document targets; <ds-code inline>"0.16.0"</ds-code> for this release</li>
 <li><ds-code inline>entityGroups</ds-code> — array of named groups</li>
 <li><ds-code inline>entities</ds-code> — one array per group; mix kinds freely in display order. Each entity's <ds-code inline>kind</ds-code> says what type it is</li>
 </ul>
 <ds-heading level="3" anchor="linking-files-with-ref">Linking files with <ds-code inline>$ref</ds-code></ds-heading>
 <p>Entity arrays accept <ds-code inline>$ref</ds-code> objects that point to other DSDS files. This lets you keep entities in their own files and pull them together in a manifest:</p>
 <ds-code language="json">{
-  "dsdsVersion": "0.15.2",
+  "dsdsVersion": "0.16.0",
   "entityGroups": [
     {
       "name": "Acme Design System",
@@ -696,7 +695,7 @@
 <p>Here's a complete, minimal DSDS file with one of each entity type:</p>
 <ds-code language="json">{
   "$schema": "../schema/dsds.bundled.schema.json",
-  "dsdsVersion": "0.15.2",
+  "dsdsVersion": "0.16.0",
   "systemInfo": {
     "name": "Minimal Example"
   },
@@ -1078,8 +1077,8 @@
 <ds-heading level="3" anchor="using-the-bundled-schema">Using the bundled schema</ds-heading>
 <p>Add <ds-code inline>$schema</ds-code> to get editor autocompletion and inline validation:</p>
 <ds-code language="json">{
-  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
-  "dsdsVersion": "0.15.2",
+  "$schema": "https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json",
+  "dsdsVersion": "0.16.0",
   "entity": {
     "kind": "component",
     "identifier": "my-component",

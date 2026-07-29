@@ -16,21 +16,21 @@
   "designSpecifications": {
     "kind": "design-specifications",
     "properties": {
-      "background": "button-bg",
-      "text-color": "button-text",
-      "border-color": "button-border",
+      "background": "{button-bg}",
+      "text-color": "{button-text}",
+      "border-color": "{button-border}",
       "border-width": "1px",
-      "border-radius": "button-radius",
-      "padding-horizontal": "button-padding-x",
-      "padding-vertical": "button-padding-y",
-      "font-family": "font-family-body",
+      "border-radius": "{button-radius}",
+      "padding-horizontal": "{button-padding-x}",
+      "padding-vertical": "{button-padding-y}",
+      "font-family": "{font-family-body}",
       "font-size": "14px",
       "font-weight": "500",
       "line-height": "20px",
       "icon-size": "16px",
       "icon-color": "inherit",
       "icon-gap": "8px",
-      "focus-ring-color": "color-focus",
+      "focus-ring-color": "{color-focus}",
       "focus-ring-width": "2px",
       "focus-ring-offset": "2px",
       "min-height": "40px",
@@ -39,13 +39,13 @@
     },
     "spacing": {
       "internal": {
-        "container-horizontal": "space-4",
-        "container-vertical": "space-2",
-        "icon-to-label": "space-2"
+        "container-horizontal": "{space-4}",
+        "container-vertical": "{space-2}",
+        "icon-to-label": "{space-2}"
       },
       "external": {
-        "button-to-button": "space-2",
-        "button-group-gap": "space-3"
+        "button-to-button": "{space-2}",
+        "button-group-gap": "{space-3}"
       }
     },
     "sizing": {
@@ -54,7 +54,7 @@
     },
     "typography": {
       "label": {
-        "fontFamily": "font-family-body",
+        "fontFamily": "{font-family-body}",
         "fontSize": "14px",
         "fontWeight": "500",
         "lineHeight": "20px",

@@ -334,7 +334,7 @@ One animation and its behavior under prefers-reduced-motion.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/document-blocks/accessibility.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/accessibility.schema.json",
   "title": "Accessibility document block",
   "description": "Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the artifact does — a fact a test or review can confirm. For general documentation guidance — rules about what authors should do, with rationale and a conformance level — use a `guidelines` block (category 'accessibility').",
   "$defs": {

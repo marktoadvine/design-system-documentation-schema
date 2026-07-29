@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Presentation definitions — DSDS 0.15.2</title>
+  <title>Presentation definitions — DSDS 0.16.0</title>
   <meta name="description" content="Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.">
   <link rel="canonical" href="https://designsystemdocspec.org/common-presentation">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-presentation.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
-  <meta property="og:title" content="Presentation definitions — DSDS 0.15.2">
+  <meta property="og:title" content="Presentation definitions — DSDS 0.16.0">
   <meta property="og:description" content="Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.">
   <meta property="og:url" content="https://designsystemdocspec.org/common-presentation">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
@@ -19,18 +19,18 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
-  <meta name="dsds-version" content="0.15.2">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Presentation definitions — DSDS 0.15.2","description":"Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.","url":"https://designsystemdocspec.org/common-presentation","version":"0.15.2","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-presentation.md","subjectOf":"https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"presentationImage","url":"https://designsystemdocspec.org/common-presentation#presentationimage"},{"@type":"DefinedTerm","name":"presentationVideo","url":"https://designsystemdocspec.org/common-presentation#presentationvideo"},{"@type":"DefinedTerm","name":"presentationCode","url":"https://designsystemdocspec.org/common-presentation#presentationcode"},{"@type":"DefinedTerm","name":"presentationUrl","url":"https://designsystemdocspec.org/common-presentation#presentationurl"},{"@type":"DefinedTerm","name":"mediaUrl","url":"https://designsystemdocspec.org/common-presentation#mediaurl"},{"@type":"DefinedTerm","name":"mediaAlt","url":"https://designsystemdocspec.org/common-presentation#mediaalt"}]}</script>
+  <meta name="dsds-version" content="0.16.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Presentation definitions — DSDS 0.16.0","description":"Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.","url":"https://designsystemdocspec.org/common-presentation","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-presentation.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"presentationImage","url":"https://designsystemdocspec.org/common-presentation#presentationimage"},{"@type":"DefinedTerm","name":"presentationVideo","url":"https://designsystemdocspec.org/common-presentation#presentationvideo"},{"@type":"DefinedTerm","name":"presentationCode","url":"https://designsystemdocspec.org/common-presentation#presentationcode"},{"@type":"DefinedTerm","name":"presentationUrl","url":"https://designsystemdocspec.org/common-presentation#presentationurl"},{"@type":"DefinedTerm","name":"mediaUrl","url":"https://designsystemdocspec.org/common-presentation#mediaurl"},{"@type":"DefinedTerm","name":"mediaAlt","url":"https://designsystemdocspec.org/common-presentation#mediaalt"}]}</script>
 
-  <link rel="stylesheet" href="tokens.css?v=0.15.2">
-  <link rel="stylesheet" href="style.css?v=0.15.2">
-  <script src="components.js?v=0.15.2"></script>
+  <link rel="stylesheet" href="tokens.css?v=0.16.0">
+  <link rel="stylesheet" href="style.css?v=0.16.0">
+  <script src="components.js?v=0.16.0"></script>
 </head>
 <body>
   <nav class="skip-nav" aria-label="Skip links">
   <a class="skip-link" href="#main-content">Skip to content</a>
 </nav>
-    <ds-spec-nav title="Design System Doc Spec 0.15.2" title-href="index.html" active="common-presentation">
+    <ds-spec-nav title="Design System Doc Spec 0.16.0" title-href="index.html" active="common-presentation">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="humans-and-agents.html" slug="humans-and-agents">Humans &amp; agents</a>
@@ -99,7 +99,6 @@
       <a href="metadata-status.html" slug="metadata-status">status</a>
       <a href="metadata-summary.html" slug="metadata-summary">summary</a>
       <a href="metadata-tags.html" slug="metadata-tags">tags</a>
-      <a href="metadata-thumbnail.html" slug="metadata-thumbnail">thumbnail</a>
     </ds-nav-group>
   </ds-spec-nav>
   <div class="content">
@@ -111,7 +110,7 @@
           <ds-json-view label="common/presentation.schema.json">
   <ds-code language="json" label="common/presentation.schema.json" wrap>{
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.15.2/common/presentation.schema.json&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/common/presentation.schema.json&quot;,
   &quot;title&quot;: &quot;Presentation definitions&quot;,
   &quot;description&quot;: &quot;Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo.&quot;,
   &quot;$defs&quot;: {

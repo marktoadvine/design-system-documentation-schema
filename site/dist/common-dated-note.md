@@ -19,7 +19,7 @@ A plain-text note. MUST NOT contain markup and MUST NOT be empty.
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/dated-note.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/dated-note.schema.json",
   "title": "Dated note leaf definitions",
   "description": "Two shared building blocks for date-and-note metadata: `isoDate` (a date) and `plainNote` (a plain-text note). Reused by `lastUpdated`, `lastReviewed`, the status `note` (on the entity and per platform), and `docOrigin.note`.",
   "$defs": {

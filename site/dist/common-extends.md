@@ -89,7 +89,7 @@ Declares that this entity inherits from a parent entity in a parent system. The 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/extends.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.16.0/common/extends.schema.json",
   "title": "Extends definitions",
   "description": "Declares inheritance between DSDS documents and between entities, for a system inheriting from a parent system.",
   "$defs": {
