@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/checklist.schema.json",
   "title": "Checklist document block",
-  "description": "A checklist of things to check off \u2014 built for agents, but useful for people too. Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use `checklist` for a hands-on pass over something; use `guidelines` for the rules behind it.",
+  "description": "A checklist of things to check off (built for agents, but useful for people too). Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use `checklist` for a hands-on pass over something; use `guidelines` for the rules behind it.",
   "$defs": {
     "checklistItem": {
       "type": "object",
@@ -11,11 +11,11 @@
       "properties": {
         "label": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "The check itself, written as an instruction you can act on and mark done or not (ex: 'Give every icon-only button an aria-label'). MUST be specific \u2014 not 'check accessibility'."
+          "description": "The check itself, written as an instruction you can act on and mark done or not (ex: 'Give every icon-only button an aria-label'). MUST be specific. 'Check accessibility' would be a poor label."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "Extra detail \u2014 how to do it, what to watch for, or why it matters. Keep the instruction itself in `label`."
+          "description": "Extra detail (how to do it, what to watch for, or why it matters). Keep the instruction itself in `label`."
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
@@ -45,7 +45,7 @@
     },
     "checklist": {
       "type": "object",
-      "description": "A checklist for an artifact \u2014 the concrete steps an agent (or a person) works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`.",
+      "description": "A checklist for an artifact. Acts as the concrete steps an agent or person works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`.",
       "required": ["kind", "items"],
       "properties": {
         "kind": {
@@ -60,7 +60,7 @@
         "ordered": {
           "type": "boolean",
           "default": false,
-          "description": "Whether items must be done in order. Defaults to false \u2014 items can be checked off in any order. Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list."
+          "description": "Whether items must be done in order. Defaults to false (items can be checked off in any order). Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list."
         },
         "items": {
           "type": "array",

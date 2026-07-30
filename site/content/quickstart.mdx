@@ -6,21 +6,21 @@ description: "Get started with DSDS — document structure, entity types, the do
 
 ## What is DSDS?
 
-DSDS (Design System Doc Spec) is a JSON format for documenting design systems. It puts every piece of docs — components, tokens, themes, foundations, patterns — in a machine-readable shape.
+The Design System Doc Spec (DSDS) is a JSON format for documenting design systems. It puts every piece of docs (components, tokens, themes, foundations, patterns) in a machine-readable shape.
 
 <ds-callout title="Key idea:">
 
-DSDS documents the *how and why* of your design system — not the token values themselves. It complements the [W3C Design Tokens Format](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) which handles the *what*.
+DSDS documents the *how and why* of your design system. It complements other standards like the [W3C Design Tokens Format](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) that handles the *what*.
 
 </ds-callout>
 
 ### What you get
 
-- **Structured** — every section has a defined shape, no guessing
-- **Machine-readable** — tools can parse, generate, validate, and transform it
-- **Portable** — not locked to any docs tool or platform
-- **Extensible** — add vendor metadata without breaking compatibility
-- **Validatable** — JSON Schema catches errors before they reach consumers
+- **Structured:** Every section has a defined shape, no guessing
+- **Machine-readable:** Tools can parse, generate, validate, and transform it
+- **Portable:** Not locked to any docs tool or platform
+- **Extensible:** Add vendor metadata without breaking compatibility
+- **Validatable:** JSON Schema catches errors before they reach consumers
 
 ---
 
@@ -68,9 +68,9 @@ Use `entityGroups` to put several entities in one file, or as a manifest that po
 }
 ```
 
-- `dsdsVersion` — the spec version this document targets; `"{{VERSION}}"` for this release
-- `entityGroups` — array of named groups
-- `entities` — one array per group; mix kinds freely in display order. Each entity's `kind` says what type it is
+- `dsdsVersion`: the spec version this document targets; `"{{VERSION}}"` for this release
+- `entityGroups`: array of named groups
+- `entities`: one array per group; mix kinds freely in display order. Each entity's `kind` says what type it is
 
 ### Linking files with `$ref`
 
@@ -107,14 +107,14 @@ Every entity has a `kind` field that tells tools what type of thing it is. There
 
 | Kind | Code | Description |
 |------|------|-------------|
-| component | `"component"` | A reusable UI element — buttons, inputs, modals. Supports anatomy, API, variants, states, and design specs. |
-| token | `"token"` | A single design token — color, spacing, typography. Carries type, category, and usage rules. Link to W3C DTCG definitions via `source`. |
+| component | `"component"` | A reusable UI element (buttons, inputs, modals). Supports anatomy, API, variants, states, and design specs. |
+| token | `"token"` | A single design token (color, spacing, typography). Carries type, category, and usage rules. Link to W3C DTCG definitions via `source`. |
 | token-group | `"token-group"` | A nested group of related tokens. Recursive — groups can contain groups. |
-| theme | `"theme"` | A named set of token overrides — dark mode, high-contrast, compact density, brand variants. It lists which token names change; the DTCG file holds the values. |
-| foundation | `"foundation"` | A design base — color, typography, spacing, elevation. Carries principles, scales, and motion definitions. |
-| pattern | `"pattern"` | A broad action pattern — nav, error messaging, empty states. It shows how components combine to solve a user need. |
-| guide | `"guide"` | A long document meant to be read start to finish — getting-started, contribution, tutorial, migration. It carries narrative sections and step-by-step instructions. |
-| chunk | `"chunk"` | A ready-made block of code that captures a pattern — a copy-paste starting point built from the system's components. It requires `code` and declares what it composes via `relationships`. |
+| theme | `"theme"` | A named set of token overrides (dark mode, high-contrast, compact density, brand variants). It lists which token names change; the DTCG file holds the values. |
+| foundation | `"foundation"` | A design base (color, typography, spacing, elevation). Carries principles, scales, and motion definitions. |
+| pattern | `"pattern"` | A broad action pattern (nav, error messaging, empty states). It shows how components combine to solve a user need. |
+| guide | `"guide"` | A long document meant to be read start to finish (getting-started, contribution, tutorial, migration). It carries narrative sections and step-by-step instructions. |
+| chunk | `"chunk"` | A ready-made block of code that captures a pattern (a copy-paste starting point built from the system's components). It requires `code` and declares what it composes via `relationships`. |
 
 ### Common properties
 
@@ -203,13 +203,13 @@ A criterion turns a guideline into something checkable. Each one pairs a stable 
 
 The `verification` field says how a result is produced:
 
-- **`automated`** — a runner decides the outcome. A `check` names the tool (its `scheme`) and carries that tool's config. Required for this mode.
-- **`assisted`** — a tool surfaces candidates; a human decides.
-- **`manual`** — pure human judgment. No `check` applies; `techniques` and `failures` act as the reviewer's procedure.
+- **`automated`:** a runner decides the outcome. A `check` names the tool (its `scheme`) and carries that tool's config. Required for this mode.
+- **`assisted`:** a tool surfaces candidates; a human decides.
+- **`manual`:** pure human judgment. No `check` applies; `techniques` and `failures` act as the reviewer's procedure.
 
 When `verification` is omitted, tools must not assume the criterion is automatable. The set is closed — it answers *who decides*. A named procedure such as a design review is the *how*; put it in `techniques` on a `manual` criterion.
 
-`examples` on a criterion are test cases. Each declares an `outcome` — `"pass"` or `"fail"` — so a runner can confirm the check still detects what it claims to:
+`examples` on a criterion are test cases. Each declares an `outcome` (`"pass"` or `"fail"`) so a runner can confirm the check still detects what it claims to:
 
 ```json
 {
@@ -237,7 +237,7 @@ The `statement` is always the source of truth. The `check` just puts it into act
 
 ### For humans and agents
 
-A DSDS document has two readers: people and agents. `documentBlocks` is the default home — the docs a person reads and acts on. Agents read it too.
+A DSDS document has two readers: people and agents. `documentBlocks` is the default home (the docs a person reads and acts on). Agents read it too.
 
 `agentDocumentBlocks` is an optional, agent-only space. Put firm, ready-to-act notes there — the kind that would clutter the docs for people. Examples: hard MUST / MUST NOT rules, notes that tell look-alikes apart, and checks an agent can run.
 
@@ -292,7 +292,7 @@ Groups arrange tokens in a tree. The `children` array can contain tokens or nest
 
 ### Theme
 
-A theme provides `overrides` — an array of token names that differ from the default. The DTCG file holds the real override values.
+A theme provides `overrides` (an array of token names that differ from the default). The DTCG file holds the real override values.
 
 <ds-example file="theme.json" label="minimal theme" />
 
