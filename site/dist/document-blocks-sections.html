@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Sections document block" description="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections." source="document-blocks/sections.schema.json"></ds-header>
+    <ds-header title="Sections document block" description="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections." source="document-blocks/sections.schema.json"><h1 slot="_fallback">Sections document block</h1><p slot="_fallback">Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -198,7 +198,7 @@
 <li><a href="#sectionentry"><ds-code inline>sectionEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="sections" anchor="sections" description="One or more titled sections of documentation content. Use it for anything a guide needs that the structured blocks don't capture: overviews, concepts, rationale, FAQs." type="object">
+<ds-def-section name="sections" anchor="sections" description="One or more titled sections of documentation content. Use it for anything a guide needs that the structured blocks don't capture: overviews, concepts, rationale, FAQs." type="object"><h2 slot="_fallback" id="sections">sections</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One or more titled sections of documentation content. Use it for anything a guide needs that the structured blocks don't capture: overviews, concepts, rationale, FAQs.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;sections&quot;&lt;/ds-code&gt;" required>Identifies this block as sections.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-sections.html#sectionentry&quot;&gt;sectionEntry&lt;/ds-type-ref&gt;[]" required>The sections, in order. Tools SHOULD keep this order.<br><small>Min items: 1</small></ds-prop>
@@ -223,7 +223,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="sectionEntry" anchor="sectionentry" description="One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children." type="object">
+<ds-def-section name="sectionEntry" anchor="sectionentry" description="One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children." type="object"><h2 slot="_fallback" id="sectionentry">sectionEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only <ds-code inline>title</ds-code> is required — a section can be just a heading that groups its children.</p>
 <ds-prop-table>
   <ds-prop name="title" type="string" required>The section heading (ex: 'Installation', 'Core concepts').</ds-prop>
   <ds-prop name="anchor" type="string">A stable URL fragment for linking to this section (ex: 'installation'). MUST be lowercase kebab-case and unique in the block. Left out, tools MAY derive one from the title.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>

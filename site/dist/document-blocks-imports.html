@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Imports document block" description="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code." source="document-blocks/imports.schema.json"></ds-header>
+    <ds-header title="Imports document block" description="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code." source="document-blocks/imports.schema.json"><h1 slot="_fallback">Imports document block</h1><p slot="_fallback">How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -185,7 +185,7 @@
 <li><a href="#importentry"><ds-code inline>importEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="imports" anchor="imports" description="How to import a component across platforms, one entry per platform. List the main/recommended platform first." type="object">
+<ds-def-section name="imports" anchor="imports" description="How to import a component across platforms, one entry per platform. List the main/recommended platform first." type="object"><h2 slot="_fallback" id="imports">imports</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">How to import a component across platforms, one entry per platform. List the main/recommended platform first.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;imports&quot;&lt;/ds-code&gt;" required>Identifies this block as an imports spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-imports.html#importentry&quot;&gt;importEntry&lt;/ds-type-ref&gt;[]" required>The per-platform import entries, primary platform first.<br><small>Min items: 1</small></ds-prop>
@@ -213,7 +213,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="importEntry" anchor="importentry" description="One platform's import instructions. Includes the platform, and the code to import/use the component." type="object">
+<ds-def-section name="importEntry" anchor="importentry" description="One platform's import instructions. Includes the platform, and the code to import/use the component." type="object"><h2 slot="_fallback" id="importentry">importEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One platform's import instructions. Includes the platform, and the code to import/use the component.</p>
 <ds-prop-table>
   <ds-prop name="code" type="string" required>The import code. SHOULD be copy-paste ready. Use newlines for multi-line snippets.</ds-prop>
   <ds-prop name="platform" type="string">The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares <ds-code inline>systemInfo.platforms</ds-code>, this SHOULD match one of those identifiers (the same set the <ds-code inline>api</ds-code> block uses). When left out, it's assumed to be the only/default platform.</ds-prop>

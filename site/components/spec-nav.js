@@ -49,6 +49,11 @@ const SPEC_NAV_CSS = `
     inset-block-end: 0;
     */
     z-index: var(--ds-z-nav, 100);
+
+    max-height: none !important;
+    overflow-y: initial !important;
+    padding: unset !important;
+    background: unset !important;
   }
 
   .nav {

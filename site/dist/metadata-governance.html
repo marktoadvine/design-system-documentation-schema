@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Governance metadata field" description="Who's accountable for this entity's docs, and when accuracy was last confirmed. Answers who to ask about conflicts or errors and lets tools flag docs for staleness. Different from `lastUpdated`: that records when the doc changed." source="metadata/governance.schema.json"></ds-header>
+    <ds-header title="Governance metadata field" description="Who's accountable for this entity's docs, and when accuracy was last confirmed. Answers who to ask about conflicts or errors and lets tools flag docs for staleness. Different from `lastUpdated`: that records when the doc changed." source="metadata/governance.schema.json"><h1 slot="_fallback">Governance metadata field</h1><p slot="_fallback">Who's accountable for this entity's docs, and when accuracy was last confirmed. Answers who to ask about conflicts or errors and lets tools flag docs for staleness. Different from <ds-code inline>lastUpdated</ds-code>: that records when the doc changed.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -208,7 +208,7 @@
 <li><a href="#lastreviewed"><ds-code inline>lastReviewed</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="governance" anchor="governance" description="Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'" type="object">
+<ds-def-section name="governance" anchor="governance" description="Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'" type="object"><h2 slot="_fallback" id="governance">governance</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Who's accountable for this entity's docs, and their review state. <ds-code inline>owner</ds-code> is required. Without one, this field is useless. <ds-code inline>lastReviewed</ds-code> is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'</p>
 <ds-prop-table>
   <ds-prop name="owner" type="&lt;ds-type-ref href=&quot;metadata-governance.html#owner&quot;&gt;owner&lt;/ds-type-ref&gt;" required>Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.</ds-prop>
   <ds-prop name="lastReviewed" type="&lt;ds-type-ref href=&quot;metadata-governance.html#lastreviewed&quot;&gt;lastReviewed&lt;/ds-type-ref&gt;">When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates <ds-code inline>lastReviewed</ds-code> and leaves <ds-code inline>lastUpdated</ds-code> alone. Tools MAY treat an old or missing <ds-code inline>lastReviewed</ds-code> as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.</ds-prop>
@@ -234,7 +234,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="owner" anchor="owner" description="Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.">
+<ds-def-section name="owner" anchor="owner" description="Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem."><h2 slot="_fallback" id="owner">owner</h2><p slot="_fallback">Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.</p>
 <p><strong>Accepts one of:</strong></p>
 <ul>
 <li><strong>string</strong> — Name or alias of the owning team, role, or group (ex: 'Design Systems', '@acme/design-system').</li>
@@ -244,7 +244,7 @@
 </ds-prop-table></li>
 </ul>
 </ds-def-section>
-<ds-def-section name="lastReviewed" anchor="lastreviewed" description="When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.">
+<ds-def-section name="lastReviewed" anchor="lastreviewed" description="When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree."><h2 slot="_fallback" id="lastreviewed">lastReviewed</h2><p slot="_fallback">When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates <ds-code inline>lastReviewed</ds-code> and leaves <ds-code inline>lastUpdated</ds-code> alone. Tools MAY treat an old or missing <ds-code inline>lastReviewed</ds-code> as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.</p>
 <p><strong>Accepts one of:</strong></p>
 <ul>
 <li><a href="common-dated-note.html#isodate">isoDate</a></li>

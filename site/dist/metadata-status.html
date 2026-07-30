@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Status metadata field" description="Lifecycle status of an entity. A bare string sets the overall status. The object form adds per-platform readiness, an optional explanatory note, and a deprecation notice." source="metadata/status.schema.json"></ds-header>
+    <ds-header title="Status metadata field" description="Lifecycle status of an entity. A bare string sets the overall status. The object form adds per-platform readiness, an optional explanatory note, and a deprecation notice." source="metadata/status.schema.json"><h1 slot="_fallback">Status metadata field</h1><p slot="_fallback">Lifecycle status of an entity. A bare string sets the overall status. The object form adds per-platform readiness, an optional explanatory note, and a deprecation notice.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -181,7 +181,7 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-section name="status" anchor="status" description="Lifecycle status of the entity. A bare string sets the overall status (ex: 'stable', 'beta') and covers the common case. Use the object form to add per-platform readiness, an explanatory note, or a deprecation notice. A deprecated entity MUST use the object form, because deprecation needs a deprecationNotice that says what to use instead.">
+<ds-def-section name="status" anchor="status" description="Lifecycle status of the entity. A bare string sets the overall status (ex: 'stable', 'beta') and covers the common case. Use the object form to add per-platform readiness, an explanatory note, or a deprecation notice. A deprecated entity MUST use the object form, because deprecation needs a deprecationNotice that says what to use instead."><h2 slot="_fallback" id="status">status</h2><p slot="_fallback">Lifecycle status of the entity. A bare string sets the overall status (ex: 'stable', 'beta') and covers the common case. Use the object form to add per-platform readiness, an explanatory note, or a deprecation notice. A deprecated entity MUST use the object form, because deprecation needs a deprecationNotice that says what to use instead.</p>
 <p><strong>Accepts one of:</strong></p>
 <ul>
 <li><a href="common-status.html#statusvalue">statusValue</a></li>

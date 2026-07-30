@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Anatomy document block" description="Documents the visual structure of a component or pattern: its named sub-elements (parts), their design tokens, and optional annotated examples. Anatomy blocks break an artifact into the parts that designers and engineers need to understand, style, and test. For components, parts are rendered UI sub-elements (container, label, icon). For patterns, parts are sections of the pattern's visual layout (image, title, body, primary action)." source="document-blocks/anatomy.schema.json"></ds-header>
+    <ds-header title="Anatomy document block" description="Documents the visual structure of a component or pattern: its named sub-elements (parts), their design tokens, and optional annotated examples. Anatomy blocks break an artifact into the parts that designers and engineers need to understand, style, and test. For components, parts are rendered UI sub-elements (container, label, icon). For patterns, parts are sections of the pattern's visual layout (image, title, body, primary action)." source="document-blocks/anatomy.schema.json"><h1 slot="_fallback">Anatomy document block</h1><p slot="_fallback">Documents the visual structure of a component or pattern: its named sub-elements (parts), their design tokens, and optional annotated examples. Anatomy blocks break an artifact into the parts that designers and engineers need to understand, style, and test. For components, parts are rendered UI sub-elements (container, label, icon). For patterns, parts are sections of the pattern's visual layout (image, title, body, primary action).</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -203,7 +203,7 @@
 <li><a href="#anatomyentry"><ds-code inline>anatomyEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="anatomy" anchor="anatomy" description="Documents the visual structure of a component or pattern by listing its named sub-elements (parts). Each part can link to the design tokens that style it, tying visual design to token architecture. Optional examples show annotated diagrams of the assembled structure. For components, parts are rendered UI sub-elements (ex: container, label, icon, focus-ring). For patterns, parts are structural sections of the layout (ex: image, title, body, primary action)." type="object">
+<ds-def-section name="anatomy" anchor="anatomy" description="Documents the visual structure of a component or pattern by listing its named sub-elements (parts). Each part can link to the design tokens that style it, tying visual design to token architecture. Optional examples show annotated diagrams of the assembled structure. For components, parts are rendered UI sub-elements (ex: container, label, icon, focus-ring). For patterns, parts are structural sections of the layout (ex: image, title, body, primary action)." type="object"><h2 slot="_fallback" id="anatomy">anatomy</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Documents the visual structure of a component or pattern by listing its named sub-elements (parts). Each part can link to the design tokens that style it, tying visual design to token architecture. Optional examples show annotated diagrams of the assembled structure. For components, parts are rendered UI sub-elements (ex: container, label, icon, focus-ring). For patterns, parts are structural sections of the layout (ex: image, title, body, primary action).</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;anatomy&quot;&lt;/ds-code&gt;" required>Identifies this document block as an anatomy spec.</ds-prop>
   <ds-prop name="parts" type="&lt;ds-type-ref href=&quot;document-blocks-anatomy.html#anatomyentry&quot;&gt;anatomyEntry&lt;/ds-type-ref&gt;[]" required>The named sub-elements of the artifact, in visual order (typically outside-in or top-to-bottom). Each part documents an element that can be styled, tested, or referenced independently.<br><small>Min items: 1</small></ds-prop>
@@ -267,7 +267,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="anatomyEntry" anchor="anatomyentry" description="A named sub-element of a component's or pattern's visual structure." type="object">
+<ds-def-section name="anatomyEntry" anchor="anatomyentry" description="A named sub-element of a component's or pattern's visual structure." type="object"><h2 slot="_fallback" id="anatomyentry">anatomyEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A named sub-element of a component's or pattern's visual structure.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier for the part (ex: 'container', 'label', 'icon', 'focus-ring').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What this part is, what it does, and any constraints on its content or appearance.</ds-prop>

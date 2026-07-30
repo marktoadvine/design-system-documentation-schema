@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Extensions" description="Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces." source="common/extensions.schema.json"></ds-header>
+    <ds-header title="Extensions" description="Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces." source="common/extensions.schema.json"><h1 slot="_fallback">Extensions</h1><p slot="_fallback">Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -125,7 +125,7 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-section name="extensions" anchor="extensions" description="All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields." type="object">
+<ds-def-section name="extensions" anchor="extensions" description="All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields." type="object"><h2 slot="_fallback" id="extensions">extensions</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.</p>
 <ds-def-example>
 <ds-code language="json" label="example">{
   &quot;com.figma&quot;: {

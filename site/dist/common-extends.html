@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Extends definitions" description="Declares inheritance between DSDS documents and between entities, for a system inheriting from a parent system." source="common/extends.schema.json"></ds-header>
+    <ds-header title="Extends definitions" description="Declares inheritance between DSDS documents and between entities, for a system inheriting from a parent system." source="common/extends.schema.json"><h1 slot="_fallback">Extends definitions</h1><p slot="_fallback">Declares inheritance between DSDS documents and between entities, for a system inheriting from a parent system.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -214,7 +214,7 @@
 <li><a href="#entityextends"><ds-code inline>entityExtends</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="documentExtends" anchor="documentextends" description="Declares that this document inherits from another DSDS document. The parent document supplies core entities; this document adds to or extends them. The declaration sets up the relationship; consuming tools handle merge and resolution." type="object">
+<ds-def-section name="documentExtends" anchor="documentextends" description="Declares that this document inherits from another DSDS document. The parent document supplies core entities; this document adds to or extends them. The declaration sets up the relationship; consuming tools handle merge and resolution." type="object"><h2 slot="_fallback" id="documentextends">documentExtends</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Declares that this document inherits from another DSDS document. The parent document supplies core entities; this document adds to or extends them. The declaration sets up the relationship; consuming tools handle merge and resolution.</p>
 <ds-prop-table>
   <ds-prop name="system" type="string" required>Name or package identifier of the base system (ex: 'Acme Core Design System', '@acme/design-system'), not a URL. Tools use it to resolve the base system.</ds-prop>
   <ds-prop name="url" type="string (uri-reference)">URL or relative path to the base DSDS document (ex: './core.dsds.json'). Relative paths resolve against this document. Tools MAY fetch it for merge, validation, or docs.</ds-prop>
@@ -231,7 +231,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="entityExtends" anchor="entityextends" description="Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines); this entity adds or overrides on top." type="object">
+<ds-def-section name="entityExtends" anchor="entityextends" description="Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines); this entity adds or overrides on top." type="object"><h2 slot="_fallback" id="entityextends">entityExtends</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines); this entity adds or overrides on top.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="string" required>Identifier of the parent entity (ex: 'button', 'color-text-primary'). MUST match the base entity's <ds-code inline>identifier</ds-code> in the parent system.</ds-prop>
   <ds-prop name="system" type="string">System that owns the parent entity. When omitted, resolves from the root document's <ds-code inline>extends</ds-code>; set it to extend a different system.</ds-prop>

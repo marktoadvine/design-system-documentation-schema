@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Scale document block" description="An ordered progression of values — a type scale, spacing scale, elevation scale, or similar. Each step links to a token, with an optional name, display value, and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values." source="document-blocks/scale.schema.json"></ds-header>
+    <ds-header title="Scale document block" description="An ordered progression of values — a type scale, spacing scale, elevation scale, or similar. Each step links to a token, with an optional name, display value, and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values." source="document-blocks/scale.schema.json"><h1 slot="_fallback">Scale document block</h1><p slot="_fallback">An ordered progression of values — a type scale, spacing scale, elevation scale, or similar. Each step links to a token, with an optional name, display value, and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -197,7 +197,7 @@
 <li><a href="#scalestep"><ds-code inline>scaleStep</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="scale" anchor="scale" description="An ordered scale — a deliberate progression that keeps design decisions consistent. Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest; tools SHOULD keep this order." type="object">
+<ds-def-section name="scale" anchor="scale" description="An ordered scale — a deliberate progression that keeps design decisions consistent. Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest; tools SHOULD keep this order." type="object"><h2 slot="_fallback" id="scale">scale</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">An ordered scale — a deliberate progression that keeps design decisions consistent. Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest; tools SHOULD keep this order.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;scale&quot;&lt;/ds-code&gt;" required>Identifies this block as a scale spec.</ds-prop>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier for the scale (ex: 'spacing-scale', 'type-scale').</ds-prop>
@@ -247,7 +247,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="scaleStep" anchor="scalestep" description="One step in the scale — a `token` (if it's token-backed), a literal `value` (if not), or both. At least one is required. Don't invent a token identifier just to pass validation; a value-only step is fine." type="object">
+<ds-def-section name="scaleStep" anchor="scalestep" description="One step in the scale — a `token` (if it's token-backed), a literal `value` (if not), or both. At least one is required. Don't invent a token identifier just to pass validation; a value-only step is fine." type="object"><h2 slot="_fallback" id="scalestep">scaleStep</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One step in the scale — a <ds-code inline>token</ds-code> (if it's token-backed), a literal <ds-code inline>value</ds-code> (if not), or both. At least one is required. Don't invent a token identifier just to pass validation; a value-only step is fine.</p>
 <ds-prop-table>
   <ds-prop name="token" type="string" conditional>The token that supplies this step's value. MUST match a token defined elsewhere in the system. Omit if this step isn't token-backed and use <ds-code inline>value</ds-code> instead.</ds-prop>
   <ds-prop name="value" type="string" conditional>The resolved value, for display (ex: '16px'). Just a convenience — the real value lives in the token. Tools MAY fill this in automatically.</ds-prop>

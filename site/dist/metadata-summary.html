@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Summary metadata field" description="A one-line plain-text summary for compact display contexts." source="metadata/summary.schema.json"></ds-header>
+    <ds-header title="Summary metadata field" description="A one-line plain-text summary for compact display contexts." source="metadata/summary.schema.json"><h1 slot="_fallback">Summary metadata field</h1><p slot="_fallback">A one-line plain-text summary for compact display contexts.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -122,7 +122,7 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-section name="summary" anchor="summary" description="One-line plain-text summary for compact display contexts (ex: list views, search results, hover cards). MUST NOT contain markup." type="string">
+<ds-def-section name="summary" anchor="summary" description="One-line plain-text summary for compact display contexts (ex: list views, search results, hover cards). MUST NOT contain markup." type="string"><h2 slot="_fallback" id="summary">summary</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">One-line plain-text summary for compact display contexts (ex: list views, search results, hover cards). MUST NOT contain markup.</p>
 
 </ds-def-section>
 

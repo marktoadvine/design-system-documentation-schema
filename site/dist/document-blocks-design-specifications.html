@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Design specifications document block" description="The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync." source="document-blocks/design-specifications.schema.json"></ds-header>
+    <ds-header title="Design specifications document block" description="The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync." source="document-blocks/design-specifications.schema.json"><h1 slot="_fallback">Design specifications document block</h1><p slot="_fallback">The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -353,7 +353,7 @@
 <li><a href="#designvalue"><ds-code inline>designValue</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="designSpecifications" anchor="designspecifications" description="The component's default, baseline specs — properties, spacing, size, typography, and responsive behavior. Per-variant and per-state overrides don't go here; they live on the `variants` and `states` blocks." type="object">
+<ds-def-section name="designSpecifications" anchor="designspecifications" description="The component's default, baseline specs — properties, spacing, size, typography, and responsive behavior. Per-variant and per-state overrides don't go here; they live on the `variants` and `states` blocks." type="object"><h2 slot="_fallback" id="designspecifications">designSpecifications</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">The component's default, baseline specs — properties, spacing, size, typography, and responsive behavior. Per-variant and per-state overrides don't go here; they live on the <ds-code inline>variants</ds-code> and <ds-code inline>states</ds-code> blocks.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;design-specifications&quot;&lt;/ds-code&gt;" required>Identifies this block as a design specifications spec.</ds-prop>
   <ds-prop name="properties" type="&lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designproperties&quot;&gt;designProperties&lt;/ds-type-ref&gt;" conditional>The default property values (ex: 'background', 'border-radius').</ds-prop>
@@ -431,18 +431,18 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="designProperties" anchor="designproperties" description="A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them." type="object">
+<ds-def-section name="designProperties" anchor="designproperties" description="A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them." type="object"><h2 slot="_fallback" id="designproperties">designProperties</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them.</p>
 <p><strong>Open map:</strong> keys are strings, values are <ds-code inline>any</ds-code></p>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-design-specifications.html#designvalue">designValue</ds-type-ref></ds-cross-refs>
 </ds-def-section>
-<ds-def-section name="spacingSpec" anchor="spacingspec" description="Spacing around and inside the component. `internal` is spacing the component owns; `external` is spacing it recommends but the parent layout controls." type="object">
+<ds-def-section name="spacingSpec" anchor="spacingspec" description="Spacing around and inside the component. `internal` is spacing the component owns; `external` is spacing it recommends but the parent layout controls." type="object"><h2 slot="_fallback" id="spacingspec">spacingSpec</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Spacing around and inside the component. <ds-code inline>internal</ds-code> is spacing the component owns; <ds-code inline>external</ds-code> is spacing it recommends but the parent layout controls.</p>
 <ds-prop-table>
   <ds-prop name="internal" type="map&amp;lt;string, &lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;&amp;gt;">Padding and gaps inside the component. Keys name the relationship (ex: 'icon-to-label') and MUST be lowercase kebab-case. Values are token names or raw CSS (ex: 'space-4', '8px').</ds-prop>
   <ds-prop name="external" type="map&amp;lt;string, &lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;&amp;gt;">Recommended margins between this component and its siblings or container. Keys name the relationship (ex: 'button-to-button') and MUST be lowercase kebab-case. This is a recommendation — the parent layout has final control.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-design-specifications.html#designvalue">designValue</ds-type-ref></ds-cross-refs>
 </ds-def-section>
-<ds-def-section name="sizingSpec" anchor="sizingspec" description="The component's size limits — min/max width and height, and any aspect ratio." type="object">
+<ds-def-section name="sizingSpec" anchor="sizingspec" description="The component's size limits — min/max width and height, and any aspect ratio." type="object"><h2 slot="_fallback" id="sizingspec">sizingSpec</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">The component's size limits — min/max width and height, and any aspect ratio.</p>
 <ds-prop-table>
   <ds-prop name="minWidth" type="&lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;">Minimum width as a token name or raw value (ex: 'size-button-min-width', '64px').</ds-prop>
   <ds-prop name="maxWidth" type="&lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;">Maximum width as a token name or raw value (ex: 'size-dialog-max-width', '600px', 'none').</ds-prop>
@@ -452,11 +452,11 @@
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-design-specifications.html#designvalue">designValue</ds-type-ref></ds-cross-refs>
 </ds-def-section>
-<ds-def-section name="typographySpec" anchor="typographyspec" description="Typography for each text element in the component. Keys name the element (ex: 'label', 'helper-text') and MUST be lowercase kebab-case." type="object">
+<ds-def-section name="typographySpec" anchor="typographyspec" description="Typography for each text element in the component. Keys name the element (ex: 'label', 'helper-text') and MUST be lowercase kebab-case." type="object"><h2 slot="_fallback" id="typographyspec">typographySpec</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Typography for each text element in the component. Keys name the element (ex: 'label', 'helper-text') and MUST be lowercase kebab-case.</p>
 <p><strong>Open map:</strong> keys are strings, values are <ds-code inline>any</ds-code></p>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-design-specifications.html#typographyentryspec">typographyEntrySpec</ds-type-ref></ds-cross-refs>
 </ds-def-section>
-<ds-def-section name="responsiveEntry" anchor="responsiveentry" description="How the component adapts at one breakpoint." type="object">
+<ds-def-section name="responsiveEntry" anchor="responsiveentry" description="How the component adapts at one breakpoint." type="object"><h2 slot="_fallback" id="responsiveentry">responsiveEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">How the component adapts at one breakpoint.</p>
 <ds-prop-table>
   <ds-prop name="breakpoint" type="string" required>The breakpoint name or value at which this behavior applies (ex: 'small', 'medium', 'large', '768px', 'min-width: 1024px').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>How the component's layout, sizing, or behavior changes at this breakpoint.</ds-prop>
@@ -479,7 +479,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="typographyEntrySpec" anchor="typographyentryspec" description="Typography for one text element in the component. Maps CSS typography properties to token names or raw values. If `typeToken` is set, the individual properties just document what it resolves to." type="object">
+<ds-def-section name="typographyEntrySpec" anchor="typographyentryspec" description="Typography for one text element in the component. Maps CSS typography properties to token names or raw values. If `typeToken` is set, the individual properties just document what it resolves to." type="object"><h2 slot="_fallback" id="typographyentryspec">typographyEntrySpec</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Typography for one text element in the component. Maps CSS typography properties to token names or raw values. If <ds-code inline>typeToken</ds-code> is set, the individual properties just document what it resolves to.</p>
 <ds-prop-table>
   <ds-prop name="fontFamily" type="&lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;">Font family as a token name or raw value (ex: 'font-family-body', 'Inter, sans-serif').</ds-prop>
   <ds-prop name="fontSize" type="&lt;ds-type-ref href=&quot;document-blocks-design-specifications.html#designvalue&quot;&gt;designValue&lt;/ds-type-ref&gt;">Font size as a token name or raw value (ex: 'font-size-body', '14px', '0.875rem').</ds-prop>
@@ -491,7 +491,7 @@
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-design-specifications.html#designvalue">designValue</ds-type-ref></ds-cross-refs>
 </ds-def-section>
-<ds-def-section name="designValue" anchor="designvalue" description="A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal." type="string">
+<ds-def-section name="designValue" anchor="designvalue" description="A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal." type="string"><h2 slot="_fallback" id="designvalue">designValue</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal.</p>
 
 </ds-def-section>
 

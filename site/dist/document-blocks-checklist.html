@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Checklist document block" description="A checklist of things to check off — built for agents, but useful for people too. Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use `checklist` for a hands-on pass over something; use `guidelines` for the rules behind it." source="document-blocks/checklist.schema.json"></ds-header>
+    <ds-header title="Checklist document block" description="A checklist of things to check off — built for agents, but useful for people too. Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use `checklist` for a hands-on pass over something; use `guidelines` for the rules behind it." source="document-blocks/checklist.schema.json"><h1 slot="_fallback">Checklist document block</h1><p slot="_fallback">A checklist of things to check off — built for agents, but useful for people too. Each item is a short, actionable line, with optional extra detail, a level that marks how strict it is, and an optional link to the criterion that proves it. Use <ds-code inline>checklist</ds-code> for a hands-on pass over something; use <ds-code inline>guidelines</ds-code> for the rules behind it.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -201,7 +201,7 @@
 <li><a href="#checklistitem"><ds-code inline>checklistItem</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="checklist" anchor="checklist" description="A checklist for an artifact — the concrete steps an agent (or a person) works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`." type="object">
+<ds-def-section name="checklist" anchor="checklist" description="A checklist for an artifact — the concrete steps an agent (or a person) works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`." type="object"><h2 slot="_fallback" id="checklist">checklist</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A checklist for an artifact — the concrete steps an agent (or a person) works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in <ds-code inline>agentDocumentBlocks</ds-code>.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;checklist&quot;&lt;/ds-code&gt;" required>Identifies this block as a checklist.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-checklist.html#checklistitem&quot;&gt;checklistItem&lt;/ds-type-ref&gt;[]" required>The checklist items, in order. Order matters when <ds-code inline>ordered</ds-code> is true, so tools MUST preserve it.<br><small>Min items: 1</small></ds-prop>
@@ -250,7 +250,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="checklistItem" anchor="checklistitem" description="One thing to check, do, or confirm. `label` is the action itself. `description` adds detail. `level` says how strict it is. `criterion` links to the test that proves it. `optional` lets it be skipped. Only `label` is required." type="object">
+<ds-def-section name="checklistItem" anchor="checklistitem" description="One thing to check, do, or confirm. `label` is the action itself. `description` adds detail. `level` says how strict it is. `criterion` links to the test that proves it. `optional` lets it be skipped. Only `label` is required." type="object"><h2 slot="_fallback" id="checklistitem">checklistItem</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One thing to check, do, or confirm. <ds-code inline>label</ds-code> is the action itself. <ds-code inline>description</ds-code> adds detail. <ds-code inline>level</ds-code> says how strict it is. <ds-code inline>criterion</ds-code> links to the test that proves it. <ds-code inline>optional</ds-code> lets it be skipped. Only <ds-code inline>label</ds-code> is required.</p>
 <ds-prop-table>
   <ds-prop name="label" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>The check itself, written as an instruction you can act on and mark done or not (ex: 'Give every icon-only button an aria-label'). MUST be specific — not 'check accessibility'.</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Extra detail — how to do it, what to watch for, or why it matters. Keep the instruction itself in <ds-code inline>label</ds-code>.</ds-prop>

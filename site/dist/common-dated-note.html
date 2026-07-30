@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Dated note leaf definitions" description="Two shared building blocks for date-and-note metadata: `isoDate` (a date) and `plainNote` (a plain-text note). Reused by `lastUpdated`, `lastReviewed`, the status `note` (on the entity and per platform), and `docOrigin.note`." source="common/dated-note.schema.json"></ds-header>
+    <ds-header title="Dated note leaf definitions" description="Two shared building blocks for date-and-note metadata: `isoDate` (a date) and `plainNote` (a plain-text note). Reused by `lastUpdated`, `lastReviewed`, the status `note` (on the entity and per platform), and `docOrigin.note`." source="common/dated-note.schema.json"><h1 slot="_fallback">Dated note leaf definitions</h1><p slot="_fallback">Two shared building blocks for date-and-note metadata: <ds-code inline>isoDate</ds-code> (a date) and <ds-code inline>plainNote</ds-code> (a plain-text note). Reused by <ds-code inline>lastUpdated</ds-code>, <ds-code inline>lastReviewed</ds-code>, the status <ds-code inline>note</ds-code> (on the entity and per platform), and <ds-code inline>docOrigin.note</ds-code>.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -135,10 +135,10 @@
 <li><a href="#plainnote"><ds-code inline>plainNote</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="isoDate" anchor="isodate" description="An ISO 8601 date (YYYY-MM-DD)." type="string">
+<ds-def-section name="isoDate" anchor="isodate" description="An ISO 8601 date (YYYY-MM-DD)." type="string"><h2 slot="_fallback" id="isodate">isoDate</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">An ISO 8601 date (YYYY-MM-DD).</p>
 
 </ds-def-section>
-<ds-def-section name="plainNote" anchor="plainnote" description="A plain-text note. MUST NOT contain markup and MUST NOT be empty." type="string">
+<ds-def-section name="plainNote" anchor="plainnote" description="A plain-text note. MUST NOT contain markup and MUST NOT be empty." type="string"><h2 slot="_fallback" id="plainnote">plainNote</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">A plain-text note. MUST NOT contain markup and MUST NOT be empty.</p>
 
 </ds-def-section>
 

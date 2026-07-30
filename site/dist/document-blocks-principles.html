@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Principles document block" description="The beliefs behind a foundation's decisions — each a short title plus what it means in practice. Principles answer 'what do we believe?' and sit above individual `guidelines`, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing)." source="document-blocks/principles.schema.json"></ds-header>
+    <ds-header title="Principles document block" description="The beliefs behind a foundation's decisions — each a short title plus what it means in practice. Principles answer 'what do we believe?' and sit above individual `guidelines`, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing)." source="document-blocks/principles.schema.json"><h1 slot="_fallback">Principles document block</h1><p slot="_fallback">The beliefs behind a foundation's decisions — each a short title plus what it means in practice. Principles answer 'what do we believe?' and sit above individual <ds-code inline>guidelines</ds-code>, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing).</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -167,7 +167,7 @@
 <li><a href="#principleentry"><ds-code inline>principleEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="principles" anchor="principles" description="The beliefs behind a foundation's decisions — what the system believes and which trade-offs it accepts. Sits above `guidelines`: principles set direction, guidelines encode the specific rules. E.g., a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'." type="object">
+<ds-def-section name="principles" anchor="principles" description="The beliefs behind a foundation's decisions — what the system believes and which trade-offs it accepts. Sits above `guidelines`: principles set direction, guidelines encode the specific rules. E.g., a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'." type="object"><h2 slot="_fallback" id="principles">principles</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">The beliefs behind a foundation's decisions — what the system believes and which trade-offs it accepts. Sits above <ds-code inline>guidelines</ds-code>: principles set direction, guidelines encode the specific rules. E.g., a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;principles&quot;&lt;/ds-code&gt;" required>Identifies this block as a principles spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-principles.html#principleentry&quot;&gt;principleEntry&lt;/ds-type-ref&gt;[]" required>The principles, in order. Tools SHOULD keep this order; authors SHOULD lead with the most important.<br><small>Min items: 1</small></ds-prop>
@@ -193,7 +193,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="principleEntry" anchor="principleentry" description="One principle: a short title and what it means in practice. Principles set direction, not specific rules — for actual rules, use `guidelines`; for whether to use something at all, use `use-cases`." type="object">
+<ds-def-section name="principleEntry" anchor="principleentry" description="One principle: a short title and what it means in practice. Principles set direction, not specific rules — for actual rules, use `guidelines`; for whether to use something at all, use `use-cases`." type="object"><h2 slot="_fallback" id="principleentry">principleEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One principle: a short title and what it means in practice. Principles set direction, not specific rules — for actual rules, use <ds-code inline>guidelines</ds-code>; for whether to use something at all, use <ds-code inline>use-cases</ds-code>.</p>
 <ds-prop-table>
   <ds-prop name="title" type="string" required>A short, memorable name (ex: 'Functional first', 'Use the scale') — short enough to work as a heading.</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What the principle means in practice — not just a restatement of the title. Answer: what does this look like day to day, and how would you use it to settle a disagreement?</ds-prop>

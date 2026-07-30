@@ -26,6 +26,7 @@ const {
   esc,
   slug,
   linkToRef,
+  escWithCode,
   describeType: describeTypeShared,
   renderPropertyTable: renderPropertyTableShared,
   renderPropertyTableMarkdown: renderPropertyTableMarkdownShared,
@@ -76,6 +77,40 @@ function renderSub(name, vars) {
     path.join(SUBTEMPLATES_DIR, `${name}.template.html`),
     vars,
   ).trim();
+}
+
+// ---------------------------------------------------------------------------
+// No-JS fallback content
+//
+// <ds-header> and <ds-def-section> render their title/description from
+// attributes, entirely inside a JS-attached shadow root — with JS disabled
+// there's no shadow root, so that text never appears anywhere in the page.
+// Both templates also accept a {%fallback%} block: plain light-DOM elements
+// carrying the same text, marked with a slot name ("_fallback") that neither
+// component defines a <slot> for. A shadow root only paints light-DOM
+// children through a matching <slot>, so once JS *does* attach the shadow
+// root, these become invisible automatically — no duplicate text, no
+// component changes needed. Without JS, there's no shadow root to hide them
+// behind, so they render as ordinary content.
+// ---------------------------------------------------------------------------
+
+function renderHeaderFallback(title, description) {
+  let html = `<h1 slot="_fallback">${esc(title)}</h1>`;
+  if (description) {
+    html += `<p slot="_fallback">${escWithCode(description)}</p>`;
+  }
+  return html;
+}
+
+function renderDefSectionFallback(anchor, name, type, description) {
+  let html = `<h2 slot="_fallback" id="${esc(anchor)}">${esc(name)}</h2>`;
+  if (type) {
+    html += `<p slot="_fallback"><ds-badge variant="kind">${esc(type)}</ds-badge></p>`;
+  }
+  if (description) {
+    html += `<p slot="_fallback">${escWithCode(description)}</p>`;
+  }
+  return html;
 }
 
 /**
@@ -240,6 +275,12 @@ function renderDefinition(defName, defSchema, exampleData) {
         : "",
       type_attr: defSchema.type ? ` type="${esc(defSchema.type)}"` : "",
       content: content.join("\n"),
+      fallback: renderDefSectionFallback(
+        hid,
+        defName,
+        defSchema.type,
+        defSchema.description,
+      ),
     });
   }
 
@@ -383,6 +424,12 @@ function renderDefinition(defName, defSchema, exampleData) {
       : "",
     type_attr: defSchema.type ? ` type="${esc(defSchema.type)}"` : "",
     content: content.join("\n"),
+    fallback: renderDefSectionFallback(
+      hid,
+      defName,
+      defSchema.type,
+      defSchema.description,
+    ),
   });
 }
 
@@ -494,6 +541,7 @@ function renderSchemaPage(page) {
       : "",
     source_attr: ` source="${esc(relPath)}"`,
     badge: "",
+    fallback: renderHeaderFallback(page.title, page.data.description),
   });
 
   // The JSON view is a fixed-position toggle (see json-view.js), so its
@@ -1280,6 +1328,7 @@ async function build() {
         : "",
       source_attr: "",
       badge: badge ? `<ds-badge>${esc(badge)}</ds-badge>` : "",
+      fallback: renderHeaderFallback(title, mdxPage.meta.description),
     });
 
     const html = pageHtml(

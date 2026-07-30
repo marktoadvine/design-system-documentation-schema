@@ -679,7 +679,7 @@
 
   const HEADER_CSS = `
     ${BASE_RESET}
-    :host { display: flex; flex-direction: column; margin-bottom: var(--ds-space-8); min-height: 100vh; background: var(--ds-color-bg-accent); justify-content: end; padding-inline-start: var(--ds-width-nav); }
+    :host { display: flex !important; margin-top: 0 !important; flex-direction: column; margin-bottom: var(--ds-space-8); min-height: 100vh; background: var(--ds-color-bg-accent); justify-content: end; padding-inline-start: var(--ds-width-nav); }
 
     @media (max-width: 900px) {
       :host {
@@ -1353,6 +1353,11 @@
       inset-block-end: 0;
       */
       z-index: var(--ds-z-nav, 100);
+
+      max-height: none !important;
+      overflow-y: initial !important;
+      padding: unset !important;
+      background: unset !important;
     }
 
     .nav {

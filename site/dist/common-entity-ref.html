@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Entity reference definitions" description="References to other entities. `entityRef` is the standalone reference object; the `entityIdentifier` and `entityRole` defs are shared by `relationship`, use-case alternatives, and token overrides. Every identifier MUST match a documented entity. (Links, by contrast, address external resources by URL.)" source="common/entity-ref.schema.json"></ds-header>
+    <ds-header title="Entity reference definitions" description="References to other entities. `entityRef` is the standalone reference object; the `entityIdentifier` and `entityRole` defs are shared by `relationship`, use-case alternatives, and token overrides. Every identifier MUST match a documented entity. (Links, by contrast, address external resources by URL.)" source="common/entity-ref.schema.json"><h1 slot="_fallback">Entity reference definitions</h1><p slot="_fallback">References to other entities. <ds-code inline>entityRef</ds-code> is the standalone reference object; the <ds-code inline>entityIdentifier</ds-code> and <ds-code inline>entityRole</ds-code> defs are shared by <ds-code inline>relationship</ds-code>, use-case alternatives, and token overrides. Every identifier MUST match a documented entity. (Links, by contrast, address external resources by URL.)</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -150,7 +150,7 @@
 <li><a href="#entityrole"><ds-code inline>entityRole</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="entityRef" anchor="entityref" description="A reference to another entity by `identifier`, with an optional `role`. Use when a field in the schema points to a DSDS entity. Use `link` for external URLs." type="object">
+<ds-def-section name="entityRef" anchor="entityref" description="A reference to another entity by `identifier`, with an optional `role`. Use when a field in the schema points to a DSDS entity. Use `link` for external URLs." type="object"><h2 slot="_fallback" id="entityref">entityRef</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A reference to another entity by <ds-code inline>identifier</ds-code>, with an optional <ds-code inline>role</ds-code>. Use when a field in the schema points to a DSDS entity. Use <ds-code inline>link</ds-code> for external URLs.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="&lt;ds-type-ref href=&quot;common-entity-ref.html#entityidentifier&quot;&gt;entityIdentifier&lt;/ds-type-ref&gt;" required>Identifier of a documented DSDS entity (ex: 'button', 'color-text-primary'). MUST match that entity's <ds-code inline>identifier</ds-code>. Tools SHOULD resolve it to build cross-references.</ds-prop>
   <ds-prop name="role" type="&lt;ds-type-ref href=&quot;common-entity-ref.html#entityrole&quot;&gt;entityRole&lt;/ds-type-ref&gt;">What the referenced entity does here (ex: 'Displays the inline error'). The association is generic when <ds-code inline>entityRole</ds-code> isn't defined.</ds-prop>
@@ -168,10 +168,10 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="entityIdentifier" anchor="entityidentifier" description="Identifier of a documented DSDS entity (ex: 'button', 'color-text-primary'). MUST match that entity's `identifier`. Tools SHOULD resolve it to build cross-references." type="string">
+<ds-def-section name="entityIdentifier" anchor="entityidentifier" description="Identifier of a documented DSDS entity (ex: 'button', 'color-text-primary'). MUST match that entity's `identifier`. Tools SHOULD resolve it to build cross-references." type="string"><h2 slot="_fallback" id="entityidentifier">entityIdentifier</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">Identifier of a documented DSDS entity (ex: 'button', 'color-text-primary'). MUST match that entity's <ds-code inline>identifier</ds-code>. Tools SHOULD resolve it to build cross-references.</p>
 
 </ds-def-section>
-<ds-def-section name="entityRole" anchor="entityrole" description="What the referenced entity does here (ex: 'Displays the inline error'). The association is generic when `entityRole` isn't defined." type="string">
+<ds-def-section name="entityRole" anchor="entityrole" description="What the referenced entity does here (ex: 'Displays the inline error'). The association is generic when `entityRole` isn't defined." type="string"><h2 slot="_fallback" id="entityrole">entityRole</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">What the referenced entity does here (ex: 'Displays the inline error'). The association is generic when <ds-code inline>entityRole</ds-code> isn't defined.</p>
 
 </ds-def-section>
 

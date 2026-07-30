@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Interactions document block" description="The step-by-step flow of a pattern: what triggers each step, what happens, and which components are involved. Read the items in order to follow the user's journey from start to finish." source="document-blocks/interactions.schema.json"></ds-header>
+    <ds-header title="Interactions document block" description="The step-by-step flow of a pattern: what triggers each step, what happens, and which components are involved. Read the items in order to follow the user's journey from start to finish." source="document-blocks/interactions.schema.json"><h1 slot="_fallback">Interactions document block</h1><p slot="_fallback">The step-by-step flow of a pattern: what triggers each step, what happens, and which components are involved. Read the items in order to follow the user's journey from start to finish.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -182,7 +182,7 @@
 <li><a href="#interactionentry"><ds-code inline>interactionEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="interactions" anchor="interactions" description="The step-by-step flow of a pattern. Order matters — it's the timeline of the user's journey. Authors SHOULD cover the trigger, the response, any recovery steps, and completion. Add more than one `interactions` block to document alternate flows (ex: happy path vs. error path)." type="object">
+<ds-def-section name="interactions" anchor="interactions" description="The step-by-step flow of a pattern. Order matters — it's the timeline of the user's journey. Authors SHOULD cover the trigger, the response, any recovery steps, and completion. Add more than one `interactions` block to document alternate flows (ex: happy path vs. error path)." type="object"><h2 slot="_fallback" id="interactions">interactions</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">The step-by-step flow of a pattern. Order matters — it's the timeline of the user's journey. Authors SHOULD cover the trigger, the response, any recovery steps, and completion. Add more than one <ds-code inline>interactions</ds-code> block to document alternate flows (ex: happy path vs. error path).</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;interactions&quot;&lt;/ds-code&gt;" required>Identifies this block as an interactions spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-interactions.html#interactionentry&quot;&gt;interactionEntry&lt;/ds-type-ref&gt;[]" required>The steps, in time order. Tools SHOULD keep this order so the sequence stays clear.<br><small>Min items: 1</small></ds-prop>
@@ -231,7 +231,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="interactionEntry" anchor="interactionentry" description="One step in the flow: what triggers it, what happens, which components are involved, and optional examples." type="object">
+<ds-def-section name="interactionEntry" anchor="interactionentry" description="One step in the flow: what triggers it, what happens, which components are involved, and optional examples." type="object"><h2 slot="_fallback" id="interactionentry">interactionEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One step in the flow: what triggers it, what happens, which components are involved, and optional examples.</p>
 <ds-prop-table>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What happens — the system's response, visual changes, and feedback the user sees.</ds-prop>
   <ds-prop name="trigger" type="string">What starts this step — a user action, system event, or condition (ex: 'User submits the form'). Left out, this step just continues the last one.</ds-prop>

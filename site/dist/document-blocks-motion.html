@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Motion document block" description="The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes — enough for tools to generate CSS transitions or preview the curve." source="document-blocks/motion.schema.json"></ds-header>
+    <ds-header title="Motion document block" description="The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes — enough for tools to generate CSS transitions or preview the curve." source="document-blocks/motion.schema.json"><h1 slot="_fallback">Motion document block</h1><p slot="_fallback">The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes — enough for tools to generate CSS transitions or preview the curve.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -260,7 +260,7 @@
 <li><a href="#motionduration"><ds-code inline>motionDuration</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="motion" anchor="motion" description="The motion system for a foundation — named easings that designers and engineers pick from. List the most common ones first; tools SHOULD keep this order. Scoped to foundations. Pairs with `scale` (for duration progressions) and `guidelines` (for rules like reduced-motion handling)." type="object">
+<ds-def-section name="motion" anchor="motion" description="The motion system for a foundation — named easings that designers and engineers pick from. List the most common ones first; tools SHOULD keep this order. Scoped to foundations. Pairs with `scale` (for duration progressions) and `guidelines` (for rules like reduced-motion handling)." type="object"><h2 slot="_fallback" id="motion">motion</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">The motion system for a foundation — named easings that designers and engineers pick from. List the most common ones first; tools SHOULD keep this order. Scoped to foundations. Pairs with <ds-code inline>scale</ds-code> (for duration progressions) and <ds-code inline>guidelines</ds-code> (for rules like reduced-motion handling).</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;motion&quot;&lt;/ds-code&gt;" required>Identifies this block as a motion spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-motion.html#motionentry&quot;&gt;motionEntry&lt;/ds-type-ref&gt;[]" required>The named easings, in order. Tools SHOULD keep this order for display.<br><small>Min items: 1</small></ds-prop>
@@ -373,7 +373,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="motionEntry" anchor="motionentry" description="One named easing curve: its timing function, recommended usage, and duration. `function` is a four-number array [P1x, P1y, P2x, P2y] — the same format as the W3C Design Tokens cubicBezier type." type="object">
+<ds-def-section name="motionEntry" anchor="motionentry" description="One named easing curve: its timing function, recommended usage, and duration. `function` is a four-number array [P1x, P1y, P2x, P2y] — the same format as the W3C Design Tokens cubicBezier type." type="object"><h2 slot="_fallback" id="motionentry">motionEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One named easing curve: its timing function, recommended usage, and duration. <ds-code inline>function</ds-code> is a four-number array [P1x, P1y, P2x, P2y] — the same format as the W3C Design Tokens cubicBezier type.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier for the easing (ex: 'enter', 'exit', 'linear').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What this easing is for and when to use it — describe the curve's feel and what kind of transitions it suits.</ds-prop>
@@ -501,7 +501,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="motionDuration" anchor="motionduration" description="A recommended duration range, as a time value ('200ms') or token ('duration-quick'). Give both `min` and `max` for a range, just one for a single recommendation, or use `description` alone if it can't be expressed as numbers. At least one of the three is required." type="object">
+<ds-def-section name="motionDuration" anchor="motionduration" description="A recommended duration range, as a time value ('200ms') or token ('duration-quick'). Give both `min` and `max` for a range, just one for a single recommendation, or use `description` alone if it can't be expressed as numbers. At least one of the three is required." type="object"><h2 slot="_fallback" id="motionduration">motionDuration</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A recommended duration range, as a time value ('200ms') or token ('duration-quick'). Give both <ds-code inline>min</ds-code> and <ds-code inline>max</ds-code> for a range, just one for a single recommendation, or use <ds-code inline>description</ds-code> alone if it can't be expressed as numbers. At least one of the three is required.</p>
 <ds-prop-table>
   <ds-prop name="min" type="string" conditional>Minimum recommended duration (ex: '200ms', 'duration-quick'). Left out, there's no minimum.</ds-prop>
   <ds-prop name="max" type="string" conditional>Maximum recommended duration (ex: '500ms', 'duration-slow'). Left out, there's no maximum.</ds-prop>

@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Pattern definitions" description="A pattern is a repeated answer to a common UX problem — navigation, error messaging, form validation, empty states, loading, onboarding. A pattern document holds the identity of a multi-component solution, its metadata, and its docs." source="entities/pattern.schema.json"></ds-header>
+    <ds-header title="Pattern definitions" description="A pattern is a repeated answer to a common UX problem — navigation, error messaging, form validation, empty states, loading, onboarding. A pattern document holds the identity of a multi-component solution, its metadata, and its docs." source="entities/pattern.schema.json"><h1 slot="_fallback">Pattern definitions</h1><p slot="_fallback">A pattern is a repeated answer to a common UX problem — navigation, error messaging, form validation, empty states, loading, onboarding. A pattern document holds the identity of a multi-component solution, its metadata, and its docs.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -174,7 +174,7 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-section name="pattern" anchor="pattern" description="A repeated, multi-component answer to a common UX problem. A pattern sits above individual components and shows how they combine to meet a user need. Its identity is `identifier`, `name`, and `description`; its docs cover `interactions` (flow steps), `guidelines` (rules), `accessibility`, and more." type="object">
+<ds-def-section name="pattern" anchor="pattern" description="A repeated, multi-component answer to a common UX problem. A pattern sits above individual components and shows how they combine to meet a user need. Its identity is `identifier`, `name`, and `description`; its docs cover `interactions` (flow steps), `guidelines` (rules), `accessibility`, and more." type="object"><h2 slot="_fallback" id="pattern">pattern</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A repeated, multi-component answer to a common UX problem. A pattern sits above individual components and shows how they combine to meet a user need. Its identity is <ds-code inline>identifier</ds-code>, <ds-code inline>name</ds-code>, and <ds-code inline>description</ds-code>; its docs cover <ds-code inline>interactions</ds-code> (flow steps), <ds-code inline>guidelines</ds-code> (rules), <ds-code inline>accessibility</ds-code>, and more.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;pattern&quot;&lt;/ds-code&gt;" required>Identifies this entity as a pattern.</ds-prop>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique across the whole document, because references resolve to it document-wide.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>

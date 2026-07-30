@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Accessibility document block" description="Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the artifact does — a fact a test or review can confirm. For general documentation guidance — rules about what authors should do, with rationale and a conformance level — use a `guidelines` block (category 'accessibility')." source="document-blocks/accessibility.schema.json"></ds-header>
+    <ds-header title="Accessibility document block" description="Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the artifact does — a fact a test or review can confirm. For general documentation guidance — rules about what authors should do, with rationale and a conformance level — use a `guidelines` block (category 'accessibility')." source="document-blocks/accessibility.schema.json"><h1 slot="_fallback">Accessibility document block</h1><p slot="_fallback">Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the artifact does — a fact a test or review can confirm. For general documentation guidance — rules about what authors should do, with rationale and a conformance level — use a <ds-code inline>guidelines</ds-code> block (category 'accessibility').</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -389,7 +389,7 @@
 <li><a href="#reducedmotionentry"><ds-code inline>reducedMotionEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="accessibility" anchor="accessibility" description="Specialized, structured accessibility documentation for an artifact. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the artifact does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with  a category 'accessibility' value). The two blocks complement each other on the same artifact." type="object">
+<ds-def-section name="accessibility" anchor="accessibility" description="Specialized, structured accessibility documentation for an artifact. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the artifact does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with  a category 'accessibility' value). The two blocks complement each other on the same artifact." type="object"><h2 slot="_fallback" id="accessibility">accessibility</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Specialized, structured accessibility documentation for an artifact. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the artifact does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a <ds-code inline>guidelines</ds-code> block (with  a category 'accessibility' value). The two blocks complement each other on the same artifact.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;accessibility&quot;&lt;/ds-code&gt;" required>Identifies this document block as an accessibility spec.</ds-prop>
   <ds-prop name="wcagLevel" type="&lt;ds-code inline&gt;&quot;A&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;AA&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;AAA&quot;&lt;/ds-code&gt;" conditional>The minimum WCAG conformance level targeted by this artifact.</ds-prop>
@@ -513,7 +513,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="keyboardInteraction" anchor="keyboardinteraction" description="A keyboard interaction spec documenting what happens when a specific key or key combination is pressed." type="object">
+<ds-def-section name="keyboardInteraction" anchor="keyboardinteraction" description="A keyboard interaction spec documenting what happens when a specific key or key combination is pressed." type="object"><h2 slot="_fallback" id="keyboardinteraction">keyboardInteraction</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A keyboard interaction spec documenting what happens when a specific key or key combination is pressed.</p>
 <ds-prop-table>
   <ds-prop name="key" type="string" required>The key or key combination (ex: 'Enter', 'Space', 'Tab', 'Shift+Tab', 'Escape', 'Arrow Down', 'Home', 'End').</ds-prop>
   <ds-prop name="action" type="string" required>What happens when this key is pressed (ex: 'Activates the button', 'Moves focus to the next item in the list', 'Closes the dialog and returns focus to the trigger').</ds-prop>
@@ -545,7 +545,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="ariaAttribute" anchor="ariaattribute" description="An ARIA attribute used by the artifact: what it communicates and when to apply it." type="object">
+<ds-def-section name="ariaAttribute" anchor="ariaattribute" description="An ARIA attribute used by the artifact: what it communicates and when to apply it." type="object"><h2 slot="_fallback" id="ariaattribute">ariaAttribute</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">An ARIA attribute used by the artifact: what it communicates and when to apply it.</p>
 <ds-prop-table>
   <ds-prop name="attribute" type="string" required>The ARIA attribute name (ex: 'role', 'aria-label', 'aria-expanded', 'aria-disabled', 'aria-live', 'aria-controls').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What this attribute communicates to assistive technology and when to apply it. Include guidance on dynamic value changes when applicable.</ds-prop>
@@ -588,7 +588,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="colorContrastEntry" anchor="colorcontrastentry" description="A foreground/background color pairing the artifact uses.  Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate." type="object">
+<ds-def-section name="colorContrastEntry" anchor="colorcontrastentry" description="A foreground/background color pairing the artifact uses.  Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate." type="object"><h2 slot="_fallback" id="colorcontrastentry">colorContrastEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A foreground/background color pairing the artifact uses.  Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate.</p>
 <ds-prop-table>
   <ds-prop name="foreground" type="string" required>The foreground token name or resolved color value (ex: 'color-text-primary', '#1a1a1a', 'var(--button-text-color)').</ds-prop>
   <ds-prop name="background" type="string" required>The background token name or resolved color value (ex: 'color-background-default', '#ffffff', 'var(--button-background)').</ds-prop>
@@ -619,7 +619,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="announcement" anchor="announcement" description="What a screen reader announces in one context or state." type="object">
+<ds-def-section name="announcement" anchor="announcement" description="What a screen reader announces in one context or state." type="object"><h2 slot="_fallback" id="announcement">announcement</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">What a screen reader announces in one context or state.</p>
 <ds-prop-table>
   <ds-prop name="context" type="string" required>The state or situation being announced (ex: 'default', 'disabled via aria-disabled', 'loading', 'validation failure'). Use 'default' for the resting state.</ds-prop>
   <ds-prop name="announcement" type="string" required>What is announced (ex: '[label], button, dimmed'). Use bracketed placeholders for content that varies.</ds-prop>
@@ -639,7 +639,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="focusBehavior" anchor="focusbehavior" description="How focus moves at one moment in the artifact's lifecycle." type="object">
+<ds-def-section name="focusBehavior" anchor="focusbehavior" description="How focus moves at one moment in the artifact's lifecycle." type="object"><h2 slot="_fallback" id="focusbehavior">focusBehavior</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">How focus moves at one moment in the artifact's lifecycle.</p>
 <ds-prop-table>
   <ds-prop name="trigger" type="string" required>The moment or event (ex: 'default', 'open', 'close', 'validation failure', 'disabled'). Use 'default' for normal tab-order participation.</ds-prop>
   <ds-prop name="behavior" type="string" required>What focus does (ex: 'Moves to the error summary', 'Returns to the trigger element', 'Participates in the normal tab order').</ds-prop>
@@ -653,7 +653,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="reducedMotionEntry" anchor="reducedmotionentry" description="One animation and its behavior under prefers-reduced-motion." type="object">
+<ds-def-section name="reducedMotionEntry" anchor="reducedmotionentry" description="One animation and its behavior under prefers-reduced-motion." type="object"><h2 slot="_fallback" id="reducedmotionentry">reducedMotionEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One animation and its behavior under prefers-reduced-motion.</p>
 <ds-prop-table>
   <ds-prop name="animation" type="string" required>The animation or transition (ex: 'loading spinner rotation', 'background-color 100ms transition').</ds-prop>
   <ds-prop name="behavior" type="string" required>What happens when reduced motion is preferred (ex: 'Replaced with a static ellipsis indicator', 'Transition removed; state changes apply instantly').</ds-prop>

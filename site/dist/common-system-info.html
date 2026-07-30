@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="System info definition" description="The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`." source="common/system-info.schema.json"></ds-header>
+    <ds-header title="System info definition" description="The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity `metadata`." source="common/system-info.schema.json"><h1 slot="_fallback">System info definition</h1><p slot="_fallback">The identity of the design system. Includes name, version, organization, URL, and license. Separate from the per-entity <ds-code inline>metadata</ds-code>.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -186,7 +186,7 @@
 <li><a href="#platform"><ds-code inline>platform</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="systemInfo" anchor="systeminfo" description="Identity of the design system." type="object">
+<ds-def-section name="systemInfo" anchor="systeminfo" description="Identity of the design system." type="object"><h2 slot="_fallback" id="systeminfo">systemInfo</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Identity of the design system.</p>
 <ds-prop-table>
   <ds-prop name="name" type="string" required>Human-readable name of the design system (ex: 'Acme Design System'). Not a package name — those belong in <ds-code inline>extends.system</ds-code> or platform imports.</ds-prop>
   <ds-prop name="version" type="string">Version this documentation describes (ex: '2.3.0'). SHOULD follow semver so tools can compare it against <ds-code inline>extends.version</ds-code> and <ds-code inline>reviewedAgainst</ds-code>.</ds-prop>
@@ -217,7 +217,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="platform" anchor="platform" description="One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label." type="object">
+<ds-def-section name="platform" anchor="platform" description="One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label." type="object"><h2 slot="_fallback" id="platform">platform</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One platform the system documents. <ds-code inline>identifier</ds-code> is the name everything else references; <ds-code inline>name</ds-code> is an optional friendly label.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="string" required>The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value <ds-code inline>api</ds-code>, <ds-code inline>imports</ds-code>, and per-platform <ds-code inline>status</ds-code> point at.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="name" type="string">Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS').</ds-prop>

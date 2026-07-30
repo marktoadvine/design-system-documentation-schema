@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Variants document block" description="Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists." source="document-blocks/variants.schema.json"></ds-header>
+    <ds-header title="Variants document block" description="Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists." source="document-blocks/variants.schema.json"><h1 slot="_fallback">Variants document block</h1><p slot="_fallback">Every way a component can be configured — a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -419,7 +419,7 @@
 <li><a href="#variantvalue"><ds-code inline>variantValue</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="variants" anchor="variants" description="Every way a component or pattern can be configured — a toggle or a set of options. Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'); a condition entered at runtime (hover, disabled, loading) is a state — document that in `states` instead." type="object">
+<ds-def-section name="variants" anchor="variants" description="Every way a component or pattern can be configured — a toggle or a set of options. Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'); a condition entered at runtime (hover, disabled, loading) is a state — document that in `states` instead." type="object"><h2 slot="_fallback" id="variants">variants</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Every way a component or pattern can be configured — a toggle or a set of options. Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'); a condition entered at runtime (hover, disabled, loading) is a state — document that in <ds-code inline>states</ds-code> instead.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;variants&quot;&lt;/ds-code&gt;" required>Identifies this block as a variants spec.</ds-prop>
   <ds-prop name="items" type="object {kind}[]" required>The variant dimensions, in order. Tools SHOULD keep this order.<br><small>Min items: 1</small></ds-prop>
@@ -532,7 +532,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="variantExclusion" anchor="variantexclusion" description="A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is." type="object">
+<ds-def-section name="variantExclusion" anchor="variantexclusion" description="A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is." type="object"><h2 slot="_fallback" id="variantexclusion">variantExclusion</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.</p>
 <ds-prop-table>
   <ds-prop name="variants" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>Two or more selections that conflict. The rule says they must not all be active at the same time.<br><small>Min items: 2</small></ds-prop>
   <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.</ds-prop>
@@ -554,7 +554,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="variantRequirement" anchor="variantrequirement" description="A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion." type="object">
+<ds-def-section name="variantRequirement" anchor="variantrequirement" description="A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion." type="object"><h2 slot="_fallback" id="variantrequirement">variantRequirement</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.</p>
 <ds-prop-table>
   <ds-prop name="when" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The triggering selection(s). When all of these are active, <ds-code inline>requires</ds-code> applies.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="requires" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The selection(s) that must also be active whenever <ds-code inline>when</ds-code> holds.<br><small>Min items: 1</small></ds-prop>
@@ -580,7 +580,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="flagVariant" anchor="flagvariant" description="A toggle — on or off. Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array; it's simply active or not." type="object">
+<ds-def-section name="flagVariant" anchor="flagvariant" description="A toggle — on or off. Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array; it's simply active or not." type="object"><h2 slot="_fallback" id="flagvariant">flagVariant</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A toggle — on or off. Use it for binary capabilities like 'disabled' or 'full-width'. No <ds-code inline>values</ds-code> array; it's simply active or not.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;flag&quot;&lt;/ds-code&gt;" required>Identifies this variant as a boolean flag.</ds-prop>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier of the flag (ex: 'disabled', 'full-width', 'icon-only', 'loading').</ds-prop>
@@ -609,7 +609,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="enumVariant" anchor="enumvariant" description="A set of options where you pick one, like 'size' (sm | md | lg) or 'emphasis' (primary | secondary | ghost)." type="object">
+<ds-def-section name="enumVariant" anchor="enumvariant" description="A set of options where you pick one, like 'size' (sm | md | lg) or 'emphasis' (primary | secondary | ghost)." type="object"><h2 slot="_fallback" id="enumvariant">enumVariant</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A set of options where you pick one, like 'size' (sm | md | lg) or 'emphasis' (primary | secondary | ghost).</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;enum&quot;&lt;/ds-code&gt;" required>Identifies this variant as an enumerated set of values.</ds-prop>
   <ds-prop name="identifier" type="string" required>Machine-readable name for this dimension (ex: 'size', 'emphasis') — the axis, not one of its values.</ds-prop>
@@ -667,7 +667,7 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="variantSelection" anchor="variantselection" description="A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`." type="object">
+<ds-def-section name="variantSelection" anchor="variantselection" description="A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`." type="object"><h2 slot="_fallback" id="variantselection">variantSelection</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The <ds-code inline>variant</ds-code> MUST match an item in the same block's <ds-code inline>items</ds-code>.</p>
 <ds-prop-table>
   <ds-prop name="variant" type="string" required>Identifier of the flag or enum dimension this points at (ex: 'icon-only', 'emphasis'). MUST match one of this block's <ds-code inline>items</ds-code>.</ds-prop>
   <ds-prop name="value" type="string">For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on.</ds-prop>
@@ -679,7 +679,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="variantValue" anchor="variantvalue" description="A single option within an enum variant dimension." type="object">
+<ds-def-section name="variantValue" anchor="variantvalue" description="A single option within an enum variant dimension." type="object"><h2 slot="_fallback" id="variantvalue">variantValue</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A single option within an enum variant dimension.</p>
 <ds-prop-table>
   <ds-prop name="identifier" type="string" required>Machine-readable value identifier (ex: 'sm', 'md', 'lg', 'primary', 'secondary').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What this value looks like, when to use it, and how it differs from other values in this dimension.</ds-prop>

@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Guidelines document block" description="Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why." source="document-blocks/guidelines.schema.json"></ds-header>
+    <ds-header title="Guidelines document block" description="Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why." source="document-blocks/guidelines.schema.json"><h1 slot="_fallback">Guidelines document block</h1><p slot="_fallback">Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -266,7 +266,7 @@
 <li><a href="#guidelineentry"><ds-code inline>guidelineEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="guidelines" anchor="guidelines" description="Usage rules for an artifact — each a do/don't statement with a reason. Answers *how* to use it correctly. For *whether* to use it, see `use-cases`; for the beliefs behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content') — the `accessibility` and `content` blocks are for structured reference data, not rules." type="object">
+<ds-def-section name="guidelines" anchor="guidelines" description="Usage rules for an artifact — each a do/don't statement with a reason. Answers *how* to use it correctly. For *whether* to use it, see `use-cases`; for the beliefs behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content') — the `accessibility` and `content` blocks are for structured reference data, not rules." type="object"><h2 slot="_fallback" id="guidelines">guidelines</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Usage rules for an artifact — each a do/don't statement with a reason. Answers *how* to use it correctly. For *whether* to use it, see <ds-code inline>use-cases</ds-code>; for the beliefs behind the rules (on foundations), see <ds-code inline>principles</ds-code>. Accessibility and content rules go here too (categories 'accessibility'/'content') — the <ds-code inline>accessibility</ds-code> and <ds-code inline>content</ds-code> blocks are for structured reference data, not rules.</p>
 <ds-prop-table>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-guidelines.html#guidelineentry&quot;&gt;guidelineEntry&lt;/ds-type-ref&gt;[]" required>The rules, in order. Tools SHOULD keep this order; authors SHOULD lead with the most important or group by category.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt;" required>Identifies this block as a guidelines spec.</ds-prop>
@@ -313,7 +313,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="guidelineEntry" anchor="guidelineentry" description="One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG." type="object">
+<ds-def-section name="guidelineEntry" anchor="guidelineentry" description="One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG." type="object"><h2 slot="_fallback" id="guidelineentry">guidelineEntry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One rule. <ds-code inline>identifier</ds-code> names the rule so other blocks and tools can point at it. <ds-code inline>guidance</ds-code> is the rule; <ds-code inline>rationale</ds-code> says why. <ds-code inline>level</ds-code> sets how strict it is. <ds-code inline>category</ds-code> groups it by discipline. <ds-code inline>target</ds-code> points at a specific part. <ds-code inline>criteria</ds-code> are tests that prove the rule holds. <ds-code inline>references</ds-code> cites outside standards like WCAG.</p>
 <ds-prop-table>
   <ds-prop name="guidance" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>The rule itself. MUST be concrete and clear — not 'use sparingly' or 'when possible'.</ds-prop>
   <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code.</ds-prop>

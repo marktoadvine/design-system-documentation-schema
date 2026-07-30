@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Presentation definitions" description="Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo." source="common/presentation.schema.json"></ds-header>
+    <ds-header title="Presentation definitions" description="Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by `example` and any schema that embeds a demo." source="common/presentation.schema.json"><h1 slot="_fallback">Presentation definitions</h1><p slot="_fallback">Typed presentation objects for visual and interactive demos: image, video, code snippet, or URL. Used by <ds-code inline>example</ds-code> and any schema that embeds a demo.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -235,7 +235,7 @@
 <li><a href="#mediaalt"><ds-code inline>mediaAlt</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="presentationImage" anchor="presentationimage" description="An image. Represents a screenshot, diagram, mockup, or exported design frame." type="object">
+<ds-def-section name="presentationImage" anchor="presentationimage" description="An image. Represents a screenshot, diagram, mockup, or exported design frame." type="object"><h2 slot="_fallback" id="presentationimage">presentationImage</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">An image. Represents a screenshot, diagram, mockup, or exported design frame.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;image&quot;&lt;/ds-code&gt;" required>Identifies this presentation as an image.</ds-prop>
   <ds-prop name="url" type="&lt;ds-type-ref href=&quot;common-presentation.html#mediaurl&quot;&gt;mediaUrl&lt;/ds-type-ref&gt;" required>URL or relative path to the image file.</ds-prop>
@@ -250,7 +250,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="presentationVideo" anchor="presentationvideo" description="A video — screen recording, animated transition, or interaction walkthrough." type="object">
+<ds-def-section name="presentationVideo" anchor="presentationvideo" description="A video — screen recording, animated transition, or interaction walkthrough." type="object"><h2 slot="_fallback" id="presentationvideo">presentationVideo</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A video — screen recording, animated transition, or interaction walkthrough.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;video&quot;&lt;/ds-code&gt;" required>Identifies this presentation as a video.</ds-prop>
   <ds-prop name="url" type="&lt;ds-type-ref href=&quot;common-presentation.html#mediaurl&quot;&gt;mediaUrl&lt;/ds-type-ref&gt;" required>URL or relative path to the video file.</ds-prop>
@@ -265,7 +265,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="presentationCode" anchor="presentationcode" description="A source code snippet showing how to use the artifact." type="object">
+<ds-def-section name="presentationCode" anchor="presentationcode" description="A source code snippet showing how to use the artifact." type="object"><h2 slot="_fallback" id="presentationcode">presentationCode</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A source code snippet showing how to use the artifact.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;code&quot;&lt;/ds-code&gt;" required>Identifies this presentation as a code snippet.</ds-prop>
   <ds-prop name="code" type="string" required>The source code of the example.</ds-prop>
@@ -279,7 +279,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="presentationUrl" anchor="presentationurl" description="A link to a web resource — live demo, interactive example, docs page, or hosted story (Storybook, CodeSandbox, StackBlitz, etc.)." type="object">
+<ds-def-section name="presentationUrl" anchor="presentationurl" description="A link to a web resource — live demo, interactive example, docs page, or hosted story (Storybook, CodeSandbox, StackBlitz, etc.)." type="object"><h2 slot="_fallback" id="presentationurl">presentationUrl</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A link to a web resource — live demo, interactive example, docs page, or hosted story (Storybook, CodeSandbox, StackBlitz, etc.).</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;url&quot;&lt;/ds-code&gt;" required>Identifies this presentation as a URL.</ds-prop>
   <ds-prop name="url" type="string (uri)" required>URL to the web resource (ex: a Storybook story or CodeSandbox link).</ds-prop>
@@ -291,10 +291,10 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="mediaUrl" anchor="mediaurl" description="URL or relative path to a media file. Relative paths resolve against the referencing document." type="string">
+<ds-def-section name="mediaUrl" anchor="mediaurl" description="URL or relative path to a media file. Relative paths resolve against the referencing document." type="string"><h2 slot="_fallback" id="mediaurl">mediaUrl</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">URL or relative path to a media file. Relative paths resolve against the referencing document.</p>
 
 </ds-def-section>
-<ds-def-section name="mediaAlt" anchor="mediaalt" description="Alt text for assistive technology. MUST NOT be empty." type="string">
+<ds-def-section name="mediaAlt" anchor="mediaalt" description="Alt text for assistive technology. MUST NOT be empty." type="string"><h2 slot="_fallback" id="mediaalt">mediaAlt</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">Alt text for assistive technology. MUST NOT be empty.</p>
 
 </ds-def-section>
 

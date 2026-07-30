@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Theme definitions" description="A theme documents an alternative set of token values — a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships; the actual override values live in the DTCG file `source` points to. Put internal links in `links` metadata, not a block." source="entities/theme.schema.json"></ds-header>
+    <ds-header title="Theme definitions" description="A theme documents an alternative set of token values — a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships; the actual override values live in the DTCG file `source` points to. Put internal links in `links` metadata, not a block." source="entities/theme.schema.json"><h1 slot="_fallback">Theme definitions</h1><p slot="_fallback">A theme documents an alternative set of token values — a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships; the actual override values live in the DTCG file <ds-code inline>source</ds-code> points to. Put internal links in <ds-code inline>links</ds-code> metadata, not a block.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -225,7 +225,7 @@
 <li><a href="#tokenoverride"><ds-code inline>tokenOverride</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="theme" anchor="theme" description="A named context that adapts the system's token values — a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects; the override values live in the DTCG file `source` points to. The token catalog is still the source of truth for token identity, type, and docs." type="object">
+<ds-def-section name="theme" anchor="theme" description="A named context that adapts the system's token values — a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects; the override values live in the DTCG file `source` points to. The token catalog is still the source of truth for token identity, type, and docs." type="object"><h2 slot="_fallback" id="theme">theme</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">A named context that adapts the system's token values — a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects; the override values live in the DTCG file <ds-code inline>source</ds-code> points to. The token catalog is still the source of truth for token identity, type, and docs.</p>
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;theme&quot;&lt;/ds-code&gt;" required>Identifies this entity as a theme.</ds-prop>
   <ds-prop name="identifier" type="string" required>Machine-readable identifier for the theme (ex: 'dark', 'high-contrast', 'compact', 'brand-sub-brand').<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
@@ -618,7 +618,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="tokenOverride" anchor="tokenoverride" description="One token override in a theme: which token changes, and why. The value itself lives in the DTCG file — this just records the intent." type="object">
+<ds-def-section name="tokenOverride" anchor="tokenoverride" description="One token override in a theme: which token changes, and why. The value itself lives in the DTCG file — this just records the intent." type="object"><h2 slot="_fallback" id="tokenoverride">tokenOverride</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">One token override in a theme: which token changes, and why. The value itself lives in the DTCG file — this just records the intent.</p>
 <ds-prop-table>
   <ds-prop name="token" type="string" required>The token being overridden. MUST match a token's <ds-code inline>identifier</ds-code> defined elsewhere in the system. Token identifiers have no fixed pattern, to support DTCG and design-tool naming styles (dots, dashes, slashes).</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">What changes for this token in this theme, and why (ex: 'Lightened to meet WCAG AAA contrast on the dark background'). The resolved value lives in the DTCG file.</ds-prop>

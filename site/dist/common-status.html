@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Status definition" description="Shared status vocabulary. `statusValue` is the lifecycle string (draft, experimental, stable, deprecated, or custom). `platformStatus` captures one platform's readiness, and requires a `deprecationNotice` when that platform is deprecated." source="common/status.schema.json"></ds-header>
+    <ds-header title="Status definition" description="Shared status vocabulary. `statusValue` is the lifecycle string (draft, experimental, stable, deprecated, or custom). `platformStatus` captures one platform's readiness, and requires a `deprecationNotice` when that platform is deprecated." source="common/status.schema.json"><h1 slot="_fallback">Status definition</h1><p slot="_fallback">Shared status vocabulary. <ds-code inline>statusValue</ds-code> is the lifecycle string (draft, experimental, stable, deprecated, or custom). <ds-code inline>platformStatus</ds-code> captures one platform's readiness, and requires a <ds-code inline>deprecationNotice</ds-code> when that platform is deprecated.</p></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -173,7 +173,7 @@
 <li><a href="#deprecationnotice"><ds-code inline>deprecationNotice</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="platformStatus" anchor="platformstatus" description="Readiness of an artifact on one platform: lifecycle stage, the version it landed in, and an optional deprecation notice." type="object">
+<ds-def-section name="platformStatus" anchor="platformstatus" description="Readiness of an artifact on one platform: lifecycle stage, the version it landed in, and an optional deprecation notice." type="object"><h2 slot="_fallback" id="platformstatus">platformStatus</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge></p><p slot="_fallback">Readiness of an artifact on one platform: lifecycle stage, the version it landed in, and an optional deprecation notice.</p>
 <ds-prop-table>
   <ds-prop name="status" type="&lt;ds-type-ref href=&quot;common-status.html#statusvalue&quot;&gt;statusValue&lt;/ds-type-ref&gt;" required>Lifecycle status on this platform. Same vocabulary as overall status; custom values allowed.</ds-prop>
   <ds-prop name="since" type="string">The version this entity became available on this platform.</ds-prop>
@@ -205,10 +205,10 @@
 ]</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="statusValue" anchor="statusvalue" description="A lifecycle status value. MUST be lowercase kebab-case. Standard values: 'draft' (in development), 'experimental' (available; API may change), 'stable' (production-ready, semver), 'deprecated' (scheduled for removal). Custom values (ex: 'sunset', 'beta') are allowed and MUST follow the same pattern." type="string">
+<ds-def-section name="statusValue" anchor="statusvalue" description="A lifecycle status value. MUST be lowercase kebab-case. Standard values: 'draft' (in development), 'experimental' (available; API may change), 'stable' (production-ready, semver), 'deprecated' (scheduled for removal). Custom values (ex: 'sunset', 'beta') are allowed and MUST follow the same pattern." type="string"><h2 slot="_fallback" id="statusvalue">statusValue</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">A lifecycle status value. MUST be lowercase kebab-case. Standard values: 'draft' (in development), 'experimental' (available; API may change), 'stable' (production-ready, semver), 'deprecated' (scheduled for removal). Custom values (ex: 'sunset', 'beta') are allowed and MUST follow the same pattern.</p>
 
 </ds-def-section>
-<ds-def-section name="deprecationNotice" anchor="deprecationnotice" description="A non-empty notice for a deprecated artifact. MUST say what to use instead and, where one exists, give a migration path." type="string">
+<ds-def-section name="deprecationNotice" anchor="deprecationnotice" description="A non-empty notice for a deprecated artifact. MUST say what to use instead and, where one exists, give a migration path." type="string"><h2 slot="_fallback" id="deprecationnotice">deprecationNotice</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge></p><p slot="_fallback">A non-empty notice for a deprecated artifact. MUST say what to use instead and, where one exists, give a migration path.</p>
 
 </ds-def-section>
 
