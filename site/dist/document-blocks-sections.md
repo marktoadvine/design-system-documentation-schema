@@ -1,6 +1,6 @@
 # Sections document block
 
-Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.
+Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.
 
 Source: `document-blocks/sections.schema.json`
 
@@ -40,14 +40,14 @@ One or more titled sections of documentation content. Use it for anything a guid
 
 ## sectionEntry {#sectionentry}
 
-One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children.
+One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required (a section can be just a heading that groups its children).
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `title` | string | ✓ | The section heading (ex: 'Installation', 'Core concepts'). |
 | `anchor` | string |  | A stable URL fragment for linking to this section (ex: 'installation'). MUST be lowercase kebab-case and unique in the block. Left out, tools MAY derive one from the title. (Pattern: `^[a-z][a-z0-9-]*$`) |
 | `body` | [richText](common-rich-text.md#richtext) |  | The section's content, as markdown. Can be omitted when the section only groups sub-sections. |
-| `examples` | [example](common-example.md#example)[] |  | Examples for this section — code, images, videos, or live links. (Min items: 1) |
+| `examples` | [example](common-example.md#example)[] |  | Examples for this section (code, images, videos, or live links). (Min items: 1) |
 | `links` | [link](common-link.md#link)[] |  | 'See also' links for this section. To reference another entity, use `relationships` instead. (Min items: 1) |
 | `sections` | [sectionEntry](document-blocks-sections.md#sectionentry)[] |  | Sub-sections nested beneath this one, to any depth. Tools SHOULD keep this order. (Min items: 1) |
 
@@ -94,11 +94,11 @@ One section: a heading, a body, and optionally examples, links, and nested sub-s
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/sections.schema.json",
   "title": "Sections document block",
-  "description": "Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.",
+  "description": "Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.",
   "$defs": {
     "sectionEntry": {
       "type": "object",
-      "description": "One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children.",
+      "description": "One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required (a section can be just a heading that groups its children).",
       "required": [
         "title"
       ],
@@ -118,7 +118,7 @@ One section: a heading, a body, and optionally examples, links, and nested sub-s
         },
         "examples": {
           "type": "array",
-          "description": "Examples for this section — code, images, videos, or live links.",
+          "description": "Examples for this section (code, images, videos, or live links).",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },

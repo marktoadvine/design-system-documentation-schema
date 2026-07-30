@@ -1,6 +1,6 @@
 # States document block
 
-Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.
+Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.
 
 Source: `document-blocks/states.schema.json`
 
@@ -8,7 +8,7 @@ Source: `document-blocks/states.schema.json`
 
 ## states {#states}
 
-Every interactive state of a component or pattern. List them in a sensible order — usually default, hover, focus, active, then disabled, loading, and other special states. A state is something entered at runtime (hover, disabled, loading); a choice made up front is a variant — document that in `variants` instead.
+Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -43,15 +43,15 @@ Every interactive state of a component or pattern. List them in a sensible order
 
 ## stateEntry {#stateentry}
 
-One state — a visual or behavioral change triggered by user interaction, a system event, or a data condition.
+A state, defined as a visual or behavioral change triggered by user interaction, a system event, or a data condition.
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `identifier` | string | ✓ | Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only'). |
+| `identifier` | string | ✓ | Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading'). |
 | `description` | [richText](common-rich-text.md#richtext) | ✓ | What triggers this state, how appearance and behavior change, and any constraints or side effects. |
 | `name` | string |  | Human-readable name (ex: 'Default', 'Hover', 'Focus', 'Active / Pressed', 'Disabled', 'Loading'). |
-| `tokens` | [tokenOverrides](common-token-overrides.md#tokenoverrides) |  | Token overrides for this state — only the ones that change from the default. The default values live on `design-specifications` for components (patterns don't have that block — their baseline lives in `anatomy`). |
-| `rationale` | [richText](common-rich-text.md#richtext) |  | Why this state exists — the user need or design rationale it addresses. |
+| `tokens` | [tokenOverrides](common-token-overrides.md#tokenoverrides) |  | Token overrides for this state (only ones that change from the default). The default values live on `design-specifications` for components. |
+| `rationale` | [richText](common-rich-text.md#richtext) |  | Why this state exists (the user need or design rationale it addresses). |
 | `examples` | [example](common-example.md#example)[] |  | Examples showing the component in this state. (Min items: 1) |
 
 **References:** [richText](common-rich-text.md#richtext), [tokenOverrides](common-token-overrides.md#tokenoverrides), [example](common-example.md#example)
@@ -142,11 +142,11 @@ One state — a visual or behavioral change triggered by user interaction, a sys
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/states.schema.json",
   "title": "States document block",
-  "description": "Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.",
+  "description": "Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.",
   "$defs": {
     "stateEntry": {
       "type": "object",
-      "description": "One state — a visual or behavioral change triggered by user interaction, a system event, or a data condition.",
+      "description": "A state, defined as a visual or behavioral change triggered by user interaction, a system event, or a data condition.",
       "required": [
         "identifier",
         "description"
@@ -154,7 +154,7 @@ One state — a visual or behavioral change triggered by user interaction, a sys
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only')."
+          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading')."
         },
         "name": {
           "type": "string",
@@ -166,11 +166,11 @@ One state — a visual or behavioral change triggered by user interaction, a sys
         },
         "tokens": {
           "$ref": "../common/token-overrides.schema.json#/$defs/tokenOverrides",
-          "description": "Token overrides for this state — only the ones that change from the default. The default values live on `design-specifications` for components (patterns don't have that block — their baseline lives in `anatomy`)."
+          "description": "Token overrides for this state (only ones that change from the default). The default values live on `design-specifications` for components."
         },
         "rationale": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "Why this state exists — the user need or design rationale it addresses."
+          "description": "Why this state exists (the user need or design rationale it addresses)."
         },
         "examples": {
           "type": "array",
@@ -185,7 +185,7 @@ One state — a visual or behavioral change triggered by user interaction, a sys
     },
     "states": {
       "type": "object",
-      "description": "Every interactive state of a component or pattern. List them in a sensible order — usually default, hover, focus, active, then disabled, loading, and other special states. A state is something entered at runtime (hover, disabled, loading); a choice made up front is a variant — document that in `variants` instead.",
+      "description": "Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).",
       "required": [
         "kind",
         "items"

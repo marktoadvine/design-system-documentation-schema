@@ -604,7 +604,7 @@
 <tr><td><ds-code inline>&quot;motion&quot;</ds-code></td><td><ds-code inline>items</ds-code></td><td><ds-type-ref href="document-blocks-motion.html#motionentry">motionEntry</ds-type-ref></td><td>Foundation</td><td>The motion system for a foundation — named easings that designers and engineers pick from.</td></tr>
 <tr><td><ds-code inline>&quot;principles&quot;</ds-code></td><td><ds-code inline>items</ds-code></td><td><ds-type-ref href="document-blocks-principles.html#principleentry">principleEntry</ds-type-ref></td><td>Foundation</td><td>The beliefs behind a foundation's decisions — what the system believes and which trade-offs it accepts.</td></tr>
 <tr><td><ds-code inline>&quot;scale&quot;</ds-code></td><td><ds-code inline>steps</ds-code></td><td><ds-type-ref href="document-blocks-scale.html#scalestep">scaleStep</ds-type-ref></td><td>Foundation</td><td>An ordered scale — a deliberate progression that keeps design decisions consistent.</td></tr>
-<tr><td><ds-code inline>&quot;steps&quot;</ds-code></td><td><ds-code inline>items</ds-code></td><td><ds-type-ref href="document-blocks-steps.html#stepentry">stepEntry</ds-type-ref></td><td>Guide</td><td>A procedure — the steps a reader works through start to finish, like installation or a migration.</td></tr>
+<tr><td><ds-code inline>&quot;steps&quot;</ds-code></td><td><ds-code inline>items</ds-code></td><td><ds-type-ref href="document-blocks-steps.html#stepentry">stepEntry</ds-type-ref></td><td>Guide</td><td>A procedure (the steps a reader works through start to finish, like installation or a migration).</td></tr>
 <tr><td><ds-code inline>&quot;interactions&quot;</ds-code></td><td><ds-code inline>items</ds-code></td><td><ds-type-ref href="document-blocks-interactions.html#interactionentry">interactionEntry</ds-type-ref></td><td>Pattern</td><td>The step-by-step flow of a pattern.</td></tr></tbody>
 </table>
 </ds-table>
@@ -717,7 +717,7 @@
   <ds-prop name="title" type="string" required>The section heading (ex: 'Installation', 'Core concepts').</ds-prop>
   <ds-prop name="anchor" type="string">A stable URL fragment for linking to this section (ex: 'installation'). MUST be lowercase kebab-case and unique in the block. Left out, tools MAY derive one from the title.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="body" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">The section's content, as markdown. Can be omitted when the section only groups sub-sections.</ds-prop>
-  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples for this section — code, images, videos, or live links.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples for this section (code, images, videos, or live links).<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="links" type="&lt;ds-type-ref href=&quot;common-link.html#link&quot;&gt;link&lt;/ds-type-ref&gt;[]">'See also' links for this section. To reference another entity, use <ds-code inline>relationships</ds-code> instead.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;document-blocks-sections.html#sectionentry&quot;&gt;sectionEntry&lt;/ds-type-ref&gt;[]">Sub-sections nested beneath this one, to any depth. Tools SHOULD keep this order.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
@@ -858,11 +858,11 @@
 <p>Documents all interactive states (hover, focus, active, disabled, loading, selected, error, etc.) with triggers, token overrides, and examples.</p>
 <ds-heading level="4" anchor="state-entry">State entry</ds-heading>
 <ds-prop-table>
-  <ds-prop name="identifier" type="string" required>Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only').</ds-prop>
+  <ds-prop name="identifier" type="string" required>Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What triggers this state, how appearance and behavior change, and any constraints or side effects.</ds-prop>
   <ds-prop name="name" type="string">Human-readable name (ex: 'Default', 'Hover', 'Focus', 'Active / Pressed', 'Disabled', 'Loading').</ds-prop>
-  <ds-prop name="tokens" type="&lt;ds-type-ref href=&quot;common-token-overrides.html#tokenoverrides&quot;&gt;tokenOverrides&lt;/ds-type-ref&gt;">Token overrides for this state — only the ones that change from the default. The default values live on <ds-code inline>design-specifications</ds-code> for components (patterns don't have that block — their baseline lives in <ds-code inline>anatomy</ds-code>).</ds-prop>
-  <ds-prop name="rationale" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why this state exists — the user need or design rationale it addresses.</ds-prop>
+  <ds-prop name="tokens" type="&lt;ds-type-ref href=&quot;common-token-overrides.html#tokenoverrides&quot;&gt;tokenOverrides&lt;/ds-type-ref&gt;">Token overrides for this state (only ones that change from the default). The default values live on <ds-code inline>design-specifications</ds-code> for components.</ds-prop>
+  <ds-prop name="rationale" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why this state exists (the user need or design rationale it addresses).</ds-prop>
   <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples showing the component in this state.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
 <ds-heading level="3" anchor="design-specifications-design-specifications">Design specifications (<ds-code inline>design-specifications</ds-code>)</ds-heading>
@@ -920,9 +920,9 @@
 <p>An ordered or unordered procedure (the steps a reader follows to install, build, contribute, or migrate). The block has an optional <ds-code inline>title</ds-code> and an <ds-code inline>ordered</ds-code> flag (default <ds-code inline>true</ds-code>). Set <ds-code inline>ordered: false</ds-code> for a plain checklist.</p>
 <ds-heading level="4" anchor="step-entry">Step entry</ds-heading>
 <ds-prop-table>
-  <ds-prop name="label" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Concise enough to serve as a numbered list item or heading.</ds-prop>
-  <ds-prop name="instruction" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable: describe the action, not the goal.</ds-prop>
-  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="label" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Short enough to serve as a numbered list item or heading.</ds-prop>
+  <ds-prop name="instruction" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable.</ds-prop>
+  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="expectedResult" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">What the reader should see once the step succeeds (ex: 'The dev server starts on port 3000', 'A themed button renders'). Lets readers confirm progress and spot problems on their own. Most useful in tutorials and getting-started guides.</ds-prop>
   <ds-prop name="optional" type="boolean">Whether the step can be skipped without breaking the procedure. Defaults to false. Tools MAY render optional steps distinctly (ex: an 'optional' label).<br><small>Default: <ds-code inline>false</ds-code></small></ds-prop>
 </ds-prop-table>

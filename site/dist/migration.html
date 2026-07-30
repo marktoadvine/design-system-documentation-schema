@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Migration — DSDS 0.16.0</title>
-  <meta name="description" content="How to move DSDS documents between spec versions: the 0.14.0 field-by-field mapping, the scripts that automate it, and the cases that need a human decision.">
+  <meta name="description" content="How to move DSDS documents between spec versions: field-by-field mappings, the scripts that automate it, and the cases that need a human decision.">
   <link rel="canonical" href="https://designsystemdocspec.org/migration">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="migration.md">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Migration — DSDS 0.16.0">
-  <meta property="og:description" content="How to move DSDS documents between spec versions: the 0.14.0 field-by-field mapping, the scripts that automate it, and the cases that need a human decision.">
+  <meta property="og:description" content="How to move DSDS documents between spec versions: field-by-field mappings, the scripts that automate it, and the cases that need a human decision.">
   <meta property="og:url" content="https://designsystemdocspec.org/migration">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.16.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Migration — DSDS 0.16.0","description":"How to move DSDS documents between spec versions: the 0.14.0 field-by-field mapping, the scripts that automate it, and the cases that need a human decision.","url":"https://designsystemdocspec.org/migration","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/migration.md"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Migration — DSDS 0.16.0","description":"How to move DSDS documents between spec versions: field-by-field mappings, the scripts that automate it, and the cases that need a human decision.","url":"https://designsystemdocspec.org/migration","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/migration.md"}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.16.0">
   <link rel="stylesheet" href="style.css?v=0.16.0">
@@ -102,12 +102,35 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Migration — DSDS 0.16.0" description="How to move DSDS documents between spec versions: the 0.14.0 field-by-field mapping, the scripts that automate it, and the cases that need a human decision."></ds-header>
+    <ds-header title="Migration — DSDS 0.16.0" description="How to move DSDS documents between spec versions: field-by-field mappings, the scripts that automate it, and the cases that need a human decision."></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
           <p>This page covers moving existing DSDS documents to a newer spec version. Each breaking release gets a section here: what changed, what the migration script does for you, and what it leaves for a human.</p>
 <p>The <a href="stability.html">Stability page</a> explains when breaking changes happen. Short version: they are batched, announced one minor ahead, and shipped with a migration script.</p>
+<ds-heading level="2" anchor="migrating-to-0160">Migrating to 0.16.0</ds-heading>
+<p>0.16.0 is a minor release. It adds several optional fields, tightens a handful of existing rules, and removes <ds-code inline>thumbnail</ds-code>. There is no migration script. Apply these fixes if they affect your documents, then bump <ds-code inline>dsdsVersion</ds-code> to <ds-code inline>0.16.0</ds-code> and point any <ds-code inline>$schema</ds-code> URL at the <ds-code inline>v0.16.0</ds-code> bundle.</p>
+<ds-heading level="3" anchor="removed-field-thumbnail">Removed field: <ds-code inline>thumbnail</ds-code></ds-heading>
+<p><ds-code inline>metadata.thumbnail</ds-code> is gone. Move it to <ds-code inline>metadata.preview</ds-code> using the image presentation shape:</p>
+<ds-table><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td><ds-code inline>"thumbnail": \{ "url": "...", "alt": "..." \}</ds-code></td><td><ds-code inline>"preview": \{ "kind": "image", "url": "...", "alt": "..." \}</ds-code></td></tr></tbody></table></ds-table>
+<p>If you already had a <ds-code inline>preview</ds-code>, keep it and drop <ds-code inline>thumbnail</ds-code>.</p>
+<ds-heading level="3" anchor="token-override-values-require-braces">Token override values require braces</ds-heading>
+<p>Every value in a <ds-code inline>tokens</ds-code> map (on anatomy parts, variant values, and states) must now use DTCG alias syntax. Wrap the identifier in braces:</p>
+<ds-table><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td><ds-code inline>"background": "color-action-primary"</ds-code></td><td><ds-code inline>"background": "\{color-action-primary\}"</ds-code></td></tr></tbody></table></ds-table>
+<p>This applies to every key in every <ds-code inline>tokens</ds-code> map. Values in <ds-code inline>design-specifications</ds-code> blocks follow the same rule.</p>
+<ds-heading level="3" anchor="variant-exclusion-shape-changed">Variant exclusion shape changed</ds-heading>
+<p>The old <ds-code inline>variantExclusion</ds-code> used a flat <ds-code inline>variants</ds-code> array. It now uses <ds-code inline>when</ds-code> and <ds-code inline>excludes</ds-code>:</p>
+<ds-table><table><thead><tr><th>Before</th><th>After</th></tr></thead><tbody><tr><td><ds-code inline>\{ "variants": [A, B], "level": "must-not" \}</ds-code></td><td><ds-code inline>\{ "when": [A], "excludes": [B], "level": "must-not" \}</ds-code></td></tr></tbody></table></ds-table>
+<ds-heading level="3" anchor="new-validation-errors">New validation errors</ds-heading>
+<p>Three new semantic checks now reject documents that previously validated. Fix these if the validator reports them:</p>
+<ul>
+<li><strong>Entity identifiers must be unique across the whole document.</strong> If two entities in different groups share an <ds-code inline>identifier</ds-code>, rename one. This includes tokens and token groups, which had no uniqueness rule before.</li>
+<li><strong>A checklist item's <ds-code inline>criterion</ds-code> must resolve.</strong> The identifier must match a criterion defined in one of the same entity's guideline or accessibility blocks. Remove or correct any that don't.</li>
+<li><strong>At most one <ds-code inline>api</ds-code> block per platform per entity.</strong> If an entity has two <ds-code inline>api</ds-code> blocks for the same <ds-code inline>platform</ds-code>, consolidate them into one.</li>
+</ul>
+<ds-heading level="3" anchor="verify">Verify</ds-heading>
+<p>Validate migrated documents against the <ds-code inline>v0.16.0</ds-code> bundled schema. In this repository, <ds-code inline>npm run validate</ds-code> covers every example and fixture.</p>
+<hr />
 <ds-heading level="2" anchor="migrating-to-0150">Migrating to 0.15.0</ds-heading>
 <p>0.15.0 is a minor release. It renames nothing and adds three constraints, so most documents migrate with only a <ds-code inline>dsdsVersion</ds-code> bump. There is no migration script — the affected spots are few, and the fixes are specific. Fix these if they apply to your documents:</p>
 <ul>

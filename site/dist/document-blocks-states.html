@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>States document block — DSDS 0.16.0</title>
-  <meta name="description" content="Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.">
+  <meta name="description" content="Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.">
   <link rel="canonical" href="https://designsystemdocspec.org/document-blocks-states">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="document-blocks-states.md">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="States document block — DSDS 0.16.0">
-  <meta property="og:description" content="Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.">
+  <meta property="og:description" content="Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.">
   <meta property="og:url" content="https://designsystemdocspec.org/document-blocks-states">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.16.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"States document block — DSDS 0.16.0","description":"Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.","url":"https://designsystemdocspec.org/document-blocks-states","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-states.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"states","url":"https://designsystemdocspec.org/document-blocks-states#states"},{"@type":"DefinedTerm","name":"stateEntry","url":"https://designsystemdocspec.org/document-blocks-states#stateentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"States document block — DSDS 0.16.0","description":"Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.","url":"https://designsystemdocspec.org/document-blocks-states","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-states.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"states","url":"https://designsystemdocspec.org/document-blocks-states#states"},{"@type":"DefinedTerm","name":"stateEntry","url":"https://designsystemdocspec.org/document-blocks-states#stateentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.16.0">
   <link rel="stylesheet" href="style.css?v=0.16.0">
@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="States document block" description="Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change." source="document-blocks/states.schema.json"></ds-header>
+    <ds-header title="States document block" description="Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change." source="document-blocks/states.schema.json"></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -112,11 +112,11 @@
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
   &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/document-blocks/states.schema.json&quot;,
   &quot;title&quot;: &quot;States document block&quot;,
-  &quot;description&quot;: &quot;Every interactive state a component can be in — hover, focus, disabled, loading, and so on. Each item covers what triggers it, how it looks and behaves, and which tokens change.&quot;,
+  &quot;description&quot;: &quot;Every interactive state a component can have (hover, focus, disabled, loading, etc.). Each item covers what triggers it, how it looks and behaves, and which tokens change.&quot;,
   &quot;$defs&quot;: {
     &quot;stateEntry&quot;: {
       &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;One state — a visual or behavioral change triggered by user interaction, a system event, or a data condition.&quot;,
+      &quot;description&quot;: &quot;A state, defined as a visual or behavioral change triggered by user interaction, a system event, or a data condition.&quot;,
       &quot;required&quot;: [
         &quot;identifier&quot;,
         &quot;description&quot;
@@ -124,7 +124,7 @@
       &quot;properties&quot;: {
         &quot;identifier&quot;: {
           &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only').&quot;
+          &quot;description&quot;: &quot;Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading').&quot;
         },
         &quot;name&quot;: {
           &quot;type&quot;: &quot;string&quot;,
@@ -136,11 +136,11 @@
         },
         &quot;tokens&quot;: {
           &quot;$ref&quot;: &quot;../common/token-overrides.schema.json#/$defs/tokenOverrides&quot;,
-          &quot;description&quot;: &quot;Token overrides for this state — only the ones that change from the default. The default values live on `design-specifications` for components (patterns don't have that block — their baseline lives in `anatomy`).&quot;
+          &quot;description&quot;: &quot;Token overrides for this state (only ones that change from the default). The default values live on `design-specifications` for components.&quot;
         },
         &quot;rationale&quot;: {
           &quot;$ref&quot;: &quot;../common/rich-text.schema.json#/$defs/richText&quot;,
-          &quot;description&quot;: &quot;Why this state exists — the user need or design rationale it addresses.&quot;
+          &quot;description&quot;: &quot;Why this state exists (the user need or design rationale it addresses).&quot;
         },
         &quot;examples&quot;: {
           &quot;type&quot;: &quot;array&quot;,
@@ -155,7 +155,7 @@
     },
     &quot;states&quot;: {
       &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;Every interactive state of a component or pattern. List them in a sensible order — usually default, hover, focus, active, then disabled, loading, and other special states. A state is something entered at runtime (hover, disabled, loading); a choice made up front is a variant — document that in `variants` instead.&quot;,
+      &quot;description&quot;: &quot;Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).&quot;,
       &quot;required&quot;: [
         &quot;kind&quot;,
         &quot;items&quot;
@@ -190,7 +190,7 @@
 <li><a href="#stateentry"><ds-code inline>stateEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
-<ds-def-section name="states" anchor="states" description="Every interactive state of a component or pattern. List them in a sensible order — usually default, hover, focus, active, then disabled, loading, and other special states. A state is something entered at runtime (hover, disabled, loading); a choice made up front is a variant — document that in `variants` instead." type="object">
+<ds-def-section name="states" anchor="states" description="Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states)." type="object">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;states&quot;&lt;/ds-code&gt;" required>Identifies this block as a states spec.</ds-prop>
   <ds-prop name="items" type="&lt;ds-type-ref href=&quot;document-blocks-states.html#stateentry&quot;&gt;stateEntry&lt;/ds-type-ref&gt;[]" required>The states, in order. Tools SHOULD keep this order for display.<br><small>Min items: 1</small></ds-prop>
@@ -218,13 +218,13 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="stateEntry" anchor="stateentry" description="One state — a visual or behavioral change triggered by user interaction, a system event, or a data condition." type="object">
+<ds-def-section name="stateEntry" anchor="stateentry" description="A state, defined as a visual or behavioral change triggered by user interaction, a system event, or a data condition." type="object">
 <ds-prop-table>
-  <ds-prop name="identifier" type="string" required>Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only').</ds-prop>
+  <ds-prop name="identifier" type="string" required>Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading').</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;" required>What triggers this state, how appearance and behavior change, and any constraints or side effects.</ds-prop>
   <ds-prop name="name" type="string">Human-readable name (ex: 'Default', 'Hover', 'Focus', 'Active / Pressed', 'Disabled', 'Loading').</ds-prop>
-  <ds-prop name="tokens" type="&lt;ds-type-ref href=&quot;common-token-overrides.html#tokenoverrides&quot;&gt;tokenOverrides&lt;/ds-type-ref&gt;">Token overrides for this state — only the ones that change from the default. The default values live on <ds-code inline>design-specifications</ds-code> for components (patterns don't have that block — their baseline lives in <ds-code inline>anatomy</ds-code>).</ds-prop>
-  <ds-prop name="rationale" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why this state exists — the user need or design rationale it addresses.</ds-prop>
+  <ds-prop name="tokens" type="&lt;ds-type-ref href=&quot;common-token-overrides.html#tokenoverrides&quot;&gt;tokenOverrides&lt;/ds-type-ref&gt;">Token overrides for this state (only ones that change from the default). The default values live on <ds-code inline>design-specifications</ds-code> for components.</ds-prop>
+  <ds-prop name="rationale" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why this state exists (the user need or design rationale it addresses).</ds-prop>
   <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples showing the component in this state.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref>, <ds-type-ref href="common-token-overrides.html#tokenoverrides">tokenOverrides</ds-type-ref>, <ds-type-ref href="common-example.html#example">example</ds-type-ref></ds-cross-refs>

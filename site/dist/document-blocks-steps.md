@@ -1,6 +1,6 @@
 # Steps document block
 
-The steps a reader follows to complete a task, like getting started, a tutorial, or a migration. Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.
+The steps a reader follows to complete a task (ex: getting started, a tutorial, or a migration). Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.
 
 Source: `document-blocks/steps.schema.json`
 
@@ -8,7 +8,7 @@ Source: `document-blocks/steps.schema.json`
 
 ## steps {#steps}
 
-A procedure — the steps a reader works through start to finish, like installation or a migration.
+A procedure (the steps a reader works through start to finish, like installation or a migration).
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -71,9 +71,9 @@ One step: a short label, an instruction for what to do, and optionally examples,
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `label` | [richText](common-rich-text.md#richtext) | ✓ | A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Concise enough to serve as a numbered list item or heading. |
-| `instruction` | [richText](common-rich-text.md#richtext) |  | What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable: describe the action, not the goal. |
-| `examples` | [example](common-example.md#example)[] |  | Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example. (Min items: 1) |
+| `label` | [richText](common-rich-text.md#richtext) | ✓ | A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Short enough to serve as a numbered list item or heading. |
+| `instruction` | [richText](common-rich-text.md#richtext) |  | What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable. |
+| `examples` | [example](common-example.md#example)[] |  | Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example. (Min items: 1) |
 | `expectedResult` | [richText](common-rich-text.md#richtext) |  | What the reader should see once the step succeeds (ex: 'The dev server starts on port 3000', 'A themed button renders'). Lets readers confirm progress and spot problems on their own. Most useful in tutorials and getting-started guides. |
 | `optional` | boolean |  | Whether the step can be skipped without breaking the procedure. Defaults to false. Tools MAY render optional steps distinctly (ex: an 'optional' label). (Default: `false`) |
 
@@ -106,7 +106,7 @@ One step: a short label, an instruction for what to do, and optionally examples,
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/steps.schema.json",
   "title": "Steps document block",
-  "description": "The steps a reader follows to complete a task, like getting started, a tutorial, or a migration. Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.",
+  "description": "The steps a reader follows to complete a task (ex: getting started, a tutorial, or a migration). Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.",
   "$defs": {
     "stepEntry": {
       "type": "object",
@@ -117,15 +117,15 @@ One step: a short label, an instruction for what to do, and optionally examples,
       "properties": {
         "label": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Concise enough to serve as a numbered list item or heading."
+          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Short enough to serve as a numbered list item or heading."
         },
         "instruction": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable: describe the action, not the goal."
+          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable."
         },
         "examples": {
           "type": "array",
-          "description": "Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.",
+          "description": "Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },
@@ -145,7 +145,7 @@ One step: a short label, an instruction for what to do, and optionally examples,
     },
     "steps": {
       "type": "object",
-      "description": "A procedure — the steps a reader works through start to finish, like installation or a migration.",
+      "description": "A procedure (the steps a reader works through start to finish, like installation or a migration).",
       "required": [
         "kind",
         "items"

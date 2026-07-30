@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sections document block — DSDS 0.16.0</title>
-  <meta name="description" content="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.">
+  <meta name="description" content="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.">
   <link rel="canonical" href="https://designsystemdocspec.org/document-blocks-sections">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="document-blocks-sections.md">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Sections document block — DSDS 0.16.0">
-  <meta property="og:description" content="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.">
+  <meta property="og:description" content="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.">
   <meta property="og:url" content="https://designsystemdocspec.org/document-blocks-sections">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.16.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Sections document block — DSDS 0.16.0","description":"Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.","url":"https://designsystemdocspec.org/document-blocks-sections","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-sections.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"sections","url":"https://designsystemdocspec.org/document-blocks-sections#sections"},{"@type":"DefinedTerm","name":"sectionEntry","url":"https://designsystemdocspec.org/document-blocks-sections#sectionentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Sections document block — DSDS 0.16.0","description":"Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.","url":"https://designsystemdocspec.org/document-blocks-sections","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-sections.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"sections","url":"https://designsystemdocspec.org/document-blocks-sections#sections"},{"@type":"DefinedTerm","name":"sectionEntry","url":"https://designsystemdocspec.org/document-blocks-sections#sectionentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.16.0">
   <link rel="stylesheet" href="style.css?v=0.16.0">
@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Sections document block" description="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections." source="document-blocks/sections.schema.json"></ds-header>
+    <ds-header title="Sections document block" description="Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections." source="document-blocks/sections.schema.json"></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -112,11 +112,11 @@
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
   &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/document-blocks/sections.schema.json&quot;,
   &quot;title&quot;: &quot;Sections document block&quot;,
-  &quot;description&quot;: &quot;Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (api, anatomy, variants) — overviews, explanations, rationale. Each section has a heading, a body, examples, links, and optional sub-sections.&quot;,
+  &quot;description&quot;: &quot;Free-form documentation content, organized into titled sections that can nest. Use it for anything that doesn't fit the structured blocks (ex: overviews, explanations, rationale). Each section has a heading, a body, examples, links, and optional sub-sections.&quot;,
   &quot;$defs&quot;: {
     &quot;sectionEntry&quot;: {
       &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children.&quot;,
+      &quot;description&quot;: &quot;One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required (a section can be just a heading that groups its children).&quot;,
       &quot;required&quot;: [
         &quot;title&quot;
       ],
@@ -136,7 +136,7 @@
         },
         &quot;examples&quot;: {
           &quot;type&quot;: &quot;array&quot;,
-          &quot;description&quot;: &quot;Examples for this section — code, images, videos, or live links.&quot;,
+          &quot;description&quot;: &quot;Examples for this section (code, images, videos, or live links).&quot;,
           &quot;items&quot;: {
             &quot;$ref&quot;: &quot;../common/example.schema.json#/$defs/example&quot;
           },
@@ -223,12 +223,12 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="sectionEntry" anchor="sectionentry" description="One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children." type="object">
+<ds-def-section name="sectionEntry" anchor="sectionentry" description="One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required (a section can be just a heading that groups its children)." type="object">
 <ds-prop-table>
   <ds-prop name="title" type="string" required>The section heading (ex: 'Installation', 'Core concepts').</ds-prop>
   <ds-prop name="anchor" type="string">A stable URL fragment for linking to this section (ex: 'installation'). MUST be lowercase kebab-case and unique in the block. Left out, tools MAY derive one from the title.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
   <ds-prop name="body" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">The section's content, as markdown. Can be omitted when the section only groups sub-sections.</ds-prop>
-  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples for this section — code, images, videos, or live links.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#example&quot;&gt;example&lt;/ds-type-ref&gt;[]">Examples for this section (code, images, videos, or live links).<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="links" type="&lt;ds-type-ref href=&quot;common-link.html#link&quot;&gt;link&lt;/ds-type-ref&gt;[]">'See also' links for this section. To reference another entity, use <ds-code inline>relationships</ds-code> instead.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;document-blocks-sections.html#sectionentry&quot;&gt;sectionEntry&lt;/ds-type-ref&gt;[]">Sub-sections nested beneath this one, to any depth. Tools SHOULD keep this order.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>

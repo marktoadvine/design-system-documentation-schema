@@ -4,6 +4,52 @@ This page covers moving existing DSDS documents to a newer spec version. Each br
 
 The [Stability page](stability.html) explains when breaking changes happen. Short version: they are batched, announced one minor ahead, and shipped with a migration script.
 
+## Migrating to 0.16.0
+
+0.16.0 is a minor release. It adds several optional fields, tightens a handful of existing rules, and removes `thumbnail`. There is no migration script. Apply these fixes if they affect your documents, then bump `dsdsVersion` to `0.16.0` and point any `$schema` URL at the `v0.16.0` bundle.
+
+### Removed field: `thumbnail`
+
+`metadata.thumbnail` is gone. Move it to `metadata.preview` using the image presentation shape:
+
+| Before | After |
+|---|---|
+| `"thumbnail": { "url": "...", "alt": "..." }` | `"preview": { "kind": "image", "url": "...", "alt": "..." }` |
+
+If you already had a `preview`, keep it and drop `thumbnail`.
+
+### Token override values require braces
+
+Every value in a `tokens` map (on anatomy parts, variant values, and states) must now use DTCG alias syntax. Wrap the identifier in braces:
+
+| Before | After |
+|---|---|
+| `"background": "color-action-primary"` | `"background": "{color-action-primary}"` |
+
+This applies to every key in every `tokens` map. Values in `design-specifications` blocks follow the same rule.
+
+### Variant exclusion shape changed
+
+The old `variantExclusion` used a flat `variants` array. It now uses `when` and `excludes`:
+
+| Before | After |
+|---|---|
+| `{ "variants": [A, B], "level": "must-not" }` | `{ "when": [A], "excludes": [B], "level": "must-not" }` |
+
+### New validation errors
+
+Three new semantic checks now reject documents that previously validated. Fix these if the validator reports them:
+
+- **Entity identifiers must be unique across the whole document.** If two entities in different groups share an `identifier`, rename one. This includes tokens and token groups, which had no uniqueness rule before.
+- **A checklist item's `criterion` must resolve.** The identifier must match a criterion defined in one of the same entity's guideline or accessibility blocks. Remove or correct any that don't.
+- **At most one `api` block per platform per entity.** If an entity has two `api` blocks for the same `platform`, consolidate them into one.
+
+### Verify
+
+Validate migrated documents against the `v0.16.0` bundled schema. In this repository, `npm run validate` covers every example and fixture.
+
+---
+
 ## Migrating to 0.15.0
 
 0.15.0 is a minor release. It renames nothing and adds three constraints, so most documents migrate with only a `dsdsVersion` bump. There is no migration script — the affected spots are few, and the fixes are specific. Fix these if they apply to your documents:
