@@ -129,6 +129,7 @@ const DEF_FIXTURE_ALLOWLIST = new Set([
   "deprecationNotice", // inside status fixtures
   "mediaAlt", "mediaUrl", // presentation leaves
   "relationType", // value def, inside relationship
+  "source", // inside token/tokenGroup/theme/apiProperty fixtures
   // metadata/ nested defs — exercised inside governance / doc-origin fixtures
   "authorshipValue", "docOriginValue", "lastReviewed", "owner",
 ]);

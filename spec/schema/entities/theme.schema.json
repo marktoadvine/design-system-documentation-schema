@@ -54,22 +54,8 @@
           "description": "Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json)."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values \u2014 the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this theme's token override definitions."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this theme's group within the DTCG file, if applicable."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "../common/source.schema.json#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this theme's group within the file, if applicable."
         },
         "overrides": {
           "type": "array",

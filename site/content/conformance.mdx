@@ -76,7 +76,7 @@ Every requirement falls into one of three tiers, or is advisory:
 
 {/* dsds:normative-index */}
 
-*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 167 statements: 69 MUST, 24 MUST NOT, 59 SHOULD, 2 SHOULD NOT, 13 MAY.*
+*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 186 statements: 84 MUST, 28 MUST NOT, 59 SHOULD, 2 SHOULD NOT, 13 MAY.*
 
 ### common
 
@@ -175,10 +175,29 @@ Every requirement falls into one of three tiers, or is advisory:
 
 #### document-blocks/api
 
+- **MUST:** Several member types accept a `source` pointing at an external manifest (ex: a Custom Elements Manifest); when set, DSDS is NOT the source of truth for that member's structural facts (type, default value, deprecation, parameters, ...) — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest instead. <small>`document-blocks/api§(root).1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them — see `source`. <small>`document-blocks/api§apiProperty.1`</small>
 - **MUST NOT:** When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.type.1`</small>
+- **MUST:** Required unless `source` is set — when a manifest is referenced, `type` MUST be omitted here and read from the manifest instead. <small>`document-blocks/api§apiProperty.type.2`</small>
 - **MUST NOT:** When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.values.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiProperty.values.2`</small>
 - **MUST NOT:** When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. <small>`document-blocks/api§apiProperty.schema.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiProperty.schema.2`</small>
+- **MUST:** When set, this document is NOT the source of truth for `type`/`values`/`schema`/`defaultValue`/`deprecated` — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiProperty.source.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiProperty.defaultValue.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiProperty.deprecated.1`</small>
 - **MUST:** MUST give the migration path in prose. <small>`document-blocks/api§apiProperty.deprecationNotice.1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `payload` and this document MUST NOT restate it — see `source`. <small>`document-blocks/api§apiEvent.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiEvent.payload.1`</small>
+- **MUST:** When set, this document is NOT the source of truth for `payload` — it MUST be omitted here, and a tool generating or rendering documentation MUST extract it from the manifest at `path` instead. <small>`document-blocks/api§apiEvent.source.1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them — see `source`. <small>`document-blocks/api§apiCssCustomProperty.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiCssCustomProperty.defaultValue.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiCssCustomProperty.type.1`</small>
+- **MUST:** When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiCssCustomProperty.source.1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `parameters`/`returnType` and this document MUST NOT restate them — see `source`. <small>`document-blocks/api§apiMethod.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiMethod.parameters.1`</small>
+- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiMethod.returnType.1`</small>
+- **MUST:** When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiMethod.source.1`</small>
 - **SHOULD:** When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. <small>`document-blocks/api§api.platform.1`</small>
 
 #### document-blocks/checklist
@@ -259,7 +278,7 @@ Every requirement falls into one of three tiers, or is advisory:
 
 #### document-blocks/steps
 
-- **MUST:** MUST be concrete and actionable: describe the action, not the goal. <small>`document-blocks/steps§stepEntry.instruction.1`</small>
+- **MUST:** MUST be concrete and actionable. <small>`document-blocks/steps§stepEntry.instruction.1`</small>
 - **MAY:** Tools MAY render optional steps distinctly (ex: an 'optional' label). <small>`document-blocks/steps§stepEntry.optional.1`</small>
 - **SHOULD:** Tools SHOULD show ordered steps as a numbered list, unordered ones as a checklist. <small>`document-blocks/steps§steps.ordered.1`</small>
 - **MUST:** Tools MUST preserve this order when `ordered` is true. <small>`document-blocks/steps§steps.items.1`</small>

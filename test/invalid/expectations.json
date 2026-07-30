@@ -30,6 +30,10 @@
     "rejectedBy": "schema",
     "errorAt": "/entity/documentBlocks/0/properties/0"
   },
+  "api-property-type-with-source.dsds.json": {
+    "rejectedBy": "schema",
+    "errorAt": "/entity/documentBlocks/0/properties/0"
+  },
   "block-extensions-unnamespaced-key.dsds.json": {
     "rejectedBy": "schema",
     "errorAt": "/entity/documentBlocks/0/$extensions"

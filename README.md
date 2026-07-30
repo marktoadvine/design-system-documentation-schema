@@ -90,6 +90,7 @@ spec/
 │   │   ├── presentation.schema.json                    # presentationImage, presentationVideo, presentationCode, presentationUrl
 │   │   ├── relationship.schema.json                    # relationship, relationType, relationships
 │   │   ├── rich-text.schema.json                       # richText (markdown string)
+│   │   ├── source.schema.json                          # source (file+path pointer to an external file, ex: a DTCG token file or CEM manifest)
 │   │   ├── status.schema.json                          # statusValue, platformStatus
 │   │   ├── system-info.schema.json                     # systemInfo
 │   │   ├── token-overrides.schema.json                 # tokenOverrides (shared token-override map)

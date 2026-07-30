@@ -684,6 +684,24 @@
       "description": "Human-written documentation content, read as CommonMark markdown (0.27 minimum). Plain text, markdown, and inline HTML are all valid. Tools MUST render the value as markdown.",
       "minLength": 1
     },
+    "source": {
+      "type": "object",
+      "description": "Where the fact this entity or member documents actually lives. DSDS doesn't validate the target file's content — only that this pointer is well-formed. `file` is required; `path` narrows the pointer to one location within it, when the file holds more than one relevant fact.",
+      "required": [
+        "file"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "URI or relative path to the external file (ex: a DTCG token file, a `custom-elements.json` manifest)."
+        },
+        "path": {
+          "type": "string",
+          "description": "A locator for one fact within `file`, when the file holds more than one. Format follows the target file's own addressing convention: a dot-path for a DTCG token tree (ex: 'color.action.primary'), a JSON Pointer or manifest-specific path for a CEM manifest (ex: 'MyElement.disabled'). Not validated by DSDS — it's a hint for tooling that reads the target file."
+        }
+      },
+      "additionalProperties": false
+    },
     "statusValue": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$",
@@ -1605,10 +1623,9 @@
     },
     "apiProperty": {
       "type": "object",
-      "description": "A configurable property of a component.",
+      "description": "A configurable property of a component. When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them — see `source`.",
       "required": [
         "identifier",
-        "type",
         "description"
       ],
       "properties": {
@@ -1618,11 +1635,11 @@
         },
         "type": {
           "type": "string",
-          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string', 'ReactNode', 'IconComponent'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it."
+          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string', 'ReactNode', 'IconComponent'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. Required unless `source` is set — when a manifest is referenced, `type` MUST be omitted here and read from the manifest instead."
         },
         "values": {
           "type": "array",
-          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it.",
+          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. MUST be omitted when `source` is set — read from the manifest instead.",
           "items": {
             "type": "string"
           },
@@ -1630,11 +1647,15 @@
         },
         "schema": {
           "type": "object",
-          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree."
+          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. MUST be omitted when `source` is set — read from the manifest instead."
         },
         "description": {
           "$ref": "#/$defs/richText",
           "description": "What this property controls, how it affects the component, and any constraints or side effects."
+        },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this property's structural facts. `path` locates the member within it (ex: 'MyElement.disabled'). When set, this document is NOT the source of truth for `type`/`values`/`schema`/`defaultValue`/`deprecated` — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. Only the human-authored fields (`description`, `required`, `examples`, ...) stay in this document."
         },
         "required": {
           "type": "boolean",
@@ -1642,7 +1663,7 @@
           "description": "Whether the consumer must provide this property. Defaults to false."
         },
         "defaultValue": {
-          "description": "The default value in its native JSON type. Accepts any JSON type: string, number, boolean, object, array, or null."
+          "description": "The default value in its native JSON type. Accepts any JSON type: string, number, boolean, object, array, or null. MUST be omitted when `source` is set — read from the manifest instead."
         },
         "examples": {
           "type": "array",
@@ -1659,7 +1680,7 @@
         "deprecated": {
           "type": "boolean",
           "default": false,
-          "description": "Whether this property is deprecated. Defaults to false."
+          "description": "Whether this property is deprecated. Defaults to false. MUST be omitted when `source` is set — read from the manifest instead."
         },
         "deprecationNotice": {
           "$ref": "#/$defs/deprecationNotice",
@@ -1674,26 +1695,90 @@
           "description": "For a deprecated property, the version it is planned to be removed in (ex: '3.0.0'). Lets tools warn how long the property will keep working."
         }
       },
-      "if": {
-        "properties": {
-          "deprecated": {
-            "const": true
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "deprecated": {
+                "const": true
+              }
+            },
+            "required": [
+              "deprecated"
+            ]
+          },
+          "then": {
+            "required": [
+              "deprecationNotice"
+            ]
           }
         },
-        "required": [
-          "deprecated"
-        ]
-      },
-      "then": {
-        "required": [
-          "deprecationNotice"
-        ]
-      },
+        {
+          "if": {
+            "not": {
+              "required": [
+                "source"
+              ]
+            }
+          },
+          "then": {
+            "required": [
+              "type"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "allOf": [
+              {
+                "not": {
+                  "required": [
+                    "type"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "values"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "schema"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "defaultValue"
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "required": [
+                    "deprecated"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
       "additionalProperties": false
     },
     "apiEvent": {
       "type": "object",
-      "description": "An event emitted by a component.",
+      "description": "An event emitted by a component. When `source` is set, a manifest owns `payload` and this document MUST NOT restate it — see `source`.",
       "required": [
         "identifier",
         "description"
@@ -1709,11 +1794,27 @@
         },
         "payload": {
           "type": "string",
-          "description": "The event's payload or handler signature (ex: '(event: MouseEvent) => void', '{ value: string, index: number }') — what a listener receives."
+          "description": "The event's payload or handler signature (ex: '(event: MouseEvent) => void', '{ value: string, index: number }') — what a listener receives. MUST be omitted when `source` is set — read from the manifest instead."
+        },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this event's `payload`. `path` locates the member within it. When set, this document is NOT the source of truth for `payload` — it MUST be omitted here, and a tool generating or rendering documentation MUST extract it from the manifest at `path` instead."
         },
         "since": {
           "type": "string",
           "description": "The version in which this event was introduced."
+        }
+      },
+      "if": {
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "payload"
+          ]
         }
       },
       "additionalProperties": false
@@ -1738,6 +1839,10 @@
           "$ref": "#/$defs/richText",
           "description": "Allowed content (ex: 'Plain text or a text node. Do not nest interactive elements.')."
         },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) this slot was generated from. `path` locates the member within it."
+        },
         "since": {
           "type": "string",
           "description": "The version in which this slot was introduced."
@@ -1747,7 +1852,7 @@
     },
     "apiCssCustomProperty": {
       "type": "object",
-      "description": "A CSS custom property exposed by a component for external styling.",
+      "description": "A CSS custom property exposed by a component for external styling. When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them — see `source`.",
       "required": [
         "identifier",
         "description"
@@ -1764,16 +1869,43 @@
         },
         "defaultValue": {
           "type": "string",
-          "description": "The default value (ex: 'var(--color-action-primary)', '1rem', 'transparent')."
+          "description": "The default value (ex: 'var(--color-action-primary)', '1rem', 'transparent'). MUST be omitted when `source` is set — read from the manifest instead."
         },
         "type": {
           "type": "string",
-          "description": "The expected CSS value type (ex: 'color', 'dimension', 'number')."
+          "description": "The expected CSS value type (ex: 'color', 'dimension', 'number'). MUST be omitted when `source` is set — read from the manifest instead."
+        },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this custom property's `defaultValue`/`type`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
         },
         "since": {
           "type": "string",
           "description": "The version in which this custom property was introduced."
         }
+      },
+      "if": {
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "not": {
+              "required": [
+                "defaultValue"
+              ]
+            }
+          },
+          {
+            "not": {
+              "required": [
+                "type"
+              ]
+            }
+          }
+        ]
       },
       "additionalProperties": false
     },
@@ -1792,6 +1924,10 @@
         "description": {
           "$ref": "#/$defs/richText",
           "description": "What element this part exposes and what styling it enables."
+        },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) this CSS part was generated from. `path` locates the member within it."
         },
         "since": {
           "type": "string",
@@ -1825,6 +1961,10 @@
           "description": "The set of possible values (ex: ['default', 'hover', 'active', 'disabled']).",
           "minItems": 1
         },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest this data attribute was generated from, when it comes from one. `path` locates the member within it."
+        },
         "since": {
           "type": "string",
           "description": "The version in which this attribute was introduced."
@@ -1834,7 +1974,7 @@
     },
     "apiMethod": {
       "type": "object",
-      "description": "A public method on a component instance.",
+      "description": "A public method on a component instance. When `source` is set, a manifest owns `parameters`/`returnType` and this document MUST NOT restate them — see `source`.",
       "required": [
         "identifier",
         "description"
@@ -1850,16 +1990,43 @@
         },
         "parameters": {
           "type": "string",
-          "description": "The parameter signature (ex: '(options?: { preventScroll: boolean }) => void')."
+          "description": "The parameter signature (ex: '(options?: { preventScroll: boolean }) => void'). MUST be omitted when `source` is set — read from the manifest instead."
         },
         "returnType": {
           "type": "string",
-          "description": "The return value (ex: 'void', 'Promise<void>', 'HTMLElement | null')."
+          "description": "The return value (ex: 'void', 'Promise<void>', 'HTMLElement | null'). MUST be omitted when `source` is set — read from the manifest instead."
+        },
+        "source": {
+          "$ref": "#/$defs/source",
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this method's `parameters`/`returnType`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
         },
         "since": {
           "type": "string",
           "description": "The version in which this method was introduced."
         }
+      },
+      "if": {
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "not": {
+              "required": [
+                "parameters"
+              ]
+            }
+          },
+          {
+            "not": {
+              "required": [
+                "returnType"
+              ]
+            }
+          }
+        ]
       },
       "additionalProperties": false
     },
@@ -3367,7 +3534,7 @@
     },
     "sectionEntry": {
       "type": "object",
-      "description": "One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required — a section can be just a heading that groups its children.",
+      "description": "One section: a heading, a body, and optionally examples, links, and nested sub-sections. Sub-sections let you build a heading hierarchy (h2 → h3 → h4). Only `title` is required (a section can be just a heading that groups its children).",
       "required": [
         "title"
       ],
@@ -3387,7 +3554,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Examples for this section — code, images, videos, or live links.",
+          "description": "Examples for this section (code, images, videos, or live links).",
           "items": {
             "$ref": "#/$defs/example"
           },
@@ -3441,7 +3608,7 @@
     },
     "stateEntry": {
       "type": "object",
-      "description": "One state — a visual or behavioral change triggered by user interaction, a system event, or a data condition.",
+      "description": "A state, defined as a visual or behavioral change triggered by user interaction, a system event, or a data condition.",
       "required": [
         "identifier",
         "description"
@@ -3449,7 +3616,7 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading', 'selected', 'error', 'read-only')."
+          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading')."
         },
         "name": {
           "type": "string",
@@ -3461,11 +3628,11 @@
         },
         "tokens": {
           "$ref": "#/$defs/tokenOverrides",
-          "description": "Token overrides for this state — only the ones that change from the default. The default values live on `design-specifications` for components (patterns don't have that block — their baseline lives in `anatomy`)."
+          "description": "Token overrides for this state (only ones that change from the default). The default values live on `design-specifications` for components."
         },
         "rationale": {
           "$ref": "#/$defs/richText",
-          "description": "Why this state exists — the user need or design rationale it addresses."
+          "description": "Why this state exists (the user need or design rationale it addresses)."
         },
         "examples": {
           "type": "array",
@@ -3480,7 +3647,7 @@
     },
     "states": {
       "type": "object",
-      "description": "Every interactive state of a component or pattern. List them in a sensible order — usually default, hover, focus, active, then disabled, loading, and other special states. A state is something entered at runtime (hover, disabled, loading); a choice made up front is a variant — document that in `variants` instead.",
+      "description": "Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).",
       "required": [
         "kind",
         "items"
@@ -3514,15 +3681,15 @@
       "properties": {
         "label": {
           "$ref": "#/$defs/richText",
-          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Concise enough to serve as a numbered list item or heading."
+          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Short enough to serve as a numbered list item or heading."
         },
         "instruction": {
           "$ref": "#/$defs/richText",
-          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable: describe the action, not the goal."
+          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable."
         },
         "examples": {
           "type": "array",
-          "description": "Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.",
+          "description": "Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.",
           "items": {
             "$ref": "#/$defs/example"
           },
@@ -3542,7 +3709,7 @@
     },
     "steps": {
       "type": "object",
-      "description": "A procedure — the steps a reader works through start to finish, like installation or a migration.",
+      "description": "A procedure (the steps a reader works through start to finish, like installation or a migration).",
       "required": [
         "kind",
         "items"
@@ -4255,22 +4422,8 @@
           "description": "Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json)."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values — the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this theme's token override definitions."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this theme's group within the DTCG file, if applicable."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this theme's group within the file, if applicable."
         },
         "overrides": {
           "type": "array",
@@ -4336,22 +4489,8 @@
           "description": "What this token represents and when to use it. Optional, so keep it terse at scale. CommonMark supported."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values — the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this token's definition."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this token within the DTCG file (ex: 'color.text.primary')."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this token within the file (ex: 'color.text.primary')."
         },
         "metadata": {
           "$ref": "#/$defs/entityMetadata",
@@ -4413,22 +4552,8 @@
           "description": "If every token in this group shares a type, declare it here instead of repeating it on each child. A child MAY override it. Common values: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values — the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this group's definition."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this group within the DTCG file (ex: 'color.text')."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this group within the file (ex: 'color.text')."
         },
         "children": {
           "type": "array",

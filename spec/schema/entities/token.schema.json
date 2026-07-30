@@ -34,22 +34,8 @@
           "description": "What this token represents and when to use it. Optional, so keep it terse at scale. CommonMark supported."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values \u2014 the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this token's definition."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this token within the DTCG file (ex: 'color.text.primary')."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "../common/source.schema.json#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this token within the file (ex: 'color.text.primary')."
         },
         "metadata": {
           "$ref": "../metadata/metadata.schema.json#/$defs/entityMetadata",
@@ -111,22 +97,8 @@
           "description": "If every token in this group shares a type, declare it here instead of repeating it on each child. A child MAY override it. Common values: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values \u2014 the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this group's definition."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this group within the DTCG file (ex: 'color.text')."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "../common/source.schema.json#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this group within the file (ex: 'color.text')."
         },
         "children": {
           "type": "array",
