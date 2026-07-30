@@ -296,7 +296,7 @@
         },
         &quot;since&quot;: {
           &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0').&quot;
+          &quot;description&quot;: &quot;The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead.&quot;
         }
       },
       &quot;additionalProperties&quot;: false,
@@ -378,7 +378,7 @@
   <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;">The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's <ds-code inline>level</ds-code> when omitted; a standalone criterion SHOULD declare its own.</ds-prop>
   <ds-prop name="verification" type="&lt;ds-type-ref href=&quot;common-criterion.html#verificationmode&quot;&gt;verificationMode&lt;/ds-type-ref&gt;">How a result for this criterion is determined. 'automated': a fully objective test checked programmatically; a <ds-code inline>check</ds-code> MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision; <ds-code inline>check</ds-code> diagnostics are advisory. 'manual': pure subjective judgment; no <ds-code inline>check</ds-code> applies — <ds-code inline>techniques</ds-code> and <ds-code inline>failures</ds-code> serve as the reviewer's steps. Named procedures (ex: a design review) belong in <ds-code inline>techniques</ds-code>. When omitted, tools MUST NOT assume the criterion is automatable.</ds-prop>
   <ds-prop name="check" type="&lt;ds-type-ref href=&quot;common-criterion.html#criterioncheck&quot;&gt;criterionCheck&lt;/ds-type-ref&gt;">Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like <ds-code inline>extensions</ds-code>, this object is intentionally open: execution details do not live in this specification.</ds-prop>
-  <ds-prop name="since" type="string">The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0').</ds-prop>
+  <ds-prop name="since" type="string">The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref>, <ds-type-ref href="common-criterion.html#reference">reference</ds-type-ref>, <ds-type-ref href="common-criterion.html#criteriontestcase">criterionTestCase</ds-type-ref>, <ds-type-ref href="common-criterion.html#conformancelevel">conformanceLevel</ds-type-ref>, <ds-type-ref href="common-criterion.html#verificationmode">verificationMode</ds-type-ref>, <ds-type-ref href="common-criterion.html#criterioncheck">criterionCheck</ds-type-ref></ds-cross-refs>
 <ds-def-example>

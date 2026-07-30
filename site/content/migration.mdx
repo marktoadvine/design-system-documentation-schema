@@ -52,7 +52,7 @@ Nothing else changed shape. Documents that used none of these forms migrate with
 
 ### What needs a human
 
-- **Links that use an identifier.** A link that pointed at another entity by `identifier` no longer validates. The migrator reports each one instead of guessing. Convert it to a typed `relationships` edge (`composes`, `depends-on`, `alternative-to`, …) or rewrite it as a plain URL link.
+- **Links that use an identifier.** A link that pointed at another entity by `identifier` no longer validates. The migrator reports each one instead of guessing. Convert it to a typed `relationships` entry (`composes`, `depends-on`, `alternative-to`, …) or rewrite it as a plain URL link.
 - **Chunks that had both forms.** When a chunk carried the shorthand *and* an equivalent block, the block took priority. The migrator merges in any shorthand items the block doesn't already have, and reports the counts. Skim the report to confirm nothing merged that you meant to drop.
 
 ### Verify

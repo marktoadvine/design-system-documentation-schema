@@ -134,23 +134,32 @@
     },
     &quot;variantExclusion&quot;: {
       &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.&quot;,
+      &quot;description&quot;: &quot;A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.&quot;,
       &quot;required&quot;: [
-        &quot;variants&quot;,
+        &quot;when&quot;,
+        &quot;excludes&quot;,
         &quot;level&quot;
       ],
       &quot;properties&quot;: {
-        &quot;variants&quot;: {
+        &quot;when&quot;: {
           &quot;type&quot;: &quot;array&quot;,
-          &quot;description&quot;: &quot;Two or more selections that conflict. The rule says they must not all be active at the same time.&quot;,
+          &quot;description&quot;: &quot;The triggering selection(s). When all of these are active, the `excludes` rule applies.&quot;,
           &quot;items&quot;: {
             &quot;$ref&quot;: &quot;#/$defs/variantSelection&quot;
           },
-          &quot;minItems&quot;: 2
+          &quot;minItems&quot;: 1
+        },
+        &quot;excludes&quot;: {
+          &quot;type&quot;: &quot;array&quot;,
+          &quot;description&quot;: &quot;The selection(s) that must not be active when `when` holds.&quot;,
+          &quot;items&quot;: {
+            &quot;$ref&quot;: &quot;#/$defs/variantSelection&quot;
+          },
+          &quot;minItems&quot;: 1
         },
         &quot;level&quot;: {
           &quot;$ref&quot;: &quot;../common/criterion.schema.json#/$defs/conformanceLevel&quot;,
-          &quot;description&quot;: &quot;How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.&quot;
+          &quot;description&quot;: &quot;How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.&quot;
         },
         &quot;description&quot;: {
           &quot;$ref&quot;: &quot;../common/rich-text.schema.json#/$defs/richText&quot;,
@@ -500,10 +509,12 @@
   ],
   &quot;exclusions&quot;: [
     {
-      &quot;variants&quot;: [
+      &quot;when&quot;: [
         {
           &quot;variant&quot;: &quot;icon-only&quot;
-        },
+        }
+      ],
+      &quot;excludes&quot;: [
         {
           &quot;variant&quot;: &quot;full-width&quot;
         }
@@ -532,19 +543,22 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="variantExclusion" anchor="variantexclusion" description="A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is." type="object">
+<ds-def-section name="variantExclusion" anchor="variantexclusion" description="A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once." type="object">
 <ds-prop-table>
-  <ds-prop name="variants" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>Two or more selections that conflict. The rule says they must not all be active at the same time.<br><small>Min items: 2</small></ds-prop>
-  <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.</ds-prop>
+  <ds-prop name="when" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The triggering selection(s). When all of these are active, the <ds-code inline>excludes</ds-code> rule applies.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="excludes" type="&lt;ds-type-ref href=&quot;document-blocks-variants.html#variantselection&quot;&gt;variantSelection&lt;/ds-type-ref&gt;[]" required>The selection(s) that must not be active when <ds-code inline>when</ds-code> holds.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="level" type="&lt;ds-type-ref href=&quot;common-criterion.html#conformancelevel&quot;&gt;conformanceLevel&lt;/ds-type-ref&gt;" required>How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here.</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Why the combination is disallowed.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="document-blocks-variants.html#variantselection">variantSelection</ds-type-ref>, <ds-type-ref href="common-criterion.html#conformancelevel">conformanceLevel</ds-type-ref>, <ds-type-ref href="common-rich-text.html#richtext">richText</ds-type-ref></ds-cross-refs>
 <ds-def-example>
 <ds-code language="json" label="example">{
-  &quot;variants&quot;: [
+  &quot;when&quot;: [
     {
       &quot;variant&quot;: &quot;icon-only&quot;
-    },
+    }
+  ],
+  &quot;excludes&quot;: [
     {
       &quot;variant&quot;: &quot;full-width&quot;
     }

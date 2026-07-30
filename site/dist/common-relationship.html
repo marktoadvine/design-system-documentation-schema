@@ -115,7 +115,7 @@
   &quot;description&quot;: &quot;How one entity relates to another (source → target). Relationships include: source depends on the target, souce is built from the target, source replaces the target, etc. Each relationship has a `relation` type and a target entity. You declare it on one entity, and tools work out the reverse direction. A relationship's target MUST be a documented entity. Use `link`, to point to external resources.&quot;,
   &quot;$defs&quot;: {
     &quot;relationType&quot;: {
-      &quot;description&quot;: &quot;The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes').&quot;,
+      &quot;description&quot;: &quot;The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (ex: 'acme.themes').&quot;,
       &quot;anyOf&quot;: [
         {
           &quot;type&quot;: &quot;string&quot;,
@@ -151,7 +151,7 @@
         },
         &quot;role&quot;: {
           &quot;$ref&quot;: &quot;entity-ref.schema.json#/$defs/entityRole&quot;,
-          &quot;description&quot;: &quot;What the target does here (ex: 'Provides semantic text color'). When omitted, the edge is a general association.&quot;
+          &quot;description&quot;: &quot;What the target does here (ex: 'Provides semantic text color'). When omitted, the relationship is a general association.&quot;
         },
         &quot;required&quot;: {
           &quot;type&quot;: &quot;boolean&quot;,
@@ -210,9 +210,9 @@
 </ds-def-section>
 <ds-def-section name="relationship" anchor="relationship" description="Defines what entity the source relates to (`target`: the other entity's `identifier`) and how it relates (`relation`). Optional `role`, `required`, and `versionConstraint` add detail." type="object">
 <ds-prop-table>
-  <ds-prop name="relation" type="&lt;ds-type-ref href=&quot;common-relationship.html#relationtype&quot;&gt;relationType&lt;/ds-type-ref&gt;" required>The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes').</ds-prop>
+  <ds-prop name="relation" type="&lt;ds-type-ref href=&quot;common-relationship.html#relationtype&quot;&gt;relationType&lt;/ds-type-ref&gt;" required>The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (ex: 'acme.themes').</ds-prop>
   <ds-prop name="target" type="&lt;ds-type-ref href=&quot;common-entity-ref.html#entityidentifier&quot;&gt;entityIdentifier&lt;/ds-type-ref&gt;" required>Identifier of the target entity. MUST match a documented entity.</ds-prop>
-  <ds-prop name="role" type="&lt;ds-type-ref href=&quot;common-entity-ref.html#entityrole&quot;&gt;entityRole&lt;/ds-type-ref&gt;">What the target does here (ex: 'Provides semantic text color'). When omitted, the edge is a general association.</ds-prop>
+  <ds-prop name="role" type="&lt;ds-type-ref href=&quot;common-entity-ref.html#entityrole&quot;&gt;entityRole&lt;/ds-type-ref&gt;">What the target does here (ex: 'Provides semantic text color'). When omitted, the relationship is a general association.</ds-prop>
   <ds-prop name="required" type="boolean">Whether the target is required for the source to function. Meaningful for 'depends-on' and 'composes'; ignored for symmetric relations. Defaults to false.<br><small>Default: <ds-code inline>false</ds-code></small></ds-prop>
   <ds-prop name="versionConstraint" type="string">A semver range the target must satisfy (ex: '&gt;=2.0.0', '^3'). Advisory metadata, not a hard validation rule.</ds-prop>
 </ds-prop-table>
@@ -227,7 +227,7 @@
 }</ds-code>
 </ds-def-example>
 </ds-def-section>
-<ds-def-section name="relationType" anchor="relationtype" description="The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes').">
+<ds-def-section name="relationType" anchor="relationtype" description="The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (ex: 'acme.themes').">
 <p><strong>Constraints:</strong> at least one of:</p>
 <ul>
 

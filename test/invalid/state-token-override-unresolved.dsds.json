@@ -21,7 +21,7 @@
                   "identifier": "hover",
                   "description": "Triggered when the pointer moves over the button.",
                   "tokens": {
-                    "background": "no-such-token"
+                    "background": "{no-such-token}"
                   }
                 }
               ]

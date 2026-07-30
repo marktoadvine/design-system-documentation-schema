@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Imports document block — DSDS 0.16.0</title>
-  <meta name="description" content="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.">
+  <meta name="description" content="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code.">
   <link rel="canonical" href="https://designsystemdocspec.org/document-blocks-imports">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="document-blocks-imports.md">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Imports document block — DSDS 0.16.0">
-  <meta property="og:description" content="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.">
+  <meta property="og:description" content="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code.">
   <meta property="og:url" content="https://designsystemdocspec.org/document-blocks-imports">
   <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.16.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Imports document block — DSDS 0.16.0","description":"How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.","url":"https://designsystemdocspec.org/document-blocks-imports","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-imports.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"imports","url":"https://designsystemdocspec.org/document-blocks-imports#imports"},{"@type":"DefinedTerm","name":"importEntry","url":"https://designsystemdocspec.org/document-blocks-imports#importentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Imports document block — DSDS 0.16.0","description":"How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code.","url":"https://designsystemdocspec.org/document-blocks-imports","version":"0.16.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/document-blocks-imports.md","subjectOf":"https://designsystemdocspec.org/v0.16.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"imports","url":"https://designsystemdocspec.org/document-blocks-imports#imports"},{"@type":"DefinedTerm","name":"importEntry","url":"https://designsystemdocspec.org/document-blocks-imports#importentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.16.0">
   <link rel="stylesheet" href="style.css?v=0.16.0">
@@ -103,7 +103,7 @@
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
-    <ds-header title="Imports document block" description="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code." source="document-blocks/imports.schema.json"></ds-header>
+    <ds-header title="Imports document block" description="How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code." source="document-blocks/imports.schema.json"></ds-header>
     <div class="content__container">
         <div class="content__inner">
 
@@ -112,7 +112,7 @@
   &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
   &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.16.0/document-blocks/imports.schema.json&quot;,
   &quot;title&quot;: &quot;Imports document block&quot;,
-  &quot;description&quot;: &quot;How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (React, Vue, Web Components, etc.), each with the package name and the import code.&quot;,
+  &quot;description&quot;: &quot;How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code.&quot;,
   &quot;$defs&quot;: {
     &quot;importEntry&quot;: {
       &quot;type&quot;: &quot;object&quot;,
@@ -123,7 +123,7 @@
       &quot;properties&quot;: {
         &quot;platform&quot;: {
           &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform.&quot;
+          &quot;description&quot;: &quot;The platform this applies to (ex: 'react', 'web-components', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform.&quot;
         },
         &quot;package&quot;: {
           &quot;type&quot;: &quot;string&quot;,
@@ -216,7 +216,7 @@
 <ds-def-section name="importEntry" anchor="importentry" description="One platform's import instructions. Includes the platform, and the code to import/use the component." type="object">
 <ds-prop-table>
   <ds-prop name="code" type="string" required>The import code. SHOULD be copy-paste ready. Use newlines for multi-line snippets.</ds-prop>
-  <ds-prop name="platform" type="string">The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares <ds-code inline>systemInfo.platforms</ds-code>, this SHOULD match one of those identifiers (the same set the <ds-code inline>api</ds-code> block uses). When left out, it's assumed to be the only/default platform.</ds-prop>
+  <ds-prop name="platform" type="string">The platform this applies to (ex: 'react', 'web-components', 'swift-ui'). When the system declares <ds-code inline>systemInfo.platforms</ds-code>, this SHOULD match one of those identifiers (the same set the <ds-code inline>api</ds-code> block uses). When left out, it's assumed to be the only/default platform.</ds-prop>
   <ds-prop name="package" type="string">The package to install (ex: '@acme/ui'), exactly as it appears in the package manager.</ds-prop>
   <ds-prop name="language" type="string">The language or format of the code (ex: 'tsx', 'js', 'vue', 'swift', 'kotlin'). Omit when obvious from the platform.</ds-prop>
   <ds-prop name="description" type="&lt;ds-type-ref href=&quot;common-rich-text.html#richtext&quot;&gt;richText&lt;/ds-type-ref&gt;">Extra context to describe when to use this path over another, version requirements, or setup steps.</ds-prop>

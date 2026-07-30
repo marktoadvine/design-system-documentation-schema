@@ -328,12 +328,12 @@
           &quot;description&quot;: &quot;The outer boundary of the button. Receives background color, border, border radius, and padding. Defines the clickable area.&quot;,
           &quot;required&quot;: true,
           &quot;tokens&quot;: {
-            &quot;background&quot;: &quot;button-background&quot;,
-            &quot;border-color&quot;: &quot;button-border-color&quot;,
-            &quot;border-width&quot;: &quot;button-border-width&quot;,
-            &quot;border-radius&quot;: &quot;button-border-radius&quot;,
-            &quot;padding-horizontal&quot;: &quot;button-padding-horizontal&quot;,
-            &quot;padding-vertical&quot;: &quot;button-padding-vertical&quot;
+            &quot;background&quot;: &quot;{button-background}&quot;,
+            &quot;border-color&quot;: &quot;{button-border-color}&quot;,
+            &quot;border-width&quot;: &quot;{button-border-width}&quot;,
+            &quot;border-radius&quot;: &quot;{button-border-radius}&quot;,
+            &quot;padding-horizontal&quot;: &quot;{button-padding-horizontal}&quot;,
+            &quot;padding-vertical&quot;: &quot;{button-padding-vertical}&quot;
           }
         },
         {
@@ -342,11 +342,11 @@
           &quot;description&quot;: &quot;The text content of the button. Communicates the action that will occur on activation.&quot;,
           &quot;required&quot;: true,
           &quot;tokens&quot;: {
-            &quot;font-family&quot;: &quot;button-font-family&quot;,
-            &quot;font-size&quot;: &quot;button-font-size&quot;,
-            &quot;font-weight&quot;: &quot;button-font-weight&quot;,
-            &quot;line-height&quot;: &quot;button-line-height&quot;,
-            &quot;text-color&quot;: &quot;button-text-color&quot;
+            &quot;font-family&quot;: &quot;{button-font-family}&quot;,
+            &quot;font-size&quot;: &quot;{button-font-size}&quot;,
+            &quot;font-weight&quot;: &quot;{button-font-weight}&quot;,
+            &quot;line-height&quot;: &quot;{button-line-height}&quot;,
+            &quot;text-color&quot;: &quot;{button-text-color}&quot;
           }
         },
         {
@@ -355,9 +355,9 @@
           &quot;description&quot;: &quot;An optional icon displayed before (leading) or after (trailing) the label. Reinforces the label's meaning visually.&quot;,
           &quot;required&quot;: false,
           &quot;tokens&quot;: {
-            &quot;size&quot;: &quot;button-icon-size&quot;,
-            &quot;color&quot;: &quot;button-icon-color&quot;,
-            &quot;gap&quot;: &quot;button-icon-gap&quot;
+            &quot;size&quot;: &quot;{button-icon-size}&quot;,
+            &quot;color&quot;: &quot;{button-icon-color}&quot;,
+            &quot;gap&quot;: &quot;{button-icon-gap}&quot;
           }
         },
         {
@@ -366,9 +366,9 @@
           &quot;description&quot;: &quot;A visible outline rendered when the button receives keyboard focus. Not displayed on mouse interaction.&quot;,
           &quot;required&quot;: true,
           &quot;tokens&quot;: {
-            &quot;color&quot;: &quot;button-focus-ring-color&quot;,
-            &quot;width&quot;: &quot;button-focus-ring-width&quot;,
-            &quot;offset&quot;: &quot;button-focus-ring-offset&quot;
+            &quot;color&quot;: &quot;{button-focus-ring-color}&quot;,
+            &quot;width&quot;: &quot;{button-focus-ring-width}&quot;,
+            &quot;offset&quot;: &quot;{button-focus-ring-offset}&quot;
           }
         }
       ],
@@ -600,11 +600,11 @@
               &quot;description&quot;: &quot;High-emphasis — the main action on the surface. Uses a solid, filled background. Limit to one primary button per surface.&quot;,
               &quot;rationale&quot;: &quot;- Use when: When the action is the most important on the surface — the one the user is most likely to take (ex: Save, Submit, Confirm).\n- Avoid when: When a surface already has a primary button. Adding a second dilutes visual hierarchy. Use `secondary` instead — Secondary emphasis maintains importance without competing with the existing primary action.&quot;,
               &quot;tokens&quot;: {
-                &quot;background&quot;: &quot;button-primary-bg&quot;,
-                &quot;text-color&quot;: &quot;button-primary-text&quot;,
-                &quot;border-color&quot;: &quot;transparent&quot;,
-                &quot;border-width&quot;: &quot;0px&quot;,
-                &quot;icon-color&quot;: &quot;button-primary-text&quot;
+                &quot;background&quot;: &quot;{button-primary-bg}&quot;,
+                &quot;text-color&quot;: &quot;{button-primary-text}&quot;,
+                &quot;border-color&quot;: &quot;{transparent}&quot;,
+                &quot;border-width&quot;: &quot;{0px}&quot;,
+                &quot;icon-color&quot;: &quot;{button-primary-text}&quot;
               }
             },
             {
@@ -613,11 +613,11 @@
               &quot;description&quot;: &quot;Medium-emphasis — important but not the primary action. Uses a visible border and transparent background.&quot;,
               &quot;rationale&quot;: &quot;- Use when: When the action is important but secondary to a primary action on the same surface (ex: Cancel alongside Save).&quot;,
               &quot;tokens&quot;: {
-                &quot;background&quot;: &quot;transparent&quot;,
-                &quot;text-color&quot;: &quot;button-secondary-text&quot;,
-                &quot;border-color&quot;: &quot;button-secondary-border&quot;,
-                &quot;border-width&quot;: &quot;1px&quot;,
-                &quot;icon-color&quot;: &quot;button-secondary-text&quot;
+                &quot;background&quot;: &quot;{transparent}&quot;,
+                &quot;text-color&quot;: &quot;{button-secondary-text}&quot;,
+                &quot;border-color&quot;: &quot;{button-secondary-border}&quot;,
+                &quot;border-width&quot;: &quot;{1px}&quot;,
+                &quot;icon-color&quot;: &quot;{button-secondary-text}&quot;
               }
             },
             {
@@ -626,11 +626,11 @@
               &quot;description&quot;: &quot;Low-emphasis — tertiary actions, toolbar actions, or dense layouts. No background or border in the default state.&quot;,
               &quot;rationale&quot;: &quot;- Use when: When the action is tertiary or supplementary — helpful but not essential to the user's primary task.\n- Avoid when: When the action is the only action on the surface and needs to be clearly discoverable. Use `secondary` instead — A ghost button on its own can be overlooked. Secondary emphasis provides enough visual presence to be discoverable.&quot;,
               &quot;tokens&quot;: {
-                &quot;background&quot;: &quot;transparent&quot;,
-                &quot;text-color&quot;: &quot;button-ghost-text&quot;,
-                &quot;border-color&quot;: &quot;transparent&quot;,
-                &quot;border-width&quot;: &quot;0px&quot;,
-                &quot;icon-color&quot;: &quot;button-ghost-text&quot;
+                &quot;background&quot;: &quot;{transparent}&quot;,
+                &quot;text-color&quot;: &quot;{button-ghost-text}&quot;,
+                &quot;border-color&quot;: &quot;{transparent}&quot;,
+                &quot;border-width&quot;: &quot;{0px}&quot;,
+                &quot;icon-color&quot;: &quot;{button-ghost-text}&quot;
               }
             },
             {
@@ -639,11 +639,11 @@
               &quot;description&quot;: &quot;High-emphasis destructive — signals an irreversible action. Uses the danger color. Pair with a confirmation dialog.&quot;,
               &quot;rationale&quot;: &quot;- Use when: When the action is destructive or irreversible — deleting a record, revoking access, removing a team member.\n- Avoid when: When the action is not destructive, even if it feels important or urgent. Use `primary` instead — The danger color is a strong signal reserved for destruction. Using it for non-destructive actions dilutes its meaning.&quot;,
               &quot;tokens&quot;: {
-                &quot;background&quot;: &quot;button-danger-bg&quot;,
-                &quot;text-color&quot;: &quot;button-danger-text&quot;,
-                &quot;border-color&quot;: &quot;transparent&quot;,
-                &quot;border-width&quot;: &quot;0px&quot;,
-                &quot;icon-color&quot;: &quot;button-danger-text&quot;
+                &quot;background&quot;: &quot;{button-danger-bg}&quot;,
+                &quot;text-color&quot;: &quot;{button-danger-text}&quot;,
+                &quot;border-color&quot;: &quot;{transparent}&quot;,
+                &quot;border-width&quot;: &quot;{0px}&quot;,
+                &quot;icon-color&quot;: &quot;{button-danger-text}&quot;
               }
             }
           ]
@@ -686,7 +686,7 @@
           &quot;name&quot;: &quot;Hover&quot;,
           &quot;description&quot;: &quot;Triggered when the user's pointer moves over the button. The background darkens by 8% to indicate interactivity. Not applicable on touch devices.&quot;,
           &quot;tokens&quot;: {
-            &quot;button-background&quot;: &quot;color-action-primary-hover&quot;
+            &quot;button-background&quot;: &quot;{color-action-primary-hover}&quot;
           }
         },
         {
@@ -694,7 +694,7 @@
           &quot;name&quot;: &quot;Active / Pressed&quot;,
           &quot;description&quot;: &quot;Triggered while the button is being pressed (mousedown or touch start). The background darkens by 16% from the default to indicate activation.&quot;,
           &quot;tokens&quot;: {
-            &quot;button-background&quot;: &quot;color-action-primary-active&quot;
+            &quot;button-background&quot;: &quot;{color-action-primary-active}&quot;
           }
         },
         {
@@ -702,9 +702,9 @@
           &quot;name&quot;: &quot;Focus&quot;,
           &quot;description&quot;: &quot;Triggered when the button receives keyboard focus. A 2px focus ring appears with a 2px offset from the container edge.&quot;,
           &quot;tokens&quot;: {
-            &quot;button-focus-ring-color&quot;: &quot;color-focus-ring&quot;,
-            &quot;button-focus-ring-width&quot;: &quot;border-width-focus&quot;,
-            &quot;button-focus-ring-offset&quot;: &quot;space-focus-offset&quot;
+            &quot;button-focus-ring-color&quot;: &quot;{color-focus-ring}&quot;,
+            &quot;button-focus-ring-width&quot;: &quot;{border-width-focus}&quot;,
+            &quot;button-focus-ring-offset&quot;: &quot;{space-focus-offset}&quot;
           }
         },
         {

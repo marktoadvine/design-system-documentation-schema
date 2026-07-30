@@ -144,11 +144,11 @@
         },
         &quot;hasTokenLayer&quot;: {
           &quot;type&quot;: &quot;boolean&quot;,
-          &quot;description&quot;: &quot;Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token.&quot;
+          &quot;description&quot;: &quot;Whether this design system has design token. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}').&quot;
         },
         &quot;platforms&quot;: {
           &quot;type&quot;: &quot;array&quot;,
-          &quot;description&quot;: &quot;The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.&quot;,
+          &quot;description&quot;: &quot;The platforms this system documents (ex: React, Swift UI, web components). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.&quot;,
           &quot;items&quot;: {
             &quot;$ref&quot;: &quot;#/$defs/platform&quot;
           },
@@ -167,11 +167,11 @@
         &quot;identifier&quot;: {
           &quot;type&quot;: &quot;string&quot;,
           &quot;pattern&quot;: &quot;^[a-z][a-z0-9-]*$&quot;,
-          &quot;description&quot;: &quot;The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at.&quot;
+          &quot;description&quot;: &quot;The platform's identifier, unique within this list (ex: 'react', 'web-component', 'swift-ui'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at.&quot;
         },
         &quot;name&quot;: {
           &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS').&quot;
+          &quot;description&quot;: &quot;Optional friendly label for the platform (ex: 'React', 'Web Component', 'Swift UI').&quot;
         }
       },
       &quot;additionalProperties&quot;: false
@@ -193,8 +193,8 @@
   <ds-prop name="organization" type="string">The organization that maintains the system.</ds-prop>
   <ds-prop name="url" type="string (uri)">URL to the system's documentation site.</ds-prop>
   <ds-prop name="license" type="string">License as an SPDX identifier (ex: 'MIT', 'Apache-2.0') or a URL to the license text.</ds-prop>
-  <ds-prop name="hasTokenLayer" type="boolean">Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token.</ds-prop>
-  <ds-prop name="platforms" type="&lt;ds-type-ref href=&quot;common-system-info.html#platform&quot;&gt;platform&lt;/ds-type-ref&gt;[]">The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an <ds-code inline>api</ds-code> block's <ds-code inline>platform</ds-code>, an <ds-code inline>imports</ds-code> entry's <ds-code inline>platform</ds-code>, and per-platform <ds-code inline>status</ds-code> keys SHOULD each match one of these identifiers.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="hasTokenLayer" type="boolean">Whether this design system has design token. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}').</ds-prop>
+  <ds-prop name="platforms" type="&lt;ds-type-ref href=&quot;common-system-info.html#platform&quot;&gt;platform&lt;/ds-type-ref&gt;[]">The platforms this system documents (ex: React, Swift UI, web components). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an <ds-code inline>api</ds-code> block's <ds-code inline>platform</ds-code>, an <ds-code inline>imports</ds-code> entry's <ds-code inline>platform</ds-code>, and per-platform <ds-code inline>status</ds-code> keys SHOULD each match one of these identifiers.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-system-info.html#platform">platform</ds-type-ref></ds-cross-refs>
 <ds-def-example>
@@ -219,8 +219,8 @@
 </ds-def-section>
 <ds-def-section name="platform" anchor="platform" description="One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label." type="object">
 <ds-prop-table>
-  <ds-prop name="identifier" type="string" required>The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value <ds-code inline>api</ds-code>, <ds-code inline>imports</ds-code>, and per-platform <ds-code inline>status</ds-code> point at.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
-  <ds-prop name="name" type="string">Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS').</ds-prop>
+  <ds-prop name="identifier" type="string" required>The platform's identifier, unique within this list (ex: 'react', 'web-component', 'swift-ui'). MUST be lowercase kebab-case. This is the value <ds-code inline>api</ds-code>, <ds-code inline>imports</ds-code>, and per-platform <ds-code inline>status</ds-code> point at.<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9-]*$</ds-code></small></ds-prop>
+  <ds-prop name="name" type="string">Optional friendly label for the platform (ex: 'React', 'Web Component', 'Swift UI').</ds-prop>
 </ds-prop-table>
 <ds-def-example>
 <ds-code language="json" label="example">{

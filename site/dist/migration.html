@@ -129,7 +129,7 @@ node scripts/migrate-to-0.14.js <files-or-dirs>
 <p>Nothing else changed shape. Documents that used none of these forms migrate with only a version bump.</p>
 <ds-heading level="3" anchor="what-needs-a-human">What needs a human</ds-heading>
 <ul>
-<li><strong>Links that use an identifier.</strong> A link that pointed at another entity by <ds-code inline>identifier</ds-code> no longer validates. The migrator reports each one instead of guessing. Convert it to a typed <ds-code inline>relationships</ds-code> edge (<ds-code inline>composes</ds-code>, <ds-code inline>depends-on</ds-code>, <ds-code inline>alternative-to</ds-code>, …) or rewrite it as a plain URL link.</li>
+<li><strong>Links that use an identifier.</strong> A link that pointed at another entity by <ds-code inline>identifier</ds-code> no longer validates. The migrator reports each one instead of guessing. Convert it to a typed <ds-code inline>relationships</ds-code> entry (<ds-code inline>composes</ds-code>, <ds-code inline>depends-on</ds-code>, <ds-code inline>alternative-to</ds-code>, …) or rewrite it as a plain URL link.</li>
 <li><strong>Chunks that had both forms.</strong> When a chunk carried the shorthand <em>and</em> an equivalent block, the block took priority. The migrator merges in any shorthand items the block doesn't already have, and reports the counts. Skim the report to confirm nothing merged that you meant to drop.</li>
 </ul>
 <ds-heading level="3" anchor="verify">Verify</ds-heading>

@@ -20,7 +20,7 @@ A JSON document that validates against the DSDS schema for the version its `dsds
 - **Entity-group identifier uniqueness** — group identifiers, when present, are unique among the groups.
 - **Criterion identifier uniqueness** — within one entity, no two criteria share an `identifier`.
 - **Section anchor uniqueness** — within one `sections` block, no two entries share an `anchor`.
-- **Relationship-graph integrity** — every `relationships[].target` resolves to a documented entity, no edge points at its own entity, no duplicate edges, and `composes`/`depends-on` stay acyclic.
+- **Relationship-graph integrity** — every `relationships[].target` resolves to a documented entity, no relationship points at its own entity, no duplicate relationships, and `composes`/`depends-on` stay acyclic.
 - **Interaction component resolution** — every `interactions` `components[].identifier` resolves to a documented entity.
 - **Checklist criterion resolution** — every checklist item's `criterion` resolves to a criterion defined on the same entity.
 - **Variant constraint resolution** — every selection in a `variants` block's `exclusions` and `requirements` resolves to a flag or enum value defined in that block.
@@ -70,7 +70,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 {/* dsds:normative-index */}
 
-*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 167 statements: 67 MUST, 23 MUST NOT, 61 SHOULD, 2 SHOULD NOT, 14 MAY.*
+*Generated from the v{{VERSION}} schemas by `scripts/extract-normative.mjs` — do not edit by hand. 167 statements: 69 MUST, 24 MUST NOT, 59 SHOULD, 2 SHOULD NOT, 13 MAY.*
 
 ### common
 
@@ -88,6 +88,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 - **SHOULD** — Tools SHOULD render it in docs and test reports beside the identifier. <small>`common/criterion§criterion.title.1`</small>
 - **MUST** — MUST be objectively verifiable by inspection, static analysis, or runtime measurement. <small>`common/criterion§criterion.statement.1`</small>
 - **SHOULD** — A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own. <small>`common/criterion§criterion.level.1`</small>
+- **MUST NOT** — Criterion identifiers MUST NOT be reused for a different requirement once published. <small>`common/criterion§criterion.since.1`</small>
 
 #### common/dated-note
 
@@ -133,7 +134,7 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 - **MUST** — A relationship's target MUST be a documented entity. <small>`common/relationship§(root).1`</small>
 - **MUST NOT** — Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. <small>`common/relationship§relationType.1`</small>
-- **MUST** — Custom relations MUST be vendor-namespaced (e.g. 'acme.themes'). <small>`common/relationship§relationType.2`</small>
+- **MUST** — Custom relations MUST be vendor-namespaced (ex: 'acme.themes'). <small>`common/relationship§relationType.2`</small>
 - **MUST** — MUST match a documented entity. <small>`common/relationship§relationship.target.1`</small>
 
 #### common/rich-text
@@ -149,14 +150,16 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 #### common/system-info
 
 - **SHOULD** — SHOULD follow semver so tools can compare it against `extends.version` and `reviewedAgainst`. <small>`common/system-info§systemInfo.version.1`</small>
-- **MUST** — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '\{color.action.primary\}'), not as a hardcoded raw value that copies the token. <small>`common/system-info§systemInfo.hasTokenLayer.1`</small>
+- **MUST** — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '\{color.action.primary\}'). <small>`common/system-info§systemInfo.hasTokenLayer.1`</small>
 - **SHOULD** — When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers. <small>`common/system-info§systemInfo.platforms.1`</small>
 - **MUST** — MUST be lowercase kebab-case. <small>`common/system-info§platform.identifier.1`</small>
 
 #### common/token-overrides
 
-- **MUST** — Token references MUST name a documented token, never a raw value. <small>`common/token-overrides§(root).1`</small>
-- **MUST** — (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. <small>`common/token-overrides§tokenOverrides.1`</small>
+- **MUST** — Keys name the visual attribute; values MUST use DTCG alias syntax in braces (ex: '\{color.action.primary\}'). <small>`common/token-overrides§(root).1`</small>
+- **MUST** — Token references MUST name a documented token, never a raw value. <small>`common/token-overrides§(root).2`</small>
+- **MUST** — Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values MUST be DTCG alias references in braces (ex: '\{color.action.primary\}', '\{radius.md\}'). <small>`common/token-overrides§tokenOverrides.1`</small>
+- **MUST** — When the system documents a token layer, each value MUST resolve to a documented token. <small>`common/token-overrides§tokenOverrides.2`</small>
 
 #### common/use-cases
 
@@ -337,23 +340,20 @@ Every normative statement is enforced at one of three tiers, or is explicitly ad
 
 #### metadata/doc-origin
 
-- **SHOULD** — 'ai-generated': mostly written by an AI with little to no human review — it MAY contain plausible-sounding mistakes and SHOULD be checked before an agent trusts it as fact. <small>`metadata/doc-origin§authorshipValue.1`</small>
-- **MAY** — Best for intent, but MAY be behind the shipped API. <small>`metadata/doc-origin§docOriginValue.1`</small>
-- **SHOULD** — 'reconstructed': written from memory or institutional knowledge, without checking the code — the least reliable for API facts, and SHOULD be verified before an agent relies on it. <small>`metadata/doc-origin§docOriginValue.2`</small>
-- **SHOULD** — For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'. <small>`metadata/doc-origin§docOriginValue.3`</small>
+- **SHOULD** — For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'. <small>`metadata/doc-origin§docOriginValue.1`</small>
 - **MAY** — A document MAY be 'authored' overall while some blocks were 'extracted' or 'generated'. <small>`metadata/doc-origin§docOrigin[oneOf][1].1`</small>
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/doc-origin§docOrigin[oneOf][1].note.1`</small>
 
 #### metadata/governance
 
-- **SHOULD** — Owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'), not individuals — a named person goes stale the moment they leave, which is exactly what this field is meant to survive. <small>`metadata/governance§owner.1`</small>
+- **SHOULD** — A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). <small>`metadata/governance§owner.1`</small>
 - **SHOULD** — Tools SHOULD show the owner wherever a reader might need to flag a problem. <small>`metadata/governance§owner.2`</small>
 - **SHOULD** — SHOULD name a team or role, not an individual. <small>`metadata/governance§owner[oneOf][1].name.1`</small>
 - **SHOULD** — Freeform; tools SHOULD link it when it parses as a URL or email. <small>`metadata/governance§owner[oneOf][1].contact.1`</small>
 - **SHOULD** — Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree. <small>`metadata/governance§lastReviewed.1`</small>
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/governance§lastReviewed[oneOf][1].note.1`</small>
-- **MAY** — Lets tools spot drift — if the code has moved past this version, the doc MAY be stale even if recently reviewed. <small>`metadata/governance§lastReviewed[oneOf][1].reviewedAgainst.1`</small>
-- **SHOULD** — `lastReviewed` is optional but SHOULD be set once you have a review process; its object form records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.' <small>`metadata/governance§governance.1`</small>
+- **MAY** — If the code has moved past this version, the doc MAY be stale even if recently reviewed. <small>`metadata/governance§lastReviewed[oneOf][1].reviewedAgainst.1`</small>
+- **SHOULD** — `lastReviewed` is optional but SHOULD be set once you have a review process. <small>`metadata/governance§governance.1`</small>
 
 #### metadata/last-updated
 

@@ -165,12 +165,12 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "description": "The outer boundary of the button. Receives background color, border, border radius, and padding. Defines the clickable area.",
           "required": true,
           "tokens": {
-            "background": "button-background",
-            "border-color": "button-border-color",
-            "border-width": "button-border-width",
-            "border-radius": "button-border-radius",
-            "padding-horizontal": "button-padding-horizontal",
-            "padding-vertical": "button-padding-vertical"
+            "background": "{button-background}",
+            "border-color": "{button-border-color}",
+            "border-width": "{button-border-width}",
+            "border-radius": "{button-border-radius}",
+            "padding-horizontal": "{button-padding-horizontal}",
+            "padding-vertical": "{button-padding-vertical}"
           }
         },
         {
@@ -179,11 +179,11 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "description": "The text content of the button. Communicates the action that will occur on activation.",
           "required": true,
           "tokens": {
-            "font-family": "button-font-family",
-            "font-size": "button-font-size",
-            "font-weight": "button-font-weight",
-            "line-height": "button-line-height",
-            "text-color": "button-text-color"
+            "font-family": "{button-font-family}",
+            "font-size": "{button-font-size}",
+            "font-weight": "{button-font-weight}",
+            "line-height": "{button-line-height}",
+            "text-color": "{button-text-color}"
           }
         },
         {
@@ -192,9 +192,9 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "description": "An optional icon displayed before (leading) or after (trailing) the label. Reinforces the label's meaning visually.",
           "required": false,
           "tokens": {
-            "size": "button-icon-size",
-            "color": "button-icon-color",
-            "gap": "button-icon-gap"
+            "size": "{button-icon-size}",
+            "color": "{button-icon-color}",
+            "gap": "{button-icon-gap}"
           }
         },
         {
@@ -203,9 +203,9 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "description": "A visible outline rendered when the button receives keyboard focus. Not displayed on mouse interaction.",
           "required": true,
           "tokens": {
-            "color": "button-focus-ring-color",
-            "width": "button-focus-ring-width",
-            "offset": "button-focus-ring-offset"
+            "color": "{button-focus-ring-color}",
+            "width": "{button-focus-ring-width}",
+            "offset": "{button-focus-ring-offset}"
           }
         }
       ],
@@ -437,11 +437,11 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
               "description": "High-emphasis — the main action on the surface. Uses a solid, filled background. Limit to one primary button per surface.",
               "rationale": "- Use when: When the action is the most important on the surface — the one the user is most likely to take (ex: Save, Submit, Confirm).\n- Avoid when: When a surface already has a primary button. Adding a second dilutes visual hierarchy. Use `secondary` instead — Secondary emphasis maintains importance without competing with the existing primary action.",
               "tokens": {
-                "background": "button-primary-bg",
-                "text-color": "button-primary-text",
-                "border-color": "transparent",
-                "border-width": "0px",
-                "icon-color": "button-primary-text"
+                "background": "{button-primary-bg}",
+                "text-color": "{button-primary-text}",
+                "border-color": "{transparent}",
+                "border-width": "{0px}",
+                "icon-color": "{button-primary-text}"
               }
             },
             {
@@ -450,11 +450,11 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
               "description": "Medium-emphasis — important but not the primary action. Uses a visible border and transparent background.",
               "rationale": "- Use when: When the action is important but secondary to a primary action on the same surface (ex: Cancel alongside Save).",
               "tokens": {
-                "background": "transparent",
-                "text-color": "button-secondary-text",
-                "border-color": "button-secondary-border",
-                "border-width": "1px",
-                "icon-color": "button-secondary-text"
+                "background": "{transparent}",
+                "text-color": "{button-secondary-text}",
+                "border-color": "{button-secondary-border}",
+                "border-width": "{1px}",
+                "icon-color": "{button-secondary-text}"
               }
             },
             {
@@ -463,11 +463,11 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
               "description": "Low-emphasis — tertiary actions, toolbar actions, or dense layouts. No background or border in the default state.",
               "rationale": "- Use when: When the action is tertiary or supplementary — helpful but not essential to the user's primary task.\n- Avoid when: When the action is the only action on the surface and needs to be clearly discoverable. Use `secondary` instead — A ghost button on its own can be overlooked. Secondary emphasis provides enough visual presence to be discoverable.",
               "tokens": {
-                "background": "transparent",
-                "text-color": "button-ghost-text",
-                "border-color": "transparent",
-                "border-width": "0px",
-                "icon-color": "button-ghost-text"
+                "background": "{transparent}",
+                "text-color": "{button-ghost-text}",
+                "border-color": "{transparent}",
+                "border-width": "{0px}",
+                "icon-color": "{button-ghost-text}"
               }
             },
             {
@@ -476,11 +476,11 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
               "description": "High-emphasis destructive — signals an irreversible action. Uses the danger color. Pair with a confirmation dialog.",
               "rationale": "- Use when: When the action is destructive or irreversible — deleting a record, revoking access, removing a team member.\n- Avoid when: When the action is not destructive, even if it feels important or urgent. Use `primary` instead — The danger color is a strong signal reserved for destruction. Using it for non-destructive actions dilutes its meaning.",
               "tokens": {
-                "background": "button-danger-bg",
-                "text-color": "button-danger-text",
-                "border-color": "transparent",
-                "border-width": "0px",
-                "icon-color": "button-danger-text"
+                "background": "{button-danger-bg}",
+                "text-color": "{button-danger-text}",
+                "border-color": "{transparent}",
+                "border-width": "{0px}",
+                "icon-color": "{button-danger-text}"
               }
             }
           ]
@@ -523,7 +523,7 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "name": "Hover",
           "description": "Triggered when the user's pointer moves over the button. The background darkens by 8% to indicate interactivity. Not applicable on touch devices.",
           "tokens": {
-            "button-background": "color-action-primary-hover"
+            "button-background": "{color-action-primary-hover}"
           }
         },
         {
@@ -531,7 +531,7 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "name": "Active / Pressed",
           "description": "Triggered while the button is being pressed (mousedown or touch start). The background darkens by 16% from the default to indicate activation.",
           "tokens": {
-            "button-background": "color-action-primary-active"
+            "button-background": "{color-action-primary-active}"
           }
         },
         {
@@ -539,9 +539,9 @@ A single reusable UI component: its identity (`identifier`, `name`, `description
           "name": "Focus",
           "description": "Triggered when the button receives keyboard focus. A 2px focus ring appears with a 2px offset from the container edge.",
           "tokens": {
-            "button-focus-ring-color": "color-focus-ring",
-            "button-focus-ring-width": "border-width-focus",
-            "button-focus-ring-offset": "space-focus-offset"
+            "button-focus-ring-color": "{color-focus-ring}",
+            "button-focus-ring-width": "{border-width-focus}",
+            "button-focus-ring-offset": "{space-focus-offset}"
           }
         },
         {

@@ -29,7 +29,7 @@ The beliefs behind a foundation's decisions — what the system believes and whi
     },
     {
       "title": "Accessible by default",
-      "description": "Every foreground and background pairing in the system meets WCAG 2.2 AA contrast. A color combination that fails contrast is not offered as an option, so teams cannot reach for an inaccessible pairing by accident."
+      "description": "Every foreground and background pairing in the system meets WCAG 2.2 AA contrast. A color combination that fails contrast is not offered as an option, so teams cannot use an inaccessible pairing by accident."
     },
     {
       "title": "Semantic, not literal",
@@ -56,7 +56,7 @@ One principle: a short title and what it means in practice. Principles set direc
 [
   {
     "title": "Use the scale",
-    "description": "Every spacing value comes from the spacing scale. Reach for the nearest scale step rather than a custom value. When two adjacent steps both seem wrong, the layout — not the scale — usually needs rethinking."
+    "description": "Every spacing value comes from the spacing scale. Use the nearest scale step rather than a custom value. When two adjacent steps both seem wrong, the layout — not the scale — usually needs rethinking."
   },
   {
     "title": "Density over decoration",

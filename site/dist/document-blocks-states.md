@@ -34,7 +34,7 @@ Every interactive state of a component or pattern. List them in a sensible order
       "name": "Hover",
       "description": "Triggered when the user's pointer moves over the button. The background darkens by 8% to indicate interactivity. Not applicable on touch devices.",
       "tokens": {
-        "button-background": "color-action-primary-hover"
+        "button-background": "{color-action-primary-hover}"
       }
     }
   ]
@@ -70,7 +70,7 @@ One state — a visual or behavioral change triggered by user interaction, a sys
     "name": "Hover",
     "description": "Triggered when the user's pointer moves over the button. The background darkens by 8% to indicate interactivity. Not applicable on touch devices.",
     "tokens": {
-      "button-background": "color-action-primary-hover"
+      "button-background": "{color-action-primary-hover}"
     },
     "examples": [
       {
@@ -88,7 +88,7 @@ One state — a visual or behavioral change triggered by user interaction, a sys
     "name": "Active / Pressed",
     "description": "Triggered while the button is being pressed (mousedown or touch start). The background darkens by 16% from the default to indicate activation.",
     "tokens": {
-      "button-background": "color-action-primary-active"
+      "button-background": "{color-action-primary-active}"
     }
   },
   {
@@ -96,9 +96,9 @@ One state — a visual or behavioral change triggered by user interaction, a sys
     "name": "Focus",
     "description": "Triggered when the button receives keyboard focus. A 2px focus ring appears with a 2px offset from the container edge. The focus ring uses the system focus color.",
     "tokens": {
-      "button-focus-ring-color": "color-focus-ring",
-      "button-focus-ring-width": "border-width-focus",
-      "button-focus-ring-offset": "space-focus-offset"
+      "button-focus-ring-color": "{color-focus-ring}",
+      "button-focus-ring-width": "{border-width-focus}",
+      "button-focus-ring-offset": "{space-focus-offset}"
     },
     "examples": [
       {

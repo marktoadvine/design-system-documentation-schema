@@ -17,10 +17,8 @@
         ],
         "exclusions": [
           {
-            "variants": [
-              { "variant": "icon-only" },
-              { "variant": "full-width" }
-            ],
+            "when": [ { "variant": "icon-only" } ],
+            "excludes": [ { "variant": "full-width" } ],
             "level": "must-not",
             "description": "full-width is not a variant defined in this block."
           }

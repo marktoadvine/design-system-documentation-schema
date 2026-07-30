@@ -94,10 +94,12 @@ Every way a component or pattern can be configured — a toggle or a set of opti
   ],
   "exclusions": [
     {
-      "variants": [
+      "when": [
         {
           "variant": "icon-only"
-        },
+        }
+      ],
+      "excludes": [
         {
           "variant": "full-width"
         }
@@ -128,12 +130,13 @@ Every way a component or pattern can be configured — a toggle or a set of opti
 
 ## variantExclusion {#variantexclusion}
 
-A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.
+A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `variants` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | Two or more selections that conflict. The rule says they must not all be active at the same time. (Min items: 2) |
-| `level` | [conformanceLevel](common-criterion.md#conformancelevel) | ✓ | How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here. |
+| `when` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | The triggering selection(s). When all of these are active, the `excludes` rule applies. (Min items: 1) |
+| `excludes` | [variantSelection](document-blocks-variants.md#variantselection)[] | ✓ | The selection(s) that must not be active when `when` holds. (Min items: 1) |
+| `level` | [conformanceLevel](common-criterion.md#conformancelevel) | ✓ | How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here. |
 | `description` | [richText](common-rich-text.md#richtext) |  | Why the combination is disallowed. |
 
 **References:** [variantSelection](document-blocks-variants.md#variantselection), [conformanceLevel](common-criterion.md#conformancelevel), [richText](common-rich-text.md#richtext)
@@ -142,10 +145,12 @@ A combination that must not be used together (ex: 'icon-only' + 'full-width'). L
 
 ```json
 {
-  "variants": [
+  "when": [
     {
       "variant": "icon-only"
-    },
+    }
+  ],
+  "excludes": [
     {
       "variant": "full-width"
     }
@@ -380,23 +385,32 @@ A single option within an enum variant dimension.
     },
     "variantExclusion": {
       "type": "object",
-      "description": "A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.",
+      "description": "A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.",
       "required": [
-        "variants",
+        "when",
+        "excludes",
         "level"
       ],
       "properties": {
-        "variants": {
+        "when": {
           "type": "array",
-          "description": "Two or more selections that conflict. The rule says they must not all be active at the same time.",
+          "description": "The triggering selection(s). When all of these are active, the `excludes` rule applies.",
           "items": {
             "$ref": "#/$defs/variantSelection"
           },
-          "minItems": 2
+          "minItems": 1
+        },
+        "excludes": {
+          "type": "array",
+          "description": "The selection(s) that must not be active when `when` holds.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 1
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
-          "description": "How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
+          "description": "How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

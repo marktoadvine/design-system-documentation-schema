@@ -74,9 +74,9 @@
             "description": "A short and concise explanation of the empty state. Where possible, write this as a positive statement (ex: 'Start by adding data assets' rather than 'You don't have any data assets'). Alternatively, acknowledge the absence while implying a future state (ex: 'You don't have any data assets yet').",
             "required": true,
             "tokens": {
-              "font-size": "font-size-heading-3",
-              "font-weight": "font-weight-semibold",
-              "text-color": "color-text-default"
+              "font-size": "{font-size-heading-3}",
+              "font-weight": "{font-weight-semibold}",
+              "text-color": "{color-text-default}"
             }
           },
           {
@@ -85,8 +85,8 @@
             "description": "Explains clearly the next action to populate the space. May also explain why the space is empty and include the benefit of taking the recommended step. Three options for directing the user: a primary action button, a link in the copy, or an instruction pointing to a UI element.",
             "required": true,
             "tokens": {
-              "font-size": "font-size-body",
-              "text-color": "color-text-subtle"
+              "font-size": "{font-size-body}",
+              "text-color": "{color-text-subtle}"
             }
           },
           {
@@ -101,7 +101,7 @@
             "description": "An optional secondary call to action, typically a link to documentation or a related resource (ex: 'Learn more about reports'). Positioned below the body text.",
             "required": false,
             "tokens": {
-              "text-color": "color-text-link"
+              "text-color": "{color-text-link}"
             }
           }
         ],
@@ -178,7 +178,7 @@
             "name": "Empty",
             "description": "The default state when no data is available. The empty state illustration, title, body, and actions are displayed. The content that would normally occupy this space (table rows, card grid, list items) is not rendered.",
             "tokens": {
-              "background": "color-background-default"
+              "background": "{color-background-default}"
             }
           },
           {
@@ -196,7 +196,7 @@
             "name": "Error",
             "description": "A system error occurred while fetching data. The error-management variant of the empty state is displayed with a specific error message and corrective action. If the error is transient, include a retry action.",
             "tokens": {
-              "border-color": "color-border-error"
+              "border-color": "{color-border-error}"
             }
           }
         ]

@@ -8,9 +8,9 @@
         "description": "The outer wrapper element that defines the button's clickable area and visual boundary.",
         "required": true,
         "tokens": {
-          "background": "button-background",
-          "border-color": "button-border-color",
-          "border-radius": "button-border-radius"
+          "background": "{button-background}",
+          "border-color": "{button-border-color}",
+          "border-radius": "{button-border-radius}"
         }
       },
       {
@@ -19,8 +19,8 @@
         "description": "The text content of the button.",
         "required": true,
         "tokens": {
-          "text-color": "button-text-color",
-          "font-size": "button-font-size"
+          "text-color": "{button-text-color}",
+          "font-size": "{button-font-size}"
         }
       },
       {
@@ -29,8 +29,8 @@
         "description": "An optional icon displayed before or after the label.",
         "required": false,
         "tokens": {
-          "size": "button-icon-size",
-          "color": "button-icon-color"
+          "size": "{button-icon-size}",
+          "color": "{button-icon-color}"
         }
       },
       {
@@ -39,8 +39,8 @@
         "description": "A visible outline that appears when the button receives keyboard focus.",
         "required": false,
         "tokens": {
-          "color": "button-focus-ring-color",
-          "width": "button-focus-ring-width"
+          "color": "{button-focus-ring-color}",
+          "width": "{button-focus-ring-width}"
         }
       }
     ],
@@ -58,11 +58,11 @@
       "description": "The outer wrapper element that defines the button's clickable area and visual boundary.",
       "required": true,
       "tokens": {
-        "background": "button-background",
-        "border-color": "button-border-color",
-        "border-radius": "button-border-radius",
-        "padding-horizontal": "button-padding-horizontal",
-        "padding-vertical": "button-padding-vertical"
+        "background": "{button-background}",
+        "border-color": "{button-border-color}",
+        "border-radius": "{button-border-radius}",
+        "padding-horizontal": "{button-padding-horizontal}",
+        "padding-vertical": "{button-padding-vertical}"
       },
       "links": [
         {
@@ -83,10 +83,10 @@
       "description": "The text content of the button. Communicates the action that will occur when activated.",
       "required": true,
       "tokens": {
-        "text-color": "button-text-color",
-        "font-size": "button-font-size",
-        "font-weight": "button-font-weight",
-        "line-height": "button-line-height"
+        "text-color": "{button-text-color}",
+        "font-size": "{button-font-size}",
+        "font-weight": "{button-font-weight}",
+        "line-height": "{button-line-height}"
       }
     },
     {
@@ -95,9 +95,9 @@
       "description": "An optional icon displayed before (leading) or after (trailing) the label. Reinforces the label's meaning visually.",
       "required": false,
       "tokens": {
-        "size": "button-icon-size",
-        "color": "button-icon-color",
-        "gap": "button-icon-gap"
+        "size": "{button-icon-size}",
+        "color": "{button-icon-color}",
+        "gap": "{button-icon-gap}"
       }
     },
     {
@@ -106,9 +106,9 @@
       "description": "A visible outline that appears when the button receives keyboard focus. Must be visible in all color modes.",
       "required": false,
       "tokens": {
-        "color": "button-focus-ring-color",
-        "width": "button-focus-ring-width",
-        "offset": "button-focus-ring-offset"
+        "color": "{button-focus-ring-color}",
+        "width": "{button-focus-ring-width}",
+        "offset": "{button-focus-ring-offset}"
       }
     }
   ]

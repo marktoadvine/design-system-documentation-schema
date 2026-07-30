@@ -23,7 +23,7 @@ A testable success criterion: an objectively verifiable condition an implementat
 | `level` | [conformanceLevel](common-criterion.md#conformancelevel) |  | The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own. |
 | `verification` | [verificationMode](common-criterion.md#verificationmode) |  | How a result for this criterion is determined. 'automated': a fully objective test checked programmatically; a `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision; `check` diagnostics are advisory. 'manual': pure subjective judgment; no `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: a design review) belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable. |
 | `check` | [criterionCheck](common-criterion.md#criterioncheck) |  | Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification. |
-| `since` | string |  | The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). |
+| `since` | string |  | The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead. |
 
 **References:** [richText](common-rich-text.md#richtext), [reference](common-criterion.md#reference), [criterionTestCase](common-criterion.md#criteriontestcase), [conformanceLevel](common-criterion.md#conformancelevel), [verificationMode](common-criterion.md#verificationmode), [criterionCheck](common-criterion.md#criterioncheck)
 
@@ -443,7 +443,7 @@ A citation of an external standard or requirement. This is a published rule the 
         },
         "since": {
           "type": "string",
-          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0')."
+          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead."
         }
       },
       "additionalProperties": false,

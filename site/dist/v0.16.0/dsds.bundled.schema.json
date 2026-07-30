@@ -251,7 +251,7 @@
         },
         "since": {
           "type": "string",
-          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0')."
+          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead."
         }
       },
       "additionalProperties": false,
@@ -621,7 +621,7 @@
       "additionalProperties": false
     },
     "relationType": {
-      "description": "The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes').",
+      "description": "The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (ex: 'acme.themes').",
       "anyOf": [
         {
           "type": "string",
@@ -657,7 +657,7 @@
         },
         "role": {
           "$ref": "#/$defs/entityRole",
-          "description": "What the target does here (ex: 'Provides semantic text color'). When omitted, the edge is a general association."
+          "description": "What the target does here (ex: 'Provides semantic text color'). When omitted, the relationship is a general association."
         },
         "required": {
           "type": "boolean",
@@ -762,11 +762,11 @@
         },
         "hasTokenLayer": {
           "type": "boolean",
-          "description": "Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token."
+          "description": "Whether this design system has design token. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}')."
         },
         "platforms": {
           "type": "array",
-          "description": "The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
+          "description": "The platforms this system documents (ex: React, Swift UI, web components). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
           "items": {
             "$ref": "#/$defs/platform"
           },
@@ -785,11 +785,11 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at."
+          "description": "The platform's identifier, unique within this list (ex: 'react', 'web-component', 'swift-ui'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at."
         },
         "name": {
           "type": "string",
-          "description": "Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS')."
+          "description": "Optional friendly label for the platform (ex: 'React', 'Web Component', 'Swift UI')."
         }
       },
       "additionalProperties": false
@@ -797,7 +797,7 @@
     "tokenOverrides": {
       "type": "object",
       "minProperties": 1,
-      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are a token `identifier` (ex: 'color-action-primary', 'radius-md'). Every value here is a token reference, so it's written as a plain identifier — no braces. (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
+      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values MUST be DTCG alias references in braces (ex: '{color.action.primary}', '{radius.md}'). Braces mark the value as a token reference consistently with design-specifications values — the same rule applies everywhere: bare string = raw literal, braced string = token reference. When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
       "propertyNames": {
         "pattern": "^[a-z][a-z0-9-]*$"
       },
@@ -806,9 +806,9 @@
       },
       "examples": [
         {
-          "background": "color-action-primary",
-          "text-color": "color-text-on-action",
-          "border-radius": "radius-md"
+          "background": "{color.action.primary}",
+          "text-color": "{color.text.on-action}",
+          "border-radius": "{radius.md}"
         }
       ]
     },
@@ -901,7 +901,7 @@
     },
     "authorshipValue": {
       "type": "string",
-      "description": "Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review — it MAY contain plausible-sounding mistakes and SHOULD be checked before an agent trusts it as fact. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing — as trustworthy as its source and pipeline. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value — that's what matters most to know.",
+      "description": "Who or what wrote the words. Separate from `origin`: origin is what the doc came from, authorship is who wrote it. 'human': a person wrote it, no AI or scripts involved. 'ai-assisted': human-led, with an AI drafting or editing parts under human direction. 'ai-generated': mostly written by an AI with little to no human review. 'machine-assisted': human-led, with scripts or generators producing parts like tables. 'machine-generated': produced entirely by scripts, with no human or AI writing. AI and machine output differ in one key way: machine output is deterministic (same input, same output); AI output isn't. If both an AI and a script contributed, record the AI value.",
       "enum": [
         "human",
         "ai-assisted",
@@ -912,7 +912,7 @@
     },
     "docOriginValue": {
       "type": "string",
-      "description": "How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec — the code follows the doc. Best for intent, but MAY be behind the shipped API. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. Matches the API closely but says nothing about intent. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact — describes what exists. 'reconstructed': written from memory or institutional knowledge, without checking the code — the least reliable for API facts, and SHOULD be verified before an agent relies on it. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.",
+      "description": "How the doc relates to the code it describes. 'authored': written before or alongside the code, as its spec. 'generated': produced automatically from source (type definitions, doc comments), no human writing involved. 'extracted': written by a person or agent reading the existing code, stories, or tests after the fact. 'reconstructed': written from memory or institutional knowledge, without checking the code. For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'.",
       "enum": [
         "authored",
         "generated",
@@ -921,7 +921,7 @@
       ]
     },
     "docOrigin": {
-      "description": "How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed — say, a prop table extracted from code inside otherwise hand-written guidance — or when it needs explaining. This describes how the doc was produced, not how good it is: it just tells consumers how much to trust which parts.",
+      "description": "How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed (ex: a prop table extracted from code inside otherwise hand-written guidance) or when it needs explaining. This field only descirbes how the entity is product and cannot measure how good/bad it is.",
       "oneOf": [
         {
           "$ref": "#/$defs/docOriginValue"
@@ -935,11 +935,11 @@
           "properties": {
             "overall": {
               "$ref": "#/$defs/docOriginValue",
-              "description": "The main origin for the document as a whole. If blocks differ, pick the origin of its substantive content and list the exceptions in `blocks`."
+              "description": "The main origin for the document as a whole. If blocks differ, pick the origin of its main content and list the exceptions in `blocks`."
             },
             "authorship": {
               "$ref": "#/$defs/authorshipValue",
-              "description": "Who wrote the document's words overall. If production was mixed, record the least-supervised method that contributed a real part (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted."
+              "description": "Who wrote the document's words overall. If production was mixed, bias towards sharing automation (a mostly human doc with AI-drafted sections is 'ai-assisted'). Note: the schema enforces a pairing rule — when `origin` is 'generated', `authorship` must be 'machine-generated' or 'ai-generated'; no other pairing is accepted."
             },
             "note": {
               "$ref": "#/$defs/plainNote",
@@ -947,7 +947,7 @@
             },
             "blocks": {
               "type": "object",
-              "description": "Per-block overrides, for blocks whose origin or authorship differs from the document as a whole. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ — e.g., an otherwise hand-written doc whose prop table is AI-generated. List only the exceptions. A key that doesn't match any block in the entity is a defect.",
+              "description": "Per-block overrides, for blocks where the author is different from document author. Keys are block kinds (ex: 'api', 'guidelines') matching a block already in this entity's `documentBlocks` or `agentDocumentBlocks`. Each value is a bare origin string, or an object with `origin` and/or `authorship` when both differ (ex: a hand-written doc except for an AI-generated prop table). List only the exceptions. A key that doesn't match any block in the entity is a defect.",
               "minProperties": 1,
               "propertyNames": {
                 "pattern": "^[a-z][a-z0-9-]*$"
@@ -1002,7 +1002,7 @@
       ]
     },
     "owner": {
-      "description": "Who's accountable for this entity's docs. A bare string names the owner — the common case. Use the object form to add contact info. Owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'), not individuals — a named person goes stale the moment they leave, which is exactly what this field is meant to survive. Tools SHOULD show the owner wherever a reader might need to flag a problem.",
+      "description": "Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.",
       "oneOf": [
         {
           "type": "string",
@@ -1023,7 +1023,7 @@
             },
             "contact": {
               "type": "string",
-              "description": "How to reach the owner — a URL, email, or channel (ex: 'design-system@acme.com', '#design-system'). Freeform; tools SHOULD link it when it parses as a URL or email.",
+              "description": "How to reach the owner: a URL, email, or channel (ex: 'design-system@acme.com', '#design-system'). Freeform; tools SHOULD link it when it parses as a URL or email.",
               "minLength": 1
             }
           },
@@ -1032,7 +1032,7 @@
       ]
     },
     "lastReviewed": {
-      "description": "When a human last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.",
+      "description": "When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.",
       "oneOf": [
         {
           "$ref": "#/$defs/isoDate",
@@ -1051,16 +1051,16 @@
             },
             "reviewedBy": {
               "type": "string",
-              "description": "Who did the review — a team, role, or person (ex: 'jane.doe'). Unlike `owner`, naming a person here is fine — it's a record of what happened, not an ongoing responsibility.",
+              "description": "Who did the review: a team, role, or person (ex: 'jane.doe'). Unlike `owner`, naming a person here is fine since the field only serves as a record.",
               "minLength": 1
             },
             "note": {
               "$ref": "#/$defs/plainNote",
-              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1; prop table still accurate', 'Guidelines section needs a rewrite — tracked in DS-412'). MUST NOT contain markup."
+              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1; prop table still accurate', 'Guidelines section needs a rewrite—tracked in DS-412'). MUST NOT contain markup."
             },
             "reviewedAgainst": {
               "type": "string",
-              "description": "The version the doc was checked against in this review (ex: '@acme/ui@3.1.0'). Lets tools spot drift — if the code has moved past this version, the doc MAY be stale even if recently reviewed. Lives inside the review record, so it can't exist without one.",
+              "description": "The version the doc was checked against in this review (ex: '@acme/ui@3.1.0'). Lets tools spot drift. If the code has moved past this version, the doc MAY be stale even if recently reviewed. Lives inside the review record, so it can't exist without one.",
               "minLength": 1
             }
           },
@@ -1070,7 +1070,7 @@
     },
     "governance": {
       "type": "object",
-      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required — without one, this field answers nothing it's meant to. `lastReviewed` is optional but SHOULD be set once you have a review process; its object form records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
+      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
       "required": [
         "owner"
       ],
@@ -3004,7 +3004,7 @@
       "properties": {
         "platform": {
           "type": "string",
-          "description": "The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
+          "description": "The platform this applies to (ex: 'react', 'web-components', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
         },
         "package": {
           "type": "string",
@@ -3593,23 +3593,32 @@
     },
     "variantExclusion": {
       "type": "object",
-      "description": "A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.",
+      "description": "A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.",
       "required": [
-        "variants",
+        "when",
+        "excludes",
         "level"
       ],
       "properties": {
-        "variants": {
+        "when": {
           "type": "array",
-          "description": "Two or more selections that conflict. The rule says they must not all be active at the same time.",
+          "description": "The triggering selection(s). When all of these are active, the `excludes` rule applies.",
           "items": {
             "$ref": "#/$defs/variantSelection"
           },
-          "minItems": 2
+          "minItems": 1
+        },
+        "excludes": {
+          "type": "array",
+          "description": "The selection(s) that must not be active when `when` holds.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 1
         },
         "level": {
           "$ref": "#/$defs/conformanceLevel",
-          "description": "How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
+          "description": "How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
         },
         "description": {
           "$ref": "#/$defs/richText",

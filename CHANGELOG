@@ -29,6 +29,7 @@ Minor release — the full response to the 0.15.2 evaluation: corrections, addit
 - **`systemInfo.hasTokenLayer`** — an explicit boolean saying whether the system has a token layer, instead of tools guessing from whether token entities happen to appear in the file (tokens often live in an external DTCG file). The token-reference lint honors it.
 - **`entityGroup.identifier`** — an optional, unique-among-groups identifier so a group is addressable, not just a display `name`.
 - **`lastUpdated` is the documentation cache key.** Its description now says so explicitly: documentation can change without the design system's version moving, so tools SHOULD pin an entity's docs to `lastUpdated` and re-fetch when it advances. No new version field — the date you already keep is the handle.
+- **Token references always use DTCG alias syntax.** `tokenOverrides` maps (the `tokens` property on anatomy parts, variant values, and states) now follow the same rule as `designValue`: a token reference MUST be written in braces (`{color.action.primary}`), not as a bare identifier. Bare string = raw literal, braced string = token reference — the rule is now the same everywhere. The semantic check enforces brace syntax in token-bearing documents and strips the braces before resolving against the token layer.
 - **Variant combinations can be constrained.** A `variants` block gains two optional arrays: `exclusions` (combinations that must not be used together, ex: `icon-only` + `full-width`) and `requirements` (combinations that must hold, ex: a `danger` button must show an icon). Each rule carries an RFC 2119 `level`, and every selection it names must resolve to a flag or enum value defined in the same block (a new semantic check).
 
 ### Fixes
@@ -587,7 +588,7 @@ Patch release. Schema files are now served at `https://designsystemdocspec.org/v
 
 #### Free-form `section` blocks on every entity
 
-The `section` document block — titled, optionally nested narrative prose with a rich-text body, examples, and links — was previously accepted only on `guide` entities. It is now a **general** block kind, available on every entity type (component, foundation, pattern, token, guide). Use it for conceptual content the structured block kinds do not capture: rationale, background, decision history, and FAQs. Reach for a structured block kind first; use `section` only for the remainder.
+The `section` document block — titled, optionally nested narrative prose with a rich-text body, examples, and links — was previously accepted only on `guide` entities. It is now a **general** block kind, available on every entity type (component, foundation, pattern, token, guide). Use it for conceptual content the structured block kinds do not capture: rationale, background, decision history, and FAQs. Use a structured block kind first; use `section` only for the remainder.
 
 Internally, the per-entity document-block unions now reference a shared `generalDocumentBlock` definition instead of inlining the general kinds, so future general additions propagate to every entity from one place.
 

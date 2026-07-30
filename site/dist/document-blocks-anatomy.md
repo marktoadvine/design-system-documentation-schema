@@ -32,9 +32,9 @@ Documents the visual structure of a component or pattern by listing its named su
       "description": "The outer wrapper element that defines the button's clickable area and visual boundary.",
       "required": true,
       "tokens": {
-        "background": "button-background",
-        "border-color": "button-border-color",
-        "border-radius": "button-border-radius"
+        "background": "{button-background}",
+        "border-color": "{button-border-color}",
+        "border-radius": "{button-border-radius}"
       }
     },
     {
@@ -43,8 +43,8 @@ Documents the visual structure of a component or pattern by listing its named su
       "description": "The text content of the button.",
       "required": true,
       "tokens": {
-        "text-color": "button-text-color",
-        "font-size": "button-font-size"
+        "text-color": "{button-text-color}",
+        "font-size": "{button-font-size}"
       }
     },
     {
@@ -53,8 +53,8 @@ Documents the visual structure of a component or pattern by listing its named su
       "description": "An optional icon displayed before or after the label.",
       "required": false,
       "tokens": {
-        "size": "button-icon-size",
-        "color": "button-icon-color"
+        "size": "{button-icon-size}",
+        "color": "{button-icon-color}"
       }
     },
     {
@@ -63,8 +63,8 @@ Documents the visual structure of a component or pattern by listing its named su
       "description": "A visible outline that appears when the button receives keyboard focus.",
       "required": false,
       "tokens": {
-        "color": "button-focus-ring-color",
-        "width": "button-focus-ring-width"
+        "color": "{button-focus-ring-color}",
+        "width": "{button-focus-ring-width}"
       }
     }
   ],
@@ -102,11 +102,11 @@ A named sub-element of a component's or pattern's visual structure.
     "description": "The outer wrapper element that defines the button's clickable area and visual boundary.",
     "required": true,
     "tokens": {
-      "background": "button-background",
-      "border-color": "button-border-color",
-      "border-radius": "button-border-radius",
-      "padding-horizontal": "button-padding-horizontal",
-      "padding-vertical": "button-padding-vertical"
+      "background": "{button-background}",
+      "border-color": "{button-border-color}",
+      "border-radius": "{button-border-radius}",
+      "padding-horizontal": "{button-padding-horizontal}",
+      "padding-vertical": "{button-padding-vertical}"
     },
     "links": [
       {
@@ -127,10 +127,10 @@ A named sub-element of a component's or pattern's visual structure.
     "description": "The text content of the button. Communicates the action that will occur when activated.",
     "required": true,
     "tokens": {
-      "text-color": "button-text-color",
-      "font-size": "button-font-size",
-      "font-weight": "button-font-weight",
-      "line-height": "button-line-height"
+      "text-color": "{button-text-color}",
+      "font-size": "{button-font-size}",
+      "font-weight": "{button-font-weight}",
+      "line-height": "{button-line-height}"
     }
   },
   {
@@ -139,9 +139,9 @@ A named sub-element of a component's or pattern's visual structure.
     "description": "An optional icon displayed before (leading) or after (trailing) the label. Reinforces the label's meaning visually.",
     "required": false,
     "tokens": {
-      "size": "button-icon-size",
-      "color": "button-icon-color",
-      "gap": "button-icon-gap"
+      "size": "{button-icon-size}",
+      "color": "{button-icon-color}",
+      "gap": "{button-icon-gap}"
     }
   },
   {
@@ -150,9 +150,9 @@ A named sub-element of a component's or pattern's visual structure.
     "description": "A visible outline that appears when the button receives keyboard focus. Must be visible in all color modes.",
     "required": false,
     "tokens": {
-      "color": "button-focus-ring-color",
-      "width": "button-focus-ring-width",
-      "offset": "button-focus-ring-offset"
+      "color": "{button-focus-ring-color}",
+      "width": "{button-focus-ring-width}",
+      "offset": "{button-focus-ring-offset}"
     }
   }
 ]

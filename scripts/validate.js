@@ -811,20 +811,28 @@ function semanticFindings(doc) {
     }
   }
 
-  // Token-override references resolve against the documented token layer. The
-  // shared tokenOverrides map appears on anatomy parts, states, and variant
-  // values/flags — every position resolves under the same rule. When the
-  // document documents no tokens (external DTCG layer), this is skipped —
-  // matching the schema's "in a system that documents its token layer" rule.
+  // Token-override references MUST use DTCG alias syntax ({token.id}) and
+  // MUST resolve against the documented token layer. Both checks are gated on
+  // the token layer being present — a token-less system with no documented
+  // tokens is skipped.
   function checkTokenOverrides(node, nodePath) {
     if (!tokenLayer || tokenLayer.size === 0) return;
     const tokens = node.tokens;
     if (!tokens || typeof tokens !== "object" || Array.isArray(tokens)) return;
-    for (const [purpose, id] of Object.entries(tokens)) {
-      if (typeof id === "string" && !tokenLayer.has(id)) {
+    for (const [purpose, val] of Object.entries(tokens)) {
+      if (typeof val !== "string") continue;
+      if (!val.startsWith("{") || !val.endsWith("}")) {
         findings.push({
           path: `${nodePath}/tokens/${purpose}`,
-          message: `token override '${id}' resolves to no documented token — with a token layer present, token-override references MUST name a documented token (entityRef resolution)`,
+          message: `token override '${val}' must use DTCG alias syntax — wrap the identifier in braces (ex: '{${val}}')`,
+        });
+        continue;
+      }
+      const id = val.slice(1, -1);
+      if (!tokenLayer.has(id)) {
+        findings.push({
+          path: `${nodePath}/tokens/${purpose}`,
+          message: `token override '${val}' resolves to no documented token — with a token layer present, token-override references MUST name a documented token (entityRef resolution)`,
         });
       }
     }
@@ -985,11 +993,10 @@ function semanticFindings(doc) {
         message: `variant constraint references '${v}', which is not a flag or enum variant defined in this block`,
       });
     };
-    (node.exclusions || []).forEach((ex, i) =>
-      (ex.variants || []).forEach((sel, j) =>
-        checkSel(sel, `${nodePath}/exclusions/${i}/variants/${j}`),
-      ),
-    );
+    (node.exclusions || []).forEach((ex, i) => {
+      (ex.when || []).forEach((sel, j) => checkSel(sel, `${nodePath}/exclusions/${i}/when/${j}`));
+      (ex.excludes || []).forEach((sel, j) => checkSel(sel, `${nodePath}/exclusions/${i}/excludes/${j}`));
+    });
     (node.requirements || []).forEach((rq, i) => {
       (rq.when || []).forEach((sel, j) => checkSel(sel, `${nodePath}/requirements/${i}/when/${j}`));
       (rq.requires || []).forEach((sel, j) =>

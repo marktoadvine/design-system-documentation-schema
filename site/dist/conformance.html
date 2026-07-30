@@ -119,7 +119,7 @@
 <li><strong>Entity-group identifier uniqueness</strong> — group identifiers, when present, are unique among the groups.</li>
 <li><strong>Criterion identifier uniqueness</strong> — within one entity, no two criteria share an <ds-code inline>identifier</ds-code>.</li>
 <li><strong>Section anchor uniqueness</strong> — within one <ds-code inline>sections</ds-code> block, no two entries share an <ds-code inline>anchor</ds-code>.</li>
-<li><strong>Relationship-graph integrity</strong> — every <ds-code inline>relationships[].target</ds-code> resolves to a documented entity, no edge points at its own entity, no duplicate edges, and <ds-code inline>composes</ds-code>/<ds-code inline>depends-on</ds-code> stay acyclic.</li>
+<li><strong>Relationship-graph integrity</strong> — every <ds-code inline>relationships[].target</ds-code> resolves to a documented entity, no relationship points at its own entity, no duplicate relationships, and <ds-code inline>composes</ds-code>/<ds-code inline>depends-on</ds-code> stay acyclic.</li>
 <li><strong>Interaction component resolution</strong> — every <ds-code inline>interactions</ds-code> <ds-code inline>components[].identifier</ds-code> resolves to a documented entity.</li>
 <li><strong>Checklist criterion resolution</strong> — every checklist item's <ds-code inline>criterion</ds-code> resolves to a criterion defined on the same entity.</li>
 <li><strong>Variant constraint resolution</strong> — every selection in a <ds-code inline>variants</ds-code> block's <ds-code inline>exclusions</ds-code> and <ds-code inline>requirements</ds-code> resolves to a flag or enum value defined in that block.</li>
@@ -152,7 +152,7 @@
 <p>Every normative statement is enforced at one of three tiers, or is explicitly advisory:</p>
 <ds-table><table><thead><tr><th>Tier</th><th>Mechanism</th><th>Failure mode</th></tr></thead><tbody><tr><td>Structural</td><td>JSON Schema (patterns, required, minItems, conditionals)</td><td>Validation error — blocking</td></tr><tr><td>Semantic</td><td>Reference implementation checks (resolution, uniqueness, inheritance, cycles)</td><td>Validation error — blocking</td></tr><tr><td>Lint</td><td>Rules catalog (<ds-code inline>rules/rules.yaml</ds-code>, DSDS-001…)</td><td>Warning — never blocking</td></tr><tr><td>Advisory</td><td>SHOULD/MAY statements consumed by judgment</td><td>None</td></tr></tbody></table></ds-table>
 <ds-heading level="2" anchor="normative-statements-index">Normative statements index</ds-heading>
-<p><em>Generated from the v0.16.0 schemas by <ds-code inline>scripts/extract-normative.mjs</ds-code> — do not edit by hand. 167 statements: 67 MUST, 23 MUST NOT, 61 SHOULD, 2 SHOULD NOT, 14 MAY.</em></p>
+<p><em>Generated from the v0.16.0 schemas by <ds-code inline>scripts/extract-normative.mjs</ds-code> — do not edit by hand. 167 statements: 69 MUST, 24 MUST NOT, 59 SHOULD, 2 SHOULD NOT, 13 MAY.</em></p>
 <ds-heading level="3" anchor="common">common</ds-heading>
 <ds-heading level="4" anchor="commoncriterion">common/criterion</ds-heading>
 <ul>
@@ -168,6 +168,7 @@
 <li><strong>SHOULD</strong> — Tools SHOULD render it in docs and test reports beside the identifier. <small><ds-code inline>common/criterion§criterion.title.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be objectively verifiable by inspection, static analysis, or runtime measurement. <small><ds-code inline>common/criterion§criterion.statement.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — A criterion referenced by a guideline SHOULD inherit the guideline's <ds-code inline>level</ds-code> when omitted; a standalone criterion SHOULD declare its own. <small><ds-code inline>common/criterion§criterion.level.1</ds-code></small></li>
+<li><strong>MUST NOT</strong> — Criterion identifiers MUST NOT be reused for a different requirement once published. <small><ds-code inline>common/criterion§criterion.since.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commondated-note">common/dated-note</ds-heading>
 <ul>
@@ -213,7 +214,7 @@
 <ul>
 <li><strong>MUST</strong> — A relationship's target MUST be a documented entity. <small><ds-code inline>common/relationship§(root).1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. <small><ds-code inline>common/relationship§relationType.1</ds-code></small></li>
-<li><strong>MUST</strong> — Custom relations MUST be vendor-namespaced (e.g. 'acme.themes'). <small><ds-code inline>common/relationship§relationType.2</ds-code></small></li>
+<li><strong>MUST</strong> — Custom relations MUST be vendor-namespaced (ex: 'acme.themes'). <small><ds-code inline>common/relationship§relationType.2</ds-code></small></li>
 <li><strong>MUST</strong> — MUST match a documented entity. <small><ds-code inline>common/relationship§relationship.target.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commonrich-text">common/rich-text</ds-heading>
@@ -229,14 +230,16 @@
 <ds-heading level="4" anchor="commonsystem-info">common/system-info</ds-heading>
 <ul>
 <li><strong>SHOULD</strong> — SHOULD follow semver so tools can compare it against <ds-code inline>extends.version</ds-code> and <ds-code inline>reviewedAgainst</ds-code>. <small><ds-code inline>common/system-info§systemInfo.version.1</ds-code></small></li>
-<li><strong>MUST</strong> — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token. <small><ds-code inline>common/system-info§systemInfo.hasTokenLayer.1</ds-code></small></li>
+<li><strong>MUST</strong> — When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'). <small><ds-code inline>common/system-info§systemInfo.hasTokenLayer.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — When present, an <ds-code inline>api</ds-code> block's <ds-code inline>platform</ds-code>, an <ds-code inline>imports</ds-code> entry's <ds-code inline>platform</ds-code>, and per-platform <ds-code inline>status</ds-code> keys SHOULD each match one of these identifiers. <small><ds-code inline>common/system-info§systemInfo.platforms.1</ds-code></small></li>
 <li><strong>MUST</strong> — MUST be lowercase kebab-case. <small><ds-code inline>common/system-info§platform.identifier.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commontoken-overrides">common/token-overrides</ds-heading>
 <ul>
-<li><strong>MUST</strong> — Token references MUST name a documented token, never a raw value. <small><ds-code inline>common/token-overrides§(root).1</ds-code></small></li>
-<li><strong>MUST</strong> — (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. <small><ds-code inline>common/token-overrides§tokenOverrides.1</ds-code></small></li>
+<li><strong>MUST</strong> — Keys name the visual attribute; values MUST use DTCG alias syntax in braces (ex: '{color.action.primary}'). <small><ds-code inline>common/token-overrides§(root).1</ds-code></small></li>
+<li><strong>MUST</strong> — Token references MUST name a documented token, never a raw value. <small><ds-code inline>common/token-overrides§(root).2</ds-code></small></li>
+<li><strong>MUST</strong> — Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values MUST be DTCG alias references in braces (ex: '{color.action.primary}', '{radius.md}'). <small><ds-code inline>common/token-overrides§tokenOverrides.1</ds-code></small></li>
+<li><strong>MUST</strong> — When the system documents a token layer, each value MUST resolve to a documented token. <small><ds-code inline>common/token-overrides§tokenOverrides.2</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="commonuse-cases">common/use-cases</ds-heading>
 <ul>
@@ -413,23 +416,20 @@
 </ul>
 <ds-heading level="4" anchor="metadatadoc-origin">metadata/doc-origin</ds-heading>
 <ul>
-<li><strong>SHOULD</strong> — 'ai-generated': mostly written by an AI with little to no human review — it MAY contain plausible-sounding mistakes and SHOULD be checked before an agent trusts it as fact. <small><ds-code inline>metadata/doc-origin§authorshipValue.1</ds-code></small></li>
-<li><strong>MAY</strong> — Best for intent, but MAY be behind the shipped API. <small><ds-code inline>metadata/doc-origin§docOriginValue.1</ds-code></small></li>
-<li><strong>SHOULD</strong> — 'reconstructed': written from memory or institutional knowledge, without checking the code — the least reliable for API facts, and SHOULD be verified before an agent relies on it. <small><ds-code inline>metadata/doc-origin§docOriginValue.2</ds-code></small></li>
-<li><strong>SHOULD</strong> — For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'. <small><ds-code inline>metadata/doc-origin§docOriginValue.3</ds-code></small></li>
+<li><strong>SHOULD</strong> — For API accuracy, agents SHOULD prefer 'generated' or 'extracted'; for design intent, prefer 'authored'. <small><ds-code inline>metadata/doc-origin§docOriginValue.1</ds-code></small></li>
 <li><strong>MAY</strong> — A document MAY be 'authored' overall while some blocks were 'extracted' or 'generated'. <small><ds-code inline>metadata/doc-origin§docOrigin[oneOf][1].1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — MUST NOT contain markup. <small><ds-code inline>metadata/doc-origin§docOrigin[oneOf][1].note.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="metadatagovernance">metadata/governance</ds-heading>
 <ul>
-<li><strong>SHOULD</strong> — Owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'), not individuals — a named person goes stale the moment they leave, which is exactly what this field is meant to survive. <small><ds-code inline>metadata/governance§owner.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). <small><ds-code inline>metadata/governance§owner.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools SHOULD show the owner wherever a reader might need to flag a problem. <small><ds-code inline>metadata/governance§owner.2</ds-code></small></li>
 <li><strong>SHOULD</strong> — SHOULD name a team or role, not an individual. <small><ds-code inline>metadata/governance§owner[oneOf][1].name.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Freeform; tools SHOULD link it when it parses as a URL or email. <small><ds-code inline>metadata/governance§owner[oneOf][1].contact.1</ds-code></small></li>
 <li><strong>SHOULD</strong> — Tools MAY treat an old or missing <ds-code inline>lastReviewed</ds-code> as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree. <small><ds-code inline>metadata/governance§lastReviewed.1</ds-code></small></li>
 <li><strong>MUST NOT</strong> — MUST NOT contain markup. <small><ds-code inline>metadata/governance§lastReviewed[oneOf][1].note.1</ds-code></small></li>
-<li><strong>MAY</strong> — Lets tools spot drift — if the code has moved past this version, the doc MAY be stale even if recently reviewed. <small><ds-code inline>metadata/governance§lastReviewed[oneOf][1].reviewedAgainst.1</ds-code></small></li>
-<li><strong>SHOULD</strong> — <ds-code inline>lastReviewed</ds-code> is optional but SHOULD be set once you have a review process; its object form records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.' <small><ds-code inline>metadata/governance§governance.1</ds-code></small></li>
+<li><strong>MAY</strong> — If the code has moved past this version, the doc MAY be stale even if recently reviewed. <small><ds-code inline>metadata/governance§lastReviewed[oneOf][1].reviewedAgainst.1</ds-code></small></li>
+<li><strong>SHOULD</strong> — <ds-code inline>lastReviewed</ds-code> is optional but SHOULD be set once you have a review process. <small><ds-code inline>metadata/governance§governance.1</ds-code></small></li>
 </ul>
 <ds-heading level="4" anchor="metadatalast-updated">metadata/last-updated</ds-heading>
 <ul>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://designsystemdocspec.org/conformance</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/conformance</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/humans-and-agents</loc><lastmod>2026-07-16</lastmod></url>
   <url><loc>https://designsystemdocspec.org/interoperability</loc><lastmod>2026-07-29</lastmod></url>
-  <url><loc>https://designsystemdocspec.org/migration</loc><lastmod>2026-07-16</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/migration</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/quickstart</loc><lastmod>2026-07-20</lastmod></url>
-  <url><loc>https://designsystemdocspec.org/schema-architecture</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/schema-architecture</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/stability</loc><lastmod>2026-07-16</lastmod></url>
   <url><loc>https://designsystemdocspec.org/root</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-criterion</loc><lastmod>2026-07-29</lastmod></url>
@@ -17,11 +17,11 @@
   <url><loc>https://designsystemdocspec.org/common-extensions</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-link</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-presentation</loc><lastmod>2026-07-29</lastmod></url>
-  <url><loc>https://designsystemdocspec.org/common-relationship</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/common-relationship</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-rich-text</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-status</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-system-info</loc><lastmod>2026-07-29</lastmod></url>
-  <url><loc>https://designsystemdocspec.org/common-token-overrides</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/common-token-overrides</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/common-use-cases</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/entities-chunk</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/entities-component</loc><lastmod>2026-07-29</lastmod></url>
@@ -46,7 +46,7 @@
   <url><loc>https://designsystemdocspec.org/document-blocks-sections</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/document-blocks-states</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/document-blocks-steps</loc><lastmod>2026-07-29</lastmod></url>
-  <url><loc>https://designsystemdocspec.org/document-blocks-variants</loc><lastmod>2026-07-29</lastmod></url>
+  <url><loc>https://designsystemdocspec.org/document-blocks-variants</loc><lastmod>2026-07-30</lastmod></url>
   <url><loc>https://designsystemdocspec.org/metadata-aliases</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/metadata-category</loc><lastmod>2026-07-29</lastmod></url>
   <url><loc>https://designsystemdocspec.org/metadata-doc-origin</loc><lastmod>2026-07-29</lastmod></url>
