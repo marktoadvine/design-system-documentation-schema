@@ -8,10 +8,10 @@ You don't need most of this page to write good DSDS. The whole model is small:
 
 The handful of concepts you'll use constantly:
 
-- **Document**: `dsdsVersion` plus either a single `entity` or `entityGroups` of entities.
-- **Entity**: A `kind` (`component`, `token`, `theme`, `foundation`, `pattern`, or `guide`) with an `identifier`, a `name`, and usually a `description`.
-- **Metadata**: Short facts in the optional `metadata` object: status, tags, links, and more.
-- **Document blocks**: The documentation, in the `documentBlocks` array. Two cover most needs: **`use-cases`** (when to use the thing) and **`guidelines`** (how to use it). **`sections`** holds free-form documentation content for anything else.
+- **Document:** `dsdsVersion` plus either a single `entity` or `entityGroups` of entities.
+- **Entity:** A `kind` (`component`, `token`, `theme`, `foundation`, `pattern`, or `guide`) with an `identifier`, a `name`, and usually a `description`.
+- **Metadata:** Short facts in the optional `metadata` object: status, tags, links, and more.
+- **Document blocks:** The documentation, in the `documentBlocks` array. Two cover most needs: **`use-cases`** (when to use the thing) and **`guidelines`** (how to use it). **`sections`** holds free-form documentation content for anything else.
 
 A complete, valid document using only the core:
 
@@ -567,8 +567,8 @@ DSDS has no standalone `examples` document block. Instead, the reusable `example
 
 Each `example` requires at least a `presentation` or a `value` (or both):
 
-- **Presentation**: A visual or interactive demo (one of `presentationImage`, `presentationVideo`, `presentationCode`, or `presentationUrl`).
-- **Value**: A literal value for API property examples (ex: `"primary"`, `44`, `true`). When given without a presentation, the example is a concrete data point.
+- **Presentation:** A visual or interactive demo (one of `presentationImage`, `presentationVideo`, `presentationCode`, or `presentationUrl`).
+- **Value:** A literal value for API property examples (ex: `"primary"`, `44`, `true`). When given without a presentation, the example is a concrete data point.
 
 Optional `title` and `description` provide context.
 
@@ -850,7 +850,7 @@ Fields that hold human-written documentation content use the `richText` type: a 
 
 ## Use cases
 
-The `useCase` model gives scenario guidance for when something is — and is not — the right choice. It appears wherever a `use-cases` block does:
+The `useCase` model gives scenario guidance for when something is (and is not) the right choice. It appears wherever a `use-cases` block does:
 
 1. **A root `use-cases` block** ([root document blocks](#root-document-blocks)) — adoption guidance for the design system as a whole.
 2. **An entity's [`use-cases`](#use-cases-use-cases) document block** — when to use a specific entity.
@@ -878,7 +878,7 @@ In both, `items` is an **array** of `useCase` entries. Each has a `description` 
 
 ## Extends
 
-The `extends` mechanism enables **systems of systems** — where an extension design system inherits from a core one. It works at two levels:
+The `extends` mechanism enables **systems of systems** (where an extension design system inherits from a core one). It works at two levels:
 
 ### Document-level extends (`documentExtends`)
 
@@ -938,7 +938,7 @@ Each `modifications` entry has this shape:
 
 > **Merge rules are the tool's job.** The `extends` declaration sets the _relationship_ between systems and entities. How properties, guidelines, and tokens merge, override, or inherit is up to the consuming tool. The schema sets no resolution rules. The `modifications` array gives a readable changelog that a tool MAY use for diff views, migration guides, or docs.
 
-See [`examples/extension-system.dsds.json`](examples/extension-system.dsds.json) for a full enterprise extension system. It shows both document-level and entity-level extends with modifications.
+See [`examples/extension-system.dsds.json`](examples/extension-system.dsds.json) for a full extension system. It shows both document-level and entity-level extends with modifications.
 
 ---
 
@@ -946,7 +946,7 @@ See [`examples/extension-system.dsds.json`](examples/extension-system.dsds.json)
 
 The root document, each entity group, each entity, and each document block can carry a `$extensions` property. Keys MUST use vendor namespaces; reverse domain notation is recommended. A tool that does not know an extension MUST keep it. Extension data SHOULD NOT repeat info already in core fields.
 
-A document block stays closed even with `$extensions` available — an unrecognized bare property still fails validation. `$extensions` is the one sanctioned way to attach extra structured data to a specific block (a Figma node id on `anatomy`, a lint-rule id on a `guideline`) without opening the block up to typos.
+A document block stays closed even with `$extensions` available (an unrecognized bare property still fails validation). `$extensions` is the one sanctioned way to attach extra structured data to a specific block (a Figma node id on `anatomy`, a lint-rule id on a `guideline`) without opening the block up to typos.
 
 ```json
 {
@@ -1012,6 +1012,6 @@ The one exception: use a domain name when it reads more clearly than a generic `
 | Level | Requirement |
 |---|---|
 | **Level 1: Core** | Identity only. Tokens: `kind`, `identifier`, `tokenType`. Token groups: `kind`, `identifier`. All others: `kind`, `identifier`, `name`. A top-level `description` and a `status` metadata field are strongly recommended. |
-| **Level 2: Documented** | Level 1 plus guidance a reader or an agent can act on: a `use-cases` block (when to use the entity, and when to pick something else) and a `guidelines` block (the rules for using it well, each with a reason). Both are general blocks, so every entity type — component, token, foundation, pattern, guide — reaches Level 2 the same way. |
+| **Level 2: Documented** | Level 1 plus guidance a reader or an agent can act on: a `use-cases` block (when to use the entity, and when to pick something else) and a `guidelines` block (the rules for using it well, each with a reason). Both are general blocks, so every entity type (component, token, foundation, pattern, guide) reaches Level 2 the same way. |
 
 These levels mark a shared baseline, not a finish line. They don't measure whether a document is "done" — what a given entity needs to be well-documented depends on the design system, and only its authors can judge that. Level 2 asks for guidance with rationale (`use-cases` + `guidelines`) because that is what a reader or an agent needs to use an entity correctly, whatever the entity is. The structural and domain blocks — `anatomy`, `api`, `variants`, `states`, `design-specifications` on components; `principles`, `scale`, `motion` on foundations; `interactions` on patterns; `steps` on guides — add depth and are strongly encouraged where they apply, but they are not a second, competing bar. Add them because your system needs them documented, not to clear a level.

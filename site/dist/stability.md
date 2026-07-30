@@ -66,4 +66,4 @@ The backlog below was announced in 0.13.0. We carried it out in full — all at 
 
 ## The post-1.0 contract
 
-After 1.0, the 1.x line is **additive only**: new optional fields, new union members, new block kinds. Nothing existing tightens, gets renamed, or disappears. Anything breaking waits for 2.0. It arrives deprecation-first — a lint warning for at least two minors before removal — and ships with a migration script. The immutability guarantee above still applies to every released version.
+After 1.0, the 1.x line is **additive only:** new optional fields, new union members, new block kinds. Nothing existing tightens, gets renamed, or disappears. Anything breaking waits for 2.0. It arrives deprecation-first — a lint warning for at least two minors before removal — and ships with a migration script. The immutability guarantee above still applies to every released version.

@@ -12,10 +12,10 @@ You don't need most of this page to write good DSDS. The whole model is small:
 
 The handful of concepts you'll use constantly:
 
-- **Document**: `dsdsVersion` plus either a single `entity` or `entityGroups` of entities.
-- **Entity**: A `kind` (`component`, `token`, `theme`, `foundation`, `pattern`, or `guide`) with an `identifier`, a `name`, and usually a `description`.
-- **Metadata**: Short facts in the optional `metadata` object: status, tags, links, and more.
-- **Document blocks**: The documentation, in the `documentBlocks` array. Two cover most needs: **`use-cases`** (when to use the thing) and **`guidelines`** (how to use it). **`sections`** holds free-form documentation content for anything else.
+- **Document:** `dsdsVersion` plus either a single `entity` or `entityGroups` of entities.
+- **Entity:** A `kind` (`component`, `token`, `theme`, `foundation`, `pattern`, or `guide`) with an `identifier`, a `name`, and usually a `description`.
+- **Metadata:** Short facts in the optional `metadata` object: status, tags, links, and more.
+- **Document blocks:** The documentation, in the `documentBlocks` array. Two cover most needs: **`use-cases`** (when to use the thing) and **`guidelines`** (how to use it). **`sections`** holds free-form documentation content for anything else.
 
 A complete, valid document using only the core:
 
@@ -571,8 +571,8 @@ DSDS has no standalone `examples` document block. Instead, the reusable `example
 
 Each `example` requires at least a `presentation` or a `value` (or both):
 
-- **Presentation**: A visual or interactive demo (one of `presentationImage`, `presentationVideo`, `presentationCode`, or `presentationUrl`).
-- **Value**: A literal value for API property examples (ex: `"primary"`, `44`, `true`). When given without a presentation, the example is a concrete data point.
+- **Presentation:** A visual or interactive demo (one of `presentationImage`, `presentationVideo`, `presentationCode`, or `presentationUrl`).
+- **Value:** A literal value for API property examples (ex: `"primary"`, `44`, `true`). When given without a presentation, the example is a concrete data point.
 
 Optional `title` and `description` provide context.
 

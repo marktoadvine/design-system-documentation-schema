@@ -137,7 +137,7 @@ Minor release — a fortification pass from a full schema review: constraints th
 
 - **Chunks accept `documentBlocks` and `agentDocumentBlocks`** (general kinds only). A chunk can now carry agent-only MUST/MUST-NOT rules and checklists like every other entity. The top-level `guidelines`/`useCases` arrays remain as deprecated authoring shorthand.
 - **`checklist` is now a general block kind**, available on every entity type (previously component/foundation/pattern only). Guides, tokens, and themes gain it.
-- **New shared defs**: `common/token-overrides.schema.json` (the token-override map used by anatomy, states, and variants — keys kebab-case, values documented token identifiers) and `common/dated-note.schema.json` (`isoDate`/`plainNote` leaves composed by `lastUpdated` and `lastReviewed`).
+- **New shared defs:** `common/token-overrides.schema.json` (the token-override map used by anatomy, states, and variants — keys kebab-case, values documented token identifiers) and `common/dated-note.schema.json` (`isoDate`/`plainNote` leaves composed by `lastUpdated` and `lastReviewed`).
 
 ### Tightenings (schema-enforced rules that were previously prose-only)
 
@@ -147,10 +147,10 @@ Minor release — a fortification pass from a full schema review: constraints th
 
 ### Changes
 
-- **Discriminated unions everywhere**: `anyEntity` and the flag/enum variant union now use kind-keyed `if`/`then` branches (like the document-block unions) instead of bare `oneOf` — one scoped error instead of a compound error across every branch. No valid document changes.
+- **Discriminated unions everywhere:** `anyEntity` and the flag/enum variant union now use kind-keyed `if`/`then` branches (like the document-block unions) instead of bare `oneOf` — one scoped error instead of a compound error across every branch. No valid document changes.
 - **`format: "uri"` → `"uri-reference"`** on presentation image/video URLs, `thumbnail.url`, and both `extends` URLs — relative paths, which the descriptions always promised, now validate.
 - **`tokenDocumentBlock` deleted** (pure alias); token/token-group/theme reference `generalDocumentBlock` directly. `metadata/extends.schema.json` pass-through deleted; metadata references `common/extends` directly. `colorContrast` def renamed `colorContrastEntry` (internal name only).
-- **Validator**: token-override resolution now covers states and variants (previously anatomy only) and a new check resolves `docOrigin.blocks` keys against the entity's actual block kinds. Both immediately caught and fixed latent defects in the shipped examples.
+- **Validator:** token-override resolution now covers states and variants (previously anatomy only) and a new check resolves `docOrigin.blocks` keys against the entity's actual block kinds. Both immediately caught and fixed latent defects in the shipped examples.
 
 ### Fixes
 
@@ -164,14 +164,14 @@ A fresh from-scratch review of the fortified tree folded further changes into th
 
 - **`tokenType` is now inheritable.** Dropped from `token`'s required list; a token may omit it when an ancestor token group declares it, as the group prose always promised. The own-or-inherited rule is validator-enforced.
 - **Doc-generation repair.** The union restructure had broken `render-summaries.js`/`check-doc-coverage.mjs` (both read `oneOf`): the architecture page's entity/block tables rendered empty and the coverage guard passed vacuously. Both scripts now read the discriminated branches, and the guard hard-fails if its derived kind lists are ever empty.
-- **Further tightenings**: `minLength: 1` on `entityIdentifier`, `richText`, code strings, governance strings, `since`/`summary` and `tags`/`aliases` items (plus `uniqueItems`); `minProperties`/`minItems` close the hollow design-specifications presence gate, the `status.platforms` map, `entityMetadata`, and every remaining optional array (documentBlocks/agentDocumentBlocks included); cubic-bezier P1x/P2x bounds enforced via `prefixItems`.
+- **Further tightenings:** `minLength: 1` on `entityIdentifier`, `richText`, code strings, governance strings, `since`/`summary` and `tags`/`aliases` items (plus `uniqueItems`); `minProperties`/`minItems` close the hollow design-specifications presence gate, the `status.platforms` map, `entityMetadata`, and every remaining optional array (documentBlocks/agentDocumentBlocks included); cubic-bezier P1x/P2x bounds enforced via `prefixItems`.
 - **Draft-field reshapes** (`governance`/`docOrigin` are drafts): `reviewedAgainst` moved inside `lastReviewed`'s object form so it structurally cannot exist without a review; `docOrigin.blocks` values may now carry per-block `authorship` alongside origin; `docOrigin.note` composes the shared `plainNote`.
-- **Validator**: string token references (`theme` overrides, `scale` steps, `motion` entries) now resolve against the token layer — which caught and fixed an undocumented spacing ramp in starter-kit; `sections` identifiers are uniqueness-checked; token `tokenType` inheritance is checked.
-- **Prose sync**: the general-kinds lists across all entity schemas now include `checklist`; checklist/principles/variants/states/imports/link/criterion/content descriptions corrected; a flag-vs-state ownership rule added; `useCase.alternative.identifier` now routes through `entityIdentifier`; more naming exceptions recorded on the Schema Architecture page.
+- **Validator:** string token references (`theme` overrides, `scale` steps, `motion` entries) now resolve against the token layer — which caught and fixed an undocumented spacing ramp in starter-kit; `sections` identifiers are uniqueness-checked; token `tokenType` inheritance is checked.
+- **Prose sync:** the general-kinds lists across all entity schemas now include `checklist`; checklist/principles/variants/states/imports/link/criterion/content descriptions corrected; a flag-vs-state ownership rule added; `useCase.alternative.identifier` now routes through `entityIdentifier`; more naming exceptions recorded on the Schema Architecture page.
 
 ### Documentation
 
-- **Three new spec pages**: Conformance (RFC 2119 classes, enforcement tiers, and a normative-statements index generated from the schemas by `scripts/extract-normative.mjs`, drift-guarded in postvalidate), Stability & 1.0 (version semantics, deprecation policy, the enumerated 0.14.0 breaking backlog, 1.0 criteria, and the post-1.0 additive-only contract), and Interoperability (explicit DTCG and Custom Elements Manifest positioning, a CEM-to-`api`-block mapping, the new documented `manifest` link kind, and validated worked examples — CEM's own sample manifest converted to a component document, and a DTCG token file paired with the token document that references it — living in `spec/examples/interop/` and embedded via drift-guarded `dsds:include` blocks, which `sync-examples.js` now also processes in site content pages).
+- **Three new spec pages:** Conformance (RFC 2119 classes, enforcement tiers, and a normative-statements index generated from the schemas by `scripts/extract-normative.mjs`, drift-guarded in postvalidate), Stability & 1.0 (version semantics, deprecation policy, the enumerated 0.14.0 breaking backlog, 1.0 criteria, and the post-1.0 additive-only contract), and Interoperability (explicit DTCG and Custom Elements Manifest positioning, a CEM-to-`api`-block mapping, the new documented `manifest` link kind, and validated worked examples — CEM's own sample manifest converted to a component document, and a DTCG token file paired with the token document that references it — living in `spec/examples/interop/` and embedded via drift-guarded `dsds:include` blocks, which `sync-examples.js` now also processes in site content pages).
 
 ### Fixtures
 
@@ -301,7 +301,7 @@ The predictability release: two breaking changes (the reference unification and 
 - **Non-token scale steps are valid.** A `scaleStep` requires `token` *or* `value`, no longer `token` alone — pre-tokenization systems and non-token scales (column counts, icon grids) no longer have to fabricate token identifiers.
 - **Convention-trap errors.** The validator now answers the two most common shape mistakes directly: a `status` object with no `overall` ("status is a bare string or an object with `overall`"), and `anatomyEntry.tokens` written as an array ("a purpose-keyed map, not an array — keys say what the token controls"). `anatomyEntry.tokens` also carries an inline example in the schema.
 - **Quickstart: "Conventions and traps"** — the four conventions that catch first-time authors (status shapes, identifier-never-name, the tokens map, flag vs. enum variants).
-- New lint rule **DSDS-009**: RFC 2119 keywords in `guidance` and criterion `statement` prose must be capitalized to carry conformance weight.
+- New lint rule **DSDS-009:** RFC 2119 keywords in `guidance` and criterion `statement` prose must be capitalized to carry conformance weight.
 
 ---
 
