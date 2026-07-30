@@ -194,9 +194,9 @@
                       "description": "Added by extension. A high-emphasis variant using the enterprise teal palette. Used for primary actions in admin dashboards where the standard primary blue conflicts with informational status indicators.",
                       "rationale": "- Use when: When the primary action sits alongside blue informational badges or status indicators in admin interfaces, and the standard primary blue would not be visually distinct.\n- Avoid when: When building consumer-facing UI that uses the standard Acme brand palette. Use `primary` instead — The enterprise variant's teal color is specific to the admin sub-brand. Consumer products use the standard primary blue.",
                       "tokens": {
-                        "background": "button-enterprise-bg",
-                        "text-color": "button-enterprise-text",
-                        "icon-color": "button-enterprise-text"
+                        "background": "{button-enterprise-bg}",
+                        "text-color": "{button-enterprise-text}",
+                        "icon-color": "{button-enterprise-text}"
                       }
                     }
                   ]

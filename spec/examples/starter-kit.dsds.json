@@ -215,7 +215,7 @@
                   "name": "Hover",
                   "description": "Visual feedback when the pointer is over the button.",
                   "tokens": {
-                    "button-background": "color-action-primary-hover"
+                    "button-background": "{color-action-primary-hover}"
                   }
                 },
                 {

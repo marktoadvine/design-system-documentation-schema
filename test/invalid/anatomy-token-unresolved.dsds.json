@@ -21,7 +21,7 @@
                   "identifier": "container",
                   "description": "The button surface.",
                   "tokens": {
-                    "background": "color-does-not-exist"
+                    "background": "{color-does-not-exist}"
                   }
                 }
               ]

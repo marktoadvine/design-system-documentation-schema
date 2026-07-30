@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/steps.schema.json",
   "title": "Steps document block",
-  "description": "The steps a reader follows to complete a task, like getting started, a tutorial, or a migration. Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.",
+  "description": "The steps a reader follows to complete a task (ex: getting started, a tutorial, or a migration). Each step has a short label, an instruction, optional examples, and an optional expected result so the reader knows it worked.",
   "$defs": {
     "stepEntry": {
       "type": "object",
@@ -13,15 +13,15 @@
       "properties": {
         "label": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Concise enough to serve as a numbered list item or heading."
+          "description": "A short label for the step (ex: 'Install the package', 'Wrap your app in the provider', 'Run the validator'). Short enough to serve as a numbered list item or heading."
         },
         "instruction": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable: describe the action, not the goal."
+          "description": "What the reader should do in this step. Supports markdown by default. MUST be concrete and actionable."
         },
         "examples": {
           "type": "array",
-          "description": "Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.",
+          "description": "Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },
@@ -41,7 +41,7 @@
     },
     "steps": {
       "type": "object",
-      "description": "A procedure \u2014 the steps a reader works through start to finish, like installation or a migration.",
+      "description": "A procedure (the steps a reader works through start to finish, like installation or a migration).",
       "required": [
         "kind",
         "items"

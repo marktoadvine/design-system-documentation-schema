@@ -251,7 +251,7 @@
         },
         "since": {
           "type": "string",
-          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0')."
+          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead."
         }
       },
       "additionalProperties": false,
@@ -621,7 +621,7 @@
       "additionalProperties": false
     },
     "relationType": {
-      "description": "The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (e.g. 'acme.themes').",
+      "description": "The relation type, in canonical direction (source → target): 'depends-on' (source needs the target), 'composes' (source is built from the target), 'part-of' (source is a member of the target), 'alternative-to' (interchangeable; symmetric), 'replaces' (source supersedes a deprecated target), 'extends' (source inherits from the target). Tools work out the reverse relationship direction (target → source) and MUST NOT require them to be manually authored. Custom relations MUST be vendor-namespaced (ex: 'acme.themes').",
       "anyOf": [
         {
           "type": "string",
@@ -657,7 +657,7 @@
         },
         "role": {
           "$ref": "#/$defs/entityRole",
-          "description": "What the target does here (ex: 'Provides semantic text color'). When omitted, the edge is a general association."
+          "description": "What the target does here (ex: 'Provides semantic text color'). When omitted, the relationship is a general association."
         },
         "required": {
           "type": "boolean",
@@ -762,11 +762,11 @@
         },
         "hasTokenLayer": {
           "type": "boolean",
-          "description": "Whether this design system has a token layer. Say it here instead of leaving tools to guess from whether token entities happen to appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}'), not as a hardcoded raw value that copies the token."
+          "description": "Whether this design system has design token. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}')."
         },
         "platforms": {
           "type": "array",
-          "description": "The platforms this system documents (ex: React, iOS, web components). Declare them once here so the rest of the document can point at the same set instead of each block spelling 'react' or 'React' its own way. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
+          "description": "The platforms this system documents (ex: React, Swift UI, web components). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
           "items": {
             "$ref": "#/$defs/platform"
           },
@@ -785,11 +785,11 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "The platform's identifier, unique within this list (ex: 'react', 'web-component', 'ios', 'android'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at."
+          "description": "The platform's identifier, unique within this list (ex: 'react', 'web-component', 'swift-ui'). MUST be lowercase kebab-case. This is the value `api`, `imports`, and per-platform `status` point at."
         },
         "name": {
           "type": "string",
-          "description": "Optional friendly label for the platform (ex: 'React', 'Web Component', 'iOS')."
+          "description": "Optional friendly label for the platform (ex: 'React', 'Web Component', 'Swift UI')."
         }
       },
       "additionalProperties": false
@@ -797,7 +797,7 @@
     "tokenOverrides": {
       "type": "object",
       "minProperties": 1,
-      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values are a token `identifier` (ex: 'color-action-primary', 'radius-md'). Every value here is a token reference, so it's written as a plain identifier — no braces. (This differs from a design-specifications value, which can be a token or a raw value and so wraps token references in braces.) When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
+      "description": "Token overrides for one part, variant value, or state. Keys name the visual attribute (ex: 'background', 'text-color', 'border-radius'); values MUST be DTCG alias references in braces (ex: '{color.action.primary}', '{radius.md}'). Braces mark the value as a token reference consistently with design-specifications values — the same rule applies everywhere: bare string = raw literal, braced string = token reference. When the system documents a token layer, each value MUST resolve to a documented token. Raw values (ex: '#ffffff', '4px') are not allowed here — token-less systems put those in design-specifications.",
       "propertyNames": {
         "pattern": "^[a-z][a-z0-9-]*$"
       },
@@ -806,9 +806,9 @@
       },
       "examples": [
         {
-          "background": "color-action-primary",
-          "text-color": "color-text-on-action",
-          "border-radius": "radius-md"
+          "background": "{color.action.primary}",
+          "text-color": "{color.text.on-action}",
+          "border-radius": "{radius.md}"
         }
       ]
     },
@@ -3004,7 +3004,7 @@
       "properties": {
         "platform": {
           "type": "string",
-          "description": "The platform this applies to (ex: 'react', 'vue', 'ios'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
+          "description": "The platform this applies to (ex: 'react', 'web-components', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
         },
         "package": {
           "type": "string",
@@ -3593,23 +3593,32 @@
     },
     "variantExclusion": {
       "type": "object",
-      "description": "A combination that must not be used together (ex: 'icon-only' + 'full-width'). Lists the selections that conflict and how hard the ban is.",
+      "description": "A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.",
       "required": [
-        "variants",
+        "when",
+        "excludes",
         "level"
       ],
       "properties": {
-        "variants": {
+        "when": {
           "type": "array",
-          "description": "Two or more selections that conflict. The rule says they must not all be active at the same time.",
+          "description": "The triggering selection(s). When all of these are active, the `excludes` rule applies.",
           "items": {
             "$ref": "#/$defs/variantSelection"
           },
-          "minItems": 2
+          "minItems": 1
+        },
+        "excludes": {
+          "type": "array",
+          "description": "The selection(s) that must not be active when `when` holds.",
+          "items": {
+            "$ref": "#/$defs/variantSelection"
+          },
+          "minItems": 1
         },
         "level": {
           "$ref": "#/$defs/conformanceLevel",
-          "description": "How hard the ban is: 'must-not' (a real conflict — the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
+          "description": "How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
         },
         "description": {
           "$ref": "#/$defs/richText",

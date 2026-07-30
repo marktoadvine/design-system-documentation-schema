@@ -171,7 +171,7 @@ function renderIndex({ groups, counts }) {
     lines.push(`#### ${rel}`);
     lines.push("");
     for (const s of statements) {
-      lines.push(`- **${s.level}** — ${mdxEscape(s.sentence)} <small>\`${s.id}\`</small>`);
+      lines.push(`- **${s.level}:** ${mdxEscape(s.sentence)} <small>\`${s.id}\`</small>`);
     }
     lines.push("");
   }

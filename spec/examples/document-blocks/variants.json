@@ -155,9 +155,15 @@
     ],
     "exclusions": [
       {
-        "variants": [
-          { "variant": "icon-only" },
-          { "variant": "full-width" }
+        "when": [
+          {
+            "variant": "icon-only"
+          }
+        ],
+        "excludes": [
+          {
+            "variant": "full-width"
+          }
         ],
         "level": "must-not",
         "description": "An icon-only button is sized to its icon; stretching it full-width contradicts that."
@@ -165,25 +171,52 @@
     ],
     "requirements": [
       {
-        "when": [ { "variant": "emphasis", "value": "danger" } ],
-        "requires": [ { "variant": "with-icon" } ],
+        "when": [
+          {
+            "variant": "emphasis",
+            "value": "danger"
+          }
+        ],
+        "requires": [
+          {
+            "variant": "with-icon"
+          }
+        ],
         "level": "must",
         "description": "A danger button must show an icon so its destructive intent is not carried by color alone."
       }
     ]
   },
-  "variantSelection": { "variant": "emphasis", "value": "danger" },
+  "variantSelection": {
+    "variant": "emphasis",
+    "value": "danger"
+  },
   "variantExclusion": {
-    "variants": [
-      { "variant": "icon-only" },
-      { "variant": "full-width" }
+    "when": [
+      {
+        "variant": "icon-only"
+      }
+    ],
+    "excludes": [
+      {
+        "variant": "full-width"
+      }
     ],
     "level": "must-not",
     "description": "An icon-only button is sized to its icon; stretching it full-width contradicts that."
   },
   "variantRequirement": {
-    "when": [ { "variant": "emphasis", "value": "danger" } ],
-    "requires": [ { "variant": "with-icon" } ],
+    "when": [
+      {
+        "variant": "emphasis",
+        "value": "danger"
+      }
+    ],
+    "requires": [
+      {
+        "variant": "with-icon"
+      }
+    ],
     "level": "must",
     "description": "A danger button must show an icon so its destructive intent is not carried by color alone."
   }

@@ -298,8 +298,8 @@ npm run build-samples
 This reads example JSON files from `spec/examples/` and produces `site/dist/samples.html` — a self-contained page with:
 
 - **Tabs** for each entity type: Button Component, Color Token, Error Messaging Pattern, Spacing Foundation, Dark Theme
-- **Side-by-side layout**: raw JSON on the left, rendered documentation on the right
-- **Element-level highlighting**: hover over any rendered element to see its corresponding JSON, and vice versa
+- **Side-by-side layout:** raw JSON on the left, rendered documentation on the right
+- **Element-level highlighting:** hover over any rendered element to see its corresponding JSON, and vice versa
 - **Color-coded section bars** mapping JSON sections to their visual output
 - **Off-screen indicators** when highlighted code is scrolled out of view
 

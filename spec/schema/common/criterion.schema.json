@@ -186,7 +186,7 @@
         },
         "since": {
           "type": "string",
-          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0')."
+          "description": "The design system version that this criterion was introduced (ex: '1.0.0', '2.3.0'). Criterion identifiers MUST NOT be reused for a different requirement once published. Retire the identifier and make a new one instead."
         }
       },
       "additionalProperties": false,

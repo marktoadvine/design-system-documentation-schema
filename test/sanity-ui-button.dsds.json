@@ -653,8 +653,8 @@
                   "name": "Hovered",
                   "description": "Triggered when the pointer moves over the button (on devices with hover capability). Colors shift to the 'hovered' state key from the mode×tone matrix. For ghost and bleed modes, a subtle background fill appears.",
                   "tokens": {
-                    "card-bg-color": "theme.button[mode][tone].hovered.bg",
-                    "card-fg-color": "theme.button[mode][tone].hovered.fg"
+                    "card-bg-color": "{theme.button[mode][tone].hovered.bg}",
+                    "card-fg-color": "{theme.button[mode][tone].hovered.fg}"
                   }
                 },
                 {
@@ -662,8 +662,8 @@
                   "name": "Pressed / Active",
                   "description": "Triggered while the button is being pressed (mousedown/touchstart). Colors shift to the 'pressed' state key.",
                   "tokens": {
-                    "card-bg-color": "theme.button[mode][tone].pressed.bg",
-                    "card-fg-color": "theme.button[mode][tone].pressed.fg"
+                    "card-bg-color": "{theme.button[mode][tone].pressed.bg}",
+                    "card-fg-color": "{theme.button[mode][tone].pressed.fg}"
                   }
                 },
                 {
@@ -671,8 +671,8 @@
                   "name": "Selected",
                   "description": "When the selected prop is true, the button renders in its 'pressed' color state permanently to indicate toggle-on or active selection. Uses the same colors as the pressed state.",
                   "tokens": {
-                    "card-bg-color": "theme.button[mode][tone].pressed.bg",
-                    "card-fg-color": "theme.button[mode][tone].pressed.fg"
+                    "card-bg-color": "{theme.button[mode][tone].pressed.bg}",
+                    "card-fg-color": "{theme.button[mode][tone].pressed.fg}"
                   }
                 },
                 {
@@ -680,8 +680,8 @@
                   "name": "Disabled",
                   "description": "The button is non-interactive. Uses the HTML disabled attribute. Colors shift to the 'disabled' state key. The cursor changes to default. Unlike many systems that use opacity, Sanity UI uses a dedicated disabled color set from the theme.",
                   "tokens": {
-                    "card-bg-color": "theme.button[mode][tone].disabled.bg",
-                    "card-fg-color": "theme.button[mode][tone].disabled.fg"
+                    "card-bg-color": "{theme.button[mode][tone].disabled.bg}",
+                    "card-fg-color": "{theme.button[mode][tone].disabled.fg}"
                   }
                 },
                 {
