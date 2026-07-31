@@ -1214,9 +1214,13 @@ async function build() {
   // Versioned subdirectories (`v<n>/`) hold published schema bundles whose
   // URLs are public contracts — we MUST NOT blow them away on rebuild.
   // Everything else under dist is regenerated each build, so we wipe it
-  // and recreate. The versioned subdirectory write step further down is
-  // also defensive (refuses to overwrite an existing versioned bundle),
-  // but this is the primary safeguard.
+  // and recreate. Skipping deletion here is only a convenience for
+  // incremental local rebuilds, though — it does nothing for a
+  // from-scratch build (site/dist is gitignored, so a fresh checkout has
+  // no v<n>/ directories to preserve in the first place). The real
+  // safeguard is the "Archived release versions" step further down, which
+  // republishes every version from the version-controlled spec/releases/
+  // archive regardless of what's already on disk.
   if (fs.existsSync(DIST_DIR)) {
     for (const entry of fs.readdirSync(DIST_DIR, { withFileTypes: true })) {
       // Preserve site/dist/v<version>/ directories. The leading `v`
@@ -1421,6 +1425,35 @@ async function build() {
     });
   }
 
+  // ── Archived release versions ───────────────────────────────────────
+  //
+  // site/dist is build output: gitignored, and regenerated from scratch on
+  // every Netlify deploy (a fresh checkout has no site/dist at all). It can
+  // never be the only place a past release's files live — relying on that
+  // is exactly what let every version before the current one disappear
+  // when a from-scratch build ran. spec/releases/v<n>/ is the durable,
+  // version-controlled archive; publish every archived version into
+  // site/dist/v<n>/ on every build, regardless of whether site/dist
+  // started clean. The current version is republished fresh right after
+  // this and always wins if a version happens to exist in both places.
+  const RELEASES_DIR = path.join(ROOT, "spec", "releases");
+  if (fs.existsSync(RELEASES_DIR)) {
+    const releaseVersions = fs
+      .readdirSync(RELEASES_DIR, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name);
+    for (const versionName of releaseVersions) {
+      fs.cpSync(
+        path.join(RELEASES_DIR, versionName),
+        path.join(DIST_DIR, versionName),
+        { recursive: true },
+      );
+    }
+    console.log(
+      `  ✓  site/dist/v*/  ← spec/releases/ (${releaseVersions.length} archived versions published)\n`,
+    );
+  }
+
   // ── Versioned bundled schema ──────────────────────────────────────
   //
   // Versioned dist directories (site/dist/v<n>/) hold the bundled schema
@@ -1430,11 +1463,11 @@ async function build() {
   // The versioned bundle is the working artifact for the CURRENT version.
   // The build ALWAYS refreshes it so a rebuild is atomic — the published
   // v<current>/ output can never lag the schema source (the desync this
-  // guards against). Older v<n>/ archives are never touched here: the build
-  // only writes the directory named after the current `const`, and the dist
-  // clean step preserves every v*/ directory. Immutability of a *released*
-  // version is enforced at release/deploy time (git tag + atomic deploy),
-  // not by skipping the write — skipping is what let the site go stale.
+  // guards against). Older v<n>/ archives come from spec/releases/ (see
+  // above), not from anything preserved on disk — a from-scratch build
+  // must produce the same output as an incremental one. Immutability of a
+  // *released* version is enforced by never overwriting spec/releases/v<n>/
+  // once committed, not by skipping this write.
   const bundledSchemaPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
   if (fs.existsSync(bundledSchemaPath)) {
     const bundledSchema = JSON.parse(fs.readFileSync(bundledSchemaPath, "utf-8"));

@@ -134,13 +134,16 @@ spec/
 │       ├── states.schema.json                          # states, stateEntry
 │       ├── steps.schema.json                           # steps, stepEntry
 │       └── variants.schema.json                        # variants, flagVariant, enumVariant, variantValue
-└── examples/
-    ├── starter-kit.dsds.json                           # Complete document with components, tokens, foundations, patterns
-    ├── minimal/                                        # Lightweight examples showing the floor of documentation
-    ├── common/                                         # Per-definition examples for common primitives
-    ├── metadata/                                       # Per-field examples for entity metadata
-    ├── entities/                                       # Per-definition examples for entity types (incl. empty-state pattern)
-    └── document-blocks/                                # Per-definition examples for document block types (incl. motion, content)
+├── examples/
+│   ├── starter-kit.dsds.json                           # Complete document with components, tokens, foundations, patterns
+│   ├── minimal/                                        # Lightweight examples showing the floor of documentation
+│   ├── common/                                         # Per-definition examples for common primitives
+│   ├── metadata/                                       # Per-field examples for entity metadata
+│   ├── entities/                                       # Per-definition examples for entity types (incl. empty-state pattern)
+│   └── document-blocks/                                # Per-definition examples for document block types (incl. motion, content)
+└── releases/                                           # Permanent, version-controlled archive of every released schema version
+    ├── v0.1/ ... v0.15.2/                               # Older releases: dsds.bundled.schema.json (and, from v0.15.2 on, the full split tree)
+    └── v<n>/                                            # One directory per cut release — published into site/dist/ on every build
 
 rules/
 └── rules.yaml                                          # Quality rules catalog (stable DSDS-NNN IDs; drives lint-docs.js)
@@ -196,7 +199,7 @@ site/
 │   ├── toolbar.js                                      # <ds-toolbar> — sticky top toolbar
 │   └── type-ref.js                                     # <ds-type-ref> — type reference link
 ├── samples-template.html                               # Template for the interactive sample viewer
-└── dist/                                               # Generated HTML site (auto-generated)
+└── dist/                                               # Generated HTML site (auto-generated, gitignored — Netlify builds this fresh on every deploy; see spec/releases/ for the durable version archive)
 ```
 
 ## Quick Start
@@ -399,7 +402,7 @@ This is the exact sequence for cutting a release that includes schema changes. S
    npm run build
    ```
 
-   This regenerates every page under `site/dist/` and publishes a new `site/dist/v<new-version>/dsds.bundled.schema.json`. If a versioned directory for the new version already exists with a differing bundle, the build will print a warning and skip the copy — delete the file manually and rerun the build to intentionally re-publish.
+   This regenerates every page under `site/dist/`, republishes every archived version from `spec/releases/` into `site/dist/v<n>/`, and writes the current version fresh to `site/dist/v<new-version>/` (bundle + full split tree). `site/dist/` is gitignored build output — Netlify regenerates it from scratch on every deploy — so nothing durable lives there; see the next step.
 
 8. **Validate.**
 
@@ -417,7 +420,15 @@ This is the exact sequence for cutting a release that includes schema changes. S
 
    The new schema page should exist at `site/dist/<group>-<name>.html` (ex: `site/dist/metadata-last-updated.html`), and the versioned bundle should exist at `site/dist/v<new-version>/dsds.bundled.schema.json`.
 
-10. **Commit.** Stage the schema changes, example updates, README, CHANGELOG, `package.json`, and the entire `site/dist/` tree (including the new versioned subdirectory) in one commit. The historical versioned subdirectories under `site/dist/v<older>/` must stay untouched.
+10. **Archive the release.** Copy the freshly-built versioned directory into the permanent, version-controlled archive:
+
+    ```bash
+    cp -R site/dist/v<new-version> spec/releases/v<new-version>
+    ```
+
+    This is the step that makes the release durable. `site/dist/` is rebuilt from scratch on every deploy and cannot be relied on as the archive — `spec/releases/` is the only copy of a released version that survives a clean build. Once committed, treat `spec/releases/v<n>/` as immutable: never edit or delete a version after it ships.
+
+11. **Commit.** Stage the schema changes, example updates, README, CHANGELOG, `package.json`, and the new `spec/releases/v<new-version>/` directory in one commit. Do not stage anything under `site/dist/` — it's gitignored.
 
 ### Patch-release shortcut for documentation-only edits
 
@@ -427,7 +438,7 @@ For a typo fix or prose clarification that doesn't touch any schema or example:
 npm run build   # regenerates HTML only; no version bump, no new versioned bundle
 ```
 
-No changelog entry, no version bump, no new `/v<n>/` artifact. Commit the regenerated HTML.
+No changelog entry, no version bump, no new `/v<n>/` artifact, and nothing to archive — `site/dist/` is gitignored build output. Commit whatever source file you edited (an MDX page, a schema description, etc.); Netlify rebuilds the HTML on deploy.
 
 ## Design Principles
 
