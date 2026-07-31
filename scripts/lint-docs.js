@@ -248,6 +248,30 @@ const IMPLEMENTATIONS = {
     }
   },
 
+  "token-description-restates-identifier": (entity, pointer, emit) => {
+    if (entity.kind !== "token" && entity.kind !== "token-group") return;
+    const desc = entity.description;
+    if (typeof desc !== "string" || !desc.trim()) return;
+    const raw = desc.trim();
+    const d = normalizeProse(desc);
+    if (!d) return;
+    const id = normalizeProse(entity.identifier || "");
+    const name = normalizeProse(entity.name || "");
+    const restatesName = (id && d === id) || (name && d === name);
+    // A description that is nothing but a color or dimension value literal —
+    // the value the DTCG file already owns, restated as if it were meaning.
+    const isBareValue =
+      /^#[0-9a-f]{3,8}$/i.test(raw) ||
+      /^(rgb|hsl)a?\([^)]*\)$/i.test(raw) ||
+      /^-?\d*\.?\d+(px|rem|em|%|pt|vh|vw)?$/i.test(raw);
+    if (restatesName || isBareValue) {
+      emit(
+        pointer,
+        `${entityLabel(entity)} has a description that only ${restatesName ? "restates its name" : "gives a raw value"} — a token description should state the token's role or when to use it, not repeat what the identifier or the DTCG value already says. Drop it (descriptions are optional) or state its purpose.`,
+      );
+    }
+  },
+
 };
 
 // ---------------------------------------------------------------------------
