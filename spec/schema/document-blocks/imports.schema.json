@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/imports.schema.json",
   "title": "Imports document block",
-  "description": "How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: React, Web Components, SwiftUI), each with the package name and the import code.",
+  "description": "How to install and import a component in code, across platforms. Also reused on guides for setup steps. One entry per platform (ex: 'react', 'web-component', 'swift-ui'), each with the package name and the import code.",
   "$defs": {
     "importEntry": {
       "type": "object",
@@ -13,7 +13,7 @@
       "properties": {
         "platform": {
           "type": "string",
-          "description": "The platform this applies to (ex: 'react', 'web-components', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
+          "description": "The platform this applies to (ex: 'react', 'web-component', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers (the same set the `api` block uses). When left out, it's assumed to be the only/default platform."
         },
         "package": {
           "type": "string",
@@ -25,7 +25,7 @@
         },
         "language": {
           "type": "string",
-          "description": "The language or format of the code (ex: 'tsx', 'js', 'vue', 'swift', 'kotlin'). Omit when obvious from the platform."
+          "description": "The language or format of the code (ex: 'tsx', 'swift', 'kotlin'). Omit when obvious from the platform."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

@@ -191,6 +191,117 @@ h4 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold);
 h5 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
 h6 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-2) 0 var(--ds-space-2); color: var(--ds-color-text); }
 
+/* ── No-JS fallback styling ───────────────────────────────────────────────
+   Browsers apply page stylesheets to unknown/un-upgraded custom elements
+   before (or without) JS registering them, so these rules give every
+   content-bearing ds-* element sane default layout with zero script. Once
+   JS attaches a shadow root, these all get superseded by each component's
+   own shadow styles — this is only ever what a no-JS visitor sees. */
+
+ds-heading, ds-def-section, ds-header {
+    display: block;
+}
+
+ds-header {
+    padding-inline-start: var(--ds-width-nav);
+    margin-top: var(--ds-space-8);
+}
+
+ds-header > [slot="_fallback"] {
+    max-width: var(--ds-width-content);
+      margin: 0 auto;
+      padding: 0 var(--ds-space-8);
+}
+
+
+
+ds-heading {
+    font-family: var(--ds-font-mono);
+    font-weight: var(--ds-font-weight-bold);
+    margin: var(--ds-space-8) 0 var(--ds-space-2);
+}
+
+
+
+ds-def-section {
+    margin: var(--ds-space-16, 4rem) 0;
+}
+
+/* Raw schema JSON (<ds-json-view><ds-code language="json">…</ds-code></ds-json-view>)
+   is real, build-time-generated text content — it just needs block layout
+   and preserved whitespace to read as formatted JSON instead of one run-on
+   line. Also covers <ds-code> blocks used elsewhere (examples, snippets). */
+ds-json-view, ds-code {
+    display: block;
+    font-family: var(--ds-font-mono);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    margin: var(--ds-space-4) 0;
+}
+
+ds-code[inline] {
+    display: inline;
+    white-space: normal;
+    background: var(--ds-color-bg-raised);
+    padding: 1px 5px;
+}
+
+/* Property tables: build output already emits one real <ds-prop> per
+   property (name/type/required as attributes, description as light-DOM
+   HTML) — this just separates rows and labels the columns since there's no
+   <table> markup without JS. */
+ds-prop-table {
+    display: block;
+    margin: var(--ds-space-4) 0;
+}
+
+ds-prop {
+    display: block;
+    padding: var(--ds-space-2) 0;
+    border-bottom: 1px solid var(--ds-color-border, #444);
+}
+
+/* Just the name — `type` is skipped here since it can itself be an HTML
+   string (ex: a $ref renders as `<ds-type-ref href="...">richText</ds-type-ref>`),
+   and CSS attr() always outputs that literally instead of parsing it, which
+   would leak raw tags into the page. */
+ds-prop::before {
+    content: attr(name);
+    display: block;
+    font-family: var(--ds-font-mono);
+    font-weight: var(--ds-font-weight-bold);
+}
+
+ds-prop[required]::after {
+    content: "Required";
+    display: inline-block;
+    font-size: var(--ds-font-size-sm);
+}
+
+ds-type-ref, ds-badge {
+    font-family: var(--ds-font-mono);
+    font-size: 0.9em;
+}
+
+/* Nav: links are real light-DOM <a> children already — just separate them
+   visually and mark the landmark. ds-nav-group has no text of its own
+   outside its "label" attribute (JS-only), so it isn't worth fixing here;
+   its child links still render fine as a flat, unlabeled list. */
+ds-spec-nav {
+    display: block;
+    position: fixed;
+    z-index: var(--ds-z-nav, 100);
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: var(--ds-space-8);
+    background: #fff;
+}
+
+ds-spec-nav a {
+    display: block;
+    padding: 0.25em 0;
+}
+
 /* ── Page transitions ─────────────────────────────────────────────────
    Opts every same-origin navigation into the browser's native
    cross-document view transition (a plain cross-fade unless overridden

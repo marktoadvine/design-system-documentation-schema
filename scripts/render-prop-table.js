@@ -264,7 +264,7 @@ function describeType(prop, defIndex = {}) {
     return esc(prop.type);
   }
 
-  // description-only (no type constraint, e.g., "value" that accepts any JSON)
+  // description-only (no type constraint, ex: "value" that accepts any JSON)
   if (prop.description) {
     return "any";
   }
@@ -583,7 +583,7 @@ function renderPropertyTableForRef(schemaRef, defName, opts = {}) {
     return `<!-- ds-prop-table: def "${defName}" not found in "${schemaRef}" -->`;
   }
 
-  // `path` navigates into a nested inline sub-schema (e.g.
+  // `path` navigates into a nested inline sub-schema (ex:
   // "constraints.items" → def.properties.constraints.items) so sub-objects
   // that aren't their own $def can still be rendered schema-driven. Each
   // segment is a property name, except "items" which steps into an array's

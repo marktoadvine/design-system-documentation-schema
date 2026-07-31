@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/component.schema.json",
   "title": "Component definitions",
-  "description": "A component document: the identity of a reusable UI element, plus its metadata (see metadata/metadata.schema.json) and its docs. `documentBlocks` accepts the component-specific kinds (imports, anatomy, api, variants, states, design-specifications) plus every general kind (guidelines, use-cases, accessibility, content, sections, checklist).",
+  "description": "A component document: the identity of a reusable UI element, plus its metadata (see metadata/metadata.schema.json) and its docs. `documentBlocks` accepts the component-specific kinds: imports, anatomy, api, variants, states, design-specifications plus every general kind (guidelines, use-cases, accessibility, content, sections, checklist).",
   "$defs": {
     "component": {
       "type": "object",
@@ -21,11 +21,11 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique across the whole document, because references resolve to it document-wide."
+          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",
-          "description": "Display name shown in docs (ex: 'Button', 'Dialog', 'Form Field', 'Data Table')."
+          "description": "Display name shown in docs (ex: 'Button', 'Dialog', 'Form Field')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -37,11 +37,11 @@
         },
         "relationships": {
           "$ref": "../common/relationship.schema.json#/$defs/relationships",
-          "description": "Links from this component to other entities \u2014 e.g. 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling. Agents use this graph for impact analysis and alternatives; tools derive the reverse edges. Use the `links` metadata field for external resources instead."
+          "description": "Links from this component to other entities (ex: 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling). Agents use this graph for impact analysis and alternatives. Tools derive the reverse relationships. Use the `links` metadata field for external resources instead."
         },
         "documentBlocks": {
           "type": "array",
-          "description": "All structured docs for this component, in order. Accepts the component-specific kinds (imports, anatomy, api, variants, states, design-specifications) plus every general kind. Each entry's `kind` sets its shape. Tools SHOULD keep this order for display.",
+          "description": "All structured docs for this component, in order. Accepts the component-specific kinds: imports, anatomy, api, variants, states, design-specifications plus every general kind. Each entry's `kind` sets its shape. Tools SHOULD keep this order for display.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/componentDocumentBlock"
           },
@@ -49,7 +49,7 @@
         },
         "agentDocumentBlocks": {
           "type": "array",
-          "description": "Docs for agents (AI/LLM) only, using the same block kinds as `documentBlocks`. Put anything a human needs in `documentBlocks` \u2014 that's the default. Use this only for things that would be noise to a person: hard must/must-not rules, notes that correct a mistake agents commonly make (like picking a similar but wrong entity), evidence-backed constraints, and machine-checkable criteria. A rule humans need too still belongs in `documentBlocks`. This adds to the human docs, it never replaces them. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
+          "description": "Docs exclusively for agents (AI/LLM), using the same block kinds as `documentBlocks`. Only use this for info that isn't useful to a person. Examples include hard must/must-not rules, notes that correct a mistake agents commonly make, and machine-checkable criteria. Put everything else in `documentBlocks`. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/componentDocumentBlock"
           },

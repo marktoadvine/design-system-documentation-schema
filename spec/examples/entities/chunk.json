@@ -59,7 +59,7 @@
         "kind": "guidelines",
         "items": [
           {
-            "guidance": "Label the confirm button with the action it performs (e.g. 'Delete') rather than a generic 'OK'.",
+            "guidance": "Label the confirm button with the action it performs (ex: 'Delete') rather than a generic 'OK'.",
             "rationale": "An action-specific label tells the user what will happen, reducing accidental confirmations.",
             "level": "should",
             "category": "content"

@@ -46,8 +46,11 @@
         "properties": [
           {
             "identifier": "disabled",
-            "type": "boolean",
-            "description": "Reflected property/attribute pair `disabled` (CEM field + attribute of the same name). The manifest carries no prose for this member; description pending human review."
+            "description": "Reflected property/attribute pair `disabled` (CEM field + attribute of the same name). The manifest carries no prose for this member; description pending human review.",
+            "source": {
+              "file": "./my-element.custom-elements.json",
+              "path": "MyElement.disabled"
+            }
           }
         ],
         "events": [

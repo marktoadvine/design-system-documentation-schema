@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/guidelines.schema.json",
   "title": "Guidelines document block",
-  "description": "Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.",
+  "description": "Usage rules for an entity. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.",
   "$defs": {
     "guidelineEntry": {
       "type": "object",
-      "description": "One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
+      "description": "One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule. `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
       "required": [
         "guidance",
         "level"
@@ -15,22 +15,22 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead."
+          "description": "Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule. Retire it and make a new one instead."
         },
         "guidance": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "The rule itself. MUST be concrete and clear \u2014 not 'use sparingly' or 'when possible'."
+          "description": "The rule itself. MUST be concrete and clear (not 'use sparingly' or 'when possible')."
         },
         "rationale": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "Why the rule exists \u2014 cite evidence, accessibility standards, or research when you have it. MUST NOT just repeat the guidance."
+          "description": "Why the rule exists. Cite evidence, accessibility standards, or research when you have it. MUST NOT just repeat the guidance."
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
           "description": "How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code."
         },
         "evidence": {
-          "description": "Data backing this rule — test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.",
+          "description": "Data backing this rule: test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.",
           "oneOf": [
             {
               "type": "string",
@@ -38,7 +38,7 @@
             },
             {
               "type": "object",
-              "description": "Structured backing. `result` is the finding and `date` is when it was gathered — both required so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.",
+              "description": "Structured backing. `result` is the finding and `date` is when it was gathered. Both are required, so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.",
               "required": [
                 "result",
                 "date"
@@ -64,7 +64,7 @@
                 },
                 "source": {
                   "type": "string",
-                  "description": "Where to find the full evidence — a URL, issue reference, or report name."
+                  "description": "Where to find the full evidence: a URL, issue reference, or report name."
                 }
               },
               "additionalProperties": false
@@ -77,12 +77,12 @@
         },
         "target": {
           "type": "string",
-          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact."
+          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole entity."
         },
         "refines": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule — for example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
+          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule (ex: an agent 'must-not' that hardens a human 'should'). When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
         },
         "criteria": {
           "type": "array",
@@ -94,7 +94,7 @@
         },
         "references": {
           "type": "array",
-          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines) \u2014 a URL and an optional label.",
+          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines). Holds a URL and an optional label.",
           "items": {
             "$ref": "../common/criterion.schema.json#/$defs/reference"
           },
@@ -113,7 +113,7 @@
           "items": {
             "type": "string"
           },
-          "description": "Freeform keywords that relate guidelines across categories and disciplines (ex: 'rtl', 'localization', 'validation', 'contrast').",
+          "description": "Freeform keywords that relate guidelines across categories and disciplines (ex: 'rtl', 'localization', 'validation').",
           "minItems": 1
         }
       },
@@ -121,7 +121,7 @@
     },
     "guidelines": {
       "type": "object",
-      "description": "Usage rules for an artifact \u2014 each a do/don't statement with a reason. Answers *how* to use it correctly. For *whether* to use it, see `use-cases`; for the beliefs behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content') \u2014 the `accessibility` and `content` blocks are for structured reference data, not rules.",
+      "description": "Usage rules for an entity (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
       "required": [
         "kind",
         "items"
@@ -129,7 +129,7 @@
       "properties": {
         "items": {
           "type": "array",
-          "description": "The rules, in order. Tools SHOULD keep this order; authors SHOULD lead with the most important or group by category.",
+          "description": "The rules, in order. Tools SHOULD keep this order. Authors SHOULD lead with the most important or group by category.",
           "items": {
             "$ref": "#/$defs/guidelineEntry"
           },

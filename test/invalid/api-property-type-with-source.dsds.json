@@ -1,0 +1,24 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entity": {
+    "kind": "component",
+    "identifier": "my-element",
+    "name": "MyElement",
+    "documentBlocks": [
+      {
+        "kind": "api",
+        "properties": [
+          {
+            "identifier": "disabled",
+            "type": "boolean",
+            "description": "Reflected property/attribute pair.",
+            "source": {
+              "file": "./my-element.custom-elements.json",
+              "path": "MyElement.disabled"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

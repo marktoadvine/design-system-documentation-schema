@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/dsds.schema.json",
   "title": "Design system doc spec (DSDS) v0.15.2",
-  "description": "DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity (a component, token, pattern, and so on) or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.",
+  "description": "DSDS is a machine-readable format for design system documentation. A DSDS document is either one entity: a component, token, pattern, and so on or a group of entities. Each entity's `kind` says what it is: component, token, token-group, theme, foundation, pattern, guide, or chunk. Entity schemas live in entities/, document block schemas in document-blocks/, and shared schemas in common/.",
   "type": "object",
   "required": [
     "dsdsVersion"
@@ -34,11 +34,11 @@
     },
     "extends": {
       "$ref": "common/extends.schema.json#/$defs/documentExtends",
-      "description": "Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
+      "description": "Declares that this DSDS document extends another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
     },
     "documentBlocks": {
       "type": "array",
-      "description": "Structured docs for the design system as a whole \u2014 its purpose, system-wide guidelines, overviews. Accepts the general block kinds: `use-cases`, `guidelines`, `sections`, `accessibility`, `content`, or `checklist`.",
+      "description": "Structured docs for the design system as a whole: its purpose, system-wide guidelines, overviews. Accepts the general block kinds: `use-cases`, `guidelines`, `sections`, `accessibility`, `content`, or `checklist`.",
       "items": {
         "$ref": "document-blocks/document-blocks.schema.json#/$defs/generalDocumentBlock"
       },
@@ -46,7 +46,7 @@
     },
     "entityGroups": {
       "type": "array",
-      "description": "One or more entity groups. Each group has a name and an `entities` array holding any mix of entities \u2014 components, tokens, token groups, themes, foundations, patterns, guides, chunks \u2014 in display order. Multiple groups let one file organize entities into sections (ex: one for foundations, one for components). A group can be inline or a `$ref` to another DSDS file.",
+      "description": "One or more entity groups. Each group has a name and an `entities` array holding any mix of entities — components, tokens, token groups, themes, foundations, patterns, guides, chunks — in display order. Multiple groups let one file organize entities into sections (ex: one for foundations, one for components). A group can be inline or a `$ref` to another DSDS file.",
       "items": {
         "oneOf": [
           {
@@ -61,7 +61,7 @@
     },
     "entity": {
       "$ref": "#/$defs/anyEntity",
-      "description": "A single entity \u2014 component, token, token group, theme, foundation, pattern, guide, or chunk. Use this instead of `entityGroups` when each entity lives in its own file. The `kind` field says which type it is."
+      "description": "A single entity: component, token, token group, theme, foundation, pattern, guide, or chunk. Use this instead of `entityGroups` when each entity lives in its own file. The `kind` field says which type it is."
     },
     "$extensions": {
       "$ref": "common/extensions.schema.json#/$defs/extensions"
@@ -222,7 +222,7 @@
         "$ref": {
           "type": "string",
           "pattern": "^(?![a-zA-Z][a-zA-Z0-9+.\\-]*:)(?!//)(?!/)",
-          "description": "A relative path to another DSDS file, optionally with a JSON Pointer fragment for one value in it (ex: './button.dsds.json#/entity'). MUST be relative \u2014 no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, \u2026). To reference another system, use `extends.url` instead. Resolvers MUST catch cycles, MUST treat a broken file, pointer, or shape mismatch as a fatal error, and MUST only fetch remote files from an allow-list (see the spec's security rules).",
+          "description": "A relative path to another DSDS file, optionally with a JSON Pointer fragment for one value in it (ex: './button.dsds.json#/entity'). MUST be relative: no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). To reference another system, use `extends.url` instead. Resolvers MUST catch cycles, MUST treat a broken file, pointer, or shape mismatch as a fatal error, and MUST only fetch remote files from an allow-list (see the spec's security rules).",
           "minLength": 1
         }
       },
@@ -230,7 +230,7 @@
     },
     "entityGroup": {
       "type": "object",
-      "description": "A named collection of entities. They all live in one `entities` array, in display order, and can mix any type \u2014 each entity's `kind` says what it is, so there's no need for separate arrays per type. A group MUST hold at least one entity.",
+      "description": "A named collection of entities. They all live in one `entities` array, in display order, and can mix any type. Each entity's `kind` says what it is, so there's no need for separate arrays per type. A group MUST hold at least one entity.",
       "required": [
         "name",
         "entities"
@@ -239,7 +239,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle — the `name` is only a display label."
+          "description": "Optional machine-readable identifier for the group (ex: 'foundations', 'components'). MUST be lowercase kebab-case and unique among the groups. Gives the group a stable handle. The `name` is only a display label."
         },
         "name": {
           "type": "string",
@@ -251,7 +251,7 @@
         },
         "entities": {
           "type": "array",
-          "description": "The group's entities, in display order \u2014 any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters; tools SHOULD keep it.",
+          "description": "The group's entities, in display order. Any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters. Tools SHOULD keep it.",
           "items": {
             "oneOf": [
               {

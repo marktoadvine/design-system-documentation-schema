@@ -12,7 +12,7 @@
         "should-not",
         "must-not"
       ],
-      "description": "Conformance level, named for RFC 2119 requirement levels: 'must' and 'must-not' are absolute requirements (non-compliance is a failure); 'should' and 'should-not' are recommendations that can be overridden. Values in the schema are lowercase kebab-case (ex: must, should-not); the uppercase RFC 2119 spellings are used only when writing documentation, where they carry conformance weight."
+      "description": "Conformance level, named for RFC 2119 requirement levels. 'must' and 'must-not' are absolute requirements (non-compliance is a failure). 'should' and 'should-not' are recommendations that can be overridden. Values in the schema are lowercase kebab-case (ex: 'must', 'should-not'). The uppercase RFC 2119 spellings are used only when writing documentation, where they carry conformance weight."
     },
     "verificationMode": {
       "type": "string",
@@ -21,11 +21,11 @@
         "assisted",
         "manual"
       ],
-      "description": "How a result for this criterion is determined. 'automated': a fully objective test checked programmatically; a `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision; `check` diagnostics are advisory. 'manual': pure subjective judgment; no `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: a design review) belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
+      "description": "How a result for this criterion is determined: 'automated' (a fully objective test checked programmatically, `check` MUST be present), 'assisted' (a tool surfaces candidates but the decision stays subjective, `check` diagnostics are advisory), or 'manual' (pure subjective judgment, no `check` applies). For 'manual', `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: 'a design review') belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
     },
     "criterionCheck": {
       "type": "object",
-      "description": "Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification.",
+      "description": "Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification.",
       "required": [
         "scheme"
       ],
@@ -33,14 +33,14 @@
         "scheme": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9.-]*$",
-          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (e.g. 'com.acme.contract-tests')."
+          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase. Dots permitted for namespacing (ex: 'com.acme.contract-tests')."
         }
       },
       "additionalProperties": true
     },
     "criterionTestCase": {
       "type": "object",
-      "description": "An example with a defined outcome, used as a test case for a criterion. Identical to `example` plus a required `outcome`. This intentionally copies the shape of `example`. `example` is a closed schema, so allOf-extension cannot add `outcome`. When `example` changes, update this definition to match. Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced — a 'fail' test case that passes means the check no longer detects what it claims to.",
+      "description": "An example with a defined outcome, used as a test case for a criterion. Identical to `example` plus a required `outcome`. This intentionally copies the shape of `example`. `example` is a closed schema, so allOf-extension cannot add `outcome`. When `example` changes, update this definition to match. Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced. A 'fail' test case that passes means the check no longer detects what it claims to.",
       "anyOf": [
         {
           "required": [
@@ -116,7 +116,7 @@
     },
     "criterion": {
       "type": "object",
-      "description": "A testable success criterion: an objectively verifiable condition an implementation must meet. `statement` is the human-readable source of truth; `check` describes what tool is used to run the test and is not a replacement for `statement`. Pair with `techniques` (how to pass), `failures` (what failing looks like), `references` (external standards), and `examples` (test cases with declared outcomes).",
+      "description": "A testable success criterion: an objectively verifiable condition an implementation must meet. `statement` is the human-readable source of truth. `check` describes what tool is used to run the test and is not a replacement for `statement`. Pair with `techniques` (how to pass), `failures` (what failing looks like), `references` (external standards), and `examples` (test cases with declared outcomes).",
       "required": [
         "identifier",
         "statement"
@@ -125,7 +125,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead."
+          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement. Retire the identifier and make a new one instead."
         },
         "title": {
           "type": "string",
@@ -137,7 +137,7 @@
         },
         "techniques": {
           "type": "array",
-          "description": "Sufficient ways to satisfy this criterion — the passing patterns (ex: 'Apply `min-height: 44px` to every interactive element', 'Use the `<Button>` component without overriding its default height').",
+          "description": "The passing patterns that satisfy this criterion (ex: 'Apply `min-height: 44px` to every interactive element', 'Use the `<Button>` component without overriding its default height').",
           "items": {
             "$ref": "rich-text.schema.json#/$defs/richText"
           },
@@ -161,7 +161,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Verification test cases — typically one passing and one failing implementation, each with a declared `outcome`.",
+          "description": "Verification test cases: typically one passing and one failing implementation, each with a declared `outcome`.",
           "items": {
             "$ref": "#/$defs/criterionTestCase"
           },
@@ -176,7 +176,7 @@
         },
         "level": {
           "$ref": "#/$defs/conformanceLevel",
-          "description": "The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own."
+          "description": "The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted. A standalone criterion SHOULD declare its own."
         },
         "verification": {
           "$ref": "#/$defs/verificationMode"

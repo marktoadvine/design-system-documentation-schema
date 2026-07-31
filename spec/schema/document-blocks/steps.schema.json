@@ -21,7 +21,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.",
+          "description": "Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },
@@ -59,7 +59,7 @@
         "ordered": {
           "type": "boolean",
           "default": true,
-          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD show ordered steps as a numbered list, unordered ones as a checklist."
+          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD display ordered steps as a numbered list, unordered ones as a checklist."
         },
         "items": {
           "type": "array",

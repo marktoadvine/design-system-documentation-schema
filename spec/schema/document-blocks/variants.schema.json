@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/variants.schema.json",
   "title": "Variants document block",
-  "description": "Every way a component can be configured \u2014 a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.",
+  "description": "Every way a component can be configured. Examples include a toggle (flag variant, like 'disabled') or a set of options (enum variant, like size: sm | md | lg). Each can explain why it exists.",
   "$defs": {
     "variantSelection": {
       "type": "object",
-      "description": "A pointer to one variant being active: a flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`.",
+      "description": "A pointer to one variant being active. A flag by its identifier, or an enum dimension with a chosen value. The `variant` MUST match an item in the same block's `items`.",
       "required": [
         "variant"
       ],
@@ -17,14 +17,14 @@
         },
         "value": {
           "type": "string",
-          "description": "For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag — naming the flag already means it is on."
+          "description": "For an enum dimension, the selected value's identifier (ex: 'danger'). MUST be one of that dimension's values. Omit for a flag. Naming the flag already means it is on."
         }
       },
       "additionalProperties": false
     },
     "variantExclusion": {
       "type": "object",
-      "description": "A constraint that says: when the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.",
+      "description": "A constraint that says. When the `when` selections are active, the `excludes` selections must not also be active (ex: when 'icon-only' is on, 'full-width' is excluded). Both `when` and `excludes` are arrays so you can express multi-part triggers and exclude more than one thing at once.",
       "required": [
         "when",
         "excludes",
@@ -49,7 +49,7 @@
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
-          "description": "How hard the ban is: 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
+          "description": "How hard the ban is. 'must-not' (the combination is invalid) or 'should-not' (allowed but discouraged). Use the negative levels here."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -60,7 +60,7 @@
     },
     "variantRequirement": {
       "type": "object",
-      "description": "A combination that must hold: when one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.",
+      "description": "A combination that must hold. When one selection is active, another is required (ex: a 'danger' button must show an icon). The opposite of an exclusion.",
       "required": [
         "when",
         "requires",
@@ -85,7 +85,7 @@
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",
-          "description": "How hard the requirement is: 'must' (required) or 'should' (recommended). Use the positive levels here."
+          "description": "How hard the requirement is. 'must' (required) or 'should' (recommended). Use the positive levels here."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -104,11 +104,11 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Machine-readable value identifier (ex: 'sm', 'md', 'lg', 'primary', 'secondary')."
+          "description": "Machine-readable value identifier (ex: 'sm', 'md', 'lg')."
         },
         "name": {
           "type": "string",
-          "description": "Human-readable name (ex: 'Small', 'Medium', 'Large', 'Primary', 'Secondary')."
+          "description": "Human-readable name (ex: 'Small', 'Medium', 'Large')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -135,7 +135,7 @@
     },
     "flagVariant": {
       "type": "object",
-      "description": "A toggle \u2014 on or off. Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array; it's simply active or not.",
+      "description": "A toggle (on or off). Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array. It's simply active or not.",
       "required": [
         "kind",
         "identifier",
@@ -149,11 +149,11 @@
         },
         "identifier": {
           "type": "string",
-          "description": "Machine-readable identifier of the flag (ex: 'disabled', 'full-width', 'icon-only', 'loading')."
+          "description": "Machine-readable identifier of the flag (ex: 'disabled', 'full-width', 'icon-only')."
         },
         "name": {
           "type": "string",
-          "description": "Human-readable name of the flag (ex: 'Disabled', 'Full Width', 'Icon Only', 'Loading')."
+          "description": "Human-readable name of the flag (ex: 'Disabled', 'Full Width', 'Icon Only')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -195,7 +195,7 @@
         },
         "identifier": {
           "type": "string",
-          "description": "Machine-readable name for this dimension (ex: 'size', 'emphasis') \u2014 the axis, not one of its values."
+          "description": "Machine-readable name for this dimension (ex: 'size', 'emphasis')."
         },
         "name": {
           "type": "string",
@@ -207,7 +207,7 @@
         },
         "values": {
           "type": "array",
-          "description": "The possible values. A single value is fine \u2014 dimensions often start with just one while more are added over time. Tools SHOULD keep this order.",
+          "description": "The possible values. A single value is fine. Dimensions often start with just one while more are added over time. Tools SHOULD keep this order.",
           "items": {
             "$ref": "#/$defs/variantValue"
           },
@@ -218,7 +218,7 @@
     },
     "variants": {
       "type": "object",
-      "description": "Every way a component or pattern can be configured \u2014 a toggle or a set of options. Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'); a condition entered at runtime (hover, disabled, loading) is a state \u2014 document that in `states` instead.",
+      "description": "Every way a component or pattern can be configured (a toggle or a set of options). Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'). A condition entered at runtime: hover, disabled, loading is a state. Document that in `states` instead.",
       "required": [
         "kind",
         "items"
@@ -250,7 +250,7 @@
           "description": "The variant dimensions, in order. Tools SHOULD keep this order.",
           "items": {
             "type": "object",
-            "description": "One variant dimension. `kind: 'flag'` makes it a toggle; `kind: 'enum'` makes it a set of options. We use `if`/`then` instead of `oneOf` so an invalid entry gives one clear error instead of many.",
+            "description": "One variant dimension. `kind: 'flag'` makes it a toggle. `kind: 'enum'` makes it a set of options. We use `if`/`then` instead of `oneOf` so an invalid entry gives one clear error instead of many.",
             "required": [
               "kind"
             ],

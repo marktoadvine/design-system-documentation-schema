@@ -190,7 +190,7 @@ const docFiles = SCHEMAS_ONLY
 // already the target. Anchoring on the host avoids touching unrelated
 // `/v<X>/`-shaped strings, and matching any prior version (not just the
 // one in `dsdsVersion.const`) makes the bump idempotent and recovers
-// from drift — e.g., when the const was hand-edited ahead of the URLs.
+// from drift — ex: when the const was hand-edited ahead of the URLs.
 const URL_REGEX = /designsystemdocspec\.org\/v([A-Za-z0-9.\-]+)\//g;
 const NEW_URL_FRAGMENT = `designsystemdocspec.org/v${NEW_VERSION}/`;
 

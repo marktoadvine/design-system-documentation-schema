@@ -1,0 +1,22 @@
+{
+  "dsdsVersion": "0.16.0",
+  "entity": {
+    "kind": "foundation",
+    "identifier": "spacing",
+    "name": "Spacing",
+    "documentBlocks": [
+      {
+        "kind": "scale",
+        "identifier": "spacing-scale",
+        "description": "The spacing scale.",
+        "steps": [
+          {
+            "token": "space-4",
+            "value": "16px",
+            "name": "md"
+          }
+        ]
+      }
+    ]
+  }
+}

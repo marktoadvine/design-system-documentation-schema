@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/scale.schema.json",
   "title": "Scale document block",
-  "description": "An ordered progression of values \u2014 a type scale, spacing scale, elevation scale, or similar. Each step links to a token, with an optional name, display value, and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.",
+  "description": "An ordered progression of values: a type scale, spacing scale, elevation scale, or similar. Each step links to a token, or (when none exists) carries a literal value, plus an optional name and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.",
   "$defs": {
     "scaleStep": {
       "type": "object",
-      "description": "One step in the scale \u2014 a `token` (if it's token-backed), a literal `value` (if not), or both. At least one is required. Don't invent a token identifier just to pass validation; a value-only step is fine.",
+      "description": "One step in the scale. Maps to a `token` (if it's token-backed) or a literal `value` (if not). Never both. At least one is required. Use a value-only step when a token does not exist.",
       "anyOf": [
         {
           "required": [
@@ -19,6 +19,18 @@
           ]
         }
       ],
+      "if": {
+        "required": [
+          "token"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "value"
+          ]
+        }
+      },
       "properties": {
         "token": {
           "type": "string",
@@ -26,22 +38,22 @@
         },
         "name": {
           "type": "string",
-          "description": "A short name for this step (ex: 'sm', 'lg', 'heading-1') \u2014 the shorthand people use to talk about it without naming a raw value."
+          "description": "A short name for this step (ex: 'sm', 'lg', 'heading-1'). Represents the shorthand people use to talk about it without naming a raw value."
         },
         "value": {
           "type": "string",
-          "description": "The resolved value, for display (ex: '16px'). Just a convenience \u2014 the real value lives in the token. Tools MAY fill this in automatically."
+          "description": "The resolved value (ex: '16px'), for a step that has no token. MUST be omitted when `token` is set. The token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "Usage notes \u2014 when to use this step, what it pairs with, and any limits (ex: 'The base unit; use for default padding.')."
+          "description": "Usage notes. Defines when to use this step, what it pairs with, and any limits (ex: 'The base unit; use for default padding.')."
         }
       },
       "additionalProperties": false
     },
     "scale": {
       "type": "object",
-      "description": "An ordered scale \u2014 a deliberate progression that keeps design decisions consistent. Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest; tools SHOULD keep this order.",
+      "description": "An ordered scale (a deliberate progression that keeps design decisions consistent). Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest. Tools SHOULD keep this order.",
       "required": [
         "kind",
         "identifier",
@@ -64,7 +76,7 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What the scale is, how it was built (ex: geometric progression), and how to use it \u2014 why these values, and when it's okay to deviate."
+          "description": "What the scale is, how it was built (ex: geometric progression), and how to use it. Defines why these values are used, and when it's okay to deviate."
         },
         "steps": {
           "type": "array",

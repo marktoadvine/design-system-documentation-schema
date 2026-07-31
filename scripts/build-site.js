@@ -26,6 +26,7 @@ const {
   esc,
   slug,
   linkToRef,
+  escWithCode,
   describeType: describeTypeShared,
   renderPropertyTable: renderPropertyTableShared,
   renderPropertyTableMarkdown: renderPropertyTableMarkdownShared,
@@ -76,6 +77,40 @@ function renderSub(name, vars) {
     path.join(SUBTEMPLATES_DIR, `${name}.template.html`),
     vars,
   ).trim();
+}
+
+// ---------------------------------------------------------------------------
+// No-JS fallback content
+//
+// <ds-header> and <ds-def-section> render their title/description from
+// attributes, entirely inside a JS-attached shadow root — with JS disabled
+// there's no shadow root, so that text never appears anywhere in the page.
+// Both templates also accept a {%fallback%} block: plain light-DOM elements
+// carrying the same text, marked with a slot name ("_fallback") that neither
+// component defines a <slot> for. A shadow root only paints light-DOM
+// children through a matching <slot>, so once JS *does* attach the shadow
+// root, these become invisible automatically — no duplicate text, no
+// component changes needed. Without JS, there's no shadow root to hide them
+// behind, so they render as ordinary content.
+// ---------------------------------------------------------------------------
+
+function renderHeaderFallback(title, description) {
+  let html = `<h1 slot="_fallback">${esc(title)}</h1>`;
+  if (description) {
+    html += `<p slot="_fallback">${escWithCode(description)}</p>`;
+  }
+  return html;
+}
+
+function renderDefSectionFallback(anchor, name, type, description) {
+  let html = `<h2 slot="_fallback" id="${esc(anchor)}">${esc(name)}</h2>`;
+  if (type) {
+    html += `<p slot="_fallback"><ds-badge variant="kind">${esc(type)}</ds-badge></p>`;
+  }
+  if (description) {
+    html += `<p slot="_fallback">${escWithCode(description)}</p>`;
+  }
+  return html;
 }
 
 /**
@@ -240,6 +275,12 @@ function renderDefinition(defName, defSchema, exampleData) {
         : "",
       type_attr: defSchema.type ? ` type="${esc(defSchema.type)}"` : "",
       content: content.join("\n"),
+      fallback: renderDefSectionFallback(
+        hid,
+        defName,
+        defSchema.type,
+        defSchema.description,
+      ),
     });
   }
 
@@ -383,6 +424,12 @@ function renderDefinition(defName, defSchema, exampleData) {
       : "",
     type_attr: defSchema.type ? ` type="${esc(defSchema.type)}"` : "",
     content: content.join("\n"),
+    fallback: renderDefSectionFallback(
+      hid,
+      defName,
+      defSchema.type,
+      defSchema.description,
+    ),
   });
 }
 
@@ -494,6 +541,7 @@ function renderSchemaPage(page) {
       : "",
     source_attr: ` source="${esc(relPath)}"`,
     badge: "",
+    fallback: renderHeaderFallback(page.title, page.data.description),
   });
 
   // The JSON view is a fixed-position toggle (see json-view.js), so its
@@ -571,7 +619,7 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
     lines.push(defSchema.description, "");
   }
 
-  // Bare string/enum def (e.g. a status vocabulary) — show the enum and stop,
+  // Bare string/enum def (ex: a status vocabulary) — show the enum and stop,
   // mirroring renderDefinition()'s early return for the same shape.
   if (defSchema.type === "string" && !defSchema.properties) {
     if (defSchema.enum) {
@@ -582,7 +630,7 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
     return lines.join("\n");
   }
 
-  // oneOf alternatives (e.g. richText's string | object forms)
+  // oneOf alternatives (ex: richText's string | object forms)
   if (defSchema.oneOf) {
     lines.push("One of:", "");
     for (const alt of defSchema.oneOf) {
@@ -969,7 +1017,7 @@ function buildLlmsTxt(entries, version) {
   lines.push(
     "This site documents DSDS, a versioned JSON Schema. Every page below " +
       "has an HTML version (for people) and a plain-markdown mirror at the " +
-      "same path with a `.md` extension (e.g. `/quickstart.md`, " +
+      "same path with a `.md` extension (ex: `/quickstart.md`, " +
       "`/common-criterion.md`) — the full content as text, no HTML/JS to " +
       "parse. Schema pages' markdown includes every field name, type, and " +
       "requiredness plus the full schema JSON; the bundled schema below is " +
@@ -1058,7 +1106,7 @@ function titleCaseKind(kind) {
  *
  * `acceptsBlocks` is the flattened entity→block-kind relationship graph:
  * each entity $def's `documentBlocks.items.$ref` points at one of
- * document-blocks.schema.json's scoped unions (e.g. `componentDocumentBlock`),
+ * document-blocks.schema.json's scoped unions (ex: `componentDocumentBlock`),
  * whose own `kind` property is a plain enum of every block kind that entity
  * accepts — no allOf/if-then walking needed, just one property read.
  *
@@ -1083,7 +1131,7 @@ function buildManifest(pages, version) {
         defSchema.properties &&
         defSchema.properties.kind &&
         defSchema.properties.kind.const;
-      if (!kind) continue; // not every $def in an entities/ file is itself an entity (e.g. tokenGroup's nested shapes)
+      if (!kind) continue; // not every $def in an entities/ file is itself an entity (ex: tokenGroup's nested shapes)
 
       let acceptsBlocks = [];
       const itemsRef =
@@ -1166,9 +1214,13 @@ async function build() {
   // Versioned subdirectories (`v<n>/`) hold published schema bundles whose
   // URLs are public contracts — we MUST NOT blow them away on rebuild.
   // Everything else under dist is regenerated each build, so we wipe it
-  // and recreate. The versioned subdirectory write step further down is
-  // also defensive (refuses to overwrite an existing versioned bundle),
-  // but this is the primary safeguard.
+  // and recreate. Skipping deletion here is only a convenience for
+  // incremental local rebuilds, though — it does nothing for a
+  // from-scratch build (site/dist is gitignored, so a fresh checkout has
+  // no v<n>/ directories to preserve in the first place). The real
+  // safeguard is the "Archived release versions" step further down, which
+  // republishes every version from the version-controlled spec/releases/
+  // archive regardless of what's already on disk.
   if (fs.existsSync(DIST_DIR)) {
     for (const entry of fs.readdirSync(DIST_DIR, { withFileTypes: true })) {
       // Preserve site/dist/v<version>/ directories. The leading `v`
@@ -1280,6 +1332,7 @@ async function build() {
         : "",
       source_attr: "",
       badge: badge ? `<ds-badge>${esc(badge)}</ds-badge>` : "",
+      fallback: renderHeaderFallback(title, mdxPage.meta.description),
     });
 
     const html = pageHtml(
@@ -1372,20 +1425,49 @@ async function build() {
     });
   }
 
+  // ── Archived release versions ───────────────────────────────────────
+  //
+  // site/dist is build output: gitignored, and regenerated from scratch on
+  // every Netlify deploy (a fresh checkout has no site/dist at all). It can
+  // never be the only place a past release's files live — relying on that
+  // is exactly what let every version before the current one disappear
+  // when a from-scratch build ran. spec/releases/v<n>/ is the durable,
+  // version-controlled archive; publish every archived version into
+  // site/dist/v<n>/ on every build, regardless of whether site/dist
+  // started clean. The current version is republished fresh right after
+  // this and always wins if a version happens to exist in both places.
+  const RELEASES_DIR = path.join(ROOT, "spec", "releases");
+  if (fs.existsSync(RELEASES_DIR)) {
+    const releaseVersions = fs
+      .readdirSync(RELEASES_DIR, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name);
+    for (const versionName of releaseVersions) {
+      fs.cpSync(
+        path.join(RELEASES_DIR, versionName),
+        path.join(DIST_DIR, versionName),
+        { recursive: true },
+      );
+    }
+    console.log(
+      `  ✓  site/dist/v*/  ← spec/releases/ (${releaseVersions.length} archived versions published)\n`,
+    );
+  }
+
   // ── Versioned bundled schema ──────────────────────────────────────
   //
   // Versioned dist directories (site/dist/v<n>/) hold the bundled schema
-  // at the URL it's published at — e.g., site/dist/v0.1/dsds.bundled.schema.json
+  // at the URL it's published at — ex: site/dist/v0.1/dsds.bundled.schema.json
   // is served at https://designsystemdocspec.org/v0.1/dsds.bundled.schema.json.
   //
   // The versioned bundle is the working artifact for the CURRENT version.
   // The build ALWAYS refreshes it so a rebuild is atomic — the published
   // v<current>/ output can never lag the schema source (the desync this
-  // guards against). Older v<n>/ archives are never touched here: the build
-  // only writes the directory named after the current `const`, and the dist
-  // clean step preserves every v*/ directory. Immutability of a *released*
-  // version is enforced at release/deploy time (git tag + atomic deploy),
-  // not by skipping the write — skipping is what let the site go stale.
+  // guards against). Older v<n>/ archives come from spec/releases/ (see
+  // above), not from anything preserved on disk — a from-scratch build
+  // must produce the same output as an incremental one. Immutability of a
+  // *released* version is enforced by never overwriting spec/releases/v<n>/
+  // once committed, not by skipping this write.
   const bundledSchemaPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
   if (fs.existsSync(bundledSchemaPath)) {
     const bundledSchema = JSON.parse(fs.readFileSync(bundledSchemaPath, "utf-8"));

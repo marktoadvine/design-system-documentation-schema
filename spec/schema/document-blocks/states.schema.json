@@ -14,11 +14,11 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus', 'active', 'disabled', 'loading')."
+          "description": "Machine-readable state identifier (ex: 'default', 'hover', 'focus')."
         },
         "name": {
           "type": "string",
-          "description": "Human-readable name (ex: 'Default', 'Hover', 'Focus', 'Active / Pressed', 'Disabled', 'Loading')."
+          "description": "Human-readable name (ex: 'Default', 'Hover', 'Focus')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -45,7 +45,7 @@
     },
     "states": {
       "type": "object",
-      "description": "Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).",
+      "description": "Every interactive state of a component or pattern. List them in a sensible order: usually default, hover, focus, active, then disabled, loading, and other special states.",
       "required": [
         "kind",
         "items"

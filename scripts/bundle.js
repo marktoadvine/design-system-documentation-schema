@@ -206,7 +206,7 @@ function buildBundled() {
     description:
       "Single-file bundled version of the DSDS schema. " +
       "Auto-generated from the split schema files by scripts/bundle.js. " +
-      "Use the split files for development; use this file for tools that require " +
+      "Use the split files for development. Use this file for tools that require " +
       "a single schema document.",
   };
 

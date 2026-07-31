@@ -68,47 +68,38 @@
         "steps": [
           {
             "token": "space-0",
-            "value": "0px",
             "name": "0"
           },
           {
             "token": "space-1",
-            "value": "2px",
             "name": "4xs"
           },
           {
             "token": "space-2",
-            "value": "4px",
             "name": "3xs"
           },
           {
             "token": "space-3",
-            "value": "8px",
             "name": "2xs"
           },
           {
             "token": "space-4",
-            "value": "12px",
             "name": "xs"
           },
           {
             "token": "space-5",
-            "value": "16px",
             "name": "sm"
           },
           {
             "token": "space-6",
-            "value": "24px",
             "name": "md"
           },
           {
             "token": "space-7",
-            "value": "32px",
             "name": "lg"
           },
           {
             "token": "space-8",
-            "value": "48px",
             "name": "xl"
           }
         ]
@@ -121,12 +112,6 @@
             "identifier": "expand",
             "name": "Expand Ease",
             "description": "Used when a spatial value increases — a container opening, a gap growing, or a panel expanding. The curve starts slow and accelerates into the final position, making the expansion feel deliberate rather than abrupt.",
-            "function": [
-              0.05,
-              0.7,
-              0.1,
-              1
-            ],
             "token": "motion-ease-expand",
             "usage": "container expansion, gap growth, panel open",
             "duration": {
@@ -139,12 +124,6 @@
             "identifier": "collapse",
             "name": "Collapse Ease",
             "description": "Used when a spatial value decreases — a container closing, a gap shrinking, or a panel collapsing. The curve accelerates early and decelerates into the final position, making the collapse feel responsive.",
-            "function": [
-              0.3,
-              0,
-              0.8,
-              0.15
-            ],
             "token": "motion-ease-collapse",
             "usage": "container collapse, gap shrink, panel close",
             "duration": {

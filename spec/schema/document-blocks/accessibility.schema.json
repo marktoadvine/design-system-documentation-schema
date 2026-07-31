@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/accessibility.schema.json",
   "title": "Accessibility document block",
-  "description": "Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the artifact does \u2014 a fact a test or review can confirm. For general documentation guidance \u2014 rules about what authors should do, with rationale and a conformance level \u2014 use a `guidelines` block (category 'accessibility').",
+  "description": "Specialized, structured accessibility documentation: keyboard interactions, ARIA attributes, screen reader announcements, focus behaviors, color contrast pairs, and reduced-motion behaviors. Every entry is a verifiable statement of what the entity does (a fact a test or review can confirm). For general documentation guidance (rules about what authors should do, with rationale and a conformance level) use a `guidelines` block (category 'accessibility').",
   "$defs": {
     "keyboardInteraction": {
       "type": "object",
@@ -14,7 +14,7 @@
       "properties": {
         "key": {
           "type": "string",
-          "description": "The key or key combination (ex: 'Enter', 'Space', 'Tab', 'Shift+Tab', 'Escape', 'Arrow Down', 'Home', 'End')."
+          "description": "The key or key combination (ex: 'Enter', 'Space', 'Tab')."
         },
         "action": {
           "type": "string",
@@ -29,7 +29,7 @@
     },
     "ariaAttribute": {
       "type": "object",
-      "description": "An ARIA attribute used by the artifact: what it communicates and when to apply it.",
+      "description": "An ARIA attribute used by the entity: what it communicates and when to apply it.",
       "required": [
         "attribute",
         "description"
@@ -37,11 +37,11 @@
       "properties": {
         "attribute": {
           "type": "string",
-          "description": "The ARIA attribute name (ex: 'role', 'aria-label', 'aria-expanded', 'aria-disabled', 'aria-live', 'aria-controls')."
+          "description": "The ARIA attribute name (ex: 'role', 'aria-label', 'aria-expanded')."
         },
         "value": {
           "type": "string",
-          "description": "The expected value or value pattern (ex: 'true | false', 'string', 'button', 'dialog', 'assertive | polite')."
+          "description": "The expected value or value pattern (ex: 'true | false', 'string', 'assertive | polite')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -57,7 +57,7 @@
     },
     "colorContrastEntry": {
       "type": "object",
-      "description": "A foreground/background color pairing the artifact uses.  Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate.",
+      "description": "A foreground/background color pairing the entity uses. Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate.",
       "required": [
         "foreground",
         "background"
@@ -80,7 +80,7 @@
     },
     "accessibility": {
       "type": "object",
-      "description": "Specialized, structured accessibility documentation for an artifact. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the artifact does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with  a category 'accessibility' value). The two blocks complement each other on the same artifact.",
+      "description": "Specialized, structured accessibility documentation for an entity. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the entity does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with a category 'accessibility' value). The two blocks complement each other on the same entity.",
       "required": [
         "kind"
       ],
@@ -97,11 +97,11 @@
             "AA",
             "AAA"
           ],
-          "description": "The minimum WCAG conformance level targeted by this artifact."
+          "description": "The minimum WCAG conformance level targeted by this entity."
         },
         "criteria": {
           "type": "array",
-          "description": "Testable accessibility success criteria for this artifact (ex: 'All interactive targets present a hit area of at least 44\u00d744 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below (keyboard interactions, ARIA attributes, contrast pairs) shows how these conditions are met.",
+          "description": "Testable accessibility success criteria for this entity (ex: 'All interactive targets present a hit area of at least 44×44 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below shows how these conditions are met: keyboard interactions, ARIA attributes, contrast pairs.",
           "items": {
             "$ref": "../common/criterion.schema.json#/$defs/criterion"
           },
@@ -109,7 +109,7 @@
         },
         "keyboardInteractions": {
           "type": "array",
-          "description": "Keyboard interaction specs: what happens when each key or key combination is pressed while the artifact has focus.",
+          "description": "Keyboard interaction specs: what happens when each key or key combination is pressed while the entity has focus.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/keyboardInteraction"
@@ -117,7 +117,7 @@
         },
         "ariaAttributes": {
           "type": "array",
-          "description": "ARIA attribute docs. Lists every ARIA attribute the artifact uses, what it communicates, and when to apply it.",
+          "description": "ARIA attribute docs. Lists every ARIA attribute the entity uses, what it communicates, and when to apply it.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/ariaAttribute"
@@ -133,7 +133,7 @@
         },
         "focusBehaviors": {
           "type": "array",
-          "description": "Focus movement, one entry per trigger: how focus enters, moves within, and leaves the artifact. Includes trapping and restoration.",
+          "description": "Focus movement, one entry per trigger: how focus enters, moves within, and leaves the entity. Includes trapping and restoration.",
           "items": {
             "$ref": "#/$defs/focusBehavior"
           },
@@ -141,7 +141,7 @@
         },
         "colorContrast": {
           "type": "array",
-          "description": "The foreground/background color pairings this artifact uses, one entry per pairing. Pairs are declarations of intent; measure them with an automated contrast criterion, not by hand.",
+          "description": "The foreground/background color pairings this entity uses, one entry per pairing. Pairs are declarations of intent. Measure them with an automated contrast criterion, not by hand.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/colorContrastEntry"
@@ -213,7 +213,7 @@
       "properties": {
         "context": {
           "type": "string",
-          "description": "The state or situation being announced (ex: 'default', 'disabled via aria-disabled', 'loading', 'validation failure'). Use 'default' for the resting state."
+          "description": "The state or situation being announced (ex: 'default', 'disabled via aria-disabled', 'loading'). Use 'default' for the resting state."
         },
         "announcement": {
           "type": "string",
@@ -228,7 +228,7 @@
     },
     "focusBehavior": {
       "type": "object",
-      "description": "How focus moves at one moment in the artifact's lifecycle.",
+      "description": "How focus moves at one moment in the entity's lifecycle.",
       "required": [
         "trigger",
         "behavior"
@@ -236,7 +236,7 @@
       "properties": {
         "trigger": {
           "type": "string",
-          "description": "The moment or event (ex: 'default', 'open', 'close', 'validation failure', 'disabled'). Use 'default' for normal tab-order participation."
+          "description": "The moment or event (ex: 'default', 'open', 'close'). Use 'default' for normal tab-order participation."
         },
         "behavior": {
           "type": "string",
@@ -259,7 +259,7 @@
         },
         "behavior": {
           "type": "string",
-          "description": "What happens when reduced motion is preferred (ex: 'Replaced with a static ellipsis indicator', 'Transition removed; state changes apply instantly')."
+          "description": "What happens when reduced motion is preferred (ex: 'Replaced with a static ellipsis indicator', 'Transition removed. State changes apply instantly')."
         }
       },
       "additionalProperties": false

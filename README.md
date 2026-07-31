@@ -66,7 +66,7 @@ Start here:
 - **[Stability & 1.0](https://designsystemdocspec.org/stability.html)** — The stability contract: version semantics, the deprecation policy, the enumerated breaking backlog, and the criteria for declaring 1.0.
 - **[Interactive Samples](https://designsystemdocspec.org/samples.html)** — Side-by-side JSON ↔ rendered docs for real-world entities (component, token, theme, foundation, pattern).
 
-Per-schema reference pages sit next to the narrative pages — e.g. [entities/component](https://designsystemdocspec.org/entities-component.html), [document-blocks/guidelines](https://designsystemdocspec.org/document-blocks-guidelines.html), [common/use-cases](https://designsystemdocspec.org/common-use-cases.html). Each page is built from its matching `spec/schema/**/*.schema.json` file.
+Per-schema reference pages sit next to the narrative pages — ex: [entities/component](https://designsystemdocspec.org/entities-component.html), [document-blocks/guidelines](https://designsystemdocspec.org/document-blocks-guidelines.html), [common/use-cases](https://designsystemdocspec.org/common-use-cases.html). Each page is built from its matching `spec/schema/**/*.schema.json` file.
 
 You can also build the site locally to browse offline or while you work on the spec. Run `npm run build` and open `site/dist/index.html`.
 
@@ -90,6 +90,7 @@ spec/
 │   │   ├── presentation.schema.json                    # presentationImage, presentationVideo, presentationCode, presentationUrl
 │   │   ├── relationship.schema.json                    # relationship, relationType, relationships
 │   │   ├── rich-text.schema.json                       # richText (markdown string)
+│   │   ├── source.schema.json                          # source (file+path pointer to an external file, ex: a DTCG token file or CEM manifest)
 │   │   ├── status.schema.json                          # statusValue, platformStatus
 │   │   ├── system-info.schema.json                     # systemInfo
 │   │   ├── token-overrides.schema.json                 # tokenOverrides (shared token-override map)
@@ -133,13 +134,16 @@ spec/
 │       ├── states.schema.json                          # states, stateEntry
 │       ├── steps.schema.json                           # steps, stepEntry
 │       └── variants.schema.json                        # variants, flagVariant, enumVariant, variantValue
-└── examples/
-    ├── starter-kit.dsds.json                           # Complete document with components, tokens, foundations, patterns
-    ├── minimal/                                        # Lightweight examples showing the floor of documentation
-    ├── common/                                         # Per-definition examples for common primitives
-    ├── metadata/                                       # Per-field examples for entity metadata
-    ├── entities/                                       # Per-definition examples for entity types (incl. empty-state pattern)
-    └── document-blocks/                                # Per-definition examples for document block types (incl. motion, content)
+├── examples/
+│   ├── starter-kit.dsds.json                           # Complete document with components, tokens, foundations, patterns
+│   ├── minimal/                                        # Lightweight examples showing the floor of documentation
+│   ├── common/                                         # Per-definition examples for common primitives
+│   ├── metadata/                                       # Per-field examples for entity metadata
+│   ├── entities/                                       # Per-definition examples for entity types (incl. empty-state pattern)
+│   └── document-blocks/                                # Per-definition examples for document block types (incl. motion, content)
+└── releases/                                           # Permanent, version-controlled archive of every released schema version
+    ├── v0.1/ ... v0.15.2/                               # Older releases: dsds.bundled.schema.json (and, from v0.15.2 on, the full split tree)
+    └── v<n>/                                            # One directory per cut release — published into site/dist/ on every build
 
 rules/
 └── rules.yaml                                          # Quality rules catalog (stable DSDS-NNN IDs; drives lint-docs.js)
@@ -156,7 +160,7 @@ scripts/
 ├── migrate-to-0.8.js                                   # Migrates v0.7.x documents to v0.8 (criterion fixture outcomes)
 ├── migrate-to-0.10.js                                   # Migrates v0.8.x / v0.9.x documents to v0.10 (levels, entity refs, accessibility data)
 ├── migrate-to-0.14.js                                   # Migrates v0.10–v0.13 documents to v0.14 (breaking renames; reports identifier-bearing links)
-├── migrate-relationship-links.js                        # Converts relationship-flavored links to typed `relationships` edges (run before migrate-to-0.14.js)
+├── migrate-relationship-links.js                        # Converts relationship-flavored links to typed `relationships` entries (run before migrate-to-0.14.js)
 ├── build-site.js                                       # Generates the static specification site (orchestrator)
 ├── build-samples.js                                    # Generates the interactive sample viewer from example JSON
 ├── render-entity.js                                    # Server-side entity rendering used by build-samples.js
@@ -195,7 +199,7 @@ site/
 │   ├── toolbar.js                                      # <ds-toolbar> — sticky top toolbar
 │   └── type-ref.js                                     # <ds-type-ref> — type reference link
 ├── samples-template.html                               # Template for the interactive sample viewer
-└── dist/                                               # Generated HTML site (auto-generated)
+└── dist/                                               # Generated HTML site (auto-generated, gitignored — Netlify builds this fresh on every deploy; see spec/releases/ for the durable version archive)
 ```
 
 ## Quick Start
@@ -343,7 +347,7 @@ The Quick Start page (`site/content/quickstart.mdx`) is compiled the same way as
 The spec version lives in three coordinated places:
 
 1. **`spec/schema/dsds.schema.json#/properties/dsdsVersion/const`** — the single source of truth. The bundle script, the nav, every page title, and the versioned dist directory all derive from this value.
-2. **The `$id` URL on every schema file** — e.g., `https://designsystemdocspec.org/v0.16.0/metadata/last-updated.schema.json`. Every example document's `$schema` field and every `"dsdsVersion"` literal inside example JSON has to track the same version.
+2. **The `$id` URL on every schema file** — ex: `https://designsystemdocspec.org/v0.16.0/metadata/last-updated.schema.json`. Every example document's `$schema` field and every `"dsdsVersion"` literal inside example JSON has to track the same version.
 3. **`package.json#version`** — the npm package version. Conventionally kept in lockstep with `dsdsVersion.const`.
 
 The `scripts/bump-version.js` script keeps the first two in sync across all 52 schema files, every example, and the README. `package.json` is handled separately because it's not a schema-consumer file.
@@ -358,8 +362,8 @@ This means a version bump propagates to every site page on the next `npm run bui
 
 | Change | Spec version | New URL path? | Old URL path |
 |---|---|---|---|
-| Schema additions (new optional fields, new union members, new entity kinds) | Bump patch (e.g. `0.2` → `0.2.1`) | Yes — published at `/v0.2.1/` | `/v0.2/` stays untouched as a historical artifact |
-| Breaking changes (renamed/removed fields, new required fields, tightened constraints) | Bump minor or major (e.g. `0.2.1` → `0.3`) | Yes — published at `/v0.3/` | All older versions stay untouched |
+| Schema additions (new optional fields, new union members, new entity kinds) | Bump patch (ex: `0.2` → `0.2.1`) | Yes — published at `/v0.2.1/` | `/v0.2/` stays untouched as a historical artifact |
+| Breaking changes (renamed/removed fields, new required fields, tightened constraints) | Bump minor or major (ex: `0.2.1` → `0.3`) | Yes — published at `/v0.3/` | All older versions stay untouched |
 | Documentation-only edits (typos, prose clarifications, no schema or example changes) | No bump | No | No change |
 
 The versioned dist directories (`site/dist/v<n>/dsds.bundled.schema.json`) are **immutable public contracts**. `npm run build` refuses to overwrite an existing one. Every consumer that pins `$schema` to that URL relies on the file there never changing.
@@ -374,7 +378,7 @@ This is the exact sequence for cutting a release that includes schema changes. S
 
 3. **Update the README project structure listing** under `## Project Structure` if you added or removed schema files. (The site nav auto-discovers schemas, so no MDX updates are needed for that.)
 
-4. **Bump `package.json#version`** to the target version (e.g. `0.2.0` → `0.2.1`).
+4. **Bump `package.json#version`** to the target version (ex: `0.2.0` → `0.2.1`).
 
 5. **Add a CHANGELOG entry** at the top of `CHANGELOG`, mirroring the format of the prior release. Include a one-line header noting where the bundled schema is now served (ex: "Schema files are now served at `https://designsystemdocspec.org/v0.16.0/...`") and an "Additions" or "Breaking changes" section describing every schema-visible change.
 
@@ -398,7 +402,7 @@ This is the exact sequence for cutting a release that includes schema changes. S
    npm run build
    ```
 
-   This regenerates every page under `site/dist/` and publishes a new `site/dist/v<new-version>/dsds.bundled.schema.json`. If a versioned directory for the new version already exists with a differing bundle, the build will print a warning and skip the copy — delete the file manually and rerun the build to intentionally re-publish.
+   This regenerates every page under `site/dist/`, republishes every archived version from `spec/releases/` into `site/dist/v<n>/`, and writes the current version fresh to `site/dist/v<new-version>/` (bundle + full split tree). `site/dist/` is gitignored build output — Netlify regenerates it from scratch on every deploy — so nothing durable lives there; see the next step.
 
 8. **Validate.**
 
@@ -416,7 +420,15 @@ This is the exact sequence for cutting a release that includes schema changes. S
 
    The new schema page should exist at `site/dist/<group>-<name>.html` (ex: `site/dist/metadata-last-updated.html`), and the versioned bundle should exist at `site/dist/v<new-version>/dsds.bundled.schema.json`.
 
-10. **Commit.** Stage the schema changes, example updates, README, CHANGELOG, `package.json`, and the entire `site/dist/` tree (including the new versioned subdirectory) in one commit. The historical versioned subdirectories under `site/dist/v<older>/` must stay untouched.
+10. **Archive the release.** Copy the freshly-built versioned directory into the permanent, version-controlled archive:
+
+    ```bash
+    cp -R site/dist/v<new-version> spec/releases/v<new-version>
+    ```
+
+    This is the step that makes the release durable. `site/dist/` is rebuilt from scratch on every deploy and cannot be relied on as the archive — `spec/releases/` is the only copy of a released version that survives a clean build. Once committed, treat `spec/releases/v<n>/` as immutable: never edit or delete a version after it ships.
+
+11. **Commit.** Stage the schema changes, example updates, README, CHANGELOG, `package.json`, and the new `spec/releases/v<new-version>/` directory in one commit. Do not stage anything under `site/dist/` — it's gitignored.
 
 ### Patch-release shortcut for documentation-only edits
 
@@ -426,7 +438,7 @@ For a typo fix or prose clarification that doesn't touch any schema or example:
 npm run build   # regenerates HTML only; no version bump, no new versioned bundle
 ```
 
-No changelog entry, no version bump, no new `/v<n>/` artifact. Commit the regenerated HTML.
+No changelog entry, no version bump, no new `/v<n>/` artifact, and nothing to archive — `site/dist/` is gitignored build output. Commit whatever source file you edited (an MDX page, a schema description, etc.); Netlify rebuilds the HTML on deploy.
 
 ## Design Principles
 

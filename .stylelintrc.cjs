@@ -5,7 +5,7 @@ module.exports = {
     // and workbench.css — not kebab-case-only class names.
     "selector-class-pattern": null,
 
-    // Modifier-then-base override order (e.g. ".content--wide .content__inner"
+    // Modifier-then-base override order (ex: ".content--wide .content__inner"
     // declared after ".content__inner") is intentional cascade layering, not
     // an accidental specificity bug.
     "no-descending-specificity": null,

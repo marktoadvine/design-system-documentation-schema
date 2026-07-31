@@ -26,7 +26,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Examples for this section (code, images, videos, or live links).",
+          "description": "Examples for this section: code, images, videos, or live links.",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },

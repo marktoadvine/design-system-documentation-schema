@@ -1,53 +1,134 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/document-blocks.schema.json",
-  "title": "Document block \u2014 scoped unions",
-  "description": "Defines which document-block kinds each artifact type accepts. Every block has a `kind` tag; each artifact type accepts its own special kinds plus every general kind. We use a `kind` enum plus `if`/`then` branches instead of `oneOf`, so an invalid block gives one clear error for its `kind` instead of a pile of errors from every possible kind. To describe how entities relate to each other, use the `relationships` array on the entity, not a block kind; use `links` for external resources.",
+  "title": "Document block: scoped unions",
+  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag. Each entity kind accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
   "$defs": {
     "generalBranches": {
-      "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum \u2014 the union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
+      "description": "The `if`/`then` rules for the general block kinds, shared by every entity kind's union via `allOf`. It doesn't define its own `kind` enum. The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
       "allOf": [
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "checklist" } } },
-          "then": { "$ref": "checklist.schema.json#/$defs/checklist" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "checklist"
+              }
+            }
+          },
+          "then": {
+            "$ref": "checklist.schema.json#/$defs/checklist"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "guidelines" } } },
-          "then": { "$ref": "guidelines.schema.json#/$defs/guidelines" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "guidelines"
+              }
+            }
+          },
+          "then": {
+            "$ref": "guidelines.schema.json#/$defs/guidelines"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "use-cases" } } },
-          "then": { "$ref": "../common/use-cases.schema.json#/$defs/useCases" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "use-cases"
+              }
+            }
+          },
+          "then": {
+            "$ref": "../common/use-cases.schema.json#/$defs/useCases"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "accessibility" } } },
-          "then": { "$ref": "accessibility.schema.json#/$defs/accessibility" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "accessibility"
+              }
+            }
+          },
+          "then": {
+            "$ref": "accessibility.schema.json#/$defs/accessibility"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "content" } } },
-          "then": { "$ref": "content.schema.json#/$defs/content" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "content"
+              }
+            }
+          },
+          "then": {
+            "$ref": "content.schema.json#/$defs/content"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "sections" } } },
-          "then": { "$ref": "sections.schema.json#/$defs/sections" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "sections"
+              }
+            }
+          },
+          "then": {
+            "$ref": "sections.schema.json#/$defs/sections"
+          }
         }
       ]
     },
     "generalDocumentBlock": {
-      "description": "The block kinds every artifact type accepts \u2014 general concerns like free-form documentation content and the agent-facing checklist.",
+      "description": "The block kinds every entity kind accepts (general concerns like free-form documentation content and the agent-facing checklist).",
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
         "kind": {
-          "enum": ["checklist", "guidelines", "use-cases", "accessibility", "content", "sections"]
+          "enum": [
+            "checklist",
+            "guidelines",
+            "use-cases",
+            "accessibility",
+            "content",
+            "sections"
+          ]
         }
       },
-      "allOf": [{ "$ref": "#/$defs/generalBranches" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/generalBranches"
+        }
+      ]
     },
     "componentDocumentBlock": {
-      "description": "The block kinds a component accepts: its own (imports, anatomy, API, variants, states, design specs) plus every general kind.",
+      "description": "The block kinds a component accepts (`imports`, `anatomy`, `api`, `variants`, `states`, `design-specifications` plus every general kind).",
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
         "kind": {
           "enum": [
@@ -68,36 +149,106 @@
       },
       "allOf": [
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "imports" } } },
-          "then": { "$ref": "imports.schema.json#/$defs/imports" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "imports"
+              }
+            }
+          },
+          "then": {
+            "$ref": "imports.schema.json#/$defs/imports"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "anatomy" } } },
-          "then": { "$ref": "anatomy.schema.json#/$defs/anatomy" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "anatomy"
+              }
+            }
+          },
+          "then": {
+            "$ref": "anatomy.schema.json#/$defs/anatomy"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "api" } } },
-          "then": { "$ref": "api.schema.json#/$defs/api" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "api"
+              }
+            }
+          },
+          "then": {
+            "$ref": "api.schema.json#/$defs/api"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "variants" } } },
-          "then": { "$ref": "variants.schema.json#/$defs/variants" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "variants"
+              }
+            }
+          },
+          "then": {
+            "$ref": "variants.schema.json#/$defs/variants"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "states" } } },
-          "then": { "$ref": "states.schema.json#/$defs/states" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "states"
+              }
+            }
+          },
+          "then": {
+            "$ref": "states.schema.json#/$defs/states"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "design-specifications" } } },
-          "then": { "$ref": "design-specifications.schema.json#/$defs/designSpecifications" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "design-specifications"
+              }
+            }
+          },
+          "then": {
+            "$ref": "design-specifications.schema.json#/$defs/designSpecifications"
+          }
         },
-        { "$ref": "#/$defs/generalBranches" }
+        {
+          "$ref": "#/$defs/generalBranches"
+        }
       ]
     },
     "foundationDocumentBlock": {
-      "description": "The block kinds a foundation accepts: its own (principles, scale, motion) plus every general kind.",
+      "description": "The block kinds a foundation accepts (`principles`, `scale`, `motion`, plus every general kind).",
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
         "kind": {
           "enum": [
@@ -115,24 +266,61 @@
       },
       "allOf": [
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "principles" } } },
-          "then": { "$ref": "principles.schema.json#/$defs/principles" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "principles"
+              }
+            }
+          },
+          "then": {
+            "$ref": "principles.schema.json#/$defs/principles"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "scale" } } },
-          "then": { "$ref": "scale.schema.json#/$defs/scale" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "scale"
+              }
+            }
+          },
+          "then": {
+            "$ref": "scale.schema.json#/$defs/scale"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "motion" } } },
-          "then": { "$ref": "motion.schema.json#/$defs/motion" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "motion"
+              }
+            }
+          },
+          "then": {
+            "$ref": "motion.schema.json#/$defs/motion"
+          }
         },
-        { "$ref": "#/$defs/generalBranches" }
+        {
+          "$ref": "#/$defs/generalBranches"
+        }
       ]
     },
     "patternDocumentBlock": {
-      "description": "The block kinds a pattern accepts: interactions, the shared structural kinds (anatomy, variants, states), and every general kind.",
+      "description": "The block kinds a pattern accepts: (`interactions`, `anatomy`, `variants`, `states`, plus every general kind).",
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
         "kind": {
           "enum": [
@@ -151,28 +339,76 @@
       },
       "allOf": [
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "interactions" } } },
-          "then": { "$ref": "interactions.schema.json#/$defs/interactions" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "interactions"
+              }
+            }
+          },
+          "then": {
+            "$ref": "interactions.schema.json#/$defs/interactions"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "anatomy" } } },
-          "then": { "$ref": "anatomy.schema.json#/$defs/anatomy" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "anatomy"
+              }
+            }
+          },
+          "then": {
+            "$ref": "anatomy.schema.json#/$defs/anatomy"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "variants" } } },
-          "then": { "$ref": "variants.schema.json#/$defs/variants" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "variants"
+              }
+            }
+          },
+          "then": {
+            "$ref": "variants.schema.json#/$defs/variants"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "states" } } },
-          "then": { "$ref": "states.schema.json#/$defs/states" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "states"
+              }
+            }
+          },
+          "then": {
+            "$ref": "states.schema.json#/$defs/states"
+          }
         },
-        { "$ref": "#/$defs/generalBranches" }
+        {
+          "$ref": "#/$defs/generalBranches"
+        }
       ]
     },
     "guideDocumentBlock": {
-      "description": "The block kinds a guide accepts: `steps`, the reused `imports` kind for setup, and every general kind (including `checklist` \u2014 handy for a contribution or migration guide's final verification pass). Guides are for reading, so they lean on documentation content and steps rather than measurable specs like api or anatomy.",
+      "description": "The block kinds a guide accepts (`steps`, `imports`, `checklist`, plus every general kind).",
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "properties": {
         "kind": {
           "enum": [
@@ -189,14 +425,38 @@
       },
       "allOf": [
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "steps" } } },
-          "then": { "$ref": "steps.schema.json#/$defs/steps" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "steps"
+              }
+            }
+          },
+          "then": {
+            "$ref": "steps.schema.json#/$defs/steps"
+          }
         },
         {
-          "if": { "required": ["kind"], "properties": { "kind": { "const": "imports" } } },
-          "then": { "$ref": "imports.schema.json#/$defs/imports" }
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "imports"
+              }
+            }
+          },
+          "then": {
+            "$ref": "imports.schema.json#/$defs/imports"
+          }
         },
-        { "$ref": "#/$defs/generalBranches" }
+        {
+          "$ref": "#/$defs/generalBranches"
+        }
       ]
     }
   }

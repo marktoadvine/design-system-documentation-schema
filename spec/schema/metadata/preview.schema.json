@@ -5,7 +5,7 @@
   "description": "A visual or interactive preview of the entity.",
   "$defs": {
     "preview": {
-      "description": "A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object; its `kind` tag selects the media type. This is the single media surface for an entity — how big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.",
+      "description": "A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type. This is the single media surface for an entity. How big to show it (a small thumbnail, a large preview) is the consumer's call, so a renderer scales this one source to whatever a slot needs rather than the doc carrying the same asset twice.",
       "oneOf": [
         { "$ref": "../common/presentation.schema.json#/$defs/presentationImage" },
         { "$ref": "../common/presentation.schema.json#/$defs/presentationVideo" },

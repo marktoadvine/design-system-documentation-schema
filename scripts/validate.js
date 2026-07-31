@@ -6,7 +6,7 @@
  *   1. All .dsds.json files in spec/examples/ (recursively) against the bundled schema
  *   2. All per-definition example files in spec/examples/{common,document-blocks,entities}/
  *      against their matching $defs in the bundled schema
- *   3. Bare entity files (e.g. spec/examples/minimal/*.json) against their
+ *   3. Bare entity files (ex: spec/examples/minimal/*.json) against their
  *      entity $def, detected via the top-level `kind` property
  *
  * Usage:
@@ -141,7 +141,7 @@ function shapeHints(doc, rawErrors) {
     if (/\/tokens$/.test(p) && err.message === "must be object" && !hints.has(p)) {
       hints.set(
         p,
-        `${p}: \`tokens\` is a purpose-keyed map, not an array — keys say what the token controls, values name the token, e.g. { "text-color": "color-button-fg" }`,
+        `${p}: \`tokens\` is a purpose-keyed map, not an array — keys say what the token controls, values name the token, ex: { "text-color": "color-button-fg" }`,
       );
     }
   }
@@ -194,9 +194,9 @@ function friendlyErrors(doc, rawErrors, schema, ajv) {
   }
   if (contexts.size === 0 && hints.size === 0) return [];
 
-  // Deepest contexts first: a parent context (e.g. the entity) re-validates
+  // Deepest contexts first: a parent context (ex: the entity) re-validates
   // its whole subtree, so any of its errors that fall inside a child context
-  // (e.g. a block) are noise already explained at the child. Track reported
+  // (ex: a block) are noise already explained at the child. Track reported
   // pointers and filter parent errors that land inside them.
   const ordered = Array.from(contexts.keys()).sort(
     (a, b) => b.split("/").length - a.split("/").length,
@@ -519,7 +519,7 @@ function validateDefinitionExamples(ajv) {
 
 // Extension keys MUST use vendor-specific namespaces (reverse domain name
 // notation recommended) — enforced as "contains at least one dot separator",
-// e.g. 'com.figma', 'acme.tooling'.
+// ex: 'com.figma', 'acme.tooling'.
 const EXTENSION_KEY_REGEX = /^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
 
 /**
@@ -1045,7 +1045,7 @@ function semanticFindings(doc) {
         if (!EXTENSION_KEY_REGEX.test(key)) {
           findings.push({
             path: `${nodePath}/$extensions`,
-            message: `extension key '${key}' is not vendor-namespaced (expected reverse-domain style, e.g. 'com.acme.tool')`,
+            message: `extension key '${key}' is not vendor-namespaced (expected reverse-domain style, ex: 'com.acme.tool')`,
           });
         }
       }

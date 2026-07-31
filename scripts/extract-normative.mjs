@@ -46,7 +46,7 @@ const KEYWORD_RE = /\b(MUST NOT|MUST|SHOULD NOT|SHOULD|MAY)\b/;
 
 // Sentence splitter tolerant of inline code and abbreviations: split on a
 // period followed by whitespace and an uppercase/backtick/quote start, but
-// never directly after "e.g." / "i.e." / "vs." / "etc." (fixed-length
+// never directly after "ex:" / "i.e." / "vs." / "etc." (fixed-length
 // lookbehinds keep those sentences whole).
 function sentences(text) {
   return text

@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/theme.schema.json",
   "title": "Theme definitions",
-  "description": "A theme documents an alternative set of token values \u2014 a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships; the actual override values live in the DTCG file `source` points to. Put internal links in `links` metadata, not a block.",
+  "description": "A theme documents an alternative set of token values: a color mode, density setting, or brand variant. DSDS documents its purpose, docs, and relationships. The actual override values live in the DTCG file defined by the `source` property.",
   "$defs": {
     "tokenOverride": {
       "type": "object",
-      "description": "One token override in a theme: which token changes, and why. The value itself lives in the DTCG file \u2014 this just records the intent.",
+      "description": "One token override in a theme: which token changes, and why. The value itself lives in the DTCG file.",
       "required": [
         "token"
       ],
@@ -24,7 +24,7 @@
     },
     "theme": {
       "type": "object",
-      "description": "A named context that adapts the system's token values \u2014 a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects; the override values live in the DTCG file `source` points to. The token catalog is still the source of truth for token identity, type, and docs.",
+      "description": "A named context that adapts the system's token values: a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS documents the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
       "required": [
         "kind",
         "identifier",
@@ -39,7 +39,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the theme (ex: 'dark', 'high-contrast', 'compact', 'brand-sub-brand')."
+          "description": "Machine-readable identifier for the theme (ex: 'dark', 'high-contrast', 'compact')."
         },
         "name": {
           "type": "string",
@@ -54,26 +54,12 @@
           "description": "Optional metadata: the shared entityMetadata fields (see metadata/metadata.schema.json)."
         },
         "source": {
-          "type": "object",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values \u2014 the DTCG file is the source of truth for resolved values, aliases, and type.",
-          "required": [
-            "file"
-          ],
-          "properties": {
-            "file": {
-              "type": "string",
-              "description": "URI or relative path to the DTCG file containing this theme's token override definitions."
-            },
-            "path": {
-              "type": "string",
-              "description": "The dot-path to this theme's group within the DTCG file, if applicable."
-            }
-          },
-          "additionalProperties": false
+          "$ref": "../common/source.schema.json#/$defs/source",
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this theme's group within the file, if applicable."
         },
         "overrides": {
           "type": "array",
-          "description": "The token overrides this theme applies. List only tokens that differ from the default \u2014 anything unlisted keeps its default. The values themselves live in the DTCG file `source` points to.",
+          "description": "The token overrides this theme applies. List only tokens that differ from the default. Anything unlisted keeps its default. The values themselves live in the DTCG file referenced by `source`.",
           "items": {
             "$ref": "#/$defs/tokenOverride"
           },
@@ -81,7 +67,7 @@
         },
         "relationships": {
           "$ref": "../common/relationship.schema.json#/$defs/relationships",
-          "description": "Links from this theme to other entities \u2014 e.g. 'depends-on' the tokens it overrides, 'extends' a base theme. Tools derive the reverse edges."
+          "description": "Links from this theme to other entities (ex: 'depends-on' the tokens it overrides, 'extends' a base theme. Tools derive the reverse relationships)."
         },
         "documentBlocks": {
           "type": "array",
@@ -93,7 +79,7 @@
         },
         "agentDocumentBlocks": {
           "type": "array",
-          "description": "Docs for agents (AI/LLM) only, using the same block kinds as `documentBlocks`. Put anything a human needs in `documentBlocks` \u2014 that's the default. Use this only for things that would be noise to a person: hard must/must-not rules, notes that correct a mistake agents commonly make (like picking a similar but wrong entity), evidence-backed constraints, and machine-checkable criteria. A rule humans need too still belongs in `documentBlocks`. This adds to the human docs, it never replaces them. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
+          "description": "Docs exclusively for agents (AI/LLM), using the same block kinds as `documentBlocks`. Only use this for info that isn't useful to a person. Examples include hard must/must-not rules, notes that correct a mistake agents commonly make, and machine-checkable criteria. Put everything else in `documentBlocks`. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/generalDocumentBlock"
           },

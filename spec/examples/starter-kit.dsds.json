@@ -1407,47 +1407,38 @@
               "steps": [
                 {
                   "token": "space-0",
-                  "value": "0px",
                   "name": "0"
                 },
                 {
                   "token": "space-1",
-                  "value": "2px",
                   "name": "4xs"
                 },
                 {
                   "token": "space-2",
-                  "value": "4px",
                   "name": "3xs"
                 },
                 {
                   "token": "space-3",
-                  "value": "8px",
                   "name": "2xs"
                 },
                 {
                   "token": "space-4",
-                  "value": "12px",
                   "name": "xs"
                 },
                 {
                   "token": "space-5",
-                  "value": "16px",
                   "name": "sm"
                 },
                 {
                   "token": "space-6",
-                  "value": "24px",
                   "name": "md"
                 },
                 {
                   "token": "space-7",
-                  "value": "32px",
                   "name": "lg"
                 },
                 {
                   "token": "space-8",
-                  "value": "48px",
                   "name": "xl"
                 }
               ]

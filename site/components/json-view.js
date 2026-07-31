@@ -9,7 +9,7 @@
 //
 // Attributes:
 //   label — the source file path, used only for the overlay's accessible
-//           name (e.g. "Raw JSON: common/criterion.schema.json")
+//           name (ex: "Raw JSON: common/criterion.schema.json")
 //
 // Slots:
 //   (default) — the JSON content, typically a single <ds-code language="json">

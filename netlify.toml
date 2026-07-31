@@ -1,3 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "site/dist"
+
 # Correct Content-Types for agent/machine-readable artifacts
 
 [[headers]]
