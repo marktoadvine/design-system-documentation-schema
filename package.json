@@ -23,6 +23,7 @@
     "readability": "node scripts/readability-audit.mjs",
     "bump-version": "node scripts/bump-version.js",
     "og:generate": "node scripts/generate-og-image.mjs",
+    "postinstall": "playwright install chromium",
     "prebuild": "npm run sync-examples && npm run bundle && npm run og:generate",
     "prevalidate": "npm run sync-examples && npm run bundle",
     "check-docs": "node scripts/check-doc-coverage.mjs",
