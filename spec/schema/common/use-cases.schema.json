@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/common/use-cases.schema.json",
   "title": "Use cases definition",
-  "description": "When an artifact is the right choice and when another fits better. An optional `purpose` sums up what it is for; `items` holds scenarios marked 'recommended' or 'discouraged'.",
+  "description": "When an artifact is the right choice and when another fits better. An optional `purpose` sums up what it is for. `items` holds scenarios marked 'recommended' or 'discouraged'.",
   "$defs": {
     "useCase": {
       "type": "object",
@@ -47,7 +47,7 @@
     },
     "useCases": {
       "type": "object",
-      "description": "When to use an artifact and when to choose something else. Optional `purpose` sums up what it is for; `items` holds `useCase` scenarios marked 'recommended' or 'discouraged'. Answers *whether* to use the artifact \u2014 for *how*, see `guidelines`; for domain beliefs, see `principles`; for look and behavior, see variants, states, and anatomy.",
+      "description": "When to use an artifact and when to choose something else. Optional `purpose` sums up what it is for. `items` holds `useCase` scenarios marked 'recommended' or 'discouraged'. Answers *whether* to use the artifact. For *how*, see `guidelines`. For domain beliefs, see `principles`. For look and behavior, see variants, states, and anatomy.",
       "required": [
         "kind",
         "items"

@@ -33,7 +33,7 @@
           "description": "What this chunk is, the pattern it captures, and which components it composes. CommonMark supported."
         },
         "code": {
-          "description": "The code consumers copy to use the chunk. Give it one of two ways: inline (`code` + `language`) when it travels with the document, or referenced (`src` + `language`) when it lives in an outside file. Referenced code keeps long sources readable and lets a chunk share one file with a live app. `src` is resolved when read—there's no build step.",
+          "description": "The code consumers copy to use the chunk. Give it one of two ways: inline (`code` + `language`) when it travels with the document, or referenced (`src` + `language`) when it lives in an outside file. Referenced code keeps long sources readable and lets a chunk share one file with a live app. `src` is resolved when read — there's no build step.",
           "oneOf": [
             {
               "type": "object",
@@ -50,7 +50,7 @@
                 },
                 "language": {
                   "type": "string",
-                  "description": "The programming language or syntax of the code (ex: 'jsx', 'tsx', 'html', 'css', 'vue', 'svelte')."
+                  "description": "The programming language or syntax of the code (ex: 'tsx', 'swift', 'kotlin')."
                 }
               },
               "additionalProperties": false
@@ -67,12 +67,12 @@
                 "src": {
                   "type": "string",
                   "pattern": "^(?![a-zA-Z][a-zA-Z0-9+.\\-]*:)(?!//)(?!/)",
-                  "description": "A relative path to the file holding the chunk's code (ex: './chunks/confirmation-dialog.tsx'). MUST be relative—no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, \u2026). Resolvers SHOULD only fetch from an allow-list, the same rule a `$ref` fileRef follows. The file is read as-is—there's no build step.",
+                  "description": "A relative path to the file holding the chunk's code (ex: './chunks/confirmation-dialog.tsx'). MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). Resolvers SHOULD only fetch from an allow-list, the same rule a `$ref` fileRef follows. The file is read as-is — there's no build step.",
                   "minLength": 1
                 },
                 "language": {
                   "type": "string",
-                  "description": "The programming language or syntax of the referenced file (ex: 'jsx', 'tsx', 'html', 'css', 'vue', 'svelte')."
+                  "description": "The programming language or syntax of the referenced file (ex: 'tsx', 'swift', 'kotlin')."
                 }
               },
               "additionalProperties": false

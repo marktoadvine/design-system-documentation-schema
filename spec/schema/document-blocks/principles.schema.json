@@ -6,12 +6,12 @@
   "$defs": {
     "principleEntry": {
       "type": "object",
-      "description": "One principle: a short title and what it means in practice. Principles set direction, not specific rules. For actual rules, use `guidelines`; for whether to use something at all, use `use-cases`.",
+      "description": "One principle (a short title and what it means in practice). Principles set direction, not specific rules. For actual rules, use `guidelines`. For whether to use something at all, use `use-cases`.",
       "required": ["title", "description"],
       "properties": {
         "title": {
           "type": "string",
-          "description": "A short, memorable name (ex: 'Functional first', 'Use the scale')—short enough to work as a heading."
+          "description": "A short, memorable name (ex: 'Functional first', 'Use the scale') — short enough to work as a heading."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -22,7 +22,7 @@
     },
     "principles": {
       "type": "object",
-      "description": "The point of view behind a foundation's decisions. What the system's opinions are and which trade-offs it accepts. Sits above `guidelines`: principles set direction, guidelines encode the specific rules. ex: a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'.",
+      "description": "The point of view behind a foundation's decisions. What the system's opinions are and which trade-offs it accepts. Principles sit above `guidelines`. Principles set direction, guidelines encode the specific rules (ex: a spacing foundation might have 'Use the scale', a color foundation might have 'Functional first').",
       "required": ["kind", "items"],
       "properties": {
         "kind": {
@@ -32,7 +32,7 @@
         },
         "items": {
           "type": "array",
-          "description": "The principles, in order. Tools SHOULD keep this order; authors SHOULD lead with the most important.",
+          "description": "The principles, in order. Tools SHOULD keep this order. Authors SHOULD lead with the most important.",
           "items": {
             "$ref": "#/$defs/principleEntry"
           },

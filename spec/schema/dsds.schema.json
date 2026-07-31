@@ -251,7 +251,7 @@
         },
         "entities": {
           "type": "array",
-          "description": "The group's entities, in display order \u2014 any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters; tools SHOULD keep it.",
+          "description": "The group's entities, in display order \u2014 any mix of kinds. Each item can be inline or a `$ref` to another DSDS file. Order matters. Tools SHOULD keep it.",
           "items": {
             "oneOf": [
               {

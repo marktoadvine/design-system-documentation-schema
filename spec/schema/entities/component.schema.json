@@ -21,11 +21,11 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field', 'data-table'). MUST be unique across the whole document, because references resolve to it document-wide."
+          "description": "Machine-readable identifier (ex: 'button', 'dialog', 'form-field'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",
-          "description": "Display name shown in docs (ex: 'Button', 'Dialog', 'Form Field', 'Data Table')."
+          "description": "Display name shown in docs (ex: 'Button', 'Dialog', 'Form Field')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -37,7 +37,7 @@
         },
         "relationships": {
           "$ref": "../common/relationship.schema.json#/$defs/relationships",
-          "description": "Links from this component to other entities (ex: 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling). Agents use this graph for impact analysis and alternatives; tools derive the reverse relationships. Use the `links` metadata field for external resources instead."
+          "description": "Links from this component to other entities (ex: 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling). Agents use this graph for impact analysis and alternatives. Tools derive the reverse relationships. Use the `links` metadata field for external resources instead."
         },
         "documentBlocks": {
           "type": "array",

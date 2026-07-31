@@ -6,7 +6,7 @@
   "$defs": {
     "guidelineEntry": {
       "type": "object",
-      "description": "One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule; `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
+      "description": "One rule. `identifier` names the rule so other blocks and tools can point at it. `guidance` is the rule. `rationale` says why. `level` sets how strict it is. `category` groups it by discipline. `target` points at a specific part. `criteria` are tests that prove the rule holds. `references` cites outside standards like WCAG.",
       "required": [
         "guidance",
         "level"
@@ -82,7 +82,7 @@
         "refines": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule. For example an agent 'must-not' that hardens a human 'should'. When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
+          "description": "The `identifier` of a human guideline (in this entity's `documentBlocks`) that this rule sharpens. Used by agent-block rules to tighten a human rule (ex: an agent 'must-not' that hardens a human 'should'). When they conflict, the refining rule wins for agents. MUST be lowercase kebab-case and match a guideline identifier on the same entity."
         },
         "criteria": {
           "type": "array",
@@ -113,7 +113,7 @@
           "items": {
             "type": "string"
           },
-          "description": "Freeform keywords that relate guidelines across categories and disciplines (ex: 'rtl', 'localization', 'validation', 'contrast').",
+          "description": "Freeform keywords that relate guidelines across categories and disciplines (ex: 'rtl', 'localization', 'validation').",
           "minItems": 1
         }
       },
@@ -121,7 +121,7 @@
     },
     "guidelines": {
       "type": "object",
-      "description": "Usage rules for an artifact (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
+      "description": "Usage rules for an artifact (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
       "required": [
         "kind",
         "items"

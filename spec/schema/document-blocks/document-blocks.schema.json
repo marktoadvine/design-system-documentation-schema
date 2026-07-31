@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/document-blocks.schema.json",
   "title": "Document block \u2014 scoped unions",
-  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag; each artifact type accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
+  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag. Each artifact type accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
   "$defs": {
     "generalBranches": {
       "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",

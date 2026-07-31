@@ -7,7 +7,7 @@
     "statusValue": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$",
-      "description": "A lifecycle status value. MUST be lowercase kebab-case. Standard values: 'draft' (in development), 'experimental' (available; API may change), 'stable' (production-ready, semver), 'deprecated' (scheduled for removal). Custom values (ex: 'sunset', 'beta') are allowed and MUST follow the same pattern."
+      "description": "A lifecycle status value. MUST be lowercase kebab-case. Standard values: 'draft' (in development), 'experimental' (available, API may change), 'stable' (production-ready, semver), 'deprecated' (scheduled for removal). Custom values (ex: 'sunset', 'beta') are allowed and MUST follow the same pattern."
     },
     "deprecationNotice": {
       "type": "string",
@@ -23,7 +23,7 @@
       "properties": {
         "status": {
           "$ref": "#/$defs/statusValue",
-          "description": "Lifecycle status on this platform. Same vocabulary as overall status; custom values allowed."
+          "description": "Lifecycle status on this platform. Same vocabulary as overall status. Custom values allowed."
         },
         "since": {
           "type": "string",
@@ -31,11 +31,11 @@
         },
         "deprecationNotice": {
           "$ref": "#/$defs/deprecationNotice",
-          "description": "Required when status is 'deprecated'; says what to use instead on this platform."
+          "description": "Required when status is 'deprecated'. Says what to use instead on this platform."
         },
         "note": {
           "$ref": "dated-note.schema.json#/$defs/plainNote",
-          "description": "Free-text notes on this platform's status (ex: 'Web Component wrapper; native implementation planned for v4')."
+          "description": "Free-text notes on this platform's status (ex: 'Web Component wrapper — native implementation planned for v4')."
         }
       },
       "if": {

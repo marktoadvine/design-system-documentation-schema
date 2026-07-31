@@ -26,7 +26,7 @@
             },
             "contact": {
               "type": "string",
-              "description": "How to reach the owner: a URL, email, or channel (ex: 'design-system@acme.com', '#design-system'). Freeform; tools SHOULD link it when it parses as a URL or email.",
+              "description": "How to reach the owner: a URL, email, or channel (ex: 'design-system@acme.com', '#design-system'). Freeform. Tools SHOULD link it when it parses as a URL or email.",
               "minLength": 1
             }
           },
@@ -35,7 +35,7 @@
       ]
     },
     "lastReviewed": {
-      "description": "When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal; agents SHOULD prefer more recently reviewed docs when sources disagree.",
+      "description": "When a person last confirmed this entity's docs are accurate. A bare date ('2026-06-12') covers the common case. Use the object form to record who reviewed it and what they found. A review doesn't have to change anything: confirming the doc is correct updates `lastReviewed` and leaves `lastUpdated` alone. Tools MAY treat an old or missing `lastReviewed` as a staleness signal. Agents SHOULD prefer more recently reviewed docs when sources disagree.",
       "oneOf": [
         {
           "$ref": "../common/dated-note.schema.json#/$defs/isoDate",
@@ -59,7 +59,7 @@
             },
             "note": {
               "$ref": "../common/dated-note.schema.json#/$defs/plainNote",
-              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1; prop table still accurate', 'Guidelines section needs a rewrite—tracked in DS-412'). MUST NOT contain markup."
+              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1 — prop table still accurate', 'Guidelines section needs a rewrite — tracked in DS-412'). MUST NOT contain markup."
             },
             "reviewedAgainst": {
               "type": "string",

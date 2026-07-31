@@ -12,7 +12,7 @@
         "should-not",
         "must-not"
       ],
-      "description": "Conformance level, named for RFC 2119 requirement levels: 'must' and 'must-not' are absolute requirements (non-compliance is a failure); 'should' and 'should-not' are recommendations that can be overridden. Values in the schema are lowercase kebab-case (ex: must, should-not); the uppercase RFC 2119 spellings are used only when writing documentation, where they carry conformance weight."
+      "description": "Conformance level, named for RFC 2119 requirement levels. 'must' and 'must-not' are absolute requirements (non-compliance is a failure). 'should' and 'should-not' are recommendations that can be overridden. Values in the schema are lowercase kebab-case (ex: 'must', 'should-not'). The uppercase RFC 2119 spellings are used only when writing documentation, where they carry conformance weight."
     },
     "verificationMode": {
       "type": "string",
@@ -21,11 +21,11 @@
         "assisted",
         "manual"
       ],
-      "description": "How a result for this criterion is determined. 'automated': a fully objective test checked programmatically; a `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision; `check` diagnostics are advisory. 'manual': pure subjective judgment; no `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: a design review) belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
+      "description": "How a result for this criterion is determined. 'automated': a fully objective test checked programmatically. A `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision. `check` diagnostics are advisory. 'manual': pure subjective judgment. No `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: 'a design review') belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
     },
     "criterionCheck": {
       "type": "object",
-      "description": "Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification.",
+      "description": "Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification.",
       "required": [
         "scheme"
       ],
@@ -33,7 +33,7 @@
         "scheme": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9.-]*$",
-          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (ex: 'com.acme.contract-tests')."
+          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase. Dots permitted for namespacing (ex: 'com.acme.contract-tests')."
         }
       },
       "additionalProperties": true
@@ -116,7 +116,7 @@
     },
     "criterion": {
       "type": "object",
-      "description": "A testable success criterion: an objectively verifiable condition an implementation must meet. `statement` is the human-readable source of truth; `check` describes what tool is used to run the test and is not a replacement for `statement`. Pair with `techniques` (how to pass), `failures` (what failing looks like), `references` (external standards), and `examples` (test cases with declared outcomes).",
+      "description": "A testable success criterion: an objectively verifiable condition an implementation must meet. `statement` is the human-readable source of truth. `check` describes what tool is used to run the test and is not a replacement for `statement`. Pair with `techniques` (how to pass), `failures` (what failing looks like), `references` (external standards), and `examples` (test cases with declared outcomes).",
       "required": [
         "identifier",
         "statement"
@@ -176,7 +176,7 @@
         },
         "level": {
           "$ref": "#/$defs/conformanceLevel",
-          "description": "The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted; a standalone criterion SHOULD declare its own."
+          "description": "The conformance level of this criterion. A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted. A standalone criterion SHOULD declare its own."
         },
         "verification": {
           "$ref": "#/$defs/verificationMode"

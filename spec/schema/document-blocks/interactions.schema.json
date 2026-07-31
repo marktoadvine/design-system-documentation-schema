@@ -13,7 +13,7 @@
       "properties": {
         "trigger": {
           "type": "string",
-          "description": "What starts this step (a user action, system event, or condition—such as 'User submits the form'). Left out, this step just continues the last one."
+          "description": "What starts this step: a user action, system event, or condition (ex: 'User submits the form'). Left out, this step just continues the last one."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -21,7 +21,7 @@
         },
         "components": {
           "type": "array",
-          "description": "The components involved in this step. Each `identifier` MUST match a documented component; the optional `role` says what it does here. Links the pattern's flow back to each component's own docs.",
+          "description": "The components involved in this step. Each `identifier` MUST match a documented component. The optional `role` says what it does here. Links the pattern's flow back to each component's own docs.",
           "items": {
             "$ref": "../common/entity-ref.schema.json#/$defs/entityRef"
           },
@@ -40,7 +40,7 @@
     },
     "interactions": {
       "type": "object",
-      "description": "The step-by-step flow of a pattern. Order matters—it's the timeline of the user's journey. Authors SHOULD cover the trigger, the response, any recovery steps, and completion. Add more than one `interactions` block to document alternate flows (ex: happy path vs. error path).",
+      "description": "The step-by-step flow of a pattern. Order matters. Order defines the timeline of the user's workflow. Authors SHOULD cover the trigger, the response, any recovery steps, and completion. Add more than one `interactions` block to document alternate flows (ex: happy path vs. error path).",
       "required": [
         "kind",
         "items"

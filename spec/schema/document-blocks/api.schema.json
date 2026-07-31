@@ -14,15 +14,15 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "The property identifier as used in code (ex: 'variant', 'size', 'disabled', 'onClick')."
+          "description": "The property identifier as used in code (ex: 'variant', 'size', 'disabled')."
         },
         "type": {
           "type": "string",
-          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string', 'ReactNode', 'IconComponent'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. Required unless `source` is set. When a manifest is referenced, `type` MUST be omitted here and read from the manifest instead."
+          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative. `type` is its display summary and MUST NOT disagree with it. Required unless `source` is set. When a manifest is referenced, `type` MUST be omitted here and read from the manifest instead."
         },
         "values": {
           "type": "array",
-          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. MUST be omitted when `source` is set.",
+          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative. `values` is its display summary and MUST NOT disagree with it. MUST be omitted when `source` is set.",
           "items": {
             "type": "string"
           },
@@ -30,7 +30,7 @@
         },
         "schema": {
           "type": "object",
-          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. MUST be omitted when `source` is set."
+          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition. `type` and `values` are display summaries of it and MUST NOT disagree. MUST be omitted when `source` is set."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -341,7 +341,7 @@
           "items": {
             "type": "string"
           },
-          "description": "The set of possible values (ex: ['default', 'hover', 'active', 'disabled']).",
+          "description": "The set of possible values (ex: ['default', 'hover', 'active']).",
           "minItems": 1
         },
         "source": {
@@ -427,7 +427,7 @@
         },
         "platform": {
           "type": "string",
-          "description": "The platform or framework this API describes (ex: 'react', 'web-component', 'vue', 'angular', 'ios', 'android'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. Only one `api` block per platform is allowed on an entity. When omitted, the API is taken to be the single/default platform."
+          "description": "The platform or framework this API describes (ex: 'react', 'web-component', 'swift-ui'). When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. Only one `api` block per platform is allowed on an entity. When omitted, the API is taken to be the single/default platform."
         },
         "properties": {
           "type": "array",

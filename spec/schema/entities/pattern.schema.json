@@ -6,7 +6,7 @@
   "$defs": {
     "pattern": {
       "type": "object",
-      "description": "A repeated, multi-component answer to a common UX problem. A pattern sits above individual components and shows how they combine to meet a user need. Its identity is `identifier`, `name`, and `description`; its docs cover `interactions` (flow steps), `guidelines` (rules), `accessibility`, and more.",
+      "description": "A repeated, multi-component answer to a common UX problem. A pattern sits above individual components and shows how they combine to meet a user need. Its identity is `identifier`, `name`, and `description`. Its docs cover `interactions` (flow steps), `guidelines` (rules), `accessibility`, and more.",
       "required": [
         "kind",
         "identifier",
@@ -21,7 +21,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state', 'form-validation'). MUST be unique across the whole document, because references resolve to it document-wide."
+          "description": "Machine-readable identifier for the pattern (ex: 'error-messaging', 'navigation', 'empty-state'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",

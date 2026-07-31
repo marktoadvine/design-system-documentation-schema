@@ -24,7 +24,7 @@
     },
     "theme": {
       "type": "object",
-      "description": "A named context that adapts the system's token values. Examples include a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects; the override values live in the DTCG file `source`.",
+      "description": "A named context that adapts the system's token values. Examples include a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
       "required": [
         "kind",
         "identifier",
@@ -39,7 +39,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the theme (ex: 'dark', 'high-contrast', 'compact', 'brand-sub-brand')."
+          "description": "Machine-readable identifier for the theme (ex: 'dark', 'high-contrast', 'compact')."
         },
         "name": {
           "type": "string",

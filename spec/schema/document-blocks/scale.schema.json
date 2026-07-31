@@ -53,7 +53,7 @@
     },
     "scale": {
       "type": "object",
-      "description": "An ordered scale (a deliberate progression that keeps design decisions consistent). Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest; tools SHOULD keep this order.",
+      "description": "An ordered scale (a deliberate progression that keeps design decisions consistent). Used for spacing, type, elevation, and similar graduated systems. Steps run smallest to largest. Tools SHOULD keep this order.",
       "required": [
         "kind",
         "identifier",

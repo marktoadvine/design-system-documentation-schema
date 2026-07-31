@@ -36,7 +36,7 @@
     },
     "spacingSpec": {
       "type": "object",
-      "description": "Spacing around and inside the component. `internal` is spacing the component owns; `external` is spacing it recommends but the parent layout controls.",
+      "description": "Spacing around and inside the component. `internal` is spacing the component owns. `external` is spacing it recommends but the parent layout controls.",
       "properties": {
         "internal": {
           "type": "object",
@@ -149,7 +149,7 @@
       "properties": {
         "breakpoint": {
           "type": "string",
-          "description": "The breakpoint name or value at which this behavior applies (ex: 'small', 'medium', 'large', '768px', 'min-width: 1024px')."
+          "description": "The breakpoint name or value at which this behavior applies (ex: 'small', 'medium', 'large')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -160,7 +160,7 @@
     },
     "designSpecifications": {
       "type": "object",
-      "description": "The component's default, baseline specs (properties, spacing, size, typography, and responsive behavior). Per-variant and per-state overrides don't go here; they live on the `variants` and `states` blocks.",
+      "description": "The component's default, baseline specs (properties, spacing, size, typography, and responsive behavior). Per-variant and per-state overrides don't go here. They live on the `variants` and `states` blocks.",
       "required": [
         "kind"
       ],

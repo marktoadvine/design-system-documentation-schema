@@ -76,7 +76,7 @@
     },
     "content": {
       "type": "object",
-      "description": "A label dictionary and localization notes for an artifact or the whole system. Each entry is a fact. General content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule); a content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
+      "description": "A label dictionary and localization notes for an artifact or the whole system. Each entry is a fact. General content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule). A content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
       "required": [
         "kind"
       ],
@@ -104,7 +104,7 @@
         },
         "labels": {
           "type": "array",
-          "description": "The label dictionary. Order matters for display, so tools SHOULD keep it; authors MAY sort alphabetically or by frequency.",
+          "description": "The label dictionary. Order matters for display, so tools SHOULD keep it. Authors MAY sort alphabetically or by frequency.",
           "items": {
             "$ref": "#/$defs/contentLabelEntry"
           },
@@ -112,7 +112,7 @@
         },
         "localization": {
           "type": "array",
-          "description": "The localization notes. Order matters for display, so tools SHOULD keep it; authors SHOULD lead with the highest-impact concerns.",
+          "description": "The localization notes. Order matters for display, so tools SHOULD keep it. Authors SHOULD lead with the highest-impact concerns.",
           "items": {
             "$ref": "#/$defs/localizationEntry"
           },

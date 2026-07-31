@@ -62,7 +62,7 @@
         },
         "function": {
           "type": "array",
-          "description": "The cubic-bezier curve as [P1x, P1y, P2x, P2y]. P1x and P2x MUST be between 0 and 1; P1y and P2y can be any number (values outside 0\u20131 give a bounce/overshoot). Maps directly to CSS cubic-bezier(). Leave it out if the curve is only described in words or via a `token`. MUST be omitted when `token` is set \u2014 the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it.",
+          "description": "The cubic-bezier curve as [P1x, P1y, P2x, P2y]. P1x and P2x MUST be between 0 and 1. P1y and P2y can be any number (values outside 0\u20131 give a bounce/overshoot). Maps directly to CSS cubic-bezier(). Leave it out if the curve is only described in words or via a `token`. MUST be omitted when `token` is set \u2014 the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it.",
           "minItems": 4,
           "maxItems": 4,
           "prefixItems": [
@@ -74,7 +74,7 @@
             },
             {
               "type": "number",
-              "description": "P1y. First control point's value position (progress through the animated value). Any real number; outside [0, 1] gives overshoot/bounce."
+              "description": "P1y. First control point's value position (progress through the animated value). Any real number — outside [0, 1] gives overshoot/bounce."
             },
             {
               "type": "number",
@@ -84,7 +84,7 @@
             },
             {
               "type": "number",
-              "description": "P2y. Second control point's value position (progress through the animated value). Any real number; outside [0, 1] gives overshoot/bounce."
+              "description": "P2y. Second control point's value position (progress through the animated value). Any real number — outside [0, 1] gives overshoot/bounce."
             }
           ]
         },
@@ -94,7 +94,7 @@
         },
         "duration": {
           "$ref": "#/$defs/motionDuration",
-          "description": "The recommended duration for this easing. Enter transitions are usually longer (300\u2013500ms) to draw attention; exits are shorter (200\u2013300ms) to feel snappy."
+          "description": "The recommended duration for this easing. Enter transitions are usually longer (300\u2013500ms) to draw attention. Exits are shorter (200\u2013300ms) to feel snappy."
         },
         "usage": {
           "type": "string",

@@ -6,7 +6,7 @@
   "$defs": {
     "foundation": {
       "type": "object",
-      "description": "The principles, scales, and rules that govern a design subject (color, typography, spacing, elevation, motion, accessibility, content). A domain can be visual (color, spacing) or cross-cutting (accessibility, content). Its identity is `identifier`, `name`, and `description`; its docs cover principles, scale, motion, guidelines, accessibility, content, and more.",
+      "description": "The principles, scales, and rules that govern a design subject (color, typography, spacing, elevation, motion, accessibility, content). A domain can be visual (color, spacing) or cross-cutting (accessibility, content). Its identity is `identifier`, `name`, and `description`. Its docs cover principles, scale, motion, guidelines, accessibility, content, and more.",
       "required": [
         "kind",
         "identifier",
@@ -21,11 +21,11 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing', 'elevation', 'motion', 'shape', 'accessibility', 'content'). MUST be unique across the whole document, because references resolve to it document-wide."
+          "description": "Machine-readable identifier for the foundation (ex: 'color', 'typography', 'spacing'). MUST be unique across the whole document, because references resolve to it document-wide."
         },
         "name": {
           "type": "string",
-          "description": "Display name shown in docs (ex: 'Color', 'Typography', 'Spacing', 'Elevation', 'Accessibility', 'Content')."
+          "description": "Display name shown in docs (ex: 'Color', 'Typography', 'Spacing')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

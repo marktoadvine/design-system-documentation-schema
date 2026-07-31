@@ -6,7 +6,7 @@
   "$defs": {
     "documentExtends": {
       "type": "object",
-      "description": "Declares that this document inherits from another DSDS document. The parent document supplies core entities; this document adds to or extends them. The declaration sets up the relationship; consuming tools handle merge and resolution.",
+      "description": "Declares that this document inherits from another DSDS document. The parent document supplies core entities. This document adds to or extends them. The declaration sets up the relationship. Consuming tools handle merge and resolution.",
       "required": ["system"],
       "properties": {
         "system": {
@@ -31,7 +31,7 @@
     },
     "entityExtends": {
       "type": "object",
-      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines); this entity adds or overrides on top.",
+      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines). This entity adds or overrides on top.",
       "required": ["identifier"],
       "properties": {
         "identifier": {
@@ -40,7 +40,7 @@
         },
         "system": {
           "type": "string",
-          "description": "System that owns the parent entity. When omitted, resolves from the root document's `extends`; set it to extend a different system."
+          "description": "System that owns the parent entity. When omitted, resolves from the root document's `extends`. Set it to extend a different system."
         },
         "url": {
           "type": "string",
@@ -57,7 +57,7 @@
         },
         "modifications": {
           "type": "array",
-          "description": "Summary of changes relative to the parent, one entry per change. Tools MAY use them for changelogs, diffs, or migration guides; when omitted, tools must diff the entities.",
+          "description": "Summary of changes relative to the parent, one entry per change. Tools MAY use them for changelogs, diffs, or migration guides. When omitted, tools must diff the entities.",
           "items": {
             "type": "object",
             "required": ["changeType", "description"],

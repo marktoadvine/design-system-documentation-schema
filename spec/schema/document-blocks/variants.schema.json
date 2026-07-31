@@ -104,11 +104,11 @@
       "properties": {
         "identifier": {
           "type": "string",
-          "description": "Machine-readable value identifier (ex: 'sm', 'md', 'lg', 'primary', 'secondary')."
+          "description": "Machine-readable value identifier (ex: 'sm', 'md', 'lg')."
         },
         "name": {
           "type": "string",
-          "description": "Human-readable name (ex: 'Small', 'Medium', 'Large', 'Primary', 'Secondary')."
+          "description": "Human-readable name (ex: 'Small', 'Medium', 'Large')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -135,7 +135,7 @@
     },
     "flagVariant": {
       "type": "object",
-      "description": "A toggle (on or off). Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array; it's simply active or not.",
+      "description": "A toggle (on or off). Use it for binary capabilities like 'disabled' or 'full-width'. No `values` array. It's simply active or not.",
       "required": [
         "kind",
         "identifier",
@@ -149,11 +149,11 @@
         },
         "identifier": {
           "type": "string",
-          "description": "Machine-readable identifier of the flag (ex: 'disabled', 'full-width', 'icon-only', 'loading')."
+          "description": "Machine-readable identifier of the flag (ex: 'disabled', 'full-width', 'icon-only')."
         },
         "name": {
           "type": "string",
-          "description": "Human-readable name of the flag (ex: 'Disabled', 'Full Width', 'Icon Only', 'Loading')."
+          "description": "Human-readable name of the flag (ex: 'Disabled', 'Full Width', 'Icon Only')."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -250,7 +250,7 @@
           "description": "The variant dimensions, in order. Tools SHOULD keep this order.",
           "items": {
             "type": "object",
-            "description": "One variant dimension. `kind: 'flag'` makes it a toggle; `kind: 'enum'` makes it a set of options. We use `if`/`then` instead of `oneOf` so an invalid entry gives one clear error instead of many.",
+            "description": "One variant dimension. `kind: 'flag'` makes it a toggle. `kind: 'enum'` makes it a set of options. We use `if`/`then` instead of `oneOf` so an invalid entry gives one clear error instead of many.",
             "required": [
               "kind"
             ],

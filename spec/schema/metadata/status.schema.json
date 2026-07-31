@@ -26,11 +26,11 @@
             },
             "note": {
               "$ref": "../common/dated-note.schema.json#/$defs/plainNote",
-              "description": "Optional plain-text note explaining what this status represents for the entity. Includes the reasoning behind it, its scope, or any caveats (ex: 'Stable on web; the API is frozen and changes follow semver. Mobile parity is still in progress.'). Separate from deprecationNotice, which covers only the deprecated case. Tools MAY surface this alongside the status indicator."
+              "description": "Optional plain-text note explaining what this status represents for the entity. Includes the reasoning behind it, its scope, or any caveats (ex: 'Stable on web — the API is frozen and changes follow semver. Mobile parity is still in progress.'). Separate from deprecationNotice, which covers only the deprecated case. Tools MAY surface this alongside the status indicator."
             },
             "platforms": {
               "type": "object",
-              "description": "Per-platform readiness. Keys are platform identifiers (ex: 'react', 'web-component', 'ios', 'android'). When the system declares `systemInfo.platforms`, each key SHOULD match one of those identifiers. Values describe the entity's status on that platform.",
+              "description": "Per-platform readiness. Keys are platform identifiers (ex: 'react', 'web-component', 'swift-ui'). When the system declares `systemInfo.platforms`, each key SHOULD match one of those identifiers. Values describe the entity's status on that platform.",
               "additionalProperties": {
                 "$ref": "../common/status.schema.json#/$defs/platformStatus"
               },

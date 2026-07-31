@@ -27,7 +27,7 @@
         },
         "tokenType": {
           "type": "string",
-          "description": "The token's type, per the DTCG spec (ex: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'). MUST be set here unless a parent group already declares it. A token inherits the group's value if it skips its own. Every token needs a `tokenType` somewhere in its ancestry; having none anywhere is a defect."
+          "description": "The token's type, per the DTCG spec (ex: 'color', 'dimension', 'fontFamily'). MUST be set here unless a parent group already declares it. A token inherits the group's value if it skips its own. Every token needs a `tokenType` somewhere in its ancestry. Having none anywhere is a defect."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -35,7 +35,7 @@
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this token within the file (ex: 'color.text.primary')."
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this token within the file (ex: 'color.action.primary')."
         },
         "metadata": {
           "$ref": "../metadata/metadata.schema.json#/$defs/entityMetadata",
@@ -94,11 +94,11 @@
         },
         "tokenType": {
           "type": "string",
-          "description": "If every token in this group shares a type, declare it here instead of repeating it on each child. A child MAY override it. Common values: 'color', 'dimension', 'fontFamily', 'fontWeight', 'duration', 'cubicBezier', 'number', 'shadow'."
+          "description": "If every token in this group shares a type, declare it here instead of repeating it on each child. A child MAY override it. (ex: 'color', 'dimension', 'fontFamily')."
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this group within the file (ex: 'color.text')."
+          "description": "Points to the DTCG (W3C Design Tokens) file. DSDS doesn't copy token values. The DTCG file is the source of truth for resolved values, aliases, and type. `path` is the dot-path to this group within the file (ex: 'color.action')."
         },
         "children": {
           "type": "array",
@@ -125,7 +125,7 @@
         },
         "documentBlocks": {
           "type": "array",
-          "description": "All structured docs for this group, in order. Accepts general document blocks. Use this for docs about the group as a whole; put docs for individual tokens on the token itself, inside `children`.",
+          "description": "All structured docs for this group, in order. Accepts general document blocks. Use this for docs about the group as a whole. Put docs for individual tokens on the token itself, inside `children`.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/generalDocumentBlock"
           },

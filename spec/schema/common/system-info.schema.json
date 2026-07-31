@@ -34,11 +34,11 @@
         },
         "hasTokenLayer": {
           "type": "boolean",
-          "description": "Whether this design system has design token. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}')."
+          "description": "Whether this design system has a token layer. Define here to avoid tools guessing whether token entities appear in the file (tokens often live in an external DTCG file). When true, a design value that points at a token MUST be written as a DTCG alias in braces (ex: '{color.action.primary}')."
         },
         "platforms": {
           "type": "array",
-          "description": "The platforms this system documents (ex: React, Swift UI, web components). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
+          "description": "The platforms this system documents (ex: 'react', 'web-component', 'swift-ui'). Declare them once here so the rest of the document can point at the same set instead of repeatedly defining within each block. When present, an `api` block's `platform`, an `imports` entry's `platform`, and per-platform `status` keys SHOULD each match one of these identifiers.",
           "items": {
             "$ref": "#/$defs/platform"
           },
@@ -49,7 +49,7 @@
     },
     "platform": {
       "type": "object",
-      "description": "One platform the system documents. `identifier` is the name everything else references; `name` is an optional friendly label.",
+      "description": "One platform the system documents. `identifier` is the name everything else references. `name` is an optional friendly label.",
       "required": [
         "identifier"
       ],

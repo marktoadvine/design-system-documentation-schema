@@ -16,7 +16,7 @@
     },
     "presentationImage": {
       "type": "object",
-      "description": "An image. Represents a screenshot, diagram, mockup, or exported design frame.",
+      "description": "An image (ex: screenshot, diagram, mockup, or exported design frame)",
       "required": [
         "kind",
         "url",
@@ -85,14 +85,14 @@
         },
         "language": {
           "type": "string",
-          "description": "The language or syntax (ex: 'tsx', 'html', 'css', 'swift', 'kotlin')."
+          "description": "The language or syntax (ex: 'tsx', 'swift', 'kotlin')."
         }
       },
       "additionalProperties": false
     },
     "presentationUrl": {
       "type": "object",
-      "description": "A link to a web resource — live demo, interactive example, docs page, or hosted story (Storybook, CodeSandbox, StackBlitz, etc.).",
+      "description": "A link to a web resource. Includes live demos, interactive examples, docs pages, or hosted stories (ex: 'Storybook', 'CodeSandbox', 'StackBlitz').",
       "required": [
         "kind",
         "url"

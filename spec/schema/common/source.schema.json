@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/common/source.schema.json",
   "title": "Source definitions",
-  "description": "A pointer to the external machine-readable file that owns information that DSDS only documents around (a DTCG token file, a Custom Elements Manifest, or an equivalent). Shared by `token`/`tokenGroup`/`theme` `source` and `api` block members. DSDS never copies the fact itself; it copies the pointer, so the fact cannot fork between the two files.",
+  "description": "A pointer to the external machine-readable file that owns information that DSDS only documents around (a DTCG token file, a Custom Elements Manifest, or an equivalent). Shared by `token`/`tokenGroup`/`theme` `source` and `api` block members. DSDS never copies the fact itself — it copies the pointer, so the fact cannot fork between the two files.",
   "$defs": {
     "source": {
       "type": "object",
-      "description": "Where the information this entity or member documents lives. DSDS doesn't validate the target file's content, only that this pointer is well-formed. `file` is required; `path` narrows the pointer to one location within it, when the file holds more than one relevant fact.",
+      "description": "Where the information this entity or member documents lives. DSDS doesn't validate the target file's content, only that this pointer is well-formed. `file` is required. `path` narrows the pointer to one location within it, when the file holds more than one relevant fact.",
       "required": [
         "file"
       ],
@@ -17,7 +17,7 @@
         },
         "path": {
           "type": "string",
-          "description": "A locator for one fact within `file`, when the file holds more than one. Format follows the target file's own addressing convention: a dot-path for a DTCG token tree (ex: 'color.action.primary'), a JSON Pointer or manifest-specific path for a CEM manifest (ex: 'MyElement.disabled'). Not validated by DSDS (it's a hint for tooling that reads the target file.)"
+          "description": "A locator for one fact within `file`, when the file holds more than one. Format follows the target file's own addressing convention: a dot-path for a DTCG token tree (ex: 'color.action.primary'), a JSON Pointer or manifest-specific path for a CEM manifest (ex: 'MyElement.disabled'). Not validated by DSDS."
         }
       },
       "additionalProperties": false
