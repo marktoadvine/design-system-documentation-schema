@@ -1,4 +1,9 @@
 [build]
+  # Explicit "." so this always wins over a stale dashboard "Base directory"
+  # setting (ex: a leftover from when site/dist was committed and served
+  # directly, before it became build output). The build command needs the
+  # repo root — package.json, scripts/, spec/ — not the output directory.
+  base = "."
   command = "npm run build"
   publish = "site/dist"
 
