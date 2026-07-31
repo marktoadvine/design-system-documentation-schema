@@ -22,7 +22,7 @@
           "properties": {
             "overall": {
               "$ref": "../common/status.schema.json#/$defs/statusValue",
-              "description": "The entity's overall status. Status is an editorial call on maturity that doesn't have to match its most or least advanced platform. Tools SHOULD show this as the main status indicator."
+              "description": "The entity's overall status. Status is an editorial call on maturity that doesn't have to match its most or least advanced platform. Tools SHOULD display this as the main status indicator."
             },
             "note": {
               "$ref": "../common/dated-note.schema.json#/$defs/plainNote",

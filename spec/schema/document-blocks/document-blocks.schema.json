@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/document-blocks.schema.json",
   "title": "Document block: scoped unions",
-  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag. Each artifact type accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
+  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag. Each entity kind accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
   "$defs": {
     "generalBranches": {
-      "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
+      "description": "The `if`/`then` rules for the general block kinds, shared by every entity kind's union via `allOf`. It doesn't define its own `kind` enum. The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
       "allOf": [
         {
           "if": {
@@ -100,7 +100,7 @@
       ]
     },
     "generalDocumentBlock": {
-      "description": "The block kinds every artifact type accepts (general concerns like free-form documentation content and the agent-facing checklist).",
+      "description": "The block kinds every entity kind accepts (general concerns like free-form documentation content and the agent-facing checklist).",
       "type": "object",
       "required": [
         "kind"

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/guidelines.schema.json",
   "title": "Guidelines document block",
-  "description": "Usage rules for an artifact. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.",
+  "description": "Usage rules for an entity. Each item pairs a rule with why it exists. Guidelines say what to do (or not do), and why.",
   "$defs": {
     "guidelineEntry": {
       "type": "object",
@@ -77,7 +77,7 @@
         },
         "target": {
           "type": "string",
-          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact."
+          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole entity."
         },
         "refines": {
           "type": "string",
@@ -94,7 +94,7 @@
         },
         "references": {
           "type": "array",
-          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines). Contains a URL and an optional label.",
+          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines). Holds a URL and an optional label.",
           "items": {
             "$ref": "../common/criterion.schema.json#/$defs/reference"
           },
@@ -121,7 +121,7 @@
     },
     "guidelines": {
       "type": "object",
-      "description": "Usage rules for an artifact (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
+      "description": "Usage rules for an entity (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
       "required": [
         "kind",
         "items"

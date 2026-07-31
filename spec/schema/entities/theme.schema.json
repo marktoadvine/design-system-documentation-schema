@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/theme.schema.json",
   "title": "Theme definitions",
-  "description": "A theme documents an alternative set of token values: a color mode, density setting, or brand variant. DSDS captures its purpose, docs, and relationships. The actual override values live in the DTCG file defined by the `source` property.",
+  "description": "A theme documents an alternative set of token values: a color mode, density setting, or brand variant. DSDS documents its purpose, docs, and relationships. The actual override values live in the DTCG file defined by the `source` property.",
   "$defs": {
     "tokenOverride": {
       "type": "object",
@@ -24,7 +24,7 @@
     },
     "theme": {
       "type": "object",
-      "description": "A named context that adapts the system's token values: a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
+      "description": "A named context that adapts the system's token values: a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS documents the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
       "required": [
         "kind",
         "identifier",

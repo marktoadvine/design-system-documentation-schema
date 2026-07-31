@@ -59,7 +59,7 @@
         "ordered": {
           "type": "boolean",
           "default": true,
-          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD show ordered steps as a numbered list, unordered ones as a checklist."
+          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD display ordered steps as a numbered list, unordered ones as a checklist."
         },
         "items": {
           "type": "array",

@@ -57,7 +57,7 @@
     },
     "relationships": {
       "type": "array",
-      "description": "The links this entity points at other entities. You list each one here, on this entity. The order doesn't matter, and you don't repeat it on the other entity (tools show the reverse side for you).",
+      "description": "The links this entity points at other entities. You list each one here, on this entity. The order doesn't matter, and you don't repeat it on the other entity (tools display the reverse side for you).",
       "items": {
         "$ref": "#/$defs/relationship"
       },

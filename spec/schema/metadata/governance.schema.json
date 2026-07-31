@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/metadata/governance.schema.json",
   "title": "Governance metadata field",
-  "description": "Who's accountable for this entity's docs, and when accuracy was last confirmed. Answers who to ask about conflicts or errors and lets tools flag docs for staleness. Different from `lastUpdated`: that records when the doc changed.",
+  "description": "Who's accountable for this entity's docs, and when accuracy was last confirmed. Answers who to ask about conflicts or errors and lets tools flag docs for staleness. Different from `lastUpdated`, which tracks when the doc changed.",
   "$defs": {
     "owner": {
-      "description": "Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.",
+      "description": "Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD display the owner wherever a reader might need to flag a problem.",
       "oneOf": [
         {
           "type": "string",
@@ -73,7 +73,7 @@
     },
     "governance": {
       "type": "object",
-      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
+      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object holds who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
       "required": [
         "owner"
       ],

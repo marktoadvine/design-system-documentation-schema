@@ -45,7 +45,7 @@
     },
     "checklist": {
       "type": "object",
-      "description": "A checklist for an artifact. Acts as the concrete steps an agent or person works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`.",
+      "description": "A checklist for an entity. Acts as the concrete steps an agent or person works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity kind, and just as at home in `agentDocumentBlocks`.",
       "required": ["kind", "items"],
       "properties": {
         "kind": {
@@ -60,7 +60,7 @@
         "ordered": {
           "type": "boolean",
           "default": false,
-          "description": "Whether items must be done in order. Defaults to false (items can be checked off in any order). Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list."
+          "description": "Whether items must be done in order. Defaults to false (items can be checked off in any order). Set true when each item depends on the last. Tools SHOULD display unordered checklists as checkboxes and ordered ones as a numbered list."
         },
         "items": {
           "type": "array",

@@ -6,7 +6,7 @@
   "$defs": {
     "documentExtends": {
       "type": "object",
-      "description": "Declares that this document inherits from another DSDS document. The parent document supplies core entities. This document adds to or extends them. The declaration sets up the relationship. Consuming tools handle merge and resolution.",
+      "description": "Declares that this document extends another DSDS document. The parent document supplies core entities. This document adds to or extends them. The declaration sets up the relationship. Consuming tools handle merge and resolution.",
       "required": ["system"],
       "properties": {
         "system": {
@@ -31,7 +31,7 @@
     },
     "entityExtends": {
       "type": "object",
-      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition: anatomy, API, variants, states, guidelines. This entity adds or overrides on top.",
+      "description": "Declares that this entity extends a parent entity in a parent system. The parent entity supplies the core definition: anatomy, API, variants, states, guidelines. This entity adds or overrides on top.",
       "required": ["identifier"],
       "properties": {
         "identifier": {

@@ -66,7 +66,7 @@
     },
     "presentationCode": {
       "type": "object",
-      "description": "A source code snippet showing how to use the artifact.",
+      "description": "A source code snippet showing how to use the entity.",
       "required": [
         "kind",
         "code",

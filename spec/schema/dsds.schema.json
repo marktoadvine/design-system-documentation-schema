@@ -34,7 +34,7 @@
     },
     "extends": {
       "$ref": "common/extends.schema.json#/$defs/documentExtends",
-      "description": "Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
+      "description": "Declares that this DSDS document extends another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
     },
     "documentBlocks": {
       "type": "array",

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/principles.schema.json",
   "title": "Principles document block",
-  "description": "The point of view behind a foundation's decisions. Each contains a short title plus what it means in practice. Principles answer 'what is our opinion?' and sit above individual `guidelines`, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing).",
+  "description": "The point of view behind a foundation's decisions. Each holds a short title plus what it means in practice. Principles answer 'what is our opinion?' and sit above individual `guidelines`, shaping the whole approach to a domain (ex: 'Functional first' for color, 'Use the scale' for spacing).",
   "$defs": {
     "principleEntry": {
       "type": "object",
@@ -15,7 +15,7 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What the principle means in practice. It shuldn't be a restatement of the title. Answer: what does this look like day to day, and how would you use it to settle a disagreement?"
+          "description": "What the principle means in practice. It shouldn't be a restatement of the title. Answer: what does this look like day to day, and how would you use it to settle a disagreement?"
         }
       },
       "additionalProperties": false

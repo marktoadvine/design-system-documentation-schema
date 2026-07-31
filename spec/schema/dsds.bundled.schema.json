@@ -34,7 +34,7 @@
     },
     "extends": {
       "$ref": "#/$defs/documentExtends",
-      "description": "Declares that this DSDS document inherits from another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
+      "description": "Declares that this DSDS document extends another DSDS document. Typically used for a core/extension setup: the base document provides the core entities, and this document adds to or extends them."
     },
     "documentBlocks": {
       "type": "array",
@@ -391,7 +391,7 @@
     },
     "documentExtends": {
       "type": "object",
-      "description": "Declares that this document inherits from another DSDS document. The parent document supplies core entities. This document adds to or extends them. The declaration sets up the relationship. Consuming tools handle merge and resolution.",
+      "description": "Declares that this document extends another DSDS document. The parent document supplies core entities. This document adds to or extends them. The declaration sets up the relationship. Consuming tools handle merge and resolution.",
       "required": [
         "system"
       ],
@@ -418,7 +418,7 @@
     },
     "entityExtends": {
       "type": "object",
-      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition: anatomy, API, variants, states, guidelines. This entity adds or overrides on top.",
+      "description": "Declares that this entity extends a parent entity in a parent system. The parent entity supplies the core definition: anatomy, API, variants, states, guidelines. This entity adds or overrides on top.",
       "required": [
         "identifier"
       ],
@@ -575,7 +575,7 @@
     },
     "presentationCode": {
       "type": "object",
-      "description": "A source code snippet showing how to use the artifact.",
+      "description": "A source code snippet showing how to use the entity.",
       "required": [
         "kind",
         "code",
@@ -673,7 +673,7 @@
     },
     "relationships": {
       "type": "array",
-      "description": "The links this entity points at other entities. You list each one here, on this entity. The order doesn't matter, and you don't repeat it on the other entity (tools show the reverse side for you).",
+      "description": "The links this entity points at other entities. You list each one here, on this entity. The order doesn't matter, and you don't repeat it on the other entity (tools display the reverse side for you).",
       "items": {
         "$ref": "#/$defs/relationship"
       },
@@ -710,11 +710,11 @@
     "deprecationNotice": {
       "type": "string",
       "minLength": 1,
-      "description": "A non-empty notice for a deprecated artifact. MUST say what to use instead and, where one exists, give a migration path."
+      "description": "A non-empty notice for a deprecated entity. MUST say what to use instead and, where one exists, give a migration path."
     },
     "platformStatus": {
       "type": "object",
-      "description": "Readiness of an artifact on one platform: lifecycle stage, the version it landed in, and an optional deprecation notice.",
+      "description": "Readiness of an entity on one platform: lifecycle stage, the version it landed in, and an optional deprecation notice.",
       "required": [
         "status"
       ],
@@ -832,7 +832,7 @@
     },
     "useCase": {
       "type": "object",
-      "description": "One scenario where an artifact is or isn't a good fit.",
+      "description": "One scenario where an entity is or isn't a good fit.",
       "required": [
         "description",
         "stance"
@@ -840,7 +840,7 @@
       "properties": {
         "description": {
           "$ref": "#/$defs/richText",
-          "description": "The scenario. Describe the user's situation, not the artifact's features."
+          "description": "The scenario. Describe the user's situation, not the entity's features."
         },
         "stance": {
           "type": "string",
@@ -852,14 +852,14 @@
         },
         "alternative": {
           "type": "object",
-          "description": "A better-suited artifact for this scenario. Usually set on discouraged scenarios.",
+          "description": "A better-suited entity for this scenario. Usually set on discouraged scenarios.",
           "required": [
             "identifier"
           ],
           "properties": {
             "identifier": {
               "$ref": "#/$defs/entityIdentifier",
-              "description": "Identifier of the alternative artifact (ex: 'link', 'radio-group', 'empty-state')."
+              "description": "Identifier of the alternative entity (ex: 'link', 'radio-group', 'empty-state')."
             },
             "rationale": {
               "$ref": "#/$defs/richText",
@@ -873,7 +873,7 @@
     },
     "useCases": {
       "type": "object",
-      "description": "When to use an artifact and when to choose something else. Optional `purpose` sums up what it is for. `items` holds `useCase` scenarios marked 'recommended' or 'discouraged'. Answers *whether* to use the artifact. For *how*, see `guidelines`. For domain beliefs, see `principles`. For look and behavior, see variants, states, and anatomy.",
+      "description": "When to use an entity and when to choose something else. Optional `purpose` sums up what it is for. `items` holds `useCase` scenarios marked 'recommended' or 'discouraged'. Answers *whether* to use the entity. For *how*, see `guidelines`. For domain beliefs, see `principles`. For look and behavior, see variants, states, and anatomy.",
       "required": [
         "kind",
         "items"
@@ -886,7 +886,7 @@
         },
         "purpose": {
           "$ref": "#/$defs/richText",
-          "description": "One or two sentences on what the artifact is for, framing the `items` below (ex: 'Buttons trigger immediate actions within a surface.')."
+          "description": "One or two sentences on what the entity is for, framing the `items` below (ex: 'Buttons trigger immediate actions within a surface.')."
         },
         "items": {
           "type": "array",
@@ -1020,7 +1020,7 @@
       ]
     },
     "owner": {
-      "description": "Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so wwners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD show the owner wherever a reader might need to flag a problem.",
+      "description": "Who's accountable for this entity's content. A bare string names the owner. Use the object form to add contact info. A named person goes stale the moment they leave, so owners SHOULD be teams, roles, or group aliases ('Design Systems', '@acme/design-system'). Tools SHOULD display the owner wherever a reader might need to flag a problem.",
       "oneOf": [
         {
           "type": "string",
@@ -1088,7 +1088,7 @@
     },
     "governance": {
       "type": "object",
-      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
+      "description": "Who's accountable for this entity's docs, and their review state. `owner` is required. Without one, this field is useless. `lastReviewed` is optional but SHOULD be set once you have a review process. The object holds who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.'",
       "required": [
         "owner"
       ],
@@ -1135,7 +1135,7 @@
         "$ref": "#/$defs/link"
       },
       "minItems": 1,
-      "description": "Links to external resources (ex: source code, design files, docs pages, packages). Links cannot express how entities relate.  Use `relationships` array for inter-entity references."
+      "description": "Links to external resources (ex: source code, design files, docs pages, packages). Links cannot express how entities relate. Use the `relationships` array for inter-entity references."
     },
     "entityMetadata": {
       "type": "object",
@@ -1221,7 +1221,7 @@
           "properties": {
             "overall": {
               "$ref": "#/$defs/statusValue",
-              "description": "The entity's overall status. Status is an editorial call on maturity that doesn't have to match its most or least advanced platform. Tools SHOULD show this as the main status indicator."
+              "description": "The entity's overall status. Status is an editorial call on maturity that doesn't have to match its most or least advanced platform. Tools SHOULD display this as the main status indicator."
             },
             "note": {
               "$ref": "#/$defs/plainNote",
@@ -1307,7 +1307,7 @@
     },
     "ariaAttribute": {
       "type": "object",
-      "description": "An ARIA attribute used by the artifact: what it communicates and when to apply it.",
+      "description": "An ARIA attribute used by the entity: what it communicates and when to apply it.",
       "required": [
         "attribute",
         "description"
@@ -1335,7 +1335,7 @@
     },
     "colorContrastEntry": {
       "type": "object",
-      "description": "A foreground/background color pairing the artifact uses.  Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate.",
+      "description": "A foreground/background color pairing the entity uses. Verify pairing contrast ratios with a criterion (verification: automated) by computing the value from live token values. This helps ensure measurement is accurate.",
       "required": [
         "foreground",
         "background"
@@ -1358,7 +1358,7 @@
     },
     "accessibility": {
       "type": "object",
-      "description": "Specialized, structured accessibility documentation for an artifact. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the artifact does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with  a category 'accessibility' value). The two blocks complement each other on the same artifact.",
+      "description": "Specialized, structured accessibility documentation for an entity. Every field is data: keyboard interactions, ARIA attributes, per-state announcements, per-trigger focus behaviors, color pairings, and per-animation reduced-motion behaviors. Each entry states what the entity does with verification. This block carries no rules for documentation content. General documentation guidance, with rationale and a conformance level, belongs in a `guidelines` block (with a category 'accessibility' value). The two blocks complement each other on the same entity.",
       "required": [
         "kind"
       ],
@@ -1375,11 +1375,11 @@
             "AA",
             "AAA"
           ],
-          "description": "The minimum WCAG conformance level targeted by this artifact."
+          "description": "The minimum WCAG conformance level targeted by this entity."
         },
         "criteria": {
           "type": "array",
-          "description": "Testable accessibility success criteria for this artifact (ex: 'All interactive targets present a hit area of at least 44×44 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below shows how these conditions are met: keyboard interactions, ARIA attributes, contrast pairs.",
+          "description": "Testable accessibility success criteria for this entity (ex: 'All interactive targets present a hit area of at least 44×44 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below shows how these conditions are met: keyboard interactions, ARIA attributes, contrast pairs.",
           "items": {
             "$ref": "#/$defs/criterion"
           },
@@ -1387,7 +1387,7 @@
         },
         "keyboardInteractions": {
           "type": "array",
-          "description": "Keyboard interaction specs: what happens when each key or key combination is pressed while the artifact has focus.",
+          "description": "Keyboard interaction specs: what happens when each key or key combination is pressed while the entity has focus.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/keyboardInteraction"
@@ -1395,7 +1395,7 @@
         },
         "ariaAttributes": {
           "type": "array",
-          "description": "ARIA attribute docs. Lists every ARIA attribute the artifact uses, what it communicates, and when to apply it.",
+          "description": "ARIA attribute docs. Lists every ARIA attribute the entity uses, what it communicates, and when to apply it.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/ariaAttribute"
@@ -1411,7 +1411,7 @@
         },
         "focusBehaviors": {
           "type": "array",
-          "description": "Focus movement, one entry per trigger: how focus enters, moves within, and leaves the artifact. Includes trapping and restoration.",
+          "description": "Focus movement, one entry per trigger: how focus enters, moves within, and leaves the entity. Includes trapping and restoration.",
           "items": {
             "$ref": "#/$defs/focusBehavior"
           },
@@ -1419,7 +1419,7 @@
         },
         "colorContrast": {
           "type": "array",
-          "description": "The foreground/background color pairings this artifact uses, one entry per pairing. Pairs are declarations of intent. Measure them with an automated contrast criterion, not by hand.",
+          "description": "The foreground/background color pairings this entity uses, one entry per pairing. Pairs are declarations of intent. Measure them with an automated contrast criterion, not by hand.",
           "minItems": 1,
           "items": {
             "$ref": "#/$defs/colorContrastEntry"
@@ -1506,7 +1506,7 @@
     },
     "focusBehavior": {
       "type": "object",
-      "description": "How focus moves at one moment in the artifact's lifecycle.",
+      "description": "How focus moves at one moment in the entity's lifecycle.",
       "required": [
         "trigger",
         "behavior"
@@ -1597,7 +1597,7 @@
         },
         "description": {
           "$ref": "#/$defs/richText",
-          "description": "Provides an overview of the artifact's visual structure: how the parts relate and any notable structural constraints."
+          "description": "Provides an overview of the entity's visual structure: how the parts relate and any notable structural constraints."
         },
         "parts": {
           "type": "array",
@@ -1605,7 +1605,7 @@
             "$ref": "#/$defs/anatomyEntry"
           },
           "minItems": 1,
-          "description": "The named sub-elements of the artifact, in visual order (typically outside-in or top-to-bottom). Each part documents an element that can be styled, tested, or referenced independently."
+          "description": "The named sub-elements of the entity, in visual order (typically outside-in or top-to-bottom). Each part documents an element that can be styled, tested, or referenced independently."
         },
         "examples": {
           "type": "array",
@@ -2188,7 +2188,7 @@
     },
     "checklist": {
       "type": "object",
-      "description": "A checklist for an artifact. Acts as the concrete steps an agent or person works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity type, and just as at home in `agentDocumentBlocks`.",
+      "description": "A checklist for an entity. Acts as the concrete steps an agent or person works through when building, reviewing, or integrating it. Turns rules into an actual pass, like 'accessibility review' or 'before you ship'. A general block kind, accepted on every entity kind, and just as at home in `agentDocumentBlocks`.",
       "required": [
         "kind",
         "items"
@@ -2206,7 +2206,7 @@
         "ordered": {
           "type": "boolean",
           "default": false,
-          "description": "Whether items must be done in order. Defaults to false (items can be checked off in any order). Set true when each item depends on the last. Tools SHOULD show unordered checklists as checkboxes and ordered ones as a numbered list."
+          "description": "Whether items must be done in order. Defaults to false (items can be checked off in any order). Set true when each item depends on the last. Tools SHOULD display unordered checklists as checkboxes and ordered ones as a numbered list."
         },
         "items": {
           "type": "array",
@@ -2294,7 +2294,7 @@
     },
     "content": {
       "type": "object",
-      "description": "A label dictionary and localization notes for an artifact or the whole system. Each entry is a fact. General content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule). A content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
+      "description": "A label dictionary and localization notes for an entity or the whole system. Each entry is a fact. General content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule). A content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
       "required": [
         "kind"
       ],
@@ -2566,7 +2566,7 @@
       "additionalProperties": false
     },
     "generalBranches": {
-      "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
+      "description": "The `if`/`then` rules for the general block kinds, shared by every entity kind's union via `allOf`. It doesn't define its own `kind` enum. The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
       "allOf": [
         {
           "if": {
@@ -2661,7 +2661,7 @@
       ]
     },
     "generalDocumentBlock": {
-      "description": "The block kinds every artifact type accepts (general concerns like free-form documentation content and the agent-facing checklist).",
+      "description": "The block kinds every entity kind accepts (general concerns like free-form documentation content and the agent-facing checklist).",
       "type": "object",
       "required": [
         "kind"
@@ -3093,7 +3093,7 @@
         },
         "target": {
           "type": "string",
-          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole artifact."
+          "description": "The part this rule applies to (ex: 'label', 'icon'). Left out, it applies to the whole entity."
         },
         "refines": {
           "type": "string",
@@ -3110,7 +3110,7 @@
         },
         "references": {
           "type": "array",
-          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines). Contains a URL and an optional label.",
+          "description": "Outside standards this rule follows (ex: WCAG, MDN, platform guidelines). Holds a URL and an optional label.",
           "items": {
             "$ref": "#/$defs/reference"
           },
@@ -3137,7 +3137,7 @@
     },
     "guidelines": {
       "type": "object",
-      "description": "Usage rules for an artifact (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
+      "description": "Usage rules for an entity (each a do/don't statement with a reason). Answers *how* to use it correctly. For *whether* to use it, see `use-cases`. For the opinion behind the rules (on foundations), see `principles`. Accessibility and content rules go here too (categories 'accessibility'/'content'). The `accessibility` and `content` blocks are for structured reference data, not rules.",
       "required": [
         "kind",
         "items"
@@ -3442,7 +3442,7 @@
         },
         "description": {
           "$ref": "#/$defs/richText",
-          "description": "What the principle means in practice. It shuldn't be a restatement of the title. Answer: what does this look like day to day, and how would you use it to settle a disagreement?"
+          "description": "What the principle means in practice. It shouldn't be a restatement of the title. Answer: what does this look like day to day, and how would you use it to settle a disagreement?"
         }
       },
       "additionalProperties": false
@@ -3751,7 +3751,7 @@
         "ordered": {
           "type": "boolean",
           "default": true,
-          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD show ordered steps as a numbered list, unordered ones as a checklist."
+          "description": "Whether the steps must be done in order. Defaults to true. Set false for independent steps. Tools SHOULD display ordered steps as a numbered list, unordered ones as a checklist."
         },
         "items": {
           "type": "array",
@@ -4416,7 +4416,7 @@
     },
     "theme": {
       "type": "object",
-      "description": "A named context that adapts the system's token values: a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS captures the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
+      "description": "A named context that adapts the system's token values: a color mode (light, dark, high-contrast), a density (compact, comfortable), a brand variant, or a product-specific tweak. DSDS documents the theme's purpose, docs, accessibility notes, and which tokens it affects. The override values live in the DTCG file `source`.",
       "required": [
         "kind",
         "identifier",
