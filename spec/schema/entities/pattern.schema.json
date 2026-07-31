@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/pattern.schema.json",
   "title": "Pattern definitions",
-  "description": "A pattern is a repeated answer to a common UX problem (navigation, error messaging, form validation, empty states, loading, onboarding). A pattern document holds the identity of a multi-component solution, its metadata, and its docs.",
+  "description": "A pattern is a repeated answer to a common UX problem: navigation, error messaging, form validation, empty states, loading, onboarding. A pattern document holds the identity of a multi-component solution, its metadata, and its docs.",
   "$defs": {
     "pattern": {
       "type": "object",
@@ -41,7 +41,7 @@
         },
         "documentBlocks": {
           "type": "array",
-          "description": "All structured docs for this pattern, in order. Accepts `interactions`, the shared structural kinds (anatomy, variants, states), and every general kind. Order matters (`interactions` uses it to show the flow over time, and tools SHOULD keep it). Declare the components a pattern uses as `composes` entries in `relationships` (with `role` describing what each does).",
+          "description": "All structured docs for this pattern, in order. Accepts `interactions`, the shared structural kinds: anatomy, variants, states, and every general kind. Order matters (`interactions` uses it to show the flow over time, and tools SHOULD keep it). Declare the components a pattern uses as `composes` entries in `relationships` (with `role` describing what each does).",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/patternDocumentBlock"
           },

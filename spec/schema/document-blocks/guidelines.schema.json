@@ -30,7 +30,7 @@
           "description": "How strict the rule is: 'must' (breaking it is a defect), 'should' (follow it unless you have a good reason not to), 'should-not', or 'must-not'. Agents treat must/must-not as non-negotiable when writing or reviewing code."
         },
         "evidence": {
-          "description": "Data backing this rule (test results, audit findings, or cited sources). Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.",
+          "description": "Data backing this rule: test results, audit findings, or cited sources. Kept separate from `rationale` so tools can tell tested rules from convention. Use a plain string for a quick note, or the structured form so tools can read the finding and tell when it was gathered.",
           "oneOf": [
             {
               "type": "string",

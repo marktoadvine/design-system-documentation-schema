@@ -15,7 +15,7 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "Extra detail (how to do it, what to watch for, or why it matters). Keep the instruction itself in `label`."
+          "description": "Extra detail: how to do it, what to watch for, or why it matters. Keep the instruction itself in `label`."
         },
         "level": {
           "$ref": "../common/criterion.schema.json#/$defs/conformanceLevel",

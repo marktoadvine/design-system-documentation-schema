@@ -101,7 +101,7 @@
         },
         "criteria": {
           "type": "array",
-          "description": "Testable accessibility success criteria for this artifact (ex: 'All interactive targets present a hit area of at least 44\u00d744 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below (keyboard interactions, ARIA attributes, contrast pairs) shows how these conditions are met.",
+          "description": "Testable accessibility success criteria for this artifact (ex: 'All interactive targets present a hit area of at least 44\u00d744 px'). Each criterion pairs a stable identifier with an objectively verifiable statement. This lets accessibility checks run against the docs and report pass/fail. The structured data below shows how these conditions are met: keyboard interactions, ARIA attributes, contrast pairs.",
           "items": {
             "$ref": "../common/criterion.schema.json#/$defs/criterion"
           },

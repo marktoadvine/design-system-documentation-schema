@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/metadata/metadata.schema.json",
   "title": "Entity metadata",
-  "description": "The metadata object every entity type accepts. Each field has its own schema file in this directory (status, since, last-updated, category, tags, aliases, summary, preview, links, governance, doc-origin). `extends` points at the shared entityExtends definition. Every field is optional, and each can appear only once. Simple fields are either a value or array ('since': '1.0.0', 'tags': [...]). status, lastUpdated, and docOrigin take a short string for the common case or an object for more detail.",
+  "description": "The metadata object every entity type accepts. Each field has its own schema file in this directory: status, since, last-updated, category, tags, aliases, summary, preview, links, governance, doc-origin. `extends` points at the shared entityExtends definition. Every field is optional, and each can appear only once. Simple fields are either a value or array ('since': '1.0.0', 'tags': [...]). status, lastUpdated, and docOrigin take a short string for the common case or an object for more detail.",
   "$defs": {
     "entityMetadata": {
       "type": "object",

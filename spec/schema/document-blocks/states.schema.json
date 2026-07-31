@@ -45,7 +45,7 @@
     },
     "states": {
       "type": "object",
-      "description": "Every interactive state of a component or pattern. List them in a sensible order (usually default, hover, focus, active, then disabled, loading, and other special states).",
+      "description": "Every interactive state of a component or pattern. List them in a sensible order: usually default, hover, focus, active, then disabled, loading, and other special states.",
       "required": [
         "kind",
         "items"

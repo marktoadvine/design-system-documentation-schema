@@ -21,7 +21,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Illustrative material for the step (a code snippet, a terminal command, a screenshot, or a live URL). Most procedural steps carry a single code example.",
+          "description": "Illustrative material for the step: a code snippet, a terminal command, a screenshot, or a live URL. Most procedural steps carry a single code example.",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },

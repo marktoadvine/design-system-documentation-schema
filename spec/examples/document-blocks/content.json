@@ -102,7 +102,7 @@
     },
     {
       "concern": "pluralization",
-      "description": "Do not assume two plural forms (singular and plural). Some languages have up to six plural forms (ex: Arabic). Use ICU MessageFormat or equivalent pluralization libraries that support CLDR plural rules. Never use conditional logic like `count === 1 ? 'item' : 'items'`."
+      "description": "Do not assume two plural forms (singular and plural). Some languages have up to six plural forms (ex: Arabic). Use ICU MessageFormat or equivalent pluralization libraries that support CLDR plural rules. Never use conditional logic like `count === 1 ? 'item': 'items'`."
     }
   ],
   "content": {

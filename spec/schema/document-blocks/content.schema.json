@@ -6,7 +6,7 @@
   "$defs": {
     "contentLabelEntry": {
       "type": "object",
-      "description": "One standard label in the dictionary (the label text, what it means, when to use it, and related terms).",
+      "description": "One standard label in the dictionary: the label text, what it means, when to use it, and related terms.",
       "required": [
         "term",
         "definition"

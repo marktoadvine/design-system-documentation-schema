@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/component.schema.json",
   "title": "Component definitions",
-  "description": "A component document: the identity of a reusable UI element, plus its metadata (see metadata/metadata.schema.json) and its docs. `documentBlocks` accepts the component-specific kinds (imports, anatomy, api, variants, states, design-specifications) plus every general kind (guidelines, use-cases, accessibility, content, sections, checklist).",
+  "description": "A component document: the identity of a reusable UI element, plus its metadata (see metadata/metadata.schema.json) and its docs. `documentBlocks` accepts the component-specific kinds: imports, anatomy, api, variants, states, design-specifications plus every general kind (guidelines, use-cases, accessibility, content, sections, checklist).",
   "$defs": {
     "component": {
       "type": "object",
@@ -41,7 +41,7 @@
         },
         "documentBlocks": {
           "type": "array",
-          "description": "All structured docs for this component, in order. Accepts the component-specific kinds (imports, anatomy, api, variants, states, design-specifications) plus every general kind. Each entry's `kind` sets its shape. Tools SHOULD keep this order for display.",
+          "description": "All structured docs for this component, in order. Accepts the component-specific kinds: imports, anatomy, api, variants, states, design-specifications plus every general kind. Each entry's `kind` sets its shape. Tools SHOULD keep this order for display.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/componentDocumentBlock"
           },

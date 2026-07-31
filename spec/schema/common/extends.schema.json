@@ -31,7 +31,7 @@
     },
     "entityExtends": {
       "type": "object",
-      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines). This entity adds or overrides on top.",
+      "description": "Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition: anatomy, API, variants, states, guidelines. This entity adds or overrides on top.",
       "required": ["identifier"],
       "properties": {
         "identifier": {

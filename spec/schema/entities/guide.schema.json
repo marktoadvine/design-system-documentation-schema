@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/entities/guide.schema.json",
   "title": "Guide definitions",
-  "description": "A guide is long-form guidance not tied to one component, token, foundation, or pattern (a getting-started walkthrough, contribution guide, tutorial, overview, or migration guide). It holds identity and metadata. The `category` field says what kind of guide it is. Its docs are sections, procedures (steps), guidelines, and use-cases.",
+  "description": "A guide is long-form guidance not tied to one component, token, foundation, or pattern: a getting-started walkthrough, contribution guide, tutorial, overview, or migration guide. It holds identity and metadata. The `category` field says what kind of guide it is. Its docs are sections, procedures (steps), guidelines, and use-cases.",
   "$defs": {
     "guide": {
       "type": "object",
-      "description": "A long-form document meant to be read (a getting-started walkthrough, a contribution guide, a tutorial, an overview, or a migration guide). A guide fills the gap for a journey or a concept instead. Its identity is `identifier`, `name`, and `description`. Use `category` (ex: 'getting-started', 'tutorial', 'migration') to classify it, and `tags` for discovery. Its docs cover sections, steps, guidelines, use-cases, imports, accessibility, and content.",
+      "description": "A long-form document meant to be read: a getting-started walkthrough, a contribution guide, a tutorial, an overview, or a migration guide. A guide fills the gap for a journey or a concept instead. Its identity is `identifier`, `name`, and `description`. Use `category` (ex: 'getting-started', 'tutorial', 'migration') to classify it, and `tags` for discovery. Its docs cover sections, steps, guidelines, use-cases, imports, accessibility, and content.",
       "required": [
         "kind",
         "identifier",

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/motion.schema.json",
   "title": "Motion document block",
-  "description": "The motion system for a foundation. (named easing curves, how long to run them, and when to use each). Each item is one easing, with its curve, a recommended duration, and usage notes. Intended to be enough for tools to generate CSS transitions or preview the curve.",
+  "description": "The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes. Intended to be enough for tools to generate CSS transitions or preview the curve.",
   "$defs": {
     "motionDuration": {
       "type": "object",
@@ -42,7 +42,7 @@
     },
     "motionEntry": {
       "type": "object",
-      "description": "One named easing curve (its timing function, recommended usage, and duration). `function` is a four-number array [P1x, P1y, P2x, P2y] to follow the W3C Design Tokens cubicBezier type.",
+      "description": "One named easing curve: its timing function, recommended usage, and duration. `function` is a four-number array [P1x, P1y, P2x, P2y] to follow the W3C Design Tokens cubicBezier type.",
       "required": [
         "identifier",
         "description"

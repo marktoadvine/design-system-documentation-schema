@@ -218,7 +218,7 @@
     },
     "variants": {
       "type": "object",
-      "description": "Every way a component or pattern can be configured (a toggle or a set of options). Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'). A condition entered at runtime (hover, disabled, loading) is a state. Document that in `states` instead.",
+      "description": "Every way a component or pattern can be configured (a toggle or a set of options). Multiple items combine independently. A variant is a choice the consumer makes up front (ex: 'size', 'full-width'). A condition entered at runtime: hover, disabled, loading is a state. Document that in `states` instead.",
       "required": [
         "kind",
         "items"

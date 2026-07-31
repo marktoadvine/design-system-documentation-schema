@@ -102,7 +102,7 @@
         },
         "children": {
           "type": "array",
-          "description": "The tokens and/or nested groups inside this group, in order. Order often shows a real progression (lightest to darkest, smallest to largest), so tools SHOULD keep it. Children inherit `tokenType` and status from this group when they skip their own.",
+          "description": "The tokens and/or nested groups inside this group, in order. Order often shows a real progression: lightest to darkest, smallest to largest, so tools SHOULD keep it. Children inherit `tokenType` and status from this group when they skip their own.",
           "items": {
             "oneOf": [
               {

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/scale.schema.json",
   "title": "Scale document block",
-  "description": "An ordered progression of values (a type scale, spacing scale, elevation scale, or similar). Each step links to a token, or (when none exists) carries a literal value, plus an optional name and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.",
+  "description": "An ordered progression of values: a type scale, spacing scale, elevation scale, or similar. Each step links to a token, or (when none exists) carries a literal value, plus an optional name and usage notes. A scale is the limited set designers and engineers choose from, instead of picking arbitrary values.",
   "$defs": {
     "scaleStep": {
       "type": "object",

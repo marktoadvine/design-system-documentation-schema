@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/design-specifications.schema.json",
   "title": "Design specifications document block",
-  "description": "The visual specs of a component (property values, spacing, size limits, typography, and how it responds to breakpoints). Makes every visual decision explicit and measurable, so design and code stay in sync.",
+  "description": "The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync.",
   "$defs": {
     "designValue": {
       "description": "A design value. Either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces (ex: '{color.action.primary}', '{space.4}') which marks it as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). System with a token layer should use alias references, instead of raw values that copy tokens. Writing a bare token name without braces is ambiguous and SHOULD be avoided. Wrap it or it reads as a literal.",
@@ -160,7 +160,7 @@
     },
     "designSpecifications": {
       "type": "object",
-      "description": "The component's default, baseline specs (properties, spacing, size, typography, and responsive behavior). Per-variant and per-state overrides don't go here. They live on the `variants` and `states` blocks.",
+      "description": "The component's default, baseline specs: properties, spacing, size, typography, and responsive behavior. Per-variant and per-state overrides don't go here. They live on the `variants` and `states` blocks.",
       "required": [
         "kind"
       ],

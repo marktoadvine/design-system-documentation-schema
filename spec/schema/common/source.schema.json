@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/common/source.schema.json",
   "title": "Source definitions",
-  "description": "A pointer to the external machine-readable file that owns information that DSDS only documents around (a DTCG token file, a Custom Elements Manifest, or an equivalent). Shared by `token`/`tokenGroup`/`theme` `source` and `api` block members. DSDS never copies the fact itself. It copies the pointer, so the fact cannot fork between the two files.",
+  "description": "A pointer to the external machine-readable file that owns information that DSDS only documents around: a DTCG token file, a Custom Elements Manifest, or an equivalent. Shared by `token`/`tokenGroup`/`theme` `source` and `api` block members. DSDS never copies the fact itself. It copies the pointer, so the fact cannot fork between the two files.",
   "$defs": {
     "source": {
       "type": "object",
