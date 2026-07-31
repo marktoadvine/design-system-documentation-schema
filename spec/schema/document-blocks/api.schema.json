@@ -6,7 +6,7 @@
   "$defs": {
     "apiProperty": {
       "type": "object",
-      "description": "A configurable property of a component. When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them — see `source`.",
+      "description": "A configurable property of a component. When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them. See `source`.",
       "required": [
         "identifier",
         "description"
@@ -38,7 +38,7 @@
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this property's structural facts. `path` locates the member within it (ex: 'MyElement.disabled'). When set, this document is NOT the source of truth for `type`/`values`/`schema`/`defaultValue`/`deprecated` — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. Only the human-authored fields (`description`, `required`, `examples`, ...) stay in this document."
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this property's structural facts. `path` locates the member within it (ex: 'MyElement.disabled'). When set, this document is NOT the source of truth for `type`/`values`/`schema`/`defaultValue`/`deprecated`. Those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. Only the human-authored fields (`description`, `required`, `examples`, ...) stay in this document."
         },
         "required": {
           "type": "boolean",
@@ -235,7 +235,7 @@
     },
     "apiCssCustomProperty": {
       "type": "object",
-      "description": "A CSS custom property exposed by a component for external styling. When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them — see `source`.",
+      "description": "A CSS custom property exposed by a component for external styling. When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them. See `source`.",
       "required": [
         "identifier",
         "description"
@@ -252,7 +252,7 @@
         },
         "defaultValue": {
           "type": "string",
-          "description": "The default value (ex: 'var(--color-action-primary)', '1rem', 'transparent'). MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "The default value (ex: 'var(--color-action-primary)', '1rem', 'transparent'). MUST be omitted when `source` is set. Read from the manifest instead."
         },
         "type": {
           "type": "string",
@@ -381,7 +381,7 @@
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this method's `parameters`/`returnType`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this method's `parameters`/`returnType`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields. They MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
         },
         "since": {
           "type": "string",

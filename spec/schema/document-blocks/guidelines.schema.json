@@ -15,7 +15,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead."
+          "description": "Optional name for this rule, unique within the entity (ex: 'one-primary-action', 'icon-only-needs-label'). MUST be lowercase kebab-case. Lets a test report, a linter, or an agent block cite the exact rule. Once published, an identifier MUST NOT be reused for a different rule. Retire it and make a new one instead."
         },
         "guidance": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -38,7 +38,7 @@
             },
             {
               "type": "object",
-              "description": "Structured backing. `result` is the finding and `date` is when it was gathered — both required so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.",
+              "description": "Structured backing. `result` is the finding and `date` is when it was gathered. Both are required, so a rule can't rest on undated data. `method`, `sampleSize`, and `source` add detail.",
               "required": [
                 "result",
                 "date"
@@ -64,7 +64,7 @@
                 },
                 "source": {
                   "type": "string",
-                  "description": "Where to find the full evidence — a URL, issue reference, or report name."
+                  "description": "Where to find the full evidence: a URL, issue reference, or report name."
                 }
               },
               "additionalProperties": false

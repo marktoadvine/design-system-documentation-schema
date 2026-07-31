@@ -69,7 +69,7 @@
     },
     "tokenGroup": {
       "type": "object",
-      "description": "A group of related tokens. Examples include a full collection, a family (all color tokens), a sub-family (one hue with its scale), or any other grouping. Groups nest to form a hierarchy: a top-level 'color' group might hold 'color-text', 'color-background', and 'color-border', each with its own tokens. `name` is optional \u2014 left out, the `identifier` is the label. Description and status are also optional. A child that skips its own status inherits the group's.",
+      "description": "A group of related tokens. Examples include a full collection, a family (all color tokens), a sub-family (one hue with its scale), or any other grouping. Groups nest to form a hierarchy: a top-level 'color' group might hold 'color-text', 'color-background', and 'color-border', each with its own tokens. `name` is optional. Left out, the `identifier` is the label. Description and status are also optional. A child that skips its own status inherits the group's.",
       "required": [
         "kind",
         "identifier"
@@ -86,7 +86,7 @@
         },
         "name": {
           "type": "string",
-          "description": "Optional display name (ex: 'Primary Text'). Left out, the `identifier` is the label \u2014 the same rule every entity follows."
+          "description": "Optional display name (ex: 'Primary Text'). Left out, the `identifier` is the label. The same rule every entity follows."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

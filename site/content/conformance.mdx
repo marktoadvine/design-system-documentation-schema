@@ -82,15 +82,15 @@ Every requirement falls into one of three tiers, or is advisory:
 
 #### common/criterion
 
-- **MUST:** A `check` MUST be present. <small>`common/criterion§verificationMode.1`</small>
+- **MUST:** How a result for this criterion is determined: 'automated' (a fully objective test checked programmatically, `check` MUST be present), 'assisted' (a tool surfaces candidates but the decision stays subjective, `check` diagnostics are advisory), or 'manual' (pure subjective judgment, no `check` applies). <small>`common/criterion§verificationMode.1`</small>
 - **MUST NOT:** When omitted, tools MUST NOT assume the criterion is automatable. <small>`common/criterion§verificationMode.2`</small>
 - **MUST:** Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. <small>`common/criterion§criterionCheck.1`</small>
 - **MUST:** MUST be lowercase. <small>`common/criterion§criterionCheck.scheme.1`</small>
-- **SHOULD:** Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced — a 'fail' test case that passes means the check no longer detects what it claims to. <small>`common/criterion§criterionTestCase.1`</small>
+- **SHOULD:** Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced. <small>`common/criterion§criterionTestCase.1`</small>
 - **MAY:** When omitted, tools MAY build a label from the URL. <small>`common/criterion§reference.label.1`</small>
 - **MUST:** MUST be lowercase kebab-case. <small>`common/criterion§criterion.identifier.1`</small>
 - **SHOULD NOT:** Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. <small>`common/criterion§criterion.identifier.2`</small>
-- **MUST NOT:** Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead. <small>`common/criterion§criterion.identifier.3`</small>
+- **MUST NOT:** Once published, an identifier MUST NOT be reused for a different requirement. <small>`common/criterion§criterion.identifier.3`</small>
 - **SHOULD:** Tools SHOULD render it in docs and test reports beside the identifier. <small>`common/criterion§criterion.title.1`</small>
 - **MUST:** MUST be objectively verifiable by inspection, static analysis, or runtime measurement. <small>`common/criterion§criterion.statement.1`</small>
 - **SHOULD:** A criterion referenced by a guideline SHOULD inherit the guideline's `level` when omitted. <small>`common/criterion§criterion.level.1`</small>
@@ -177,34 +177,34 @@ Every requirement falls into one of three tiers, or is advisory:
 #### document-blocks/api
 
 - **MUST:** Those properties MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest instead. <small>`document-blocks/api§(root).1`</small>
-- **MUST NOT:** When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them — see `source`. <small>`document-blocks/api§apiProperty.1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `type`/`values`/`schema`/`defaultValue`/`deprecated` and this document MUST NOT restate them. <small>`document-blocks/api§apiProperty.1`</small>
 - **MUST NOT:** `type` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.type.1`</small>
 - **MUST:** When a manifest is referenced, `type` MUST be omitted here and read from the manifest instead. <small>`document-blocks/api§apiProperty.type.2`</small>
 - **MUST NOT:** `values` is its display summary and MUST NOT disagree with it. <small>`document-blocks/api§apiProperty.values.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiProperty.values.2`</small>
 - **MUST NOT:** `type` and `values` are display summaries of it and MUST NOT disagree. <small>`document-blocks/api§apiProperty.schema.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiProperty.schema.2`</small>
-- **MUST:** When set, this document is NOT the source of truth for `type`/`values`/`schema`/`defaultValue`/`deprecated` — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiProperty.source.1`</small>
+- **MUST:** Those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiProperty.source.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiProperty.defaultValue.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiProperty.deprecated.1`</small>
 - **MUST:** MUST give the migration path in prose. <small>`document-blocks/api§apiProperty.deprecationNotice.1`</small>
 - **MUST NOT:** When `source` is set, a manifest owns `payload` and this document MUST NOT restate it (see `source)`. <small>`document-blocks/api§apiEvent.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiEvent.payload.1`</small>
 - **MUST:** It MUST be omitted here, and a tool generating or rendering documentation MUST extract it from the manifest at `path` instead. <small>`document-blocks/api§apiEvent.source.1`</small>
-- **MUST NOT:** When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them — see `source`. <small>`document-blocks/api§apiCssCustomProperty.1`</small>
-- **MUST:** MUST be omitted when `source` is set — read from the manifest instead. <small>`document-blocks/api§apiCssCustomProperty.defaultValue.1`</small>
+- **MUST NOT:** When `source` is set, a manifest owns `defaultValue`/`type` and this document MUST NOT restate them. <small>`document-blocks/api§apiCssCustomProperty.1`</small>
+- **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiCssCustomProperty.defaultValue.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiCssCustomProperty.type.1`</small>
 - **MUST:** They MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiCssCustomProperty.source.1`</small>
 - **MUST NOT:** When `source` is set, a manifest owns `parameters`/`returnType` and this document MUST NOT restate them (see `source`). <small>`document-blocks/api§apiMethod.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiMethod.parameters.1`</small>
 - **MUST:** MUST be omitted when `source` is set. <small>`document-blocks/api§apiMethod.returnType.1`</small>
-- **MUST:** When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiMethod.source.1`</small>
+- **MUST:** They MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead. <small>`document-blocks/api§apiMethod.source.1`</small>
 - **SHOULD:** When the system declares `systemInfo.platforms`, this SHOULD match one of those identifiers. <small>`document-blocks/api§api.platform.1`</small>
 
 #### document-blocks/checklist
 
 - **MUST:** MUST be specific. <small>`document-blocks/checklist§checklistItem.label.1`</small>
-- **MUST:** MUST name a criterion (by its `identifier`) defined on the same entity — in one of this entity's guideline or accessibility blocks. <small>`document-blocks/checklist§checklistItem.criterion.1`</small>
+- **MUST:** MUST name a criterion (by its `identifier`) defined on the same entity, in one of its guideline or accessibility blocks. <small>`document-blocks/checklist§checklistItem.criterion.1`</small>
 - **MUST:** MUST be lowercase kebab-case. <small>`document-blocks/checklist§checklistItem.criterion.2`</small>
 - **MUST:** MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small>`document-blocks/checklist§checklistItem.refines.1`</small>
 - **MAY:** Tools MAY mark optional items differently. <small>`document-blocks/checklist§checklistItem.optional.1`</small>
@@ -231,7 +231,7 @@ Every requirement falls into one of three tiers, or is advisory:
 #### document-blocks/guidelines
 
 - **MUST:** MUST be lowercase kebab-case. <small>`document-blocks/guidelines§guidelineEntry.identifier.1`</small>
-- **MUST NOT:** Once published, an identifier MUST NOT be reused for a different rule — retire it and make a new one instead. <small>`document-blocks/guidelines§guidelineEntry.identifier.2`</small>
+- **MUST NOT:** Once published, an identifier MUST NOT be reused for a different rule. <small>`document-blocks/guidelines§guidelineEntry.identifier.2`</small>
 - **MUST:** MUST be concrete and clear (not 'use sparingly' or 'when possible'). <small>`document-blocks/guidelines§guidelineEntry.guidance.1`</small>
 - **MUST NOT:** MUST NOT just repeat the guidance. <small>`document-blocks/guidelines§guidelineEntry.rationale.1`</small>
 - **MUST:** MUST be lowercase kebab-case and match a guideline identifier on the same entity. <small>`document-blocks/guidelines§guidelineEntry.refines.1`</small>
@@ -252,11 +252,11 @@ Every requirement falls into one of three tiers, or is advisory:
 #### document-blocks/motion
 
 - **MUST:** P1x and P2x MUST be between 0 and 1. <small>`document-blocks/motion§motionEntry.function.1`</small>
-- **MUST:** MUST be omitted when `token` is set — the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it. <small>`document-blocks/motion§motionEntry.function.2`</small>
+- **MUST:** MUST be omitted when `token` is set. <small>`document-blocks/motion§motionEntry.function.2`</small>
 - **MUST:** MUST be in [0, 1]. <small>`document-blocks/motion§motionEntry.function[prefixItems][0].1`</small>
 - **MUST:** MUST be in [0, 1]. <small>`document-blocks/motion§motionEntry.function[prefixItems][2].1`</small>
 - **MUST:** MUST match a token defined elsewhere in the system. <small>`document-blocks/motion§motionEntry.token.1`</small>
-- **MUST:** When set, `function` MUST be omitted — the token's DTCG file is the source of truth for the curve. <small>`document-blocks/motion§motionEntry.token.2`</small>
+- **MUST:** When set, `function` MUST be omitted. <small>`document-blocks/motion§motionEntry.token.2`</small>
 - **SHOULD:** Tools SHOULD keep this order. <small>`document-blocks/motion§motion.1`</small>
 - **SHOULD:** Tools SHOULD keep this order for display. <small>`document-blocks/motion§motion.items.1`</small>
 
@@ -268,7 +268,7 @@ Every requirement falls into one of three tiers, or is advisory:
 #### document-blocks/scale
 
 - **MUST:** MUST match a token defined elsewhere in the system. <small>`document-blocks/scale§scaleStep.token.1`</small>
-- **MUST:** MUST be omitted when `token` is set — the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it. <small>`document-blocks/scale§scaleStep.value.1`</small>
+- **MUST:** MUST be omitted when `token` is set. <small>`document-blocks/scale§scaleStep.value.1`</small>
 - **SHOULD:** Tools SHOULD keep this order. <small>`document-blocks/scale§scale.1`</small>
 - **SHOULD:** Tools SHOULD keep this order. <small>`document-blocks/scale§scale.steps.1`</small>
 - **SHOULD:** When adjusting a value, consumers SHOULD move to the adjacent step. <small>`document-blocks/scale§scale.steps.2`</small>
@@ -303,7 +303,7 @@ Every requirement falls into one of three tiers, or is advisory:
 
 #### dsds
 
-- **MUST:** MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`dsds§fileRef.$ref.1`</small>
+- **MUST:** MUST be relative: no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`dsds§fileRef.$ref.1`</small>
 - **MUST:** Resolvers MUST catch cycles, MUST treat a broken file, pointer, or shape mismatch as a fatal error, and MUST only fetch remote files from an allow-list (see the spec's security rules). <small>`dsds§fileRef.$ref.2`</small>
 - **MUST:** A group MUST hold at least one entity. <small>`dsds§entityGroup.1`</small>
 - **MUST:** MUST be lowercase kebab-case and unique among the groups. <small>`dsds§entityGroup.identifier.1`</small>
@@ -314,7 +314,7 @@ Every requirement falls into one of three tiers, or is advisory:
 #### entities/chunk
 
 - **MUST:** MUST be lowercase kebab-case and unique across the whole document, because references resolve to it document-wide. <small>`entities/chunk§chunk.identifier.1`</small>
-- **MUST:** MUST be relative — no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`entities/chunk§chunk.code[oneOf][1].src.1`</small>
+- **MUST:** MUST be relative: no absolute paths, protocol-relative paths, or scheme URIs (http:, file:, …). <small>`entities/chunk§chunk.code[oneOf][1].src.1`</small>
 - **SHOULD:** Resolvers SHOULD only fetch from an allow-list, the same rule a `$ref` fileRef follows. <small>`entities/chunk§chunk.code[oneOf][1].src.2`</small>
 - **MUST NOT:** Tools MUST NOT show these blocks to humans. <small>`entities/chunk§chunk.agentDocumentBlocks.1`</small>
 - **SHOULD:** Agents SHOULD read both arrays, human docs first. <small>`entities/chunk§chunk.agentDocumentBlocks.2`</small>
@@ -393,7 +393,7 @@ Every requirement falls into one of three tiers, or is advisory:
 
 #### metadata/last-updated
 
-- **SHOULD:** This date is also the entity's version handle: documentation can change without the design system's version moving, so tools SHOULD treat `lastUpdated` as the cache key for an entity's docs — pin to it and re-fetch when it advances. <small>`metadata/last-updated§lastUpdated.1`</small>
+- **SHOULD:** This date is also the entity's version handle: documentation can change without the design system's version moving, so tools SHOULD treat `lastUpdated` as the cache key for an entity's docs. <small>`metadata/last-updated§lastUpdated.1`</small>
 - **MUST NOT:** MUST NOT contain markup. <small>`metadata/last-updated§lastUpdated[oneOf][1].note.1`</small>
 
 #### metadata/status

@@ -59,7 +59,7 @@
             },
             "note": {
               "$ref": "../common/dated-note.schema.json#/$defs/plainNote",
-              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1 — prop table still accurate', 'Guidelines section needs a rewrite — tracked in DS-412'). MUST NOT contain markup."
+              "description": "Plain-text note on the review outcome (ex: 'Verified against v3.1, prop table still accurate', 'Guidelines section needs a rewrite, tracked in DS-412'). MUST NOT contain markup."
             },
             "reviewedAgainst": {
               "type": "string",

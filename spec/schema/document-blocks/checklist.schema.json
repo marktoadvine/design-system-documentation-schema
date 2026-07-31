@@ -24,7 +24,7 @@
         "criterion": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Optional link to a testable criterion that proves this item passes. MUST name a criterion (by its `identifier`) defined on the same entity — in one of this entity's guideline or accessibility blocks. MUST be lowercase kebab-case."
+          "description": "Optional link to a testable criterion that proves this item passes. MUST name a criterion (by its `identifier`) defined on the same entity, in one of its guideline or accessibility blocks. MUST be lowercase kebab-case."
         },
         "refines": {
           "type": "string",

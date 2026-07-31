@@ -41,7 +41,7 @@
     },
     "presentationVideo": {
       "type": "object",
-      "description": "A video — screen recording, animated transition, or interaction walkthrough.",
+      "description": "A video (ex: a screen recording, animated transition, or interaction walkthrough).",
       "required": [
         "kind",
         "url",

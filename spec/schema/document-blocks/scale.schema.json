@@ -6,7 +6,7 @@
   "$defs": {
     "scaleStep": {
       "type": "object",
-      "description": "One step in the scale. Maps to a `token` (if it's token-backed) or a literal `value` (if not) — never both. At least one is required. Use a value-only step when a token does not exist.",
+      "description": "One step in the scale. Maps to a `token` (if it's token-backed) or a literal `value` (if not). Never both. At least one is required. Use a value-only step when a token does not exist.",
       "anyOf": [
         {
           "required": [
@@ -42,7 +42,7 @@
         },
         "value": {
           "type": "string",
-          "description": "The resolved value (ex: '16px'), for a step that has no token. MUST be omitted when `token` is set — the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it."
+          "description": "The resolved value (ex: '16px'), for a step that has no token. MUST be omitted when `token` is set. The token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

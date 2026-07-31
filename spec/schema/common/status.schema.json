@@ -35,7 +35,7 @@
         },
         "note": {
           "$ref": "dated-note.schema.json#/$defs/plainNote",
-          "description": "Free-text notes on this platform's status (ex: 'Web Component wrapper — native implementation planned for v4')."
+          "description": "Free-text notes on this platform's status (ex: 'Web Component wrapper. Native implementation planned for v4')."
         }
       },
       "if": {

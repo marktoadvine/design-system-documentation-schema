@@ -21,7 +21,7 @@
         "assisted",
         "manual"
       ],
-      "description": "How a result for this criterion is determined. 'automated': a fully objective test checked programmatically. A `check` MUST be present. 'assisted': a tool surfaces candidates but remains a subjective decision. `check` diagnostics are advisory. 'manual': pure subjective judgment. No `check` applies — `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: 'a design review') belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
+      "description": "How a result for this criterion is determined: 'automated' (a fully objective test checked programmatically, `check` MUST be present), 'assisted' (a tool surfaces candidates but the decision stays subjective, `check` diagnostics are advisory), or 'manual' (pure subjective judgment, no `check` applies). For 'manual', `techniques` and `failures` serve as the reviewer's steps. Named procedures (ex: 'a design review') belong in `techniques`. When omitted, tools MUST NOT assume the criterion is automatable."
     },
     "criterionCheck": {
       "type": "object",
@@ -40,7 +40,7 @@
     },
     "criterionTestCase": {
       "type": "object",
-      "description": "An example with a defined outcome, used as a test case for a criterion. Identical to `example` plus a required `outcome`. This intentionally copies the shape of `example`. `example` is a closed schema, so allOf-extension cannot add `outcome`. When `example` changes, update this definition to match. Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced — a 'fail' test case that passes means the check no longer detects what it claims to.",
+      "description": "An example with a defined outcome, used as a test case for a criterion. Identical to `example` plus a required `outcome`. This intentionally copies the shape of `example`. `example` is a closed schema, so allOf-extension cannot add `outcome`. When `example` changes, update this definition to match. Test cases make criteria self-verifying: a conformance runner SHOULD execute the criterion's `check` (when present) against each test case and confirm the declared outcome is reproduced. A 'fail' test case that passes means the check no longer detects what it claims to.",
       "anyOf": [
         {
           "required": [
@@ -125,7 +125,7 @@
         "identifier": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
-          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement — retire the identifier and make a new one instead."
+          "description": "Stable identifier for this criterion, unique within the parent entity (ex: 'touch-target-minimum', 'single-primary-action'). MUST be lowercase kebab-case. Test runs report pass/fail against this identifier, so it SHOULD NOT change once checks depend on it. Once published, an identifier MUST NOT be reused for a different requirement. Retire the identifier and make a new one instead."
         },
         "title": {
           "type": "string",
@@ -137,7 +137,7 @@
         },
         "techniques": {
           "type": "array",
-          "description": "Sufficient ways to satisfy this criterion — the passing patterns (ex: 'Apply `min-height: 44px` to every interactive element', 'Use the `<Button>` component without overriding its default height').",
+          "description": "The passing patterns that satisfy this criterion (ex: 'Apply `min-height: 44px` to every interactive element', 'Use the `<Button>` component without overriding its default height').",
           "items": {
             "$ref": "rich-text.schema.json#/$defs/richText"
           },
@@ -161,7 +161,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Verification test cases — typically one passing and one failing implementation, each with a declared `outcome`.",
+          "description": "Verification test cases: typically one passing and one failing implementation, each with a declared `outcome`.",
           "items": {
             "$ref": "#/$defs/criterionTestCase"
           },

@@ -13,7 +13,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "Human-readable name of the design system (ex: 'Acme Design System'). Not a package name — those belong in `extends.system` or platform imports."
+          "description": "Human-readable name of the design system (ex: 'Acme Design System'). Not a package name. Those belong in `extends.system` or platform imports."
         },
         "version": {
           "type": "string",

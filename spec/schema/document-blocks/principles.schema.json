@@ -11,7 +11,7 @@
       "properties": {
         "title": {
           "type": "string",
-          "description": "A short, memorable name (ex: 'Functional first', 'Use the scale') — short enough to work as a heading."
+          "description": "A short, memorable name (ex: 'Functional first', 'Use the scale'). Short enough to work as a heading."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",

@@ -259,7 +259,7 @@
         },
         "behavior": {
           "type": "string",
-          "description": "What happens when reduced motion is preferred (ex: 'Replaced with a static ellipsis indicator', 'Transition removed — state changes apply instantly')."
+          "description": "What happens when reduced motion is preferred (ex: 'Replaced with a static ellipsis indicator', 'Transition removed. State changes apply instantly')."
         }
       },
       "additionalProperties": false
