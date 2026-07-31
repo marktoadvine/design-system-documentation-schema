@@ -6,7 +6,7 @@
   "$defs": {
     "contentLabelEntry": {
       "type": "object",
-      "description": "One standard label in the dictionary: the label text, what it means, when to use it, and related terms.",
+      "description": "One standard label in the dictionary (the label text, what it means, when to use it, and related terms).",
       "required": [
         "term",
         "definition"
@@ -18,7 +18,7 @@
         },
         "definition": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What the label means \u2014 the action it represents. Be concrete (ex: for Delete: 'Destroys an existing object so it no longer exists')."
+          "description": "What the label means. Be concrete (ex: for Delete: 'Destroys an existing object so it no longer exists')."
         },
         "usage": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -38,7 +38,7 @@
         },
         "examples": {
           "type": "array",
-          "description": "Examples of the label in context \u2014 do/don't pairs, screenshots, or code.",
+          "description": "Examples of the label in context (do/don't pairs, screenshots, or code).",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },
@@ -49,7 +49,7 @@
     },
     "localizationEntry": {
       "type": "object",
-      "description": "One localization concern \u2014 something that affects how content is written, translated, or displayed across languages.",
+      "description": "One localization concern. Something that affects how content is written, translated, or displayed across languages.",
       "required": [
         "concern",
         "description"
@@ -61,11 +61,11 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What to do about this concern \u2014 what changes across locales, and what to avoid."
+          "description": "What to do about this concern. What changes across locales, and what to avoid."
         },
         "examples": {
           "type": "array",
-          "description": "Examples showing the concern \u2014 before/after screenshots for RTL, or code for pluralization.",
+          "description": "Examples showing the concern (before/after screenshots for RTL, or code for pluralization).",
           "items": {
             "$ref": "../common/example.schema.json#/$defs/example"
           },
@@ -76,7 +76,7 @@
     },
     "content": {
       "type": "object",
-      "description": "A label dictionary and localization notes for an artifact or the whole system. Each entry is a fact, not a rule \u2014 general content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule); a content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
+      "description": "A label dictionary and localization notes for an artifact or the whole system. Each entry is a fact. General content guidance belongs in `guidelines` (category 'content') instead. A guideline says 'Use sentence case' (a rule); a content entry says 'Add: takes an existing object and uses it in a new context' (a definition).",
       "required": [
         "kind"
       ],

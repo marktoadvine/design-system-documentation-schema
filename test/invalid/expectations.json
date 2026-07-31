@@ -210,6 +210,10 @@
     "rejectedBy": "schema",
     "errorAt": "/entity/documentBlocks/0/items/0/function/0"
   },
+  "motion-function-with-token.dsds.json": {
+    "rejectedBy": "schema",
+    "errorAt": "/entity/documentBlocks/0/items/0"
+  },
   "motion-duration-empty.dsds.json": {
     "rejectedBy": "schema",
     "errorAt": "/entity/documentBlocks/0/items/0/duration"
@@ -234,6 +238,10 @@
   },
   "scale-step-token-unresolved.dsds.json": {
     "rejectedBy": "semantic"
+  },
+  "scale-step-value-with-token.dsds.json": {
+    "rejectedBy": "schema",
+    "errorAt": "/entity/documentBlocks/0/steps/0"
   },
   "section-duplicate-anchor.dsds.json": {
     "rejectedBy": "semantic"

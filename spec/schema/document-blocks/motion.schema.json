@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/motion.schema.json",
   "title": "Motion document block",
-  "description": "The motion system for a foundation: named easing curves, how long to run them, and when to use each. Each item is one easing, with its curve, a recommended duration, and usage notes \u2014 enough for tools to generate CSS transitions or preview the curve.",
+  "description": "The motion system for a foundation. (named easing curves, how long to run them, and when to use each). Each item is one easing, with its curve, a recommended duration, and usage notes. Intended to be enough for tools to generate CSS transitions or preview the curve.",
   "$defs": {
     "motionDuration": {
       "type": "object",
@@ -42,7 +42,7 @@
     },
     "motionEntry": {
       "type": "object",
-      "description": "One named easing curve: its timing function, recommended usage, and duration. `function` is a four-number array [P1x, P1y, P2x, P2y] \u2014 the same format as the W3C Design Tokens cubicBezier type.",
+      "description": "One named easing curve (its timing function, recommended usage, and duration). `function` is a four-number array [P1x, P1y, P2x, P2y] to follow the W3C Design Tokens cubicBezier type.",
       "required": [
         "identifier",
         "description"
@@ -58,11 +58,11 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "What this easing is for and when to use it \u2014 describe the curve's feel and what kind of transitions it suits."
+          "description": "What this easing is for and when to use it. Describe the curve's feel and what kind of transitions it suits."
         },
         "function": {
           "type": "array",
-          "description": "The cubic-bezier curve as [P1x, P1y, P2x, P2y]. P1x and P2x MUST be between 0 and 1; P1y and P2y can be any number (values outside 0\u20131 give a bounce/overshoot). Maps directly to CSS cubic-bezier(). Leave it out if the curve is only described in words or via a `token`.",
+          "description": "The cubic-bezier curve as [P1x, P1y, P2x, P2y]. P1x and P2x MUST be between 0 and 1; P1y and P2y can be any number (values outside 0\u20131 give a bounce/overshoot). Maps directly to CSS cubic-bezier(). Leave it out if the curve is only described in words or via a `token`. MUST be omitted when `token` is set \u2014 the token's DTCG file is the source of truth, and this document must not carry a copy that can fork from it.",
           "minItems": 4,
           "maxItems": 4,
           "prefixItems": [
@@ -70,27 +70,27 @@
               "type": "number",
               "minimum": 0,
               "maximum": 1,
-              "description": "P1x \u2014 MUST be in [0, 1]."
+              "description": "P1x. First control point's time position (progress through the animation). MUST be in [0, 1]."
             },
             {
               "type": "number",
-              "description": "P1y \u2014 any real number."
+              "description": "P1y. First control point's value position (progress through the animated value). Any real number; outside [0, 1] gives overshoot/bounce."
             },
             {
               "type": "number",
               "minimum": 0,
               "maximum": 1,
-              "description": "P2x \u2014 MUST be in [0, 1]."
+              "description": "P2x. Second control point's time position (progress through the animation). MUST be in [0, 1]."
             },
             {
               "type": "number",
-              "description": "P2y \u2014 any real number."
+              "description": "P2y. Second control point's value position (progress through the animated value). Any real number; outside [0, 1] gives overshoot/bounce."
             }
           ]
         },
         "token": {
           "type": "string",
-          "description": "A token that defines this easing (ex: 'motion-ease-expressive'). If both `function` and `token` are set, `token` is the source of truth and `function` is just the display value."
+          "description": "A token that defines this easing (ex: 'motion-ease-expressive'). MUST match a token defined elsewhere in the system. When set, `function` MUST be omitted — the token's DTCG file is the source of truth for the curve."
         },
         "duration": {
           "$ref": "#/$defs/motionDuration",
@@ -109,11 +109,23 @@
           "minItems": 1
         }
       },
+      "if": {
+        "required": [
+          "token"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "function"
+          ]
+        }
+      },
       "additionalProperties": false
     },
     "motion": {
       "type": "object",
-      "description": "The motion system for a foundation \u2014 named easings that designers and engineers pick from. List the most common ones first; tools SHOULD keep this order. Scoped to foundations. Pairs with `scale` (for duration progressions) and `guidelines` (for rules like reduced-motion handling).",
+      "description": "The motion system for a foundation (named easings that designers and engineers pick from). List the most common ones first. Tools SHOULD keep this order. Scoped to foundations. Pairs with `scale` (for duration progressions) and `guidelines` (for rules like reduced-motion handling).",
       "required": [
         "kind",
         "items"
@@ -126,7 +138,7 @@
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
-          "description": "An overview of the motion system \u2014 the philosophy behind it and any system-wide principles the individual easings don't cover."
+          "description": "An overview of the motion system (the philosophy behind it and any system-wide principles the individual easings don't cover)."
         },
         "items": {
           "type": "array",

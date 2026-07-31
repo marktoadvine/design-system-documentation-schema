@@ -10,7 +10,7 @@
 //   source      — optional source path shown as "Source: <code>" (schema pages)
 //
 // Slots:
-//   (default) — extra inline content next to the title (e.g. a status badge)
+//   (default) — extra inline content next to the title (ex: a status badge)
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { createShadow, esc, escWithCode, BASE_RESET, FONT } from "./_shared.js";

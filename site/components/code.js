@@ -2,7 +2,7 @@
 // <ds-code>
 //
 // Attributes:
-//   language — optional language label (e.g. "json", "bash")
+//   language — optional language label (ex: "json", "bash")
 //   label   — optional label shown in top-right corner
 //   inline  — boolean, renders as inline <code> instead of block
 //   wrap    — boolean, wraps long lines (white-space: pre-wrap) instead of

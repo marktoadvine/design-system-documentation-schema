@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/api.schema.json",
   "title": "API document block",
-  "description": "Documents the code-level interface of a component: configurable properties, emitted events, content slots, CSS custom properties, CSS shadow parts, data attributes, and public methods. When a component supports multiple platforms, each platform gets its own API block. The `platform` property says which implementation it describes. Several member types accept a `source` pointing at an external manifest (ex: a Custom Elements Manifest); when set, DSDS is NOT the source of truth for that member's structural facts (type, default value, deprecation, parameters, ...) — those MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest instead. Without `source`, this document is the source of truth and those fields are authored directly.",
+  "description": "Documents the code-level interface of a component (configurable properties, emitted events, content slots, CSS custom properties, CSS shadow parts, data attributes, and public methods). When a component supports multiple platforms, each platform gets its own API block. The `platform` property says which implementation it describes. Several member types accept a `source` pointing at an external manifest (ex: a Custom Elements Manifest). When set, DSDS is NOT the source of truth for that member's structural facts. Those properties MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest instead. Without `source`, this document is the source of truth and those fields are authored directly.",
   "$defs": {
     "apiProperty": {
       "type": "object",
@@ -18,11 +18,11 @@
         },
         "type": {
           "type": "string",
-          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string', 'ReactNode', 'IconComponent'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. Required unless `source` is set — when a manifest is referenced, `type` MUST be omitted here and read from the manifest instead."
+          "description": "The property's type as it would appear in a type signature (ex: 'boolean', 'number', 'string', 'ReactNode', 'IconComponent'). For enum properties, use `values` instead of listing members here. When `schema` is present it is authoritative; `type` is its display summary and MUST NOT disagree with it. Required unless `source` is set. When a manifest is referenced, `type` MUST be omitted here and read from the manifest instead."
         },
         "values": {
           "type": "array",
-          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. MUST be omitted when `source` is set — read from the manifest instead.",
+          "description": "The accepted values for enum-like properties (ex: ['default', 'primary', 'ghost']). Use this instead of listing members in `type`. When `schema` is present it is authoritative; `values` is its display summary and MUST NOT disagree with it. MUST be omitted when `source` is set.",
           "items": {
             "type": "string"
           },
@@ -30,7 +30,7 @@
         },
         "schema": {
           "type": "object",
-          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "A JSON Schema (Draft 2020-12) object that defines the property's type in machine-readable form. It follows the same conventions as OpenAPI parameter schemas. When present, `schema` is the authoritative type definition; `type` and `values` are display summaries of it and MUST NOT disagree. MUST be omitted when `source` is set."
         },
         "description": {
           "$ref": "../common/rich-text.schema.json#/$defs/richText",
@@ -46,7 +46,7 @@
           "description": "Whether the consumer must provide this property. Defaults to false."
         },
         "defaultValue": {
-          "description": "The default value in its native JSON type. Accepts any JSON type: string, number, boolean, object, array, or null. MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "The default value in its native JSON type. Accepts any JSON type: string, number, boolean, object, array, or null. MUST be omitted when `source` is set."
         },
         "examples": {
           "type": "array",
@@ -63,7 +63,7 @@
         "deprecated": {
           "type": "boolean",
           "default": false,
-          "description": "Whether this property is deprecated. Defaults to false. MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "Whether this property is deprecated. Defaults to false. MUST be omitted when `source` is set."
         },
         "deprecationNotice": {
           "$ref": "../common/status.schema.json#/$defs/deprecationNotice",
@@ -161,7 +161,7 @@
     },
     "apiEvent": {
       "type": "object",
-      "description": "An event emitted by a component. When `source` is set, a manifest owns `payload` and this document MUST NOT restate it \u2014 see `source`.",
+      "description": "An event emitted by a component. When `source` is set, a manifest owns `payload` and this document MUST NOT restate it (see `source)`.",
       "required": [
         "identifier",
         "description"
@@ -177,11 +177,11 @@
         },
         "payload": {
           "type": "string",
-          "description": "The event's payload or handler signature (ex: '(event: MouseEvent) => void', '{ value: string, index: number }') \u2014 what a listener receives. MUST be omitted when `source` is set \u2014 read from the manifest instead."
+          "description": "The event's payload or handler signature (ex: '(event: MouseEvent) => void', '{ value: string, index: number }'). Describes what a listener receives. MUST be omitted when `source` is set."
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this event's `payload`. `path` locates the member within it. When set, this document is NOT the source of truth for `payload` \u2014 it MUST be omitted here, and a tool generating or rendering documentation MUST extract it from the manifest at `path` instead."
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this event's `payload`. `path` locates the member within it. When set, this document is NOT the source of truth for `payload`. It MUST be omitted here, and a tool generating or rendering documentation MUST extract it from the manifest at `path` instead."
         },
         "since": {
           "type": "string",
@@ -256,11 +256,11 @@
         },
         "type": {
           "type": "string",
-          "description": "The expected CSS value type (ex: 'color', 'dimension', 'number'). MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "The expected CSS value type (ex: 'color', 'dimension', 'number'). MUST be omitted when `source` is set."
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",
-          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this custom property's `defaultValue`/`type`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields — they MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
+          "description": "Points to the manifest (ex: a Custom Elements Manifest) that owns this custom property's `defaultValue`/`type`. `path` locates the member within it. When set, this document is NOT the source of truth for those fields. They MUST be omitted here, and a tool generating or rendering documentation MUST extract them from the manifest at `path` instead."
         },
         "since": {
           "type": "string",
@@ -357,7 +357,7 @@
     },
     "apiMethod": {
       "type": "object",
-      "description": "A public method on a component instance. When `source` is set, a manifest owns `parameters`/`returnType` and this document MUST NOT restate them — see `source`.",
+      "description": "A public method on a component instance. When `source` is set, a manifest owns `parameters`/`returnType` and this document MUST NOT restate them (see `source`).",
       "required": [
         "identifier",
         "description"
@@ -373,11 +373,11 @@
         },
         "parameters": {
           "type": "string",
-          "description": "The parameter signature (ex: '(options?: { preventScroll: boolean }) => void'). MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "The parameter signature (ex: '(options?: { preventScroll: boolean }) => void'). MUST be omitted when `source` is set."
         },
         "returnType": {
           "type": "string",
-          "description": "The return value (ex: 'void', 'Promise<void>', 'HTMLElement | null'). MUST be omitted when `source` is set — read from the manifest instead."
+          "description": "The return value (ex: 'void', 'Promise<void>', 'HTMLElement | null'). MUST be omitted when `source` is set."
         },
         "source": {
           "$ref": "../common/source.schema.json#/$defs/source",

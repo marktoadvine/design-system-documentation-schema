@@ -45,7 +45,7 @@ const inputs = args.filter((a) => !a.startsWith("--"));
 
 // Raw-value shapes that can fork from a token's value: hex colors, numeric
 // dimensions (with or without a unit), and CSS value functions. Token
-// identifiers (e.g. `space-4`, `color-action-primary`) contain letters and a
+// identifiers (ex: `space-4`, `color-action-primary`) contain letters and a
 // hyphen, so they never match these. Bare CSS keywords (`transparent`, `none`,
 // `bold`) are intentionally NOT flagged — they do not shadow a token value.
 const RAW_PATTERNS = [

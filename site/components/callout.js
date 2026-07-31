@@ -6,7 +6,7 @@
 //
 // Attributes:
 //   variant — "info" | "tip" | "warning" (default: "info")
-//   title   — bold lead-in text shown above the content (e.g. "Tip:").
+//   title   — bold lead-in text shown above the content (ex: "Tip:").
 //             Omit for no title.
 //
 // Slots:

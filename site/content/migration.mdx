@@ -42,6 +42,17 @@ The old `variantExclusion` used a flat `variants` array. It now uses `when` and 
 |---|---|
 | `{ "variants": [A, B], "level": "must-not" }` | `{ "when": [A], "excludes": [B], "level": "must-not" }` |
 
+### Scale steps and motion easings can't duplicate a token
+
+If a `scaleStep` or `motionEntry` sets `token`, it can no longer also carry the raw duplicate. Drop the raw field:
+
+| Before | After |
+|---|---|
+| `{ "token": "space-4", "value": "16px" }` | `{ "token": "space-4" }` |
+| `{ "token": "motion-ease-enter", "function": [0.05, 0.7, 0.1, 1] }` | `{ "token": "motion-ease-enter" }` |
+
+A value-only or function-only step (no `token`) is unaffected — this only rejects the combination of both.
+
 ### New validation errors
 
 Three new semantic checks now reject documents that previously validated. Fix these if the validator reports them:
@@ -91,7 +102,7 @@ Both accept `--dry-run`. The migrator bumps `dsdsVersion`, updates any versioned
 | `systemInfo.systemName` / `systemVersion` | `systemInfo.name` / `version` |
 | Status object `description` (entity-level and per-platform) | Status object `note` |
 | `apiEvent.returns` | `apiEvent.payload` |
-| Link `identifier`, `role`, `required` | Removed. A link is `kind` + `url` (+ optional `label`). Entities relate through `relationships` edges |
+| Link `identifier`, `role`, `required` | Removed. A link is `kind` + `url` (+ optional `label`). Entities relate through `relationships` entries |
 | Chunk top-level `guidelines` / `useCases` | Removed. Guidance lives in the chunk's `documentBlocks` |
 
 Nothing else changed shape. Documents that used none of these forms migrate with only a version bump.

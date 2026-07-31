@@ -98,7 +98,7 @@ const server = http.createServer((req, res) => {
       if (readErr) {
         // Components fetch icons with a page-relative "assets/<file>.svg"
         // path, which only resolves correctly for top-level pages (the
-        // real site is flat). Nested dev-only pages (e.g. /workbench/)
+        // real site is flat). Nested dev-only pages (ex: /workbench/)
         // request "workbench/assets/<file>.svg" instead — fall back to
         // the real top-level assets/ dir before giving up.
         const nestedAsset = req.url.split("?")[0].match(/\/assets\/([^/]+)$/);

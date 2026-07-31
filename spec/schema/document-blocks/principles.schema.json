@@ -22,7 +22,7 @@
     },
     "principles": {
       "type": "object",
-      "description": "The point of view behind a foundation's decisions. What the system's opinions are and which trade-offs it accepts. Sits above `guidelines`: principles set direction, guidelines encode the specific rules. E.g., a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'.",
+      "description": "The point of view behind a foundation's decisions. What the system's opinions are and which trade-offs it accepts. Sits above `guidelines`: principles set direction, guidelines encode the specific rules. ex: a spacing foundation might have 'Use the scale'; a color foundation might have 'Functional first'.",
       "required": ["kind", "items"],
       "properties": {
         "kind": {

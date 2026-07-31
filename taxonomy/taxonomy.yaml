@@ -43,7 +43,7 @@ terms:
       records in a DSDS document.
     notes: >
       Most schema prose currently says "artifact" where it means entity
-      (e.g. "another DSDS artifact by identifier"). Migrate those to
+      (ex: "another DSDS artifact by identifier"). Migrate those to
       "entity"; see `artifact`.
 
   - term: artifact
@@ -211,7 +211,7 @@ terms:
     status: canonical
     definition: >
       An AI/LLM consumer of DSDS. Use only when the AI-specific behavior
-      matters (e.g. `agentDocumentBlocks`); otherwise "tool" covers it.
+      matters (ex: `agentDocumentBlocks`); otherwise "tool" covers it.
 
   - term: author
     status: canonical
@@ -488,7 +488,7 @@ conventions:
   - name: exemplification
     formula: "(ex: 'value-one', 'value-two')"
     definition: >
-      Inline examples use "e.g.," inside parentheses with quoted literals —
+      Inline examples use "ex:" inside parentheses with quoted literals —
       182 uses. "Such as" is narrative-ok in flowing site copy. Avoid
       "for example" in descriptions (verbosity) and "i.e." everywhere
       (currently zero uses; keep it that way — say "that is" or rephrase).

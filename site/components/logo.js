@@ -97,7 +97,7 @@ export class DsLogo extends HTMLElement {
       svg.setAttribute("aria-label", esc(label));
       svg.removeAttribute("aria-hidden");
     } else {
-      // Decorative by default — used next to visible text (e.g. the nav
+      // Decorative by default — used next to visible text (ex: the nav
       // title) that already names it.
       svg.setAttribute("aria-hidden", "true");
       svg.removeAttribute("role");

@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/document-blocks.schema.json",
   "title": "Document block \u2014 scoped unions",
-  "description": "Defines which document-block kinds each artifact type accepts. Every block has a `kind` tag; each artifact type accepts its own special kinds plus every general kind. We use a `kind` enum plus `if`/`then` branches instead of `oneOf`, so an invalid block gives one clear error for its `kind` instead of a pile of errors from every possible kind. To describe how entities relate to each other, use the `relationships` array on the entity, not a block kind; use `links` for external resources.",
+  "description": "Defines the kinds of document-block each entity accepts. Every block has a `kind` tag; each artifact type accepts its own special kinds plus every general kind. A `kind` enum plus `if`/`then` branches are used instead of `oneOf`, so an invalid block gives one clear error for its `kind`. To describe how entities relate to each other, use the `relationships` array on the entity. Use `links` for external resources.",
   "$defs": {
     "generalBranches": {
-      "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum \u2014 the union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
+      "description": "The `if`/`then` rules for the general block kinds, shared by every artifact type's union via `allOf`. It doesn't define its own `kind` enum The union that includes it does. If the block's `kind` isn't one of these, every check here is simply skipped.",
       "allOf": [
         {
           "if": { "required": ["kind"], "properties": { "kind": { "const": "checklist" } } },
@@ -34,7 +34,7 @@
       ]
     },
     "generalDocumentBlock": {
-      "description": "The block kinds every artifact type accepts \u2014 general concerns like free-form documentation content and the agent-facing checklist.",
+      "description": "The block kinds every artifact type accepts (general concerns like free-form documentation content and the agent-facing checklist).",
       "type": "object",
       "required": ["kind"],
       "properties": {
@@ -45,7 +45,7 @@
       "allOf": [{ "$ref": "#/$defs/generalBranches" }]
     },
     "componentDocumentBlock": {
-      "description": "The block kinds a component accepts: its own (imports, anatomy, API, variants, states, design specs) plus every general kind.",
+      "description": "The block kinds a component accepts (`imports`, `anatomy`, `api`, `variants`, `states`, `design-specifications` plus every general kind).",
       "type": "object",
       "required": ["kind"],
       "properties": {
@@ -95,7 +95,7 @@
       ]
     },
     "foundationDocumentBlock": {
-      "description": "The block kinds a foundation accepts: its own (principles, scale, motion) plus every general kind.",
+      "description": "The block kinds a foundation accepts (`principles`, `scale`, `motion`, plus every general kind).",
       "type": "object",
       "required": ["kind"],
       "properties": {
@@ -130,7 +130,7 @@
       ]
     },
     "patternDocumentBlock": {
-      "description": "The block kinds a pattern accepts: interactions, the shared structural kinds (anatomy, variants, states), and every general kind.",
+      "description": "The block kinds a pattern accepts: (`interactions`, `anatomy`, `variants`, `states`, plus every general kind).",
       "type": "object",
       "required": ["kind"],
       "properties": {
@@ -170,7 +170,7 @@
       ]
     },
     "guideDocumentBlock": {
-      "description": "The block kinds a guide accepts: `steps`, the reused `imports` kind for setup, and every general kind (including `checklist` \u2014 handy for a contribution or migration guide's final verification pass). Guides are for reading, so they lean on documentation content and steps rather than measurable specs like api or anatomy.",
+      "description": "The block kinds a guide accepts (`steps`, `imports`, `checklist`, plus every general kind).",
       "type": "object",
       "required": ["kind"],
       "properties": {

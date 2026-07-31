@@ -4,12 +4,6 @@
       "identifier": "expressive",
       "name": "Expressive Ease",
       "description": "The most commonly used easing, and a reliable default choice when unsure. Suitable for elements that both begin and end within the user's field of view, such as size or position changes. Also appropriate for elements entering or exiting in sync with other visible elements.",
-      "function": [
-        0.55,
-        0,
-        0,
-        1
-      ],
       "token": "motion-ease-expressive",
       "usage": "moving, pushing, resizing",
       "duration": {
@@ -29,12 +23,6 @@
       "identifier": "enter",
       "name": "Enter Ease",
       "description": "Used for elements that initially exist out of view and smoothly enter the screen. Also appropriate for elements that snap into position after being released from a drag interaction.",
-      "function": [
-        0.05,
-        0.7,
-        0.1,
-        1
-      ],
       "token": "motion-ease-enter",
       "usage": "entering elements, snap-to-position after drag",
       "duration": {
@@ -47,12 +35,6 @@
       "identifier": "exit",
       "name": "Exit Ease",
       "description": "Used for elements that begin within the user's field of view and passively disappear from the screen without direct user interaction.",
-      "function": [
-        0.3,
-        0,
-        0.8,
-        0.15
-      ],
       "token": "motion-ease-exit",
       "usage": "passive exiting, dismissal",
       "duration": {
@@ -65,12 +47,6 @@
       "identifier": "lateral",
       "name": "Lateral Ease",
       "description": "Used for smooth horizontal transitions of elements at the same hierarchy level, like swiping between tabs or navigating a carousel. Creates natural movement by starting slowly, accelerating in the middle, and slowing toward the end.",
-      "function": [
-        0.8,
-        0,
-        0.2,
-        1
-      ],
       "token": "motion-ease-lateral",
       "usage": "tab navigation, carousel swiping, horizontal transitions",
       "duration": {
@@ -82,12 +58,6 @@
       "identifier": "bounce",
       "name": "Bounce Ease",
       "description": "Used for light and fun motion that allows users to interact playfully. The overshoot creates a sense of weightlessness. Commonly used for floating elements like toolbars.",
-      "function": [
-        0,
-        0.4,
-        0,
-        1.4
-      ],
       "token": "motion-ease-bounce",
       "usage": "floating elements, toolbar animations, micro-interactions",
       "duration": {
@@ -99,12 +69,6 @@
       "identifier": "linear",
       "name": "Linear Ease",
       "description": "Used for properties unrelated to spatial motion, such as opacity and color changes. A background color change on hover or a fade-in/fade-out can happen linearly as it provides direct feedback about state without implying physical movement.",
-      "function": [
-        0,
-        0,
-        1,
-        1
-      ],
       "token": "motion-ease-linear",
       "usage": "opacity changes, color transitions, toggles, checkboxes",
       "duration": {
@@ -120,12 +84,6 @@
         "identifier": "expressive",
         "name": "Expressive Ease",
         "description": "The default easing for most transitions. Suitable for elements that change size or position within the viewport.",
-        "function": [
-          0.55,
-          0,
-          0,
-          1
-        ],
         "token": "motion-ease-expressive",
         "usage": "moving, pushing, resizing",
         "duration": {
@@ -136,12 +94,6 @@
         "identifier": "enter",
         "name": "Enter Ease",
         "description": "For elements entering the viewport from off-screen or snapping into position after a drag.",
-        "function": [
-          0.05,
-          0.7,
-          0.1,
-          1
-        ],
         "token": "motion-ease-enter",
         "usage": "entering elements",
         "duration": {
@@ -153,12 +105,6 @@
         "identifier": "exit",
         "name": "Exit Ease",
         "description": "For elements passively leaving the viewport without direct user interaction.",
-        "function": [
-          0.3,
-          0,
-          0.8,
-          0.15
-        ],
         "token": "motion-ease-exit",
         "usage": "exiting elements",
         "duration": {
@@ -170,12 +116,6 @@
         "identifier": "lateral",
         "name": "Lateral Ease",
         "description": "For horizontal transitions between peers at the same hierarchy level.",
-        "function": [
-          0.8,
-          0,
-          0.2,
-          1
-        ],
         "token": "motion-ease-lateral",
         "usage": "tab navigation, carousels",
         "duration": {
@@ -187,12 +127,6 @@
         "identifier": "bounce",
         "name": "Bounce Ease",
         "description": "For playful micro-interactions on floating elements like toolbars.",
-        "function": [
-          0,
-          0.4,
-          0,
-          1.4
-        ],
         "token": "motion-ease-bounce",
         "usage": "floating elements, micro-interactions",
         "duration": {
@@ -204,12 +138,6 @@
         "identifier": "linear",
         "name": "Linear Ease",
         "description": "For non-spatial property changes like opacity and color.",
-        "function": [
-          0,
-          0,
-          1,
-          1
-        ],
         "token": "motion-ease-linear",
         "usage": "opacity, color transitions"
       }

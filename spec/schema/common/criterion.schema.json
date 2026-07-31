@@ -33,7 +33,7 @@
         "scheme": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9.-]*$",
-          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (e.g. 'com.acme.contract-tests')."
+          "description": "Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (ex: 'com.acme.contract-tests')."
         }
       },
       "additionalProperties": true

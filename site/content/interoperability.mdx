@@ -72,7 +72,7 @@ The DSDS document owns the meaning, and points at it via `source` — no value i
     "kind": "token",
     "identifier": "color-action-primary",
     "name": "Action Primary",
-    "description": "Background color for primary action surfaces. The one action we most want the user to take on a screen. The value itself lives in the DTCG file that `source` points to; this document only carries the meaning and usage rules around it.",
+    "description": "Background color for primary action surfaces — the one action we most want the user to take on a screen. The value itself lives in the DTCG file that `source` points to; this document only carries the meaning and usage rules around it.",
     "tokenType": "color",
     "source": {
       "file": "./color-action-primary.tokens.json",
@@ -240,7 +240,6 @@ Run through the mapping table above, it becomes this valid DSDS component docume
         "properties": [
           {
             "identifier": "disabled",
-            "type": "boolean",
             "description": "Reflected property/attribute pair `disabled` (CEM field + attribute of the same name). The manifest carries no prose for this member; description pending human review.",
             "source": {
               "file": "./my-element.custom-elements.json",

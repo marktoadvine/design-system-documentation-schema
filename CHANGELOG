@@ -13,6 +13,7 @@ Minor release — the full response to the 0.15.2 evaluation: corrections, addit
 - **Entity identifiers are now unique across the whole document, not just within a group.** Every entity — every kind, including tokens, token groups, and nested token-group children — MUST have a document-wide-unique `identifier`, because references (relationships, entity references, token overrides, checklist criteria) resolve to identifiers document-wide. Two groups each holding a `button` used to validate and left every such reference ambiguous; that is now a defect. Token and token-group identifiers, which previously had no stated uniqueness rule at all, are covered too.
 - **A checklist item's `criterion` must resolve.** It MUST name a criterion (by `identifier`) defined on the same entity, in one of its guideline or accessibility blocks. A dangling criterion reference is now a defect.
 - **One `api` block per platform per entity.** A new semantic check rejects an entity that declares two `api` blocks for the same `platform` (a block with no `platform` counts as the single default). Documenting the same platform twice was always ambiguous; it is now a defect.
+- **`scaleStep`/`motionEntry` can't carry both a token and a raw duplicate.** When `scaleStep.token` is set, `value` MUST be omitted; when `motionEntry.token` is set, `function` MUST be omitted. The token's DTCG file is the source of truth once one is referenced, so the raw copy can no longer be present alongside it — only for display convenience when no token exists. A document that populated both (a common pattern for pre-resolving display values) now needs the raw field dropped.
 
 ### Removals (breaking)
 
@@ -55,7 +56,7 @@ Patch release — one addition, non-breaking. Schema files are served at `https:
 
 ### Additions
 
-- **`$extensions` is now valid on every document block.** All 12 block kinds (`imports`, `anatomy`, `api`, `variants`, `states`, `design-specifications`, `guidelines`, `use-cases`, `accessibility`, `content`, `sections`, `checklist`) accept an optional `$extensions` property, using the same shared `#/$defs/extensions` definition and contract entities already use: keys MUST use a vendor namespace (e.g. `com.figma`), tools that don't recognize an extension MUST keep it, and extension data SHOULD NOT duplicate core fields. This gives authors and tools a namespaced, collision-free place to attach structured per-block data — a Figma node id on `anatomy`, a lint-rule id on a `guideline`, a vendor hint on `api` — without opening `additionalProperties` on any block. Blocks stay closed: an unrecognized bare property still fails validation. Existing documents are unaffected — the property is optional everywhere and no `required` list changed.
+- **`$extensions` is now valid on every document block.** All 12 block kinds (`imports`, `anatomy`, `api`, `variants`, `states`, `design-specifications`, `guidelines`, `use-cases`, `accessibility`, `content`, `sections`, `checklist`) accept an optional `$extensions` property, using the same shared `#/$defs/extensions` definition and contract entities already use: keys MUST use a vendor namespace (ex: `com.figma`), tools that don't recognize an extension MUST keep it, and extension data SHOULD NOT duplicate core fields. This gives authors and tools a namespaced, collision-free place to attach structured per-block data — a Figma node id on `anatomy`, a lint-rule id on a `guideline`, a vendor hint on `api` — without opening `additionalProperties` on any block. Blocks stay closed: an unrecognized bare property still fails validation. Existing documents are unaffected — the property is optional everywhere and no `required` list changed.
 
 ---
 
@@ -389,7 +390,7 @@ The accessibility block's keyboard interaction array is now plural, matching its
 
 ### Tooling
 
-- **Semantic checks** in `scripts/validate.js` enforce two normative rules JSON Schema cannot express: entity identifiers must be unique within their entity group (and within token-group `children`), and `$extensions` keys must be vendor-namespaced (e.g. `com.acme.tool`).
+- **Semantic checks** in `scripts/validate.js` enforce two normative rules JSON Schema cannot express: entity identifiers must be unique within their entity group (and within token-group `children`), and `$extensions` keys must be vendor-namespaced (ex: `com.acme.tool`).
 - **Negative fixture suite** at `test/invalid/` — documents that MUST fail validation, one per guard, asserted by the validation run. A fixture that validates cleanly fails the build.
 - `scripts/bump-version.js` stamps the spec's publication date on the overview page at each version cut.
 
@@ -808,7 +809,7 @@ Every machine-readable identifier field that was named `name` is now `identifier
 
 **Intentionally NOT renamed** (these were always human-readable and have no `identifier` counterpart):
 
-- `documentationGroup.name` (the root-level group label, e.g., `"Acme Design System"`).
+- `documentationGroup.name` (the root-level group label, ex: `"Acme Design System"`).
 - `agentCollection.name` (the top-level title of an agent context collection file).
 
 **Migration:** mechanically rename every `name` field on a machine identifier to `identifier`, and every `displayName` field to `name`. The two preserved cases are easy to spot — their values contain spaces or capital letters (they are display strings, not slugs).
@@ -1185,9 +1186,9 @@ sed -i 's/"type": "best-practices"/"kind": "best-practices"/g' *.json
 
 The `variants` guideline has been redesigned around two discriminated variant types:
 
-- **`flagVariant`** (`type: "flag"`) — A boolean toggle that is either on or off (e.g.,
+- **`flagVariant`** (`type: "flag"`) — A boolean toggle that is either on or off (ex:,
   `disabled`, `full-width`, `icon-only`). No `values` array.
-- **`enumVariant`** (`type: "enum"`) — A set of mutually exclusive values (e.g.,
+- **`enumVariant`** (`type: "enum"`) — A set of mutually exclusive values (ex:,
   size: sm | md | lg). Requires a `values` array with at least 2 entries.
 
 **Before:**
@@ -1332,7 +1333,7 @@ rather than inline on each value.
 
 The `examples` guideline type (`type: "examples"`) has been removed entirely. The
 `examples` container def has been deleted from `example.schema.json`. Individual schemas
-that need examples already accept `example[]` arrays directly on their items (e.g.,
+that need examples already accept `example[]` arrays directly on their items (ex:,
 `variantValue.example`, `stateEntry.preview`, `interactionEntry.examples`,
 `bestPracticeEntry.examples`). The standalone container added no value on top of this.
 

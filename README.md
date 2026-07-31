@@ -66,7 +66,7 @@ Start here:
 - **[Stability & 1.0](https://designsystemdocspec.org/stability.html)** — The stability contract: version semantics, the deprecation policy, the enumerated breaking backlog, and the criteria for declaring 1.0.
 - **[Interactive Samples](https://designsystemdocspec.org/samples.html)** — Side-by-side JSON ↔ rendered docs for real-world entities (component, token, theme, foundation, pattern).
 
-Per-schema reference pages sit next to the narrative pages — e.g. [entities/component](https://designsystemdocspec.org/entities-component.html), [document-blocks/guidelines](https://designsystemdocspec.org/document-blocks-guidelines.html), [common/use-cases](https://designsystemdocspec.org/common-use-cases.html). Each page is built from its matching `spec/schema/**/*.schema.json` file.
+Per-schema reference pages sit next to the narrative pages — ex: [entities/component](https://designsystemdocspec.org/entities-component.html), [document-blocks/guidelines](https://designsystemdocspec.org/document-blocks-guidelines.html), [common/use-cases](https://designsystemdocspec.org/common-use-cases.html). Each page is built from its matching `spec/schema/**/*.schema.json` file.
 
 You can also build the site locally to browse offline or while you work on the spec. Run `npm run build` and open `site/dist/index.html`.
 
@@ -157,7 +157,7 @@ scripts/
 ├── migrate-to-0.8.js                                   # Migrates v0.7.x documents to v0.8 (criterion fixture outcomes)
 ├── migrate-to-0.10.js                                   # Migrates v0.8.x / v0.9.x documents to v0.10 (levels, entity refs, accessibility data)
 ├── migrate-to-0.14.js                                   # Migrates v0.10–v0.13 documents to v0.14 (breaking renames; reports identifier-bearing links)
-├── migrate-relationship-links.js                        # Converts relationship-flavored links to typed `relationships` edges (run before migrate-to-0.14.js)
+├── migrate-relationship-links.js                        # Converts relationship-flavored links to typed `relationships` entries (run before migrate-to-0.14.js)
 ├── build-site.js                                       # Generates the static specification site (orchestrator)
 ├── build-samples.js                                    # Generates the interactive sample viewer from example JSON
 ├── render-entity.js                                    # Server-side entity rendering used by build-samples.js
@@ -344,7 +344,7 @@ The Quick Start page (`site/content/quickstart.mdx`) is compiled the same way as
 The spec version lives in three coordinated places:
 
 1. **`spec/schema/dsds.schema.json#/properties/dsdsVersion/const`** — the single source of truth. The bundle script, the nav, every page title, and the versioned dist directory all derive from this value.
-2. **The `$id` URL on every schema file** — e.g., `https://designsystemdocspec.org/v0.16.0/metadata/last-updated.schema.json`. Every example document's `$schema` field and every `"dsdsVersion"` literal inside example JSON has to track the same version.
+2. **The `$id` URL on every schema file** — ex: `https://designsystemdocspec.org/v0.16.0/metadata/last-updated.schema.json`. Every example document's `$schema` field and every `"dsdsVersion"` literal inside example JSON has to track the same version.
 3. **`package.json#version`** — the npm package version. Conventionally kept in lockstep with `dsdsVersion.const`.
 
 The `scripts/bump-version.js` script keeps the first two in sync across all 52 schema files, every example, and the README. `package.json` is handled separately because it's not a schema-consumer file.
@@ -359,8 +359,8 @@ This means a version bump propagates to every site page on the next `npm run bui
 
 | Change | Spec version | New URL path? | Old URL path |
 |---|---|---|---|
-| Schema additions (new optional fields, new union members, new entity kinds) | Bump patch (e.g. `0.2` → `0.2.1`) | Yes — published at `/v0.2.1/` | `/v0.2/` stays untouched as a historical artifact |
-| Breaking changes (renamed/removed fields, new required fields, tightened constraints) | Bump minor or major (e.g. `0.2.1` → `0.3`) | Yes — published at `/v0.3/` | All older versions stay untouched |
+| Schema additions (new optional fields, new union members, new entity kinds) | Bump patch (ex: `0.2` → `0.2.1`) | Yes — published at `/v0.2.1/` | `/v0.2/` stays untouched as a historical artifact |
+| Breaking changes (renamed/removed fields, new required fields, tightened constraints) | Bump minor or major (ex: `0.2.1` → `0.3`) | Yes — published at `/v0.3/` | All older versions stay untouched |
 | Documentation-only edits (typos, prose clarifications, no schema or example changes) | No bump | No | No change |
 
 The versioned dist directories (`site/dist/v<n>/dsds.bundled.schema.json`) are **immutable public contracts**. `npm run build` refuses to overwrite an existing one. Every consumer that pins `$schema` to that URL relies on the file there never changing.
@@ -375,7 +375,7 @@ This is the exact sequence for cutting a release that includes schema changes. S
 
 3. **Update the README project structure listing** under `## Project Structure` if you added or removed schema files. (The site nav auto-discovers schemas, so no MDX updates are needed for that.)
 
-4. **Bump `package.json#version`** to the target version (e.g. `0.2.0` → `0.2.1`).
+4. **Bump `package.json#version`** to the target version (ex: `0.2.0` → `0.2.1`).
 
 5. **Add a CHANGELOG entry** at the top of `CHANGELOG`, mirroring the format of the prior release. Include a one-line header noting where the bundled schema is now served (ex: "Schema files are now served at `https://designsystemdocspec.org/v0.16.0/...`") and an "Additions" or "Breaking changes" section describing every schema-visible change.
 

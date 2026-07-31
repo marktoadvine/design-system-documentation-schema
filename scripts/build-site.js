@@ -619,7 +619,7 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
     lines.push(defSchema.description, "");
   }
 
-  // Bare string/enum def (e.g. a status vocabulary) — show the enum and stop,
+  // Bare string/enum def (ex: a status vocabulary) — show the enum and stop,
   // mirroring renderDefinition()'s early return for the same shape.
   if (defSchema.type === "string" && !defSchema.properties) {
     if (defSchema.enum) {
@@ -630,7 +630,7 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
     return lines.join("\n");
   }
 
-  // oneOf alternatives (e.g. richText's string | object forms)
+  // oneOf alternatives (ex: richText's string | object forms)
   if (defSchema.oneOf) {
     lines.push("One of:", "");
     for (const alt of defSchema.oneOf) {
@@ -1017,7 +1017,7 @@ function buildLlmsTxt(entries, version) {
   lines.push(
     "This site documents DSDS, a versioned JSON Schema. Every page below " +
       "has an HTML version (for people) and a plain-markdown mirror at the " +
-      "same path with a `.md` extension (e.g. `/quickstart.md`, " +
+      "same path with a `.md` extension (ex: `/quickstart.md`, " +
       "`/common-criterion.md`) — the full content as text, no HTML/JS to " +
       "parse. Schema pages' markdown includes every field name, type, and " +
       "requiredness plus the full schema JSON; the bundled schema below is " +
@@ -1106,7 +1106,7 @@ function titleCaseKind(kind) {
  *
  * `acceptsBlocks` is the flattened entity→block-kind relationship graph:
  * each entity $def's `documentBlocks.items.$ref` points at one of
- * document-blocks.schema.json's scoped unions (e.g. `componentDocumentBlock`),
+ * document-blocks.schema.json's scoped unions (ex: `componentDocumentBlock`),
  * whose own `kind` property is a plain enum of every block kind that entity
  * accepts — no allOf/if-then walking needed, just one property read.
  *
@@ -1131,7 +1131,7 @@ function buildManifest(pages, version) {
         defSchema.properties &&
         defSchema.properties.kind &&
         defSchema.properties.kind.const;
-      if (!kind) continue; // not every $def in an entities/ file is itself an entity (e.g. tokenGroup's nested shapes)
+      if (!kind) continue; // not every $def in an entities/ file is itself an entity (ex: tokenGroup's nested shapes)
 
       let acceptsBlocks = [];
       const itemsRef =
@@ -1424,7 +1424,7 @@ async function build() {
   // ── Versioned bundled schema ──────────────────────────────────────
   //
   // Versioned dist directories (site/dist/v<n>/) hold the bundled schema
-  // at the URL it's published at — e.g., site/dist/v0.1/dsds.bundled.schema.json
+  // at the URL it's published at — ex: site/dist/v0.1/dsds.bundled.schema.json
   // is served at https://designsystemdocspec.org/v0.1/dsds.bundled.schema.json.
   //
   // The versioned bundle is the working artifact for the CURRENT version.

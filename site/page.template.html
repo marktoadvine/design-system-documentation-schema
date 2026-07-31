@@ -270,7 +270,7 @@
 </ds-def-section>
 <ds-def-section name="criterionCheck" anchor="criterioncheck" description="Defines the tool used for testing (ex: 'axe-core', 'vitest', 'stylelint', 'lighthouse'). DSDS only defines the tool. It doesn't define tools' configuration values or settings. Any process that doesn't recognize the tool MUST report the criterion as skipped, never as passing. Like `extensions`, this object is intentionally open: execution details do not live in this specification." type="object">
 <ds-prop-table>
-  <ds-prop name="scheme" type="string" required>Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (e.g. 'com.acme.contract-tests').<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9.-]*$</ds-code></small></ds-prop>
+  <ds-prop name="scheme" type="string" required>Identifier of the rule system or runner this check dispatches to. MUST be lowercase; dots permitted for namespacing (ex: 'com.acme.contract-tests').<br><small>Pattern: <ds-code inline>^[a-z][a-z0-9.-]*$</ds-code></small></ds-prop>
 </ds-prop-table>
 <ds-def-example>
 <ds-code language="json" label="example">[

@@ -3,14 +3,14 @@
 //
 // A minimal icon-only button: a slotted icon plus a required accessible
 // label. No built-in positioning, color variants, or sizes — that's left to
-// whatever's using it (e.g. wrap it and set :host on the wrapper to make a
+// whatever's using it (ex: wrap it and set :host on the wrapper to make a
 // fixed floating button).
 //
 // Attributes:
 //   label — accessible name (required — this button has no visible text)
 //
 // Slots:
-//   (default) — icon markup (e.g. an inline <svg>)
+//   (default) — icon markup (ex: an inline <svg>)
 //
 // Usage:
 //   <ds-icon-button label="Toggle JSON view">

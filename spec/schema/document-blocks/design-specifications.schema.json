@@ -2,15 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://designsystemdocspec.org/v0.16.0/document-blocks/design-specifications.schema.json",
   "title": "Design specifications document block",
-  "description": "The visual specs of a component: property values, spacing, size limits, typography, and how it responds to breakpoints. Makes every visual decision explicit and measurable, so design and code stay in sync.",
+  "description": "The visual specs of a component (property values, spacing, size limits, typography, and how it responds to breakpoints). Makes every visual decision explicit and measurable, so design and code stay in sync.",
   "$defs": {
     "designValue": {
-      "description": "A design value: either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces — '{color.action.primary}', '{space.4}' — which marks it clearly as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). In a system with a token layer, use alias references, never a raw value that copies a token — a copy can drift out of sync. Writing a bare token name without braces is ambiguous and SHOULD be avoided; wrap it or it reads as a literal.",
+      "description": "A design value. Either a token reference or a raw value, and the shape says which. A token reference MUST be written as a DTCG alias in braces (ex: '{color.action.primary}', '{space.4}') which marks it as a pointer into the token layer. Anything not in braces is a raw value (ex: '#0055b3', '16px', 'transparent'). System with a token layer should use alias references, instead of raw values that copy tokens. Writing a bare token name without braces is ambiguous and SHOULD be avoided. Wrap it or it reads as a literal.",
       "type": "string"
     },
     "designProperties": {
       "type": "object",
-      "description": "A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px') — use either, or mix them.",
+      "description": "A map of property name to value. Keys say what the value controls (ex: 'background', 'min-height') and MUST be lowercase kebab-case. Values are token references in DTCG alias form ('{color.action.primary}') or raw CSS ('#0055b3', '16px'). Either can be used or mixed together.",
       "additionalProperties": {
         "$ref": "#/$defs/designValue"
       },
@@ -51,7 +51,7 @@
         },
         "external": {
           "type": "object",
-          "description": "Recommended margins between this component and its siblings or container. Keys name the relationship (ex: 'button-to-button') and MUST be lowercase kebab-case. This is a recommendation \u2014 the parent layout has final control.",
+          "description": "Recommended margins between this component and its siblings or container. Keys name the relationship (ex: 'button-to-button') and MUST be lowercase kebab-case.",
           "additionalProperties": {
             "$ref": "#/$defs/designValue"
           },
@@ -66,7 +66,7 @@
     },
     "sizingSpec": {
       "type": "object",
-      "description": "The component's size limits \u2014 min/max width and height, and any aspect ratio.",
+      "description": "The component's size limits (min/max width and height, and any aspect ratio).",
       "properties": {
         "minWidth": {
           "$ref": "#/$defs/designValue",
@@ -160,7 +160,7 @@
     },
     "designSpecifications": {
       "type": "object",
-      "description": "The component's default, baseline specs \u2014 properties, spacing, size, typography, and responsive behavior. Per-variant and per-state overrides don't go here; they live on the `variants` and `states` blocks.",
+      "description": "The component's default, baseline specs (properties, spacing, size, typography, and responsive behavior). Per-variant and per-state overrides don't go here; they live on the `variants` and `states` blocks.",
       "required": [
         "kind"
       ],

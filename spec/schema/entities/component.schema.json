@@ -37,7 +37,7 @@
         },
         "relationships": {
           "$ref": "../common/relationship.schema.json#/$defs/relationships",
-          "description": "Links from this component to other entities (ex: 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling). Agents use this graph for impact analysis and alternatives; tools derive the reverse edges. Use the `links` metadata field for external resources instead."
+          "description": "Links from this component to other entities (ex: 'depends-on' a token, 'composes' another component, 'alternative-to' a sibling). Agents use this graph for impact analysis and alternatives; tools derive the reverse relationships. Use the `links` metadata field for external resources instead."
         },
         "documentBlocks": {
           "type": "array",
@@ -49,7 +49,7 @@
         },
         "agentDocumentBlocks": {
           "type": "array",
-          "description": "Docs for agents (AI/LLM) only, using the same block kinds as `documentBlocks`. Put anything a human needs in `documentBlocks`. Use this only for things that would be noise to a person: hard must/must-not rules, notes that correct a mistake agents commonly make (like picking a similar but wrong entity), evidence-backed constraints, and machine-checkable criteria. A rule humans need too still belongs in `documentBlocks`. This adds to the human docs, it never replaces them. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
+          "description": "Docs exclusively for agents (AI/LLM), using the same block kinds as `documentBlocks`. Only use this for info that isn't useful to a person. Examples include hard must/must-not rules, notes that correct a mistake agents commonly make, and machine-checkable criteria. Put everything else in `documentBlocks`. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/componentDocumentBlock"
           },

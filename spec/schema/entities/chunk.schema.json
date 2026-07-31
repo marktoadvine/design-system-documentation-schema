@@ -89,7 +89,7 @@
         },
         "agentDocumentBlocks": {
           "type": "array",
-          "description": "Docs for AI agents only, using the same general block kinds as `documentBlocks`. Agent-only content: hard must/must-not rules, verification checklists, and constraints an agent needs when adapting this chunk into an app. Guidance for humans belongs in `documentBlocks`.",
+          "description": "Docs exclusively for agents (AI/LLM), using the same block kinds as `documentBlocks`. Only use this for info that isn't useful to a person. Examples include hard must/must-not rules, notes that correct a mistake agents commonly make, and machine-checkable criteria. Put everything else in `documentBlocks`. Tools MUST NOT show these blocks to humans. Agents SHOULD read both arrays, human docs first.",
           "items": {
             "$ref": "../document-blocks/document-blocks.schema.json#/$defs/generalDocumentBlock"
           },
@@ -97,7 +97,7 @@
         },
         "relationships": {
           "$ref": "../common/relationship.schema.json#/$defs/relationships",
-          "description": "Links from this chunk to the entities it uses. Mainly 'composes' the components it's built from (mark `required` true for the essential ones). Tools derive the reverse edges."
+          "description": "Links from this chunk to the entities it uses. Mainly 'composes' the components it's built from (mark `required` true for the essential ones). Tools derive the reverse relationships."
         },
         "metadata": {
           "$ref": "../metadata/metadata.schema.json#/$defs/entityMetadata",

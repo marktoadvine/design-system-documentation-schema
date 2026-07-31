@@ -279,7 +279,7 @@ export const COMPONENTS = [
     tag: "ds-def-section",
     title: "Definition section",
     category: "schema",
-    notes: "One $def block on a schema page. Attrs: name, anchor, type, description. Slotted body (e.g. a prop table).",
+    notes: "One $def block on a schema page. Attrs: name, anchor, type, description. Slotted body (ex: a prop table).",
     demos: [
       {
         label: "Definition with property table",

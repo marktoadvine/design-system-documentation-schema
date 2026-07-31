@@ -18,7 +18,7 @@ either the spec itself or a document written against it.
   in one JSON file, at `/v<version>/dsds.bundled.schema.json` (the exact,
   current-version link is in llms.txt and manifest.json). Prefer this over
   parsing HTML when you just need field names, types, and requiredness.
-- **Every page has a `.md` mirror** at the same path (e.g. `/quickstart.md`,
+- **Every page has a `.md` mirror** at the same path (ex: `/quickstart.md`,
   `/common-criterion.md`) — the full content as plain text, no HTML or JS
   required to read it.
 - **[MCP server](https://www.npmjs.com/package/dsds-mcp)**
@@ -44,7 +44,7 @@ the schema's `ENTITY_ENVELOPE` constant (`scripts/render-prop-table.js`) —
 one source of truth, not a convention you have to infer from examples.
 
 Each entity kind also has a canonical, standalone identifier at
-`/id/entity/<kind>` (e.g. `/id/entity/component`) — the same data as that
+`/id/entity/<kind>` (ex: `/id/entity/component`) — the same data as that
 kind's entry in manifest.json (page, markdown, schema, example,
 `acceptsBlocks`), fetchable on its own without pulling the whole manifest.
 `kind` is the identifier; there's no separate URN scheme to track.

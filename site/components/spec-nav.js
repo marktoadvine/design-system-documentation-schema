@@ -5,7 +5,7 @@
 // from declarative light-DOM children instead of a JSON attribute.
 //
 // Attributes:
-//   title       — title text shown at the top (e.g. "DSDS 0.1")
+//   title       — title text shown at the top (ex: "DSDS 0.1")
 //   title-href  — link for the title (default: "index.html")
 //   active      — slug of the currently active page
 //   open        — boolean, whether the mobile links section is expanded
@@ -356,7 +356,7 @@ export class DsSpecNav extends HTMLElement {
 
   /**
    * .nav__items is its own scroll container (independent of the page), so it
-   * always loads at scrollTop 0 — on a long nav, the active link (e.g. deep
+   * always loads at scrollTop 0 — on a long nav, the active link (ex: deep
    * in "Metadata") can load scrolled out of view with nothing on screen
    * indicating where the current page sits. scrollIntoView({ block: "nearest" })
    * only scrolls .nav__items (the nearest scrollable ancestor) — it's a
