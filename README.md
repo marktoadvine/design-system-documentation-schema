@@ -234,8 +234,10 @@ This runs three steps automatically: syncs example includes, bundles the schema,
 To validate your own DSDS file:
 
 ```bash
-npx ajv validate -s spec/schema/dsds.bundled.schema.json -d my-system.dsds.json
+npx ajv validate --spec=draft2020 -c ajv-formats --strict=false -s spec/schema/dsds.bundled.schema.json -d my-system.dsds.json
 ```
+
+The `ajv` CLI ships with the project's dependencies (`ajv-cli`), so this works right after `npm install`. The flags matter: `--spec=draft2020` matches the schema's JSON Schema draft, and `-c ajv-formats` enables the `uri` and `date` format checks — without it those constraints are silently skipped.
 
 Reference `https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json` from your DSDS files via the `$schema` keyword to get editor autocompletion and inline validation. See the [Quick Start docs page](https://designsystemdocspec.org/quickstart.html) for the single-entity and multi-entity document shapes.
 
