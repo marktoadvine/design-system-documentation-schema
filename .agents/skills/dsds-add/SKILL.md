@@ -2,7 +2,7 @@
 name: dsds-add
 description: Author a new Design System Doc Spec (DSDS) spec from component implementation, Figma design, or written requirements. Triggers on "add spec", "create spec", "new spec", "author spec", "spec from component", "spec from Figma".
 metadata:
-  version: 0.1.0
+  version: 0.15.2
 ---
 
 # Add a DSDS Spec

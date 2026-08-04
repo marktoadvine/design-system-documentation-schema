@@ -2,12 +2,12 @@
 name: dsds-specs
 description: Everything about Design System Doc Spec (DSDS) — entity kinds, document blocks, schema structure, and how it fits into the ecosystem. Use when authoring, reviewing, or reasoning about DSDS specs and `*.dsds.json` files.
 metadata:
-  version: 0.1.0
+  version: 0.15.2
 ---
 
 # Design System Doc Spec (DSDS)
 
-[DSDS v0.15.2](https://designsystemdocspec.org/) is a machine-readable JSON format for documenting design systems. DSDS specs are the **single source of truth** — everything else (React components, Figma, docs, AI catalogs) derives from them.
+[DSDS](https://designsystemdocspec.org/) is a machine-readable JSON format for documenting design systems. DSDS specs are the **single source of truth** — everything else (React components, Figma, docs, AI catalogs) derives from them.
 
 ## Schema Sources
 
@@ -92,7 +92,6 @@ Fetch these pages when authoring specific block types:
 
 ## Gotchas
 
-- `dsdsVersion` must be exactly `"0.15.2"` (string, not number).
 - Root object must have either `entity` (single-entity files) or `entityGroups` (index files), never both.
 - `entity.identifier` must match the filename without `.dsds.json`.
 - Conformance levels: `must`, `should`, `should-not`, `must-not` (lowercase, hyphenated).

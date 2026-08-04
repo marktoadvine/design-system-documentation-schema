@@ -2,7 +2,7 @@
 name: dsds-validate
 description: Validate DSDS specs against the bundled schema and check for consistency issues. Triggers on "validate specs", "check specs", "spec errors", "run validation".
 metadata:
-  version: 0.1.0
+  version: 0.15.2
 ---
 
 # Validate DSDS Specs
@@ -33,7 +33,6 @@ Checks:
 | Error pattern                 | Fix                                                                 |
 | ----------------------------- | ------------------------------------------------------------------- |
 | `must have required property` | Add the missing field to the entity or block                        |
-| `must be equal to constant`   | Check `dsdsVersion` is `"0.15.2"`                                   |
 | `must match "oneOf"`          | Entity is missing either `entity` or `entityGroups` at root         |
 | Identifier mismatch           | Rename `entity.identifier` to match filename (without `.dsds.json`) |
 
