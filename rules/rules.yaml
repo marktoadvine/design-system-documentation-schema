@@ -105,6 +105,26 @@ rules:
       was a separate decision, resolved in 0.9.0 (enum values are lowercase
       kebab-case — `must`, not `MUST`; see CHANGELOG).
 
+  - id: DSDS-011
+    name: token-description-restates-identifier
+    statement: >
+      A token or token-group `description`, when present, SHOULD NOT merely
+      restate the entity's `identifier` or `name`, and SHOULD NOT be only a
+      raw value (a bare hex/rgb/hsl color or a bare dimension).
+    rationale: >
+      Token descriptions are optional and terse by design (see DSDS-005). When
+      an author writes one, it should add what the identifier cannot: the
+      token's role, or when to use it. A description that echoes the name, or
+      restates the value the DTCG file already owns, reads as documented intent
+      while carrying none, which misleads a human and an agent alike.
+    level: should
+    enforcement: lint
+    note: >
+      Deliberately conservative, to avoid false positives: it fires only on an
+      exact name or identifier restatement (after case and punctuation
+      normalization), or a description that is nothing but a value literal. A
+      description that adds any role or usage information is never flagged.
+
   # Graduated to the schema (kept for traceability; do not reuse the IDs):
   # DSDS-010 deprecated-relationship-link — json-schema
   #   (0.14.0 removed link's identifier/role/required surface; `link` now
