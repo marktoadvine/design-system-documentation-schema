@@ -22,6 +22,7 @@
     "visualize": "node scripts/visualize.js",
     "readability": "node scripts/readability-audit.mjs",
     "bump-version": "node scripts/bump-version.js",
+    "sync-skill-versions": "node scripts/sync-skill-versions.js",
     "og:generate": "node scripts/generate-og-image.mjs",
     "prebuild": "npm run sync-examples && npm run bundle && npm run og:generate",
     "prevalidate": "npm run sync-examples && npm run bundle",
