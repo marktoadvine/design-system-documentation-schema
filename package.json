@@ -22,6 +22,7 @@
     "visualize": "node scripts/visualize.js",
     "readability": "node scripts/readability-audit.mjs",
     "bump-version": "node scripts/bump-version.js",
+    "sync-skill-versions": "node scripts/sync-skill-versions.js",
     "og:generate": "node scripts/generate-og-image.mjs",
     "postinstall": "playwright install chromium",
     "prebuild": "npm run sync-examples && npm run bundle && npm run og:generate",
@@ -58,6 +59,7 @@
   "homepage": "https://github.com/somerandomdude/design-system-documentation-schema#readme",
   "dependencies": {
     "ajv": "^8.18.0",
+    "ajv-cli": "^5.0.0",
     "ajv-formats": "^3.0.1"
   },
   "devDependencies": {
