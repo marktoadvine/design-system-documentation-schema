@@ -21,12 +21,15 @@ const SCHEMA_DIR = path.join(ROOT, "schema");
 // for the old spec/schema/'s root file.
 const ROOT_FILES = ["base.schema.yaml", "shared.schema.yaml"];
 
-// Subdirectories of schema/ that become nav groups.
+// Subdirectories of schema/ that become nav groups. `primary`, when set, is
+// the group's own open-base file (e.g. entry.schema.yaml, the base every
+// kind in entries/ extends) — pinned first in that group's nav list ahead
+// of the rest, which stay alphabetical.
 const DIR_GROUPS = [
   { dir: "common", label: "Common" },
-  { dir: "metadata", label: "Metadata" },
-  { dir: "entries", label: "Entries" },
-  { dir: "sections", label: "Sections" },
+  { dir: "metadata", label: "Metadata", primary: "metadata" },
+  { dir: "entries", label: "Entries", primary: "entry" },
+  { dir: "sections", label: "Sections", primary: "section" },
 ];
 
 // Top-level (non-schema-driven) links that always appear first.
@@ -73,6 +76,15 @@ function discoverNavPages() {
       .readdirSync(dirPath)
       .filter((f) => f.endsWith(".schema.yaml"))
       .sort();
+
+    if (group.primary) {
+      const primaryFile = `${group.primary}.schema.yaml`;
+      const idx = files.indexOf(primaryFile);
+      if (idx > 0) {
+        files.splice(idx, 1);
+        files.unshift(primaryFile);
+      }
+    }
 
     for (const filename of files) {
       const baseName = filename.replace(".schema.yaml", "");

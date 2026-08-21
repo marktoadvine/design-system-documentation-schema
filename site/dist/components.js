@@ -1093,192 +1093,115 @@
     }
   }
 
-  // ── prop-table.js ──
+  // ── prop-list.js ──
   const PROP_TABLE_CSS = `
     ${BASE_RESET}
-    :host { display: block; margin: var(--ds-space-4) 0; max-width: 100%; }
+    :host { display: block; margin: var(--ds-space-4) 0 var(--ds-space-8); }
 
-    /* Horizontal-scroll wrapper. The property/type/required columns are
-       shrink-to-fit with nowrap content, so the table has a hard minimum
-       width (~500px). On narrow viewports that minimum exceeds the host,
-       and without a scroller the rightmost column (Description) is clipped
-       off-screen with no way to reach it. overflow-x: auto lets the table
-       scroll instead of losing its Description column. Mirrors <ds-table>.
-
-       No overflow is set by default (only below 900px, see the media query
-       near the bottom): leaving both axes visible means this wrapper isn't a
-       scroll container, so the sticky header below sticks relative to the
-       PAGE as it scrolls. A wrapper that scrolls horizontally unavoidably
-       captures the vertical axis too (browsers force overflow-y to "auto" the
-       moment overflow-x isn't "visible"), which re-scopes position:sticky to
-       the wrapper's own scrolling instead of the page's — the two can't both
-       apply to the same table at once. Page-scroll stickiness is the more
-       useful default; the horizontal-scroll fallback only kicks in on narrow
-       viewports, where a wide table would otherwise clip content. */
-    .table-scroll {
-      position: relative;
-      inset: calc(var(--ds-space-4) * -1);
-      width: calc(100% + (var(--ds-space-4) * 2));
-      max-width: calc(100% + (var(--ds-space-4) * 2));
-      top: 0;
-      bottom: 0;
+    .prop-list {
+      display: flex;
+      flex-direction: column;
     }
 
-    table {
-      width: 100%;
-      max-width: 100%;
-      /* separate + zero spacing (not collapse) so the sticky header's cells
-         keep their background/position correctly in Safari, which has long-
-         standing bugs with position:sticky inside a border-collapsed table. */
-      border-collapse: separate;
-      border-spacing: 0;
-      margin-bottom: var(--ds-space-8);
-      font-family: ${FONT.body};
-      font-size: var(--ds-font-size-base);
-      position: relative;
+    .prop {
+      padding: var(--ds-space-4) 0;
+      border-bottom: 1px solid var(--ds-color-border-light);
     }
 
-    th {
-      text-align: start;
+    .prop:first-child { padding-top: 0; }
+    .prop:last-child { padding-bottom: 0; border-bottom: none; }
+
+    .prop-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      column-gap: var(--ds-space-2);
+      row-gap: var(--ds-space-1);
+      margin: 0 0 var(--ds-space-1);
       font-weight: var(--ds-font-weight-bold);
-      font-size: var(--ds-font-size-sm);
-      text-transform: none;
-      letter-spacing: var(--ds-tracking-wide);
-      color: var(--ds-color-text);
-      padding: var(--ds-space-2) var(--ds-space-2);
-      background: var(--ds-color-bg-raised);
-      white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: var(--ds-z-base, 1);
     }
 
-    @media (max-width: 900px) {
-      .table-scroll {
-        overflow-x: auto;
-      }
+    /* Reset the <h3> this renders into — it must look like the rest of the
+       row, not an independent page heading. It's a real heading element (not
+       a styled div) so each property shows up in the accessibility tree's
+       heading outline and is reachable by AT heading navigation, matching
+       <ds-heading>'s anchor pattern below. h3, not h4: every <ds-prop-table>
+       on the schema pages this renders on sits directly inside a
+       <ds-def-section>'s own <h2>, with nothing at h3 in between — jumping to
+       h4 would skip a level. */
+    h3.prop-head {
+      font-size: var(--ds-font-size-base);
+      line-height: var(--ds-line-height-snug);
     }
 
-    @media (max-width: 640px) {
-      th:nth-child(2), td:nth-child(2) { display: none; }
-      th:nth-child(3), td:nth-child(3) { display: none; }
-    }
-
-    td {
-      padding: var(--ds-space-4) var(--ds-space-2);
-      vertical-align: top;
-      line-height: 1.5;
-    }
-
-    tr:first-child td {
-      padding-top: var(--ds-space-2);
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* Column sizing: cols 1, 3 shrink to fit; col 2 (Type) shrinks to fit but is allowed
-       to wrap when its content is a long union (ex: the kind enum on guidelineEntry).
-       Col 4 (Description) gets the remaining space.
-
-       Property names (col 1) MUST never truncate — 'white-space: nowrap' plus the
-       'width: 1%' shrink-to-fit trick lets the column grow to fit the longest
-       property name without clipping. Required (col 3) is also nowrap since its
-       content is always a single short word.
-
-       Type (col 2) is intentionally NOT nowrap. Some kind-enum types render as a
-       long pipe-separated list of inline code values (ex: "required" |
-       "encouraged" | "informational" | "discouraged" | "prohibited"). Forcing
-       nowrap on that pushed Description down to ~0 width and made each row very
-       tall. Allowing the type to wrap at its natural space-pipe-space boundaries
-       keeps the Description column wide enough to read. Short types like
-       'boolean' and 'string' still render on one line because the column shrinks
-       to fit. */
-    th:nth-child(1), td:nth-child(1) { width: 1%; white-space: nowrap; }
-    th:nth-child(2), td:nth-child(2) { width: 1%; }
-    th:nth-child(3), td:nth-child(3) { width: 1%; white-space: nowrap; }
-    th:nth-child(4), td:nth-child(4) { width: auto; overflow-wrap: break-word; word-break: break-word; }
-
-    /* The 'th' selector earlier sets 'white-space: nowrap' on every header cell.
-       For column 2 specifically, override that so the "Type" header still reads
-       naturally (it's one word, but be explicit about the policy). */
-    th:nth-child(2) { white-space: normal; }
-
-    /* Column 1: Property name — monospace, bold */
-    td:nth-child(1) code {
+    .prop-name {
       font-family: ${FONT.mono};
       font-weight: var(--ds-font-weight-bold);
       color: var(--ds-color-text);
-      white-space: nowrap;
       font-size: var(--ds-font-size-base);
       background: none;
       padding: 0;
     }
 
-    /* Column 2: Type — monospace, muted */
-    td:nth-child(2) {
+    .prop-type {
       font-family: ${FONT.mono};
+      font-weight: var(--ds-font-weight-regular);
       font-size: var(--ds-font-size-sm);
+      color: var(--ds-color-text);
+      white-space: normal;
+      overflow-wrap: break-word;
     }
 
-    /* Column 3: Required — narrow, a checkmark when required */
-    th:nth-child(3), td:nth-child(3) {
-      text-align: center;
+    /* Deep-link, revealed on row hover — mirrors <ds-heading>'s anchor-link. */
+    .prop-anchor {
+      order: -1;
+      display: inline;
+      opacity: 0;
+      margin-inline-end: var(--ds-space-1);
+      color: var(--ds-color-text);
+      text-decoration: none;
+      font-size: 0.85em;
+      transition: opacity var(--ds-duration-fast) var(--ds-ease-standard);
     }
-    td:nth-child(3) {
-      font-size: var(--ds-font-size-sm);
-    }
-    td:nth-child(3) .req {
-      font-weight: var(--ds-font-weight-bold);
-    }
+    .prop:hover .prop-anchor { opacity: 0.5; }
+    .prop-anchor:hover { opacity: 1 !important; }
 
-    /* Column 4: Description — gets all remaining space */
-    td:nth-child(4) {
+    .prop-desc {
+      font-family: ${FONT.body};
       font-size: var(--ds-font-size-base);
+      line-height: 1.5;
+      color: var(--ds-color-text);
+      max-width: 70ch;
     }
 
-    td:nth-child(4) small {
+    .prop-desc small {
       display: block;
       margin-top: var(--ds-space-1);
       color: var(--ds-color-text);
       font-size: var(--ds-font-size-sm);
     }
 
-    td:nth-child(4) code {
+    .prop-desc code {
       font-family: ${FONT.mono};
       font-size: var(--ds-font-size-base);
       background: var(--ds-color-bg-muted);
       padding: 1px 5px;
     }
-
-    /* Type reference links inside cells */
-    a.type-ref {
-      font-family: ${FONT.mono};
-      font-size: var(--ds-font-size-base);
-      color: var(--ds-color-accent);
-      text-decoration: none;
-      border-bottom: 1px dashed var(--ds-color-accent);
-      transition: color var(--ds-duration-fast) var(--ds-ease-standard),
-        border-color var(--ds-duration-fast) var(--ds-ease-standard);
-    }
-
-    a.type-ref:hover {
-      /* No separate "hover" token — mixed on the fly from the accent color. */
-      color: color-mix(in oklch, var(--ds-color-accent) 80%, black);
-      border-bottom-color: color-mix(in oklch, var(--ds-color-accent) 80%, black);
-      border-bottom-style: solid;
-    }
-
-    th:first-child, td:first-child {
-      padding-inline-start: var(--ds-space-4) !important;
-    }
-
-    th:last-child, td:last-child {
-      padding-inline-end: var(--ds-space-4) !important;
-    }
-
   `;
+
+  // Property names are unique within one <ds-prop-table> (they come from a
+  // schema's own `properties` map, whose keys can't repeat), so collisions
+  // can only happen across *different* tables on the same page — e.g. two
+  // $defs that both document a "name" field. Scoping each anchor under the
+  // id of the nearest ancestor that has one (a <ds-def-section>, in every
+  // page this renders on) keeps ids stable and predictable instead of
+  // falling back to an arbitrary "-2" suffix in the common case.
+  function slugify(text) {
+    return String(text)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
 
   class DsPropTable extends HTMLElement {
     constructor() {
@@ -1327,49 +1250,93 @@
         return oa - ob;
       });
 
-      var trs = props
+      var scopeEl = this.closest("[id]");
+      var scope = scopeEl ? scopeEl.id : "";
+      var usedIds = {};
+
+      var blocks = props
         .map(function (prop) {
           var name = prop.getAttribute("name") || "";
           var type = prop.getAttribute("type") || "";
           var desc = prop.innerHTML.trim();
 
-          var statusCell;
+          var base = (scope ? scope + "-" : "") + slugify(name);
+          var anchor = base;
+          var n = 2;
+          while (usedIds[anchor] || document.getElementById(anchor)) {
+            anchor = base + "-" + n++;
+          }
+          usedIds[anchor] = true;
+
+          var badge = "";
           if (prop.hasAttribute("required")) {
-            statusCell =
-              '<span class="req" title="Required" aria-label="Required">✓</span>';
+            badge = '<ds-badge variant="kind">Required</ds-badge>';
           } else if (prop.hasAttribute("conditional")) {
-            statusCell = "at least 1";
-          } else {
-            statusCell = "";
+            badge = '<ds-badge variant="experimental">at least 1</ds-badge>';
           }
 
           return (
-            "<tr>" +
-            "<td><code>" +
+            '<div class="prop" id="' +
+            esc(anchor) +
+            '" part="prop">' +
+            '<h3 class="prop-head" part="prop-head">' +
+            '<a class="prop-anchor" href="#' +
+            esc(anchor) +
+            '" part="anchor" aria-label="Link to ' +
             esc(name) +
-            "</code></td>" +
-            "<td>" +
+            '">#</a>' +
+            '<code class="prop-name" part="name">' +
+            esc(name) +
+            "</code>" +
+            '<span class="prop-type" part="type">' +
             type +
-            "</td>" +
-            "<td>" +
-            statusCell +
-            "</td>" +
-            "<td>" +
+            "</span>" +
+            badge +
+            "</h3>" +
+            '<div class="prop-desc" part="desc">' +
             desc +
-            "</td>" +
-            "</tr>"
+            "</div>" +
+            "</div>"
           );
         })
         .join("\n");
 
       this._shadow.innerHTML =
-        '<div class="table-scroll" part="wrapper">' +
-        '<table part="table">' +
-        "<thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>" +
-        "<tbody>" +
-        trs +
-        "</tbody></table>" +
-        "</div>";
+        '<div class="prop-list" part="list">' + blocks + "</div>";
+
+      this._wireAnchors();
+    }
+
+    // Native #id URL-fragment navigation can't reach into shadow DOM — the
+    // browser's scroll-to-fragment lookup only ever checks the top-level
+    // document, and every anchor this renders lives inside this element's own
+    // shadow root. So deep links here need their own scroll handling: on
+    // click (intercepting the default same-page navigation), and once on
+    // render (in case the page loaded with a matching #hash already in the
+    // URL, before this table existed to be scrolled to).
+    _wireAnchors() {
+      var shadow = this._shadow;
+
+      shadow.querySelectorAll(".prop-anchor").forEach(function (link) {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          var id = link.getAttribute("href").slice(1);
+          var target = shadow.querySelector('[id="' + CSS.escape(id) + '"]');
+          if (!target) return;
+          history.pushState(null, "", "#" + id);
+          target.scrollIntoView({ block: "start" });
+        });
+      });
+
+      var currentHash = location.hash.slice(1);
+      if (!currentHash) return;
+      var target = shadow.querySelector('[id="' + CSS.escape(currentHash) + '"]');
+      if (!target) return;
+      // rAF, not a same-tick call: the shadow DOM was just written and needs
+      // a layout pass before scrollIntoView() has a box to scroll to.
+      requestAnimationFrame(function () {
+        target.scrollIntoView({ block: "start" });
+      });
     }
   }
 

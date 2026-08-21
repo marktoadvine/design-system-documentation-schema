@@ -32,21 +32,21 @@ This site documents DSDS, a versioned JSON Schema. Every page below has an HTML 
 
 ## Metadata
 
-- [EntryMetadata](https://designsystemdocspec.org/metadata-entry-metadata): Information about a single entry, on top of the fields every metadata object shares. ([markdown](https://designsystemdocspec.org/metadata-entry-metadata.md))
 - [Metadata](https://designsystemdocspec.org/metadata-metadata): Optional information about an element. ([markdown](https://designsystemdocspec.org/metadata-metadata.md))
+- [EntryMetadata](https://designsystemdocspec.org/metadata-entry-metadata): Information about a single entry, on top of the fields every metadata object shares. ([markdown](https://designsystemdocspec.org/metadata-entry-metadata.md))
 - [SystemMetadata](https://designsystemdocspec.org/metadata-system-metadata): Information about the design system as a whole, on top of the fields every metadata object shares. ([markdown](https://designsystemdocspec.org/metadata-system-metadata.md))
 
 ## Entries
 
-- [ComponentEntry](https://designsystemdocspec.org/entries-component): A reusable UI element, like a button or a dialog. ([markdown](https://designsystemdocspec.org/entries-component.md))
 - [Entry](https://designsystemdocspec.org/entries-entry): The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file. ([markdown](https://designsystemdocspec.org/entries-entry.md))
+- [ComponentEntry](https://designsystemdocspec.org/entries-component): A reusable UI element, like a button or a dialog. ([markdown](https://designsystemdocspec.org/entries-component.md))
 - [SystemEntry](https://designsystemdocspec.org/entries-system): A DSDS design system. System-level information and guidance for the design system as a whole. ([markdown](https://designsystemdocspec.org/entries-system.md))
 - [ThemeEntry](https://designsystemdocspec.org/entries-theme): A defined system theme. ([markdown](https://designsystemdocspec.org/entries-theme.md))
 - [TokenEntry](https://designsystemdocspec.org/entries-token): A single design token, from the Design Tokens Community Group (DTCG) format. ([markdown](https://designsystemdocspec.org/entries-token.md))
 
 ## Sections
 
+- [Section](https://designsystemdocspec.org/sections-section): A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/<kind>.schema.yaml file adds its own `kind` value and its own structure for `items`. ([markdown](https://designsystemdocspec.org/sections-section.md))
 - [DefinitionsSection](https://designsystemdocspec.org/sections-definitions): Term definitions. Can describe content labels within components or patterns, define naming conventions, act as a glossary, or be a simple way to outline component props/APIs. ([markdown](https://designsystemdocspec.org/sections-definitions.md))
 - [GuidelinesSection](https://designsystemdocspec.org/sections-guidelines): Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists. ([markdown](https://designsystemdocspec.org/sections-guidelines.md))
-- [Section](https://designsystemdocspec.org/sections-section): A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/<kind>.schema.yaml file adds its own `kind` value and its own structure for `items`. ([markdown](https://designsystemdocspec.org/sections-section.md))
 - [StepsSection](https://designsystemdocspec.org/sections-steps): A series of actions/steps/tasks, like a tutorial, a migration, a pattern's interaction flow, or checklist of things to verify. ([markdown](https://designsystemdocspec.org/sections-steps.md))

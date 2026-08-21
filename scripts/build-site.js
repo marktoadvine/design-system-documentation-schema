@@ -142,6 +142,19 @@ function discoverPages(schemaById) {
       .filter((f) => f.endsWith(".schema.yaml"))
       .sort();
 
+    // Pin the group's own open-base file (ex: entry.schema.yaml in
+    // entries/) first, ahead of the rest, which stay alphabetical — mirrors
+    // discoverNavPages()'s ordering in ./nav.js so the nav and the pages it
+    // links to are built from the same order.
+    if (group.primary) {
+      const primaryFile = `${group.primary}.schema.yaml`;
+      const idx = files.indexOf(primaryFile);
+      if (idx > 0) {
+        files.splice(idx, 1);
+        files.unshift(primaryFile);
+      }
+    }
+
     for (const filename of files) {
       pages.push(makePage(group.dir, group.label, filename, path.join(dirPath, filename)));
     }
