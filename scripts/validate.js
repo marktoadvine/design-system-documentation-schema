@@ -126,35 +126,55 @@ loadProfiles("sections", profileSectionIdByKind);
 // that same rel: file link transitively, so resolution can run against the
 // whole project instead of just the one file it was handed.
 //
-// Bounded to ROOT_DIR - an href that resolves outside it is never read.
-// That's a real security boundary, not just tidiness: a hosted validator
-// fed an attacker-controlled document must not follow an href like
+// Bounded to the directory of the file actually being validated (and its
+// subdirectories) - an href resolving outside that is never read. This is
+// a real security boundary, not just tidiness: a hosted validator fed an
+// attacker-controlled document must not follow an href like
 // `../../../etc/passwd` onto the host's own filesystem.
-const ROOT_DIR = path.resolve(rootDir);
-
+//
+// LIMITATION, by design, not oversight: this only reaches a sibling at or
+// below the entry file's own directory. A split where a target lives in a
+// *parent* or cousin directory (`../shared/badge.dsds.yaml`, one level up
+// from the file that references it) won't be found, and any `to:` it
+// can't resolve there reports as a warning, not a false "confirmed
+// broken." A boundary derived by walking upward to find a `.git` or
+// `package.json` was considered and rejected: in a monorepo, `.git`
+// commonly lives well above the actual docs project, which would widen
+// the boundary to "the whole monorepo" for exactly the case this exists
+// to protect (a CI job or hosted validator checking a document it
+// doesn't fully trust). A directory-of-the-target boundary is strictly
+// safer, and deterministic - the same file gets the same result
+// regardless of what else happens to exist on disk around it - at the
+// cost of that narrower reach. An explicit `--root` flag is the right
+// way to widen it for a layout that actually needs more; not implemented
+// yet because nothing has needed it.
 function resolveHref(href, fromAbsPath) {
   return path.resolve(path.dirname(fromAbsPath), href);
 }
 
-function isWithinRoot(absPath) {
-  const rel = path.relative(ROOT_DIR, absPath);
+function isWithinRoot(absPath, root) {
+  const rel = path.relative(root, absPath);
   return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
 }
 
 // Returns every entry/shared entity reachable from entryAbsPath by
-// following rel: file transitively, including entryAbsPath's own. A
-// sibling that doesn't exist, fails to parse, or resolves outside
-// ROOT_DIR is silently skipped - the caller can't tell "doesn't exist"
-// from "this validator couldn't check," so an unresolved target after
-// this is a warning, never a hard error (see validateItemRefs).
+// following rel: file transitively, including entryAbsPath's own, plus
+// how many *other* files were actually read (siblingCount) - a sibling
+// that doesn't exist, fails to parse, or resolves outside the root is
+// silently skipped, so the caller needs to know whether "not found" means
+// "checked and it's not there" or "nothing else was reachable at all"
+// (see validateItemRefs's scopeNote). An unresolved target after this is
+// always a warning, never a hard error - this search is inherently best-
+// effort, per the limitation above.
 function loadProject(entryAbsPath) {
+  const root = path.dirname(entryAbsPath);
   const visited = new Map(); // absPath -> doc
   const queue = [entryAbsPath];
 
   while (queue.length) {
     const absPath = queue.shift();
     if (visited.has(absPath)) continue;
-    if (!isWithinRoot(absPath) || !fs.existsSync(absPath)) continue;
+    if (!isWithinRoot(absPath, root) || !fs.existsSync(absPath)) continue;
     let doc;
     try {
       doc = loadYaml(absPath);
@@ -169,7 +189,10 @@ function loadProject(entryAbsPath) {
     }
   }
 
-  return [...visited.values()].flatMap((d) => entriesIn(d));
+  return {
+    entities: [...visited.values()].flatMap((d) => entriesIn(d)),
+    siblingCount: Math.max(0, visited.size - 1),
+  };
 }
 
 // The current spec version, read back out of any loaded schema's own
@@ -555,14 +578,15 @@ function collectItemIds(entry) {
 //     top-level `refs`) has nowhere else the target could be. Unresolved
 //     here means genuinely broken - a hard error.
 //   - A document that declares `rel: file` is part of a larger project.
-//     loadProject() follows that link (transitively, bounded to
-//     ROOT_DIR - see above) and re-checks against the merged result. A
-//     target this still can't find is reported, but only as a warning:
-//     a sibling that couldn't be read (missing, outside the root) makes
-//     the search incomplete, and a validator that can't see the whole
-//     project MUST NOT assert a pointer is broken with the same
-//     confidence as one it fully resolved. `--strict` promotes these to
-//     failures once a project is clean.
+//     loadProject() follows that link (transitively, bounded to the
+//     target file's own directory - see the limitation documented
+//     above it) and re-checks against the merged result. A target this
+//     still can't find is reported, but only as a warning: a sibling
+//     that couldn't be read (missing, unparsable, or outside that
+//     directory) makes the search incomplete, and a validator that
+//     can't see the whole project MUST NOT assert a pointer is broken
+//     with the same confidence as one it fully resolved. `--strict`
+//     promotes these to failures once a project is clean.
 function validateItemRefs(doc, errors, warnings, opts = {}) {
   const isSplitAcrossFiles = (doc.refs || []).some((r) => r && r.rel === "file");
   const localEntities = entriesIn(doc);
@@ -574,11 +598,21 @@ function validateItemRefs(doc, errors, warnings, opts = {}) {
   // discovery at all.
   let projectIds = null;
   let projectItemIdsByEntity = null;
+  let foundSiblings = false;
   if (isSplitAcrossFiles && opts.filePath) {
-    const projectEntities = loadProject(path.resolve(opts.filePath));
+    const { entities: projectEntities, siblingCount } = loadProject(path.resolve(opts.filePath));
     projectIds = new Set(projectEntities.map((e) => e.id));
     projectItemIdsByEntity = new Map(projectEntities.map((e) => [e.id, collectItemIds(e)]));
+    foundSiblings = siblingCount > 0;
   }
+
+  // What actually got checked, honestly - "checked the closure" only
+  // when a sibling was actually read; a rel: file ref that pointed at
+  // nothing reachable (missing, unparsable, outside the root) doesn't
+  // get to claim a search that never happened.
+  const scopeNote = foundSiblings
+    ? "(checked this project's rel: file closure)"
+    : "(this document declares rel: file, but no sibling could be read - not checked against a wider project)";
 
   for (const entity of localEntities) {
     const found = [];
@@ -587,7 +621,6 @@ function validateItemRefs(doc, errors, warnings, opts = {}) {
       if (to.includes("://")) continue;
       const label = `"${entity.id}" ref${at ? ` (${at})` : ""} "${to}" (rel: ${rel})`;
       const hashIdx = to.indexOf("#");
-      const scopeNote = "(checked this project's rel: file closure)";
 
       if (hashIdx === -1) {
         if (!to || localIds.has(to)) continue;

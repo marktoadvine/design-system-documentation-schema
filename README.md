@@ -72,7 +72,7 @@ To validate just your own file:
 node scripts/validate.js my-system.dsds.yaml
 ```
 
-If your system is split across files via `rel: file`, cross-file `to:` refs are resolved automatically (bounded to the repo/project root). An otherwise-unresolved target reports as a warning, not a hard failure — add `--strict` (`npm run validate:strict`) to promote those to failures once your project is clean.
+If your system is split across files via `rel: file`, cross-file `to:` refs are resolved automatically, bounded to the directory of the file you validate (and its subdirectories — not a parent or cousin directory). An otherwise-unresolved target reports as a warning, not a hard failure — add `--strict` (`npm run validate:strict`) to promote those to failures once your project is clean.
 
 Reference `https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json` from your DSDS files via the `$schema` keyword for editor autocompletion and inline validation.
 
