@@ -33,6 +33,7 @@
     <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="common-ref">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="extending.html" slug="extending">Extending the schema</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -144,8 +145,9 @@
         },
         &quot;to&quot;: {
           &quot;type&quot;: &quot;string&quot;,
+          &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*)?$&quot;,
           &quot;description&quot;: &quot;What this points at, inside this document's own graph.&quot;,
-          &quot;$comment&quot;: &quot;A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it.&quot;,
+          &quot;$comment&quot;: &quot;A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it. The entry half accepts a token id's looser slash-separated form too (see common/id.schema.yaml's tokenId), since `to` can target a token entry.\nThis pattern only checks the target is *shaped* like an id (or id#itemId) - not that it actually exists. A capitalized display name (`to: Button`) or a value with a space in it can never be a real id, whatever else is in the document, so this catches that class of mistake with no other file needed. Whether the target actually resolves is a separate, resolution-level check (see DSDS-05 for the #itemId form).&quot;,
           &quot;example&quot;: &quot;shared-a11y#focus-visible&quot;
         },
         &quot;href&quot;: {
@@ -194,7 +196,7 @@
 <li><strong>string</strong> — Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.</li>
 <li><strong>object</strong><ds-prop-table>
   <ds-prop name="rel" type="&lt;ds-code inline&gt;&quot;depends-on&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;composes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;part-of&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;alternative-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;replaces&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;extends&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;implements&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;relates-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;same-as&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;refines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;lint-rule&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;test&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;source&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;design&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;storybook&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;package&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;external-link&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;pairs-with&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;excludes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;see-also&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of pointer this is, or a namespaced custom value.</ds-prop>
-  <ds-prop name="to" type="string">What this points at, inside this document's own graph.</ds-prop>
+  <ds-prop name="to" type="string">What this points at, inside this document's own graph.<br><small>Pattern: <ds-code inline>^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*)?$</ds-code></small></ds-prop>
   <ds-prop name="href" type="string (uri-reference)">What this points at, outside this document. Such as a file, URL, or package.</ds-prop>
   <ds-prop name="role" type="string">What the thing being pointed at does in this context.</ds-prop>
   <ds-prop name="note" type="string">Additional info related to the connection of the two items.</ds-prop>

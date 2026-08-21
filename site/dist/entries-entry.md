@@ -4,6 +4,8 @@ The structure every entry kind shares. This schema doubles as a general-use entr
 
 Source: `entries/entry.schema.yaml`
 
+**2 definitions** in this file: `Entry`, `dispatch`
+
 ## Entry {#entry}
 
 The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.
@@ -19,10 +21,14 @@ The structure every entry kind shares. This schema doubles as a general-use entr
 | `related` | [list](common-ref.md#list) |  | Pointers to another entry this one is similar to in usage or purpose. |
 | `extends` | [list](common-ref.md#list) |  | Pointers to another entry this one inherits from (rel: extends). |
 | `refs` | [list](common-ref.md#list) |  | This entry's other pointers to entries and outside resources, not covered by `related` or `extends`. |
-| `sections` | [Section](sections-section.md#section)[] |  | Every documentation section for this entry. (Min items: 1) |
+| `sections` | [dispatch](sections-section.md#dispatch)[] |  | Every documentation section for this entry. (Min items: 1) |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
 
-**References:** [namespaced](common-id.md#namespaced), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [list](common-ref.md#list), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+**References:** [namespaced](common-id.md#namespaced), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [list](common-ref.md#list), [dispatch](sections-section.md#dispatch), [Extensions](common-extensions.md#extensions), [ComponentEntry](entries-component.md#componententry), [TokenEntry](entries-token.md#tokenentry), [ThemeEntry](entries-theme.md#themeentry), [SystemEntry](entries-system.md#systementry), [Entry](entries-entry.md#entry)
+
+## dispatch {#dispatch}
+
+**References:** [ComponentEntry](entries-component.md#componententry), [TokenEntry](entries-token.md#tokenentry), [ThemeEntry](entries-theme.md#themeentry), [SystemEntry](entries-system.md#systementry), [Entry](entries-entry.md#entry)
 
 ## Full schema JSON
 
@@ -125,11 +131,77 @@ The structure every entry kind shares. This schema doubles as a general-use entr
       "minItems": 1,
       "description": "Every documentation section for this entry.",
       "items": {
-        "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+        "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
       }
     },
     "$extensions": {
       "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml"
+    }
+  },
+  "$defs": {
+    "dispatch": {
+      "$comment": "Routes an entry to its own entries/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `entry` kind or a namespaced custom kind with no dedicated file. Used anywhere an entry is embedded (base.schema.yaml's own `entries`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+      "if": {
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "const": "component"
+          }
+        }
+      },
+      "then": {
+        "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml"
+      },
+      "else": {
+        "if": {
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "token"
+            }
+          }
+        },
+        "then": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/entries/token.schema.yaml"
+        },
+        "else": {
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "theme"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml"
+          },
+          "else": {
+            "if": {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "system"
+                }
+              }
+            },
+            "then": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml"
+            },
+            "else": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -33,6 +33,7 @@
     <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="entries-system">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="extending.html" slug="extending">Extending the schema</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -122,10 +123,10 @@
   <ds-prop name="related" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">Pointers to another entry this one is similar to in usage or purpose.</ds-prop>
   <ds-prop name="extends" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">Pointers to another entry this one inherits from (rel: extends).</ds-prop>
   <ds-prop name="refs" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">This entry's other pointers to entries and outside resources, not covered by <ds-code inline>related</ds-code> or <ds-code inline>extends</ds-code>.</ds-prop>
-  <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;sections-section.html#section&quot;&gt;Section&lt;/ds-type-ref&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;sections-section.html#dispatch&quot;&gt;dispatch&lt;/ds-type-ref&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="entries-entry.html#entry">Entry</ds-type-ref>, <ds-type-ref href="metadata-entry-metadata.html#entrymetadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="metadata-system-metadata.html#systemmetadata">SystemMetadata</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="sections-section.html#section">Section</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="entries-entry.html#entry">Entry</ds-type-ref>, <ds-type-ref href="metadata-entry-metadata.html#entrymetadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="metadata-system-metadata.html#systemmetadata">SystemMetadata</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="sections-section.html#dispatch">dispatch</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref></ds-cross-refs>
 </ds-def-section>
 
           <ds-back-to-top></ds-back-to-top>

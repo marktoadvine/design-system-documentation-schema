@@ -12,13 +12,13 @@ A DSDS document. Acts as the container for all content. Can be optionally extend
 | --- | --- | --- | --- |
 | `schemaVersion` | string | ✓ | The version of this spec the document follows. |
 | `name` | string | ✓ | The name of the design system this document describes. |
-| `entries` | [Entry](entries-entry.md#entry)[] | ✓ | Every entry this document owns, listed directly. (Min items: 1) |
+| `entries` | [dispatch](entries-entry.md#dispatch)[] | ✓ | Every entry this document owns, listed directly. (Min items: 1) |
 | `$schema` | string (uri-reference) |  | An optional hint for editor tools, like autocomplete or validate-on-save. |
 | `shared` | [Shared](shared.md#shared)[] |  | Reusable content that is not itself a design system artifact, for example an accessibility rule or a guideline that applies broadly. (Min items: 1) |
 | `refs` | [list](common-ref.md#list) |  | The same pointer type entries use. |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool-specific document-level data, keyed by namespace. |
 
-**References:** [Entry](entries-entry.md#entry), [Shared](shared.md#shared), [list](common-ref.md#list), [Extensions](common-extensions.md#extensions)
+**References:** [dispatch](entries-entry.md#dispatch), [Shared](shared.md#shared), [list](common-ref.md#list), [Extensions](common-extensions.md#extensions)
 
 ## Full schema JSON
 
@@ -47,7 +47,7 @@ A DSDS document. Acts as the container for all content. Can be optionally extend
       "format": "uri-reference",
       "description": "An optional hint for editor tools, like autocomplete or validate-on-save.",
       "$comment": "Usually a URL to the exact versioned schema file. Not authoritative: `schemaVersion` is the real source of truth for which version this document targets.",
-      "example": "https://designsystemdocspec.org/v0.20.0/v0.20.0/dsds.bundled.schema.json"
+      "example": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
     },
     "name": {
       "type": "string",
@@ -60,7 +60,7 @@ A DSDS document. Acts as the container for all content. Can be optionally extend
       "description": "Every entry this document owns, listed directly.",
       "$comment": "A single-entry file just has one item here. System-wide facts (version, organization, url, license, platforms) live on this list's own `kind: system` entry. Reusable content that is not a standalong artifact belongs in `shared`.",
       "items": {
-        "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+        "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml#/$defs/dispatch"
       }
     },
     "shared": {

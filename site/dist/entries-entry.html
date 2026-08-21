@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Entry — DSDS 0.20.0","description":"The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.","url":"https://designsystemdocspec.org/entries-entry","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-entry.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Entry","url":"https://designsystemdocspec.org/entries-entry#entry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Entry — DSDS 0.20.0","description":"The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.","url":"https://designsystemdocspec.org/entries-entry","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-entry.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Entry","url":"https://designsystemdocspec.org/entries-entry#entry"},{"@type":"DefinedTerm","name":"dispatch","url":"https://designsystemdocspec.org/entries-entry#dispatch"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -33,6 +33,7 @@
     <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="entries-entry">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="extending.html" slug="extending">Extending the schema</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -173,15 +174,88 @@
       &quot;minItems&quot;: 1,
       &quot;description&quot;: &quot;Every documentation section for this entry.&quot;,
       &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml&quot;
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch&quot;
       }
     },
     &quot;$extensions&quot;: {
       &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;
     }
+  },
+  &quot;$defs&quot;: {
+    &quot;dispatch&quot;: {
+      &quot;$comment&quot;: &quot;Routes an entry to its own entries/&lt;kind&gt;.schema.yaml by `kind`, falling back to this file (the open base) for the generic `entry` kind or a namespaced custom kind with no dedicated file. Used anywhere an entry is embedded (base.schema.yaml's own `entries`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.&quot;,
+      &quot;if&quot;: {
+        &quot;required&quot;: [
+          &quot;kind&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;kind&quot;: {
+            &quot;const&quot;: &quot;component&quot;
+          }
+        }
+      },
+      &quot;then&quot;: {
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml&quot;
+      },
+      &quot;else&quot;: {
+        &quot;if&quot;: {
+          &quot;required&quot;: [
+            &quot;kind&quot;
+          ],
+          &quot;properties&quot;: {
+            &quot;kind&quot;: {
+              &quot;const&quot;: &quot;token&quot;
+            }
+          }
+        },
+        &quot;then&quot;: {
+          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/token.schema.yaml&quot;
+        },
+        &quot;else&quot;: {
+          &quot;if&quot;: {
+            &quot;required&quot;: [
+              &quot;kind&quot;
+            ],
+            &quot;properties&quot;: {
+              &quot;kind&quot;: {
+                &quot;const&quot;: &quot;theme&quot;
+              }
+            }
+          },
+          &quot;then&quot;: {
+            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml&quot;
+          },
+          &quot;else&quot;: {
+            &quot;if&quot;: {
+              &quot;required&quot;: [
+                &quot;kind&quot;
+              ],
+              &quot;properties&quot;: {
+                &quot;kind&quot;: {
+                  &quot;const&quot;: &quot;system&quot;
+                }
+              }
+            },
+            &quot;then&quot;: {
+              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml&quot;
+            },
+            &quot;else&quot;: {
+              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entry.schema.yaml&quot;
+            }
+          }
+        }
+      }
+    }
   }
 }</ds-code>
 </ds-json-view>
+<ds-def-index title="2 definitions">
+<!--<p><strong>2 definitions</strong> in this file:</p>-->
+<ul>
+<li><a href="#entry"><ds-code inline>Entry</ds-code></a></li>
+<li><a href="#dispatch"><ds-code inline>dispatch</ds-code></a></li>
+</ul>
+</ds-def-index>
 <ds-def-section name="Entry" anchor="entry" description="The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file." type="object">
 <ds-prop-table>
   <ds-prop name="id" type="string" required>This entry's unique id in the design system graph.</ds-prop>
@@ -193,10 +267,13 @@
   <ds-prop name="related" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">Pointers to another entry this one is similar to in usage or purpose.</ds-prop>
   <ds-prop name="extends" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">Pointers to another entry this one inherits from (rel: extends).</ds-prop>
   <ds-prop name="refs" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">This entry's other pointers to entries and outside resources, not covered by <ds-code inline>related</ds-code> or <ds-code inline>extends</ds-code>.</ds-prop>
-  <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;sections-section.html#section&quot;&gt;Section&lt;/ds-type-ref&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;sections-section.html#dispatch&quot;&gt;dispatch&lt;/ds-type-ref&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="metadata-entry-metadata.html#entrymetadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="sections-section.html#section">Section</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="metadata-entry-metadata.html#entrymetadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="sections-section.html#dispatch">dispatch</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref>, <ds-type-ref href="entries-component.html#componententry">ComponentEntry</ds-type-ref>, <ds-type-ref href="entries-token.html#tokenentry">TokenEntry</ds-type-ref>, <ds-type-ref href="entries-theme.html#themeentry">ThemeEntry</ds-type-ref>, <ds-type-ref href="entries-system.html#systementry">SystemEntry</ds-type-ref>, <ds-type-ref href="entries-entry.html#entry">Entry</ds-type-ref></ds-cross-refs>
+</ds-def-section>
+<ds-def-section name="dispatch" anchor="dispatch">
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="entries-component.html#componententry">ComponentEntry</ds-type-ref>, <ds-type-ref href="entries-token.html#tokenentry">TokenEntry</ds-type-ref>, <ds-type-ref href="entries-theme.html#themeentry">ThemeEntry</ds-type-ref>, <ds-type-ref href="entries-system.html#systementry">SystemEntry</ds-type-ref>, <ds-type-ref href="entries-entry.html#entry">Entry</ds-type-ref></ds-cross-refs>
 </ds-def-section>
 
           <ds-back-to-top></ds-back-to-top>

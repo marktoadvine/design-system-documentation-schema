@@ -15,10 +15,10 @@ Reusable content other entries point at instead of restating. Not a design-syste
 | `description` | string | ✓ | A one-line statement of what this shared entry is for. |
 | `metadata` | object |  |  |
 | `refs` | [list](common-ref.md#list) |  | Pointers from this entry to other things. |
-| `sections` | [Section](sections-section.md#section)[] |  | The reusable content itself, in the same section structure an entry uses. (Min items: 1) |
+| `sections` | [dispatch](sections-section.md#dispatch)[] |  | The reusable content itself, in the same section structure an entry uses. (Min items: 1) |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data or an outside id, the same structure as an entry's own $extensions. |
 
-**References:** [Id](common-id.md#id), [Metadata](metadata-metadata.md#metadata), [list](common-ref.md#list), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+**References:** [Id](common-id.md#id), [Metadata](metadata-metadata.md#metadata), [list](common-ref.md#list), [dispatch](sections-section.md#dispatch), [Extensions](common-extensions.md#extensions)
 
 ## Full schema JSON
 
@@ -76,7 +76,7 @@ Reusable content other entries point at instead of restating. Not a design-syste
       "minItems": 1,
       "description": "The reusable content itself, in the same section structure an entry uses.",
       "items": {
-        "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+        "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
       }
     },
     "$extensions": {

@@ -85,3 +85,14 @@
     lead back to an entry already in the chain, for the same reason a
     `composes` cycle is invalid - a dependency graph with a cycle has no
     valid resolution order.
+
+- id: DSDS-08
+  name: ENTRY_REF_RESOLVES
+  title: A bare `to:` ref must resolve to a real entry or shared entry.
+  description: >-
+    When a `ref`'s `to` is a bare id (no `#itemId`), the entry or shared
+    entry it names must exist in the document - `entries` and `shared`
+    share one id space (see `DSDS-04`). Checked within one document; a
+    corpus split across files via `rel: file` needs the whole project
+    loaded to resolve a cross-file target, which this validator doesn't
+    do yet.

@@ -16,6 +16,7 @@ This site documents DSDS, a versioned JSON Schema. Every page below has an HTML 
 
 - [Design system doc spec 0.20.0](https://designsystemdocspec.org/): A machine-readable format for design system documentation. DSDS structures a design system as a graph of entries (systems, components, tokens, themes, and custom kinds) and sections (definitions, guidelines, steps, and freeform content) for humans, parsers, and agents. ([markdown](https://designsystemdocspec.org/index.md))
 - [DSDS quick start guide](https://designsystemdocspec.org/quickstart): Get started with DSDS — document structure, entry kinds, the section system, and minimal examples you can copy. ([markdown](https://designsystemdocspec.org/quickstart.md))
+- [Extending the schema — DSDS 0.20.0](https://designsystemdocspec.org/extending): Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones. ([markdown](https://designsystemdocspec.org/extending.md))
 - [Conformance — DSDS 0.20.0](https://designsystemdocspec.org/conformance): Conformance classes, RFC 2119 requirement levels, enforcement tiers, stability guarantees, and the generated index of every normative statement in the DSDS schemas. ([markdown](https://designsystemdocspec.org/conformance.md))
 
 ## Common

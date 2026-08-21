@@ -21,14 +21,14 @@ A reusable UI element, like a button or a dialog.
 | `related` | [list](common-ref.md#list) |  | Pointers to another entry this one is similar to in usage or purpose. |
 | `extends` | [list](common-ref.md#list) |  | Pointers to another entry this one inherits from (rel: extends). |
 | `refs` | [list](common-ref.md#list) |  | This entry's other pointers to entries and outside resources, not covered by `related` or `extends`. |
-| `sections` | [Section](sections-section.md#section)[] |  | Every documentation section for this entry. (Min items: 1) |
+| `sections` | [dispatch](sections-section.md#dispatch)[] |  | Every documentation section for this entry. (Min items: 1) |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
 | `sourceFiles` | object {platform, file}[] |  | One entry per platform's source file. (Min items: 1) |
 | `imports` | object {platform, code, package}[] |  | One entry per platform. (Min items: 1) |
 | `traits` | object \| object[] |  | The component's variants and states. (Min items: 1) |
 | `combos` | [Combo](common-combo.md#combo)[] |  | Define which of this component's own boolean traits or enum values can or cannot be paired with each other. (Min items: 1) |
 
-**References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [Id](common-id.md#id), [Ref](common-ref.md#ref), [traitValue](entries-component.md#traitvalue), [list](common-ref.md#list), [Combo](common-combo.md#combo), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [Since](common-since.md#since), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+**References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [Id](common-id.md#id), [Ref](common-ref.md#ref), [traitValue](entries-component.md#traitvalue), [list](common-ref.md#list), [Combo](common-combo.md#combo), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [Since](common-since.md#since), [dispatch](sections-section.md#dispatch), [Extensions](common-extensions.md#extensions)
 
 ## traitValue {#traitvalue}
 

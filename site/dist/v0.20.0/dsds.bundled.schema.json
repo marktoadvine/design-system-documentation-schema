@@ -29,7 +29,7 @@
           "format": "uri-reference",
           "description": "An optional hint for editor tools, like autocomplete or validate-on-save.",
           "$comment": "Usually a URL to the exact versioned schema file. Not authoritative: `schemaVersion` is the real source of truth for which version this document targets.",
-          "example": "https://designsystemdocspec.org/v0.20.0/v0.20.0/dsds.bundled.schema.json"
+          "example": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
         },
         "name": {
           "type": "string",
@@ -42,7 +42,7 @@
           "description": "Every entry this document owns, listed directly.",
           "$comment": "A single-entry file just has one item here. System-wide facts (version, organization, url, license, platforms) live on this list's own `kind: system` entry. Reusable content that is not a standalong artifact belongs in `shared`.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml#/$defs/dispatch"
           }
         },
         "shared": {
@@ -324,8 +324,9 @@
             },
             "to": {
               "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*)?$",
               "description": "What this points at, inside this document's own graph.",
-              "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it.",
+              "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it. The entry half accepts a token id's looser slash-separated form too (see common/id.schema.yaml's tokenId), since `to` can target a token entry.\nThis pattern only checks the target is *shaped* like an id (or id#itemId) - not that it actually exists. A capitalized display name (`to: Button`) or a value with a space in it can never be a real id, whatever else is in the document, so this catches that class of mistake with no other file needed. Whether the target actually resolves is a separate, resolution-level check (see DSDS-05 for the #itemId form).",
               "example": "shared-a11y#focus-visible"
             },
             "href": {
@@ -770,11 +771,77 @@
           "minItems": 1,
           "description": "Every documentation section for this entry.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
           }
         },
         "$extensions": {
           "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml"
+        }
+      },
+      "$defs": {
+        "dispatch": {
+          "$comment": "Routes an entry to its own entries/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `entry` kind or a namespaced custom kind with no dedicated file. Used anywhere an entry is embedded (base.schema.yaml's own `entries`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "component"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml"
+          },
+          "else": {
+            "if": {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "token"
+                }
+              }
+            },
+            "then": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/entries/token.schema.yaml"
+            },
+            "else": {
+              "if": {
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "theme"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml"
+              },
+              "else": {
+                "if": {
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "system"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml"
+                },
+                "else": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -1278,6 +1345,10 @@
                       "description": "Related terms often confused with this one.",
                       "example": "Confirm"
                     }
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one term, keyed by namespace."
                   }
                 },
                 "additionalProperties": false
@@ -1446,6 +1517,11 @@
                         "rel": "same-as"
                       }
                     ]
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one guideline, keyed by namespace.",
+                    "$comment": "A custom `kind` (ex: \"acme.rule\") can add its own typed fields directly. A well-known kind like `guidelines` can't — its item shape is closed so every tool that understands `guidelines` keeps understanding it — so this is the one way to attach org-specific data (a rationale, a failure mode, an internal ticket) to a single item without forking the kind."
                   }
                 },
                 "additionalProperties": false
@@ -1554,6 +1630,55 @@
         }
       },
       "$defs": {
+        "dispatch": {
+          "$comment": "Routes a section to its own sections/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `section` kind or a namespaced custom kind with no dedicated file. Used anywhere a section is embedded (an entry's or a shared item's own `sections`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "definitions"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml"
+          },
+          "else": {
+            "if": {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "guidelines"
+                }
+              }
+            },
+            "then": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml"
+            },
+            "else": {
+              "if": {
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "steps"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml"
+              },
+              "else": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+              }
+            }
+          }
+        },
         "freeformEntry": {
           "type": "object",
           "required": [
@@ -1597,6 +1722,10 @@
                 "$ref": "#/$defs/freeformEntry"
               },
               "description": "Sub-entries nested beneath this one, to any depth."
+            },
+            "$extensions": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+              "description": "Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace."
             }
           },
           "additionalProperties": false
@@ -1677,6 +1806,10 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Whether this entry can be skipped without breaking the procedure or checklist."
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one step, keyed by namespace."
                   }
                 },
                 "additionalProperties": false
@@ -1740,7 +1873,7 @@
           "minItems": 1,
           "description": "The reusable content itself, in the same section structure an entry uses.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
           }
         },
         "$extensions": {

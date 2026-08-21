@@ -19,7 +19,7 @@ Term definitions. Can describe content labels within components or patterns, def
 | `freeform` | `freeformEntry`[] |  | Nestable written content that can include headings. Available on every section kind regardless of `items`' own structure. (Min items: 1) |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this one section, keyed by namespace. |
 
-**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions)
+**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [Extensions](common-extensions.md#extensions), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`
 
 ## Full schema JSON
 
@@ -80,6 +80,10 @@ Term definitions. Can describe content labels within components or patterns, def
                   "description": "Related terms often confused with this one.",
                   "example": "Confirm"
                 }
+              },
+              "$extensions": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                "description": "Escape hatch for tool data scoped to just this one term, keyed by namespace."
               }
             },
             "additionalProperties": false

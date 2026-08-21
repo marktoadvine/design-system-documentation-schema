@@ -43,6 +43,9 @@ allOf:
                 type: string
                 description: Related terms often confused with this one.
                 example: Confirm
+            $extensions:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+              description: Escape hatch for tool data scoped to just this one term, keyed by namespace.
           additionalProperties: false
 
 unevaluatedProperties: false

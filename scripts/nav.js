@@ -36,6 +36,7 @@ const DIR_GROUPS = [
 const TOP_LINKS = [
   { label: "Overview", href: "index.html", slug: "index" },
   { label: "Quick start", href: "quickstart.html", slug: "quickstart" },
+  { label: "Extending the schema", href: "extending.html", slug: "extending" },
   { label: "Conformance", href: "conformance.html", slug: "conformance" },
 ];
 

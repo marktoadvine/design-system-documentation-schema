@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Section — DSDS 0.20.0","description":"A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/\u003ckind>.schema.yaml file adds its own `kind` value and its own structure for `items`.","url":"https://designsystemdocspec.org/sections-section","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-section.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Section","url":"https://designsystemdocspec.org/sections-section#section"},{"@type":"DefinedTerm","name":"freeformEntry","url":"https://designsystemdocspec.org/sections-section#freeformentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Section — DSDS 0.20.0","description":"A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/\u003ckind>.schema.yaml file adds its own `kind` value and its own structure for `items`.","url":"https://designsystemdocspec.org/sections-section","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-section.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Section","url":"https://designsystemdocspec.org/sections-section#section"},{"@type":"DefinedTerm","name":"dispatch","url":"https://designsystemdocspec.org/sections-section#dispatch"},{"@type":"DefinedTerm","name":"freeformEntry","url":"https://designsystemdocspec.org/sections-section#freeformentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -33,6 +33,7 @@
     <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="sections-section">
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="extending.html" slug="extending">Extending the schema</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -173,6 +174,55 @@
     }
   },
   &quot;$defs&quot;: {
+    &quot;dispatch&quot;: {
+      &quot;$comment&quot;: &quot;Routes a section to its own sections/&lt;kind&gt;.schema.yaml by `kind`, falling back to this file (the open base) for the generic `section` kind or a namespaced custom kind with no dedicated file. Used anywhere a section is embedded (an entry's or a shared item's own `sections`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.&quot;,
+      &quot;if&quot;: {
+        &quot;required&quot;: [
+          &quot;kind&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;kind&quot;: {
+            &quot;const&quot;: &quot;definitions&quot;
+          }
+        }
+      },
+      &quot;then&quot;: {
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml&quot;
+      },
+      &quot;else&quot;: {
+        &quot;if&quot;: {
+          &quot;required&quot;: [
+            &quot;kind&quot;
+          ],
+          &quot;properties&quot;: {
+            &quot;kind&quot;: {
+              &quot;const&quot;: &quot;guidelines&quot;
+            }
+          }
+        },
+        &quot;then&quot;: {
+          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml&quot;
+        },
+        &quot;else&quot;: {
+          &quot;if&quot;: {
+            &quot;required&quot;: [
+              &quot;kind&quot;
+            ],
+            &quot;properties&quot;: {
+              &quot;kind&quot;: {
+                &quot;const&quot;: &quot;steps&quot;
+              }
+            }
+          },
+          &quot;then&quot;: {
+            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml&quot;
+          },
+          &quot;else&quot;: {
+            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml&quot;
+          }
+        }
+      }
+    },
     &quot;freeformEntry&quot;: {
       &quot;type&quot;: &quot;object&quot;,
       &quot;required&quot;: [
@@ -216,6 +266,10 @@
             &quot;$ref&quot;: &quot;#/$defs/freeformEntry&quot;
           },
           &quot;description&quot;: &quot;Sub-entries nested beneath this one, to any depth.&quot;
+        },
+        &quot;$extensions&quot;: {
+          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
+          &quot;description&quot;: &quot;Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.&quot;
         }
       },
       &quot;additionalProperties&quot;: false
@@ -223,10 +277,11 @@
   }
 }</ds-code>
 </ds-json-view>
-<ds-def-index title="2 definitions">
-<!--<p><strong>2 definitions</strong> in this file:</p>-->
+<ds-def-index title="3 definitions">
+<!--<p><strong>3 definitions</strong> in this file:</p>-->
 <ul>
 <li><a href="#section"><ds-code inline>Section</ds-code></a></li>
+<li><a href="#dispatch"><ds-code inline>dispatch</ds-code></a></li>
 <li><a href="#freeformentry"><ds-code inline>freeformEntry</ds-code></a></li>
 </ul>
 </ds-def-index>
@@ -242,7 +297,10 @@
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this one section, keyed by namespace.</ds-prop>
 </ds-prop-table>
 <ds-callout variant="warning" title="Constraint:">At least one of <ds-code inline>items</ds-code>, <ds-code inline>freeform</ds-code> must be present.</ds-callout>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="metadata-metadata.html#metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref>, <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-example.html#list">list</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="metadata-metadata.html#metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref>, <ds-type-ref href="sections-definitions.html#definitionssection">DefinitionsSection</ds-type-ref>, <ds-type-ref href="sections-guidelines.html#guidelinessection">GuidelinesSection</ds-type-ref>, <ds-type-ref href="sections-steps.html#stepssection">StepsSection</ds-type-ref>, <ds-type-ref href="sections-section.html#section">Section</ds-type-ref>, <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-example.html#list">list</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref></ds-cross-refs>
+</ds-def-section>
+<ds-def-section name="dispatch" anchor="dispatch">
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="sections-definitions.html#definitionssection">DefinitionsSection</ds-type-ref>, <ds-type-ref href="sections-guidelines.html#guidelinessection">GuidelinesSection</ds-type-ref>, <ds-type-ref href="sections-steps.html#stepssection">StepsSection</ds-type-ref>, <ds-type-ref href="sections-section.html#section">Section</ds-type-ref></ds-cross-refs>
 </ds-def-section>
 <ds-def-section name="freeformEntry" anchor="freeformentry" type="object">
 <ds-prop-table>
@@ -252,8 +310,9 @@
   <ds-prop name="examples" type="&lt;ds-type-ref href=&quot;common-example.html#list&quot;&gt;list&lt;/ds-type-ref&gt;"></ds-prop>
   <ds-prop name="refs" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">&quot;See also&quot; pointers for this entry. To point at another entry, use the entry's own top-level <ds-code inline>refs</ds-code> instead.</ds-prop>
   <ds-prop name="items" type="&lt;ds-code inline&gt;freeformEntry&lt;/ds-code&gt;[]">Sub-entries nested beneath this one, to any depth.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.</ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-example.html#list">list</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-example.html#list">list</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref></ds-cross-refs>
 </ds-def-section>
 
           <ds-back-to-top></ds-back-to-top>

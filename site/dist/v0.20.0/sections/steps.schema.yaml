@@ -56,6 +56,9 @@ allOf:
               type: boolean
               default: false
               description: Whether this entry can be skipped without breaking the procedure or checklist.
+            $extensions:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+              description: Escape hatch for tool data scoped to just this one step, keyed by namespace.
           additionalProperties: false
 
 unevaluatedProperties: false

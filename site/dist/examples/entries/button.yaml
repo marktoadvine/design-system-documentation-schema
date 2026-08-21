@@ -105,6 +105,14 @@ sections:
     items:
       - statement: Limit each surface to one primary button.
         level: should
+        # A guideline item's own shape is closed - not extensible the way
+        # an entry or a section is - so $extensions is the one way to
+        # attach org-specific data (here, a rationale and a failure mode)
+        # to a single rule without forking the guidelines kind itself.
+        $extensions:
+          com.acme:
+            rationale: Multiple primary buttons compete for attention and force the user to guess which action is actually the recommended one.
+            failureMode: A dialog ships with two primary-styled buttons (e.g. "Save" and "Save as draft"), and usability testing shows users default to the wrong one.
       - statement: Use buttons only for in-page actions, never navigation.
         level: must
       # No statement here - this requirement is owned and tracked in the

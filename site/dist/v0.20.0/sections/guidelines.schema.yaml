@@ -128,6 +128,16 @@ allOf:
               example:
                 - to: "shared-a11y#focus-visible"
                   rel: same-as
+            $extensions:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+              description: Escape hatch for tool data scoped to just this one guideline, keyed by namespace.
+              $comment: >-
+                A custom `kind` (ex: "acme.rule") can add its own typed
+                fields directly. A well-known kind like `guidelines` can't —
+                its item shape is closed so every tool that understands
+                `guidelines` keeps understanding it — so this is the one way
+                to attach org-specific data (a rationale, a failure mode, an
+                internal ticket) to a single item without forking the kind.
           additionalProperties: false
 
 unevaluatedProperties: false

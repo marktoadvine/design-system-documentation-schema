@@ -20,7 +20,7 @@ Rules for an entry. How to use it and when it is the right choice. Each item pai
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this one section, keyed by namespace. |
 | `context` | `"when-to-use"` \| `"how-to-use"` |  | Which kind of guidance this section holds. (Default: `"how-to-use"`) |
 
-**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [RequirementLevel](common-requirement-level.md#requirementlevel), [Example](common-example.md#example), [list](common-ref.md#list), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions)
+**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [RequirementLevel](common-requirement-level.md#requirementlevel), [Example](common-example.md#example), [list](common-ref.md#list), [Extensions](common-extensions.md#extensions), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`
 
 ## Full schema JSON
 
@@ -183,6 +183,11 @@ Rules for an entry. How to use it and when it is the right choice. Each item pai
                     "rel": "same-as"
                   }
                 ]
+              },
+              "$extensions": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                "description": "Escape hatch for tool data scoped to just this one guideline, keyed by namespace.",
+                "$comment": "A custom `kind` (ex: \"acme.rule\") can add its own typed fields directly. A well-known kind like `guidelines` can't — its item shape is closed so every tool that understands `guidelines` keeps understanding it — so this is the one way to attach org-specific data (a rationale, a failure mode, an internal ticket) to a single item without forking the kind."
               }
             },
             "additionalProperties": false

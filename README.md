@@ -43,6 +43,7 @@ The authoritative reference for every schema and field is the **documentation si
 
 - **[Overview](https://designsystemdocspec.org/)** — What DSDS is, the entry/section model, design principles, humans & agents, and interoperability with DTCG/CEM/Storybook.
 - **[Quick Start](https://designsystemdocspec.org/quickstart.html)** — Document structure, entry kinds, the section system, and minimal examples for every entry kind.
+- **[Extending the schema](https://designsystemdocspec.org/extending.html)** — `$extensions`, custom kinds, and profiles: the three ways to go beyond what the spec ships with, and when to reach for each.
 - **[Conformance](https://designsystemdocspec.org/conformance.html)** — How the schema itself is put together, the `DSDS-01`–`DSDS-07` semantic rule catalog, stability guarantees and the criteria for declaring 1.0, and the generated index of every normative statement in the schemas.
 
 Per-schema reference pages sit next to the narrative pages — e.g. [entries/component](https://designsystemdocspec.org/entries-component.html), [sections/guidelines](https://designsystemdocspec.org/sections-guidelines.html), [common/ref](https://designsystemdocspec.org/common-ref.html). You can also build the site locally with `npm run build` and open `site/dist/index.html`.
@@ -53,7 +54,7 @@ This README leaves out schema field listings and example payloads on purpose —
 
 - **`schema/`** — The split JSON Schema source (`common/`, `metadata/`, `entries/`, `sections/`), plus the auto-generated `dsds.bundled.schema.json` and the `DSDS-01`–`DSDS-07` `conformance-rules.yaml` catalog.
 - **`examples/`** — Validated example documents: full base documents, standalone entries per kind, quickstart snippets, interop pairs, and one `invalid/` fixture per semantic rule.
-- **`test/sanity-ui/`** — A real-world regression corpus: ~30 [Sanity UI](https://www.sanity.io/ui) components documented as DSDS entries, checked on every `npm run check`.
+- **`test/site-components/`** — A regression corpus documenting this repo's own `site/components/` web components as DSDS entries (dogfooding), checked on every `npm run check`.
 - **`scripts/`** — Bundling, validation, composition, and the static site generator.
 - **`site/`** — The spec site source (`content/*.mdx`, `templates/`, `components/`) and its generated output in `site/dist/`, including immutable versioned `v<n>/` archives.
 
@@ -75,24 +76,21 @@ Reference `https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json` fro
 
 For document structure, composing hand-split fragments (`scripts/compose.js`), and authoring narrative pages with schema-driven property tables, see the **[Quick Start docs page](https://designsystemdocspec.org/quickstart.html)** and [Conformance](https://designsystemdocspec.org/conformance.html#how-the-schema-is-organized).
 
-> `scripts/bump-version.js` and `scripts/visualize.js` still assume the pre-0.20.0 schema shape and aren't ported yet — see [Cutting a release](#cutting-a-release) for the manual version-bump steps in the meantime.
-
 ## Cutting a release
 
 There's no single version field — every `schema/**/*.schema.yaml` file's own `$id` independently encodes the version (e.g. `.../v0.20.0/common/ref.schema.yaml`), and everything else (`nav.js`, `compile-mdx.mjs`'s `{{VERSION}}` substitution, the versioned `site/dist/v<n>/` directory) derives the current version by reading it back out of `schema/dsds.bundled.schema.json`. MDX content must never hardcode a version — always use `{{VERSION}}`.
 
-To cut a release with schema changes:
+`scripts/bump-version.js` automates the mechanical part — every schema file's `$id`, `bundle.js`'s hardcoded `$id`, every example/test fixture's `schemaVersion`, README's one hardcoded URL, and `package.json#version` — then regenerates the bundled schema and syncs `.agents/skills/dsds-*`'s version references:
 
 ```bash
 # 1. Make schema changes under schema/, add examples/ + examples/invalid/ fixtures as needed.
-# 2. Bump package.json#version and add a CHANGELOG entry.
-# 3. Rewrite every schema file's own $id, plus bundle.js's hardcoded $id:
-find schema -name "*.schema.yaml" -exec sed -i '' 's#/v0\.20\.0/#/v0.20.1/#g' {} +
-sed -i '' 's#/v0\.20\.0/#/v0.20.1/#g' scripts/bundle.js
-npm run bundle
-npm run build   # publishes a new site/dist/v<new-version>/
-npm run check   # must pass before committing
+# 2. Add a CHANGELOG entry.
+npm run bump-version 0.20.1     # rewrites every version reference, bundles, syncs skill versions
+npm run build                   # publishes a new site/dist/v<new-version>/
+npm run check                   # must pass before committing
 ```
+
+Use `npm run bump-version <version> -- --dry-run` to preview changes first, or `--help` for the rest of the flags.
 
 The versioned dist directories (`site/dist/v<n>/dsds.bundled.schema.json`) are **immutable public contracts** — older `v<n>/` directories must stay untouched. Commit the schema changes, examples, README, CHANGELOG, `package.json`, and the full `site/dist/` tree together.
 

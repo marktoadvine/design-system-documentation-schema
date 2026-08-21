@@ -4,7 +4,7 @@ A logical documentation section. Every section uses the same structure (`items`)
 
 Source: `sections/section.schema.yaml`
 
-**2 definitions** in this file: `Section`, `freeformEntry`
+**3 definitions** in this file: `Section`, `dispatch`, `freeformEntry`
 
 ## Section {#section}
 
@@ -23,7 +23,11 @@ A logical documentation section. Every section uses the same structure (`items`)
 
 **Constraint:** At least one of `items`, `freeform` must be present.
 
-**References:** [namespaced](common-id.md#namespaced), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [list](common-ref.md#list)
+**References:** [namespaced](common-id.md#namespaced), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions), [DefinitionsSection](sections-definitions.md#definitionssection), [GuidelinesSection](sections-guidelines.md#guidelinessection), [StepsSection](sections-steps.md#stepssection), [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [list](common-ref.md#list)
+
+## dispatch {#dispatch}
+
+**References:** [DefinitionsSection](sections-definitions.md#definitionssection), [GuidelinesSection](sections-guidelines.md#guidelinessection), [StepsSection](sections-steps.md#stepssection), [Section](sections-section.md#section)
 
 ## freeformEntry {#freeformentry}
 
@@ -35,8 +39,9 @@ A logical documentation section. Every section uses the same structure (`items`)
 | `examples` | [list](common-example.md#list) |  |  |
 | `refs` | [list](common-ref.md#list) |  | "See also" pointers for this entry. To point at another entry, use the entry's own top-level `refs` instead. |
 | `items` | `freeformEntry`[] |  | Sub-entries nested beneath this one, to any depth. (Min items: 1) |
+| `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace. |
 
-**References:** [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [list](common-ref.md#list), `#/$defs/freeformEntry`
+**References:** [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [list](common-ref.md#list), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions)
 
 ## Full schema JSON
 
@@ -139,6 +144,55 @@ A logical documentation section. Every section uses the same structure (`items`)
     }
   },
   "$defs": {
+    "dispatch": {
+      "$comment": "Routes a section to its own sections/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `section` kind or a namespaced custom kind with no dedicated file. Used anywhere a section is embedded (an entry's or a shared item's own `sections`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+      "if": {
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "const": "definitions"
+          }
+        }
+      },
+      "then": {
+        "$ref": "https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml"
+      },
+      "else": {
+        "if": {
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "guidelines"
+            }
+          }
+        },
+        "then": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml"
+        },
+        "else": {
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "steps"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml"
+          },
+          "else": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+          }
+        }
+      }
+    },
     "freeformEntry": {
       "type": "object",
       "required": [
@@ -182,6 +236,10 @@ A logical documentation section. Every section uses the same structure (`items`)
             "$ref": "#/$defs/freeformEntry"
           },
           "description": "Sub-entries nested beneath this one, to any depth."
+        },
+        "$extensions": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+          "description": "Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace."
         }
       },
       "additionalProperties": false

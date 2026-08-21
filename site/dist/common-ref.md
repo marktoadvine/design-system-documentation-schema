@@ -18,7 +18,7 @@ One of:
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `rel` | `"depends-on"` \| `"composes"` \| `"part-of"` \| `"alternative-to"` \| `"replaces"` \| `"extends"` \| `"implements"` \| `"relates-to"` \| `"same-as"` \| `"refines"` \| `"lint-rule"` \| `"test"` \| `"file"` \| `"source"` \| `"design"` \| `"storybook"` \| `"package"` \| `"external-link"` \| `"pairs-with"` \| `"excludes"` \| `"see-also"` \| [namespaced](common-id.md#namespaced) | ✓ | What kind of pointer this is, or a namespaced custom value. |
-| `to` | string |  | What this points at, inside this document's own graph. |
+| `to` | string |  | What this points at, inside this document's own graph. (Pattern: `^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*)?$`) |
 | `href` | string (uri-reference) |  | What this points at, outside this document. Such as a file, URL, or package. |
 | `role` | string |  | What the thing being pointed at does in this context. |
 | `note` | string |  | Additional info related to the connection of the two items. |
@@ -101,8 +101,9 @@ One of:
         },
         "to": {
           "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*)?$",
           "description": "What this points at, inside this document's own graph.",
-          "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it.",
+          "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it. The entry half accepts a token id's looser slash-separated form too (see common/id.schema.yaml's tokenId), since `to` can target a token entry.\nThis pattern only checks the target is *shaped* like an id (or id#itemId) - not that it actually exists. A capitalized display name (`to: Button`) or a value with a space in it can never be a real id, whatever else is in the document, so this catches that class of mistake with no other file needed. Whether the target actually resolves is a separate, resolution-level check (see DSDS-05 for the #itemId form).",
           "example": "shared-a11y#focus-visible"
         },
         "href": {

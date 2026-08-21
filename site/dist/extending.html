@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extending the schema — DSDS 0.20.0</title>
+  <meta name="description" content="Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones.">
+  <link rel="canonical" href="https://designsystemdocspec.org/extending">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="text/markdown" href="extending.md">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Design System Doc Spec">
+  <meta property="og:title" content="Extending the schema — DSDS 0.20.0">
+  <meta property="og:description" content="Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones.">
+  <meta property="og:url" content="https://designsystemdocspec.org/extending">
+  <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta name="dsds-version" content="0.20.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"Extending the schema — DSDS 0.20.0","description":"Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones.","url":"https://designsystemdocspec.org/extending","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/extending.md"}</script>
+
+  <link rel="stylesheet" href="tokens.css?v=0.20.0">
+  <link rel="stylesheet" href="style.css?v=0.20.0">
+  <script src="components.js?v=0.20.0"></script>
+</head>
+<body>
+  <nav class="skip-nav" aria-label="Skip links">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+</nav>
+    <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="extending">
+    <a href="index.html" slug="index">Overview</a>
+    <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="conformance.html" slug="conformance">Conformance</a>
+    <ds-nav-group label="Base">
+      <a href="base.html" slug="base">base</a>
+      <a href="shared.html" slug="shared">shared</a>
+    </ds-nav-group>
+    <ds-nav-group label="Common">
+      <a href="common-combo.html" slug="common-combo">combo</a>
+      <a href="common-example.html" slug="common-example">example</a>
+      <a href="common-extensions.html" slug="common-extensions">extensions</a>
+      <a href="common-id.html" slug="common-id">id</a>
+      <a href="common-markdown.html" slug="common-markdown">markdown</a>
+      <a href="common-ref.html" slug="common-ref">ref</a>
+      <a href="common-requirement-level.html" slug="common-requirement-level">requirement-level</a>
+      <a href="common-showcase.html" slug="common-showcase">showcase</a>
+      <a href="common-since.html" slug="common-since">since</a>
+    </ds-nav-group>
+    <ds-nav-group label="Metadata">
+      <a href="metadata-metadata.html" slug="metadata-metadata">metadata</a>
+      <a href="metadata-entry-metadata.html" slug="metadata-entry-metadata">entry-metadata</a>
+      <a href="metadata-system-metadata.html" slug="metadata-system-metadata">system-metadata</a>
+    </ds-nav-group>
+    <ds-nav-group label="Entries">
+      <a href="entries-entry.html" slug="entries-entry">entry</a>
+      <a href="entries-component.html" slug="entries-component">component</a>
+      <a href="entries-system.html" slug="entries-system">system</a>
+      <a href="entries-theme.html" slug="entries-theme">theme</a>
+      <a href="entries-token.html" slug="entries-token">token</a>
+    </ds-nav-group>
+    <ds-nav-group label="Sections">
+      <a href="sections-section.html" slug="sections-section">section</a>
+      <a href="sections-definitions.html" slug="sections-definitions">definitions</a>
+      <a href="sections-guidelines.html" slug="sections-guidelines">guidelines</a>
+      <a href="sections-steps.html" slug="sections-steps">steps</a>
+    </ds-nav-group>
+  </ds-spec-nav>
+  <div class="content">
+    <main class="content__main" id="main-content" role="main">
+    <ds-header title="Extending the schema — DSDS 0.20.0" description="Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones."></ds-header>
+    <div class="content__container">
+        <div class="content__inner">
+
+          <p>DSDS ships a fixed set of well-known kinds and a fixed set of fields on each. Every real project needs more than that eventually — vendor data a tool wants to stash, a document type the spec doesn't have a name for, or a completeness bar stricter than "optional." This page covers the three ways to get there, and when to reach for each one.</p>
+<ds-table><table><thead><tr><th>Mechanism</th><th>What it's for</th><th>Who else can read it</th></tr></thead><tbody><tr><td><ds-code inline>$extensions</ds-code></td><td>Opaque data a specific tool needs, attached to something the spec already models</td><td>Only the tool that owns the namespace — everyone else skips it, by design</td></tr><tr><td>A custom kind</td><td>A document shape the spec has no name for at all</td><td>Nobody, unless you also publish the schema that defines it</td></tr><tr><td>A profile</td><td>Making an existing kind's <em>optional</em> fields required for your own project</td><td>Everybody — the document is still fully standard DSDS</td></tr></tbody></table></ds-table>
+<ds-heading level="2" anchor="extensions"><ds-code inline>$extensions</ds-code></ds-heading>
+<p><ds-code inline>$extensions</ds-code> is a namespaced escape hatch for vendor or tool data. It's available at the document, entry, and section level, and — as of this page — on every section item too: a <ds-code inline>guidelines</ds-code>, <ds-code inline>definitions</ds-code>, or <ds-code inline>steps</ds-code> item, and a <ds-code inline>freeform</ds-code> entry.</p>
+<p>Every top-level key under <ds-code inline>$extensions</ds-code> MUST be a dotted namespace (<ds-code inline>com.figma</ds-code>, <ds-code inline>com.acme</ds-code>), matching the <a href="https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/">Design Tokens Community Group's own <ds-code inline>$extensions</ds-code> convention</a>. That namespace is what keeps a tool that doesn't recognize your data from choking on it — it just skips keys it doesn't own.</p>
+<ds-heading level="3" anchor="why-item-level-extensions-matters">Why item-level <ds-code inline>$extensions</ds-code> matters</ds-heading>
+<p>A <ds-code inline>guidelines</ds-code> item's shape is closed — <ds-code inline>statement</ds-code>, <ds-code inline>level</ds-code>, <ds-code inline>refs</ds-code>, and a handful of other well-known fields, nothing else. That's deliberate: every tool that understands the <ds-code inline>guidelines</ds-code> kind keeps understanding it, with no surprise fields to trip over. But it also means there was no way to attach a rationale or a documented failure mode to <em>one specific rule</em> without either abandoning the well-known <ds-code inline>guidelines</ds-code> kind entirely (see <a href="#custom-kinds">custom kinds</a> below) or waiting for the spec to add a field everyone would then be stuck with, whether they wanted it or not.</p>
+<p><ds-code inline>$extensions</ds-code> on the item itself resolves that without opening the shape up for everyone:</p>
+<ds-code language="yaml">sections:
+  - kind: guidelines
+    for: human
+    items:
+      - statement: Limit each surface to one primary button.
+        level: should
+        $extensions:
+          com.acme:
+            rationale: Multiple primary buttons compete for attention and force the user to guess which action is actually the recommended one.
+            failureMode: A dialog ships with two primary-styled buttons (e.g. "Save" and "Save as draft"), and usability testing shows users default to the wrong one.
+</ds-code>
+<p>A tool that doesn't know about <ds-code inline>com.acme</ds-code> — the reference validator, another vendor's linter, a generic DSDS reader — skips it entirely. The document is still fully standard DSDS: swap out the <ds-code inline>$extensions</ds-code> block and there's nothing left that wasn't already legal.</p>
+<p>See it in the repo's own <a href="https://github.com/somerandomdude/design-system-documentation-schema/blob/main/examples/entries/button.yaml"><ds-code inline>button.yaml</ds-code></a> for a real, validated example.</p>
+<ds-heading level="2" anchor="custom-kinds">Custom kinds</ds-heading>
+<p>When the generic <ds-code inline>entry</ds-code> kind isn't specific enough — you want your own recognizable name for a whole category of document — use a namespaced custom kind instead of <ds-code inline>entry</ds-code>:</p>
+<ds-code language="yaml">id: acme-excerpt-onboarding
+kind: acme.excerpt
+name: Onboarding excerpt
+description: A short, reusable pull-quote of onboarding copy, shared across three different surfaces.
+</ds-code>
+<p>A custom entry kind (<ds-code inline>acme.excerpt</ds-code> above) or a custom section kind (<ds-code inline>acme.checklist</ds-code>, say) validates against the same <strong>open</strong> base every generic kind does — <ds-code inline>entry.schema.yaml</ds-code> for an entry, <ds-code inline>section.schema.yaml</ds-code> for a section. Open means genuinely open: no schema file backs <ds-code inline>acme.excerpt</ds-code> in this repo, so nothing stops a typo'd field or a value of the wrong type from passing silently. If you want your custom kind to actually enforce a shape — required fields, a closed set of allowed properties — you have to write and ship that schema file yourself, in your own copy of <ds-code inline>scripts/validate.js</ds-code>'s schema directory. Nothing in DSDS itself, or in any other tool, will ever recognize a <ds-code inline>kind: acme.excerpt</ds-code> document as anything but a bag of open fields.</p>
+<p>That's the tradeoff a custom kind makes: total freedom over the shape, in exchange for total unfamiliarity to every other tool. It's the right choice for a document type that's genuinely yours and nobody else's. It's the wrong choice for tightening a kind the spec already defines — for that, use a profile.</p>
+<ds-callout variant="warning" title="A custom kind isn't a lighter-weight profile:"><p>Renaming <ds-code inline>component</ds-code> to <ds-code inline>acme.component</ds-code> to "add a required field" doesn't narrow the component schema — it opts out of it entirely. <ds-code inline>traits</ds-code>, <ds-code inline>combos</ds-code>, <ds-code inline>sourceFiles</ds-code> all stop being validated, because nothing at that kind name says they should be. See <a href="#profiles">Profiles</a> for the mechanism that actually narrows a kind instead of replacing it.</p></ds-callout>
+<ds-heading level="2" anchor="profiles">Profiles</ds-heading>
+<p>A profile is a small, local schema file that makes some of a kind's <em>optional</em> fields required, for one project. It adds no new fields — it can only tighten a rule that already exists.</p>
+<p>That one property is what makes a profile safe to build on: <strong>a profile may narrow. It must not extend.</strong> A document that passes your profile is still, unconditionally, a valid DSDS document to a tool that has never heard of your profile. There's no fork, no dialect, no divergence — just a stricter bar for your own project to clear.</p>
+<ds-callout title="Why this is safe:"><p>A profile is built with JSON Schema's <ds-code inline>allOf</ds-code>, and <ds-code inline>allOf</ds-code> only ever <em>intersects</em> constraints — it can never remove one. There is no way to write a profile that makes a required field optional, because the base schema's own <ds-code inline>required</ds-code> list is still one of the <ds-code inline>allOf</ds-code> branches being checked. Try to loosen a base requirement and the base requirement simply survives.</p></ds-callout>
+<p>This isn't a new idea. <a href="https://www.w3.org/2016/12/staging-dcat-ap/">DCAT-AP</a>, the EU's own metadata standard, is a published profile of the base DCAT vocabulary, narrowed for a particular community. OGC and XML Schematron use the same pattern. DSDS didn't need to invent a mechanism — <ds-code inline>allOf</ds-code> plus <ds-code inline>required</ds-code> (and, for a conditional rule, <ds-code inline>if</ds-code>/<ds-code inline>then</ds-code>) already is the standard JSON Schema idiom for a profile. What DSDS adds is a place to put one.</p>
+<ds-heading level="3" anchor="the-profiles-directory">The <ds-code inline>profiles/</ds-code> directory</ds-heading>
+<p>Drop a file at <ds-code inline>profiles/entries/<kind>.schema.yaml</ds-code> or <ds-code inline>profiles/sections/<kind>.schema.yaml</ds-code>, and <ds-code inline>scripts/validate.js</ds-code> picks it up automatically — no code change, no registration step. <ds-code inline><kind></ds-code> can be a well-known kind (<ds-code inline>component</ds-code>, <ds-code inline>guidelines</ds-code>) or a namespaced custom one.</p>
+<p>A profile file needs its own <ds-code inline>$id</ds-code>, distinct from the schema it narrows — reusing the built-in schema's own <ds-code inline>$id</ds-code> crashes the validator outright, since two schemas can't be registered under the same id. It narrows by <ds-code inline>$ref</ds-code>-ing the real schema via <ds-code inline>allOf</ds-code>:</p>
+<ds-code language="yaml"># profiles/entries/component.schema.yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://your-org.example/profiles/entries/component.schema.yaml
+title: Acme's stable-component profile
+description: Once a component's status is stable, it must have a purpose and at least one source file.
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml
+  - if:
+      required: [metadata]
+      properties:
+        metadata:
+          required: [status]
+          properties:
+            status:
+              required: [status]
+              properties:
+                status: {const: stable}
+    then:
+      required: [purpose, sourceFiles]
+</ds-code>
+<p>This is the <strong>maturity ratchet</strong> pattern, and it's the form worth leading with: <em>if the status is stable, then require these fields.</em> It works on anything carrying a lifecycle field — a component, a token, a theme — and it converts documentation completeness from a review conversation into a build failure.</p>
+<p><ds-code inline>profiles/</ds-code> is never bundled. <ds-code inline>scripts/bundle.js</ds-code> only ever walks <ds-code inline>schema/</ds-code>, so a project's own profile — which encodes decisions specific to that project, not to the spec — can never leak into the published <ds-code inline>dsds.bundled.schema.json</ds-code>. It's read by the CLI validator only, and only for the project that placed it there.</p>
+<ds-callout variant="tip" title="This repo doesn't ship a live profile:"><p><ds-code inline>profiles/</ds-code> is a per-project, opt-in mechanism — a profile encodes <em>your</em> completeness bar, not the spec's. This repo's own <ds-code inline>npm run check</ds-code> validates the spec's illustrative examples, which intentionally range from a bare minimum to fully described; requiring every one of them to be "stable-complete" would defeat the point of having minimal examples at all. The snippet above is real and tested, just not checked into this repo's own <ds-code inline>profiles/</ds-code> directory — copy it into yours to see it in action.</p></ds-callout>
+<ds-heading level="3" anchor="what-a-profile-cant-do">What a profile can't do</ds-heading>
+<p>A profile can't add a field. If your organization needs a field the spec genuinely doesn't have anywhere — not "optional-but-empty," but structurally absent — that's not a profile; it's either <ds-code inline>$extensions</ds-code> (if it's your own tool's data) or feedback for the spec itself (if it's something every DSDS consumer would benefit from).</p>
+<ds-heading level="2" anchor="choosing-between-the-three">Choosing between the three</ds-heading>
+<ul>
+<li><strong>Attaching data a specific tool needs, to something the spec already models?</strong> <ds-code inline>$extensions</ds-code>.</li>
+<li><strong>Documenting something the spec has no shape for at all — and you're fine with no other tool understanding it?</strong> A custom kind.</li>
+<li><strong>Making optional fields mandatory for your own project, without leaving standard DSDS?</strong> A profile.</li>
+</ul>
+<p>They compose. A custom kind can carry its own <ds-code inline>$extensions</ds-code>. A profile can require that a <ds-code inline>$extensions</ds-code> namespace be present, the same way it requires any other field. Pick the smallest one that solves the actual problem — reaching for a custom kind to solve a "we want this field required" problem gives up far more (the entire closed shape of the kind you renamed away from) than it gains.</p>
+
+          <ds-back-to-top></ds-back-to-top>
+        </div>
+    </div>
+
+    </main>
+  </div>
+</body>
+</html>

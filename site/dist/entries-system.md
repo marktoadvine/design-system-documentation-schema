@@ -19,10 +19,10 @@ A DSDS design system. System-level information and guidance for the design syste
 | `related` | [list](common-ref.md#list) |  | Pointers to another entry this one is similar to in usage or purpose. |
 | `extends` | [list](common-ref.md#list) |  | Pointers to another entry this one inherits from (rel: extends). |
 | `refs` | [list](common-ref.md#list) |  | This entry's other pointers to entries and outside resources, not covered by `related` or `extends`. |
-| `sections` | [Section](sections-section.md#section)[] |  | Every documentation section for this entry. (Min items: 1) |
+| `sections` | [dispatch](sections-section.md#dispatch)[] |  | Every documentation section for this entry. (Min items: 1) |
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
 
-**References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [SystemMetadata](metadata-system-metadata.md#systemmetadata), [list](common-ref.md#list), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+**References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [SystemMetadata](metadata-system-metadata.md#systemmetadata), [list](common-ref.md#list), [dispatch](sections-section.md#dispatch), [Extensions](common-extensions.md#extensions)
 
 ## Full schema JSON
 

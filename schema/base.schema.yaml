@@ -19,7 +19,7 @@ properties:
     format: uri-reference
     description: An optional hint for editor tools, like autocomplete or validate-on-save.
     $comment: "Usually a URL to the exact versioned schema file. Not authoritative: `schemaVersion` is the real source of truth for which version this document targets."
-    example: https://designsystemdocspec.org/v0.20.0/v0.20.0/dsds.bundled.schema.json
+    example: https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json
   name:
     type: string
     description: The name of the design system this document describes.
@@ -34,7 +34,7 @@ properties:
       list's own `kind: system` entry. Reusable content that is not
       a standalong artifact belongs in `shared`.
     items:
-      $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml
+      $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml#/$defs/dispatch
   shared:
     type: array
     minItems: 1

@@ -70,6 +70,40 @@ properties:
     description: Escape hatch for tool data scoped to just this one section, keyed by namespace.
     $comment: A tool that only cares about one section, like an api section, can stash its data here instead of using the whole entry's escape hatch.
 $defs:
+  dispatch:
+    $comment: >-
+      Routes a section to its own sections/<kind>.schema.yaml by `kind`,
+      falling back to this file (the open base) for the generic `section`
+      kind or a namespaced custom kind with no dedicated file. Used
+      anywhere a section is embedded (an entry's or a shared item's own
+      `sections`) instead of a bare $ref to this file, so the bundled
+      schema enforces the same per-kind shape scripts/validate.js does
+      in JS.
+    if:
+      required: [kind]
+      properties:
+        kind:
+          const: definitions
+    then:
+      $ref: https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml
+    else:
+      if:
+        required: [kind]
+        properties:
+          kind:
+            const: guidelines
+      then:
+        $ref: https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml
+      else:
+        if:
+          required: [kind]
+          properties:
+            kind:
+              const: steps
+        then:
+          $ref: https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml
+        else:
+          $ref: https://designsystemdocspec.org/v0.20.0/section.schema.yaml
   freeformEntry:
     type: object
     required: [title]
@@ -102,4 +136,7 @@ $defs:
         items:
           $ref: "#/$defs/freeformEntry"
         description: Sub-entries nested beneath this one, to any depth.
+      $extensions:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+        description: Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.
     additionalProperties: false

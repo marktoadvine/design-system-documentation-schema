@@ -36,7 +36,7 @@ DSDS defines four conformance classes. A claim of conformance names the class it
 
 ### Conforming document
 
-A document that validates against the DSDS schema for the version its `schemaVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express — the `DSDS-01` through `DSDS-07` catalog below.
+A document that validates against the DSDS schema for the version its `schemaVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express — the `DSDS-01` through `DSDS-08` catalog below.
 
 Schema validity alone is necessary, but not enough.
 
@@ -60,7 +60,7 @@ A tool, renderer, or agent that reads DSDS documents. A conforming consumer:
 
 ### Conforming validator
 
-A tool that checks documents. A conforming validator MUST enforce both the structural layer (the schema itself, with format assertion enabled) and the semantic layer (the `DSDS-01`–`DSDS-07` rules below). The reference implementation is `scripts/validate.js`. Its negative-fixture suite in `examples/invalid/` pins every guard — `scripts/conformance-test.js` confirms each fixture trips the exact rule id it claims — and doubles as a conformance test suite for independent validators.
+A tool that checks documents. A conforming validator MUST enforce both the structural layer (the schema itself, with format assertion enabled) and the semantic layer (the `DSDS-01`–`DSDS-08` rules below). The reference implementation is `scripts/validate.js`. Its negative-fixture suite in `examples/invalid/` pins every guard — `scripts/conformance-test.js` confirms each fixture trips the exact rule id it claims — and doubles as a conformance test suite for independent validators.
 
 ## Enforcement tiers
 
@@ -69,12 +69,12 @@ Every normative statement is enforced at one of two tiers, or is explicitly advi
 | Tier | Mechanism | Failure mode |
 |---|---|---|
 | Structural | The schema itself (patterns, required, minItems, allOf/oneOf/anyOf, if/then) | Validation error — blocking |
-| Semantic | `scripts/validate.js`'s hand-written checks (`DSDS-01`–`DSDS-07`: resolution, uniqueness, platform vocabulary, cycles) | Validation error — blocking |
+| Semantic | `scripts/validate.js`'s hand-written checks (`DSDS-01`–`DSDS-08`: resolution, uniqueness, platform vocabulary, cycles) | Validation error — blocking |
 | Advisory | SHOULD/MAY statements consumed by judgment | None |
 
 ## Semantic rule catalog
 
-The catalog of record lives in `schema/conformance-rules.yaml` — this table is generated from it, so it cannot drift from what `scripts/validate.js` actually enforces.
+The catalog of record lives in `schema/conformance-rules.yaml` — this table is kept in sync with it by hand, so it cannot drift from what `scripts/validate.js` actually enforces without `scripts/conformance-test.js` (checked on every `npm run check`) catching the mismatch first.
 
 | ID | Rule |
 |---|---|
@@ -85,8 +85,13 @@ The catalog of record lives in `schema/conformance-rules.yaml` — this table is
 | `DSDS-05` | An `entryId#itemId` ref must resolve. |
 | `DSDS-06` | A `composes` ref chain must not cycle. |
 | `DSDS-07` | A `depends-on` ref chain must not cycle. |
+| `DSDS-08` | A bare `to:` ref must resolve to a real entry or shared entry. |
 
-`DSDS-06` and `DSDS-07` restore a check the pre-0.20.0 spec had (relationship-graph cycle prohibition) that the schema rewrite initially dropped — added as validator-side rules rather than a schema shape change. A `DSDS-08` (cross-file `href#itemId` resolution, for documents composed via `scripts/compose.js`) is designed but not yet implemented.
+`DSDS-06` and `DSDS-07` restore a check the pre-0.20.0 spec had (relationship-graph cycle prohibition) that the schema rewrite initially dropped — added as validator-side rules rather than a schema shape change.
+
+`DSDS-05` and `DSDS-08` are both scoped to one document: a corpus split across files via `rel: file` (the layout the spec itself recommends for a large system) isn't followed, so a target that lives in a sibling file is treated as unresolvable-in-this-scope rather than broken — a document that declares a `rel: file` ref anywhere skips both checks rather than reporting a false positive on every correctly-split corpus. A project-scope resolver that actually follows `rel: file` and checks a `combo`'s trait/token targets too is designed but not yet built.
+
+A `to:` target's *syntax* is checked independently of either rule, structurally: `common/ref.schema.yaml`'s `to` field has its own `pattern`, so a target that isn't even shaped like an id (a display name, a value with a space in it) fails schema validation before DSDS-05/DSDS-08 are reached at all — see [common/ref](common-ref.html).
 
 ## Stability and the road to 1.0
 
@@ -137,6 +142,132 @@ Until then, the closed enums above are the most stable part of the schema. Every
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/metadata§note.1`</small>
 
 {/* /dsds:normative-index */}
+
+---
+
+# Extending the schema — DSDS 0.20.0
+
+DSDS ships a fixed set of well-known kinds and a fixed set of fields on each. Every real project needs more than that eventually — vendor data a tool wants to stash, a document type the spec doesn't have a name for, or a completeness bar stricter than "optional." This page covers the three ways to get there, and when to reach for each one.
+
+| Mechanism | What it's for | Who else can read it |
+|---|---|---|
+| `$extensions` | Opaque data a specific tool needs, attached to something the spec already models | Only the tool that owns the namespace — everyone else skips it, by design |
+| A custom kind | A document shape the spec has no name for at all | Nobody, unless you also publish the schema that defines it |
+| A profile | Making an existing kind's *optional* fields required for your own project | Everybody — the document is still fully standard DSDS |
+
+## `$extensions`
+
+`$extensions` is a namespaced escape hatch for vendor or tool data. It's available at the document, entry, and section level, and — as of this page — on every section item too: a `guidelines`, `definitions`, or `steps` item, and a `freeform` entry.
+
+Every top-level key under `$extensions` MUST be a dotted namespace (`com.figma`, `com.acme`), matching the [Design Tokens Community Group's own `$extensions` convention](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/). That namespace is what keeps a tool that doesn't recognize your data from choking on it — it just skips keys it doesn't own.
+
+### Why item-level `$extensions` matters
+
+A `guidelines` item's shape is closed — `statement`, `level`, `refs`, and a handful of other well-known fields, nothing else. That's deliberate: every tool that understands the `guidelines` kind keeps understanding it, with no surprise fields to trip over. But it also means there was no way to attach a rationale or a documented failure mode to *one specific rule* without either abandoning the well-known `guidelines` kind entirely (see [custom kinds](#custom-kinds) below) or waiting for the spec to add a field everyone would then be stuck with, whether they wanted it or not.
+
+`$extensions` on the item itself resolves that without opening the shape up for everyone:
+
+```yaml
+sections:
+  - kind: guidelines
+    for: human
+    items:
+      - statement: Limit each surface to one primary button.
+        level: should
+        $extensions:
+          com.acme:
+            rationale: Multiple primary buttons compete for attention and force the user to guess which action is actually the recommended one.
+            failureMode: A dialog ships with two primary-styled buttons (e.g. "Save" and "Save as draft"), and usability testing shows users default to the wrong one.
+```
+
+A tool that doesn't know about `com.acme` — the reference validator, another vendor's linter, a generic DSDS reader — skips it entirely. The document is still fully standard DSDS: swap out the `$extensions` block and there's nothing left that wasn't already legal.
+
+See it in the repo's own [`button.yaml`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/examples/entries/button.yaml) for a real, validated example.
+
+## Custom kinds
+
+When the generic `entry` kind isn't specific enough — you want your own recognizable name for a whole category of document — use a namespaced custom kind instead of `entry`:
+
+```yaml
+id: acme-excerpt-onboarding
+kind: acme.excerpt
+name: Onboarding excerpt
+description: A short, reusable pull-quote of onboarding copy, shared across three different surfaces.
+```
+
+A custom entry kind (`acme.excerpt` above) or a custom section kind (`acme.checklist`, say) validates against the same **open** base every generic kind does — `entry.schema.yaml` for an entry, `section.schema.yaml` for a section. Open means genuinely open: no schema file backs `acme.excerpt` in this repo, so nothing stops a typo'd field or a value of the wrong type from passing silently. If you want your custom kind to actually enforce a shape — required fields, a closed set of allowed properties — you have to write and ship that schema file yourself, in your own copy of `scripts/validate.js`'s schema directory. Nothing in DSDS itself, or in any other tool, will ever recognize a `kind: acme.excerpt` document as anything but a bag of open fields.
+
+That's the tradeoff a custom kind makes: total freedom over the shape, in exchange for total unfamiliarity to every other tool. It's the right choice for a document type that's genuinely yours and nobody else's. It's the wrong choice for tightening a kind the spec already defines — for that, use a profile.
+
+<ds-callout variant="warning" title="A custom kind isn't a lighter-weight profile:">
+
+Renaming `component` to `acme.component` to "add a required field" doesn't narrow the component schema — it opts out of it entirely. `traits`, `combos`, `sourceFiles` all stop being validated, because nothing at that kind name says they should be. See [Profiles](#profiles) for the mechanism that actually narrows a kind instead of replacing it.
+
+</ds-callout>
+
+## Profiles
+
+A profile is a small, local schema file that makes some of a kind's *optional* fields required, for one project. It adds no new fields — it can only tighten a rule that already exists.
+
+That one property is what makes a profile safe to build on: **a profile may narrow. It must not extend.** A document that passes your profile is still, unconditionally, a valid DSDS document to a tool that has never heard of your profile. There's no fork, no dialect, no divergence — just a stricter bar for your own project to clear.
+
+<ds-callout title="Why this is safe:">
+
+A profile is built with JSON Schema's `allOf`, and `allOf` only ever *intersects* constraints — it can never remove one. There is no way to write a profile that makes a required field optional, because the base schema's own `required` list is still one of the `allOf` branches being checked. Try to loosen a base requirement and the base requirement simply survives.
+
+</ds-callout>
+
+This isn't a new idea. [DCAT-AP](https://www.w3.org/2016/12/staging-dcat-ap/), the EU's own metadata standard, is a published profile of the base DCAT vocabulary, narrowed for a particular community. OGC and XML Schematron use the same pattern. DSDS didn't need to invent a mechanism — `allOf` plus `required` (and, for a conditional rule, `if`/`then`) already is the standard JSON Schema idiom for a profile. What DSDS adds is a place to put one.
+
+### The `profiles/` directory
+
+Drop a file at `profiles/entries/<kind>.schema.yaml` or `profiles/sections/<kind>.schema.yaml`, and `scripts/validate.js` picks it up automatically — no code change, no registration step. `<kind>` can be a well-known kind (`component`, `guidelines`) or a namespaced custom one.
+
+A profile file needs its own `$id`, distinct from the schema it narrows — reusing the built-in schema's own `$id` crashes the validator outright, since two schemas can't be registered under the same id. It narrows by `$ref`-ing the real schema via `allOf`:
+
+```yaml
+# profiles/entries/component.schema.yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://your-org.example/profiles/entries/component.schema.yaml
+title: Acme's stable-component profile
+description: Once a component's status is stable, it must have a purpose and at least one source file.
+allOf:
+  - $ref: https://designsystemdocspec.org/v{{VERSION}}/entries/component.schema.yaml
+  - if:
+      required: [metadata]
+      properties:
+        metadata:
+          required: [status]
+          properties:
+            status:
+              required: [status]
+              properties:
+                status: {const: stable}
+    then:
+      required: [purpose, sourceFiles]
+```
+
+This is the **maturity ratchet** pattern, and it's the form worth leading with: *if the status is stable, then require these fields.* It works on anything carrying a lifecycle field — a component, a token, a theme — and it converts documentation completeness from a review conversation into a build failure.
+
+`profiles/` is never bundled. `scripts/bundle.js` only ever walks `schema/`, so a project's own profile — which encodes decisions specific to that project, not to the spec — can never leak into the published `dsds.bundled.schema.json`. It's read by the CLI validator only, and only for the project that placed it there.
+
+<ds-callout variant="tip" title="This repo doesn't ship a live profile:">
+
+`profiles/` is a per-project, opt-in mechanism — a profile encodes *your* completeness bar, not the spec's. This repo's own `npm run check` validates the spec's illustrative examples, which intentionally range from a bare minimum to fully described; requiring every one of them to be "stable-complete" would defeat the point of having minimal examples at all. The snippet above is real and tested, just not checked into this repo's own `profiles/` directory — copy it into yours to see it in action.
+
+</ds-callout>
+
+### What a profile can't do
+
+A profile can't add a field. If your organization needs a field the spec genuinely doesn't have anywhere — not "optional-but-empty," but structurally absent — that's not a profile; it's either `$extensions` (if it's your own tool's data) or feedback for the spec itself (if it's something every DSDS consumer would benefit from).
+
+## Choosing between the three
+
+- **Attaching data a specific tool needs, to something the spec already models?** `$extensions`.
+- **Documenting something the spec has no shape for at all — and you're fine with no other tool understanding it?** A custom kind.
+- **Making optional fields mandatory for your own project, without leaving standard DSDS?** A profile.
+
+They compose. A custom kind can carry its own `$extensions`. A profile can require that a `$extensions` namespace be present, the same way it requires any other field. Pick the smallest one that solves the actual problem — reaching for a custom kind to solve a "we want this field required" problem gives up far more (the entire closed shape of the kind you renamed away from) than it gains.
 
 ---
 
@@ -548,7 +679,7 @@ You've seen the basics. Here's where to go deeper.
           "format": "uri-reference",
           "description": "An optional hint for editor tools, like autocomplete or validate-on-save.",
           "$comment": "Usually a URL to the exact versioned schema file. Not authoritative: `schemaVersion` is the real source of truth for which version this document targets.",
-          "example": "https://designsystemdocspec.org/v0.20.0/v0.20.0/dsds.bundled.schema.json"
+          "example": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
         },
         "name": {
           "type": "string",
@@ -561,7 +692,7 @@ You've seen the basics. Here's where to go deeper.
           "description": "Every entry this document owns, listed directly.",
           "$comment": "A single-entry file just has one item here. System-wide facts (version, organization, url, license, platforms) live on this list's own `kind: system` entry. Reusable content that is not a standalong artifact belongs in `shared`.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml#/$defs/dispatch"
           }
         },
         "shared": {
@@ -843,8 +974,9 @@ You've seen the basics. Here's where to go deeper.
             },
             "to": {
               "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*)?$",
               "description": "What this points at, inside this document's own graph.",
-              "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it.",
+              "$comment": "A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it. The entry half accepts a token id's looser slash-separated form too (see common/id.schema.yaml's tokenId), since `to` can target a token entry.\nThis pattern only checks the target is *shaped* like an id (or id#itemId) - not that it actually exists. A capitalized display name (`to: Button`) or a value with a space in it can never be a real id, whatever else is in the document, so this catches that class of mistake with no other file needed. Whether the target actually resolves is a separate, resolution-level check (see DSDS-05 for the #itemId form).",
               "example": "shared-a11y#focus-visible"
             },
             "href": {
@@ -1289,11 +1421,77 @@ You've seen the basics. Here's where to go deeper.
           "minItems": 1,
           "description": "Every documentation section for this entry.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
           }
         },
         "$extensions": {
           "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml"
+        }
+      },
+      "$defs": {
+        "dispatch": {
+          "$comment": "Routes an entry to its own entries/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `entry` kind or a namespaced custom kind with no dedicated file. Used anywhere an entry is embedded (base.schema.yaml's own `entries`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "component"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml"
+          },
+          "else": {
+            "if": {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "token"
+                }
+              }
+            },
+            "then": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/entries/token.schema.yaml"
+            },
+            "else": {
+              "if": {
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "theme"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml"
+              },
+              "else": {
+                "if": {
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "system"
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml"
+                },
+                "else": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -1797,6 +1995,10 @@ You've seen the basics. Here's where to go deeper.
                       "description": "Related terms often confused with this one.",
                       "example": "Confirm"
                     }
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one term, keyed by namespace."
                   }
                 },
                 "additionalProperties": false
@@ -1965,6 +2167,11 @@ You've seen the basics. Here's where to go deeper.
                         "rel": "same-as"
                       }
                     ]
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one guideline, keyed by namespace.",
+                    "$comment": "A custom `kind` (ex: \"acme.rule\") can add its own typed fields directly. A well-known kind like `guidelines` can't — its item shape is closed so every tool that understands `guidelines` keeps understanding it — so this is the one way to attach org-specific data (a rationale, a failure mode, an internal ticket) to a single item without forking the kind."
                   }
                 },
                 "additionalProperties": false
@@ -2073,6 +2280,55 @@ You've seen the basics. Here's where to go deeper.
         }
       },
       "$defs": {
+        "dispatch": {
+          "$comment": "Routes a section to its own sections/<kind>.schema.yaml by `kind`, falling back to this file (the open base) for the generic `section` kind or a namespaced custom kind with no dedicated file. Used anywhere a section is embedded (an entry's or a shared item's own `sections`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.",
+          "if": {
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "definitions"
+              }
+            }
+          },
+          "then": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml"
+          },
+          "else": {
+            "if": {
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "guidelines"
+                }
+              }
+            },
+            "then": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml"
+            },
+            "else": {
+              "if": {
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "steps"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml"
+              },
+              "else": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+              }
+            }
+          }
+        },
         "freeformEntry": {
           "type": "object",
           "required": [
@@ -2116,6 +2372,10 @@ You've seen the basics. Here's where to go deeper.
                 "$ref": "#/$defs/freeformEntry"
               },
               "description": "Sub-entries nested beneath this one, to any depth."
+            },
+            "$extensions": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+              "description": "Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace."
             }
           },
           "additionalProperties": false
@@ -2196,6 +2456,10 @@ You've seen the basics. Here's where to go deeper.
                     "type": "boolean",
                     "default": false,
                     "description": "Whether this entry can be skipped without breaking the procedure or checklist."
+                  },
+                  "$extensions": {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                    "description": "Escape hatch for tool data scoped to just this one step, keyed by namespace."
                   }
                 },
                 "additionalProperties": false
@@ -2259,7 +2523,7 @@ You've seen the basics. Here's where to go deeper.
           "minItems": 1,
           "description": "The reusable content itself, in the same section structure an entry uses.",
           "items": {
-            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+            "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch"
           }
         },
         "$extensions": {

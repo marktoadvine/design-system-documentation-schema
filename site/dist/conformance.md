@@ -30,7 +30,7 @@ DSDS defines four conformance classes. A claim of conformance names the class it
 
 ### Conforming document
 
-A document that validates against the DSDS schema for the version its `schemaVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express — the `DSDS-01` through `DSDS-07` catalog below.
+A document that validates against the DSDS schema for the version its `schemaVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express — the `DSDS-01` through `DSDS-08` catalog below.
 
 Schema validity alone is necessary, but not enough.
 
@@ -54,7 +54,7 @@ A tool, renderer, or agent that reads DSDS documents. A conforming consumer:
 
 ### Conforming validator
 
-A tool that checks documents. A conforming validator MUST enforce both the structural layer (the schema itself, with format assertion enabled) and the semantic layer (the `DSDS-01`–`DSDS-07` rules below). The reference implementation is `scripts/validate.js`. Its negative-fixture suite in `examples/invalid/` pins every guard — `scripts/conformance-test.js` confirms each fixture trips the exact rule id it claims — and doubles as a conformance test suite for independent validators.
+A tool that checks documents. A conforming validator MUST enforce both the structural layer (the schema itself, with format assertion enabled) and the semantic layer (the `DSDS-01`–`DSDS-08` rules below). The reference implementation is `scripts/validate.js`. Its negative-fixture suite in `examples/invalid/` pins every guard — `scripts/conformance-test.js` confirms each fixture trips the exact rule id it claims — and doubles as a conformance test suite for independent validators.
 
 ## Enforcement tiers
 
@@ -63,12 +63,12 @@ Every normative statement is enforced at one of two tiers, or is explicitly advi
 | Tier | Mechanism | Failure mode |
 |---|---|---|
 | Structural | The schema itself (patterns, required, minItems, allOf/oneOf/anyOf, if/then) | Validation error — blocking |
-| Semantic | `scripts/validate.js`'s hand-written checks (`DSDS-01`–`DSDS-07`: resolution, uniqueness, platform vocabulary, cycles) | Validation error — blocking |
+| Semantic | `scripts/validate.js`'s hand-written checks (`DSDS-01`–`DSDS-08`: resolution, uniqueness, platform vocabulary, cycles) | Validation error — blocking |
 | Advisory | SHOULD/MAY statements consumed by judgment | None |
 
 ## Semantic rule catalog
 
-The catalog of record lives in `schema/conformance-rules.yaml` — this table is generated from it, so it cannot drift from what `scripts/validate.js` actually enforces.
+The catalog of record lives in `schema/conformance-rules.yaml` — this table is kept in sync with it by hand, so it cannot drift from what `scripts/validate.js` actually enforces without `scripts/conformance-test.js` (checked on every `npm run check`) catching the mismatch first.
 
 | ID | Rule |
 |---|---|
@@ -79,8 +79,13 @@ The catalog of record lives in `schema/conformance-rules.yaml` — this table is
 | `DSDS-05` | An `entryId#itemId` ref must resolve. |
 | `DSDS-06` | A `composes` ref chain must not cycle. |
 | `DSDS-07` | A `depends-on` ref chain must not cycle. |
+| `DSDS-08` | A bare `to:` ref must resolve to a real entry or shared entry. |
 
-`DSDS-06` and `DSDS-07` restore a check the pre-0.20.0 spec had (relationship-graph cycle prohibition) that the schema rewrite initially dropped — added as validator-side rules rather than a schema shape change. A `DSDS-08` (cross-file `href#itemId` resolution, for documents composed via `scripts/compose.js`) is designed but not yet implemented.
+`DSDS-06` and `DSDS-07` restore a check the pre-0.20.0 spec had (relationship-graph cycle prohibition) that the schema rewrite initially dropped — added as validator-side rules rather than a schema shape change.
+
+`DSDS-05` and `DSDS-08` are both scoped to one document: a corpus split across files via `rel: file` (the layout the spec itself recommends for a large system) isn't followed, so a target that lives in a sibling file is treated as unresolvable-in-this-scope rather than broken — a document that declares a `rel: file` ref anywhere skips both checks rather than reporting a false positive on every correctly-split corpus. A project-scope resolver that actually follows `rel: file` and checks a `combo`'s trait/token targets too is designed but not yet built.
+
+A `to:` target's *syntax* is checked independently of either rule, structurally: `common/ref.schema.yaml`'s `to` field has its own `pattern`, so a target that isn't even shaped like an id (a display name, a value with a space in it) fails schema validation before DSDS-05/DSDS-08 are reached at all — see [common/ref](common-ref.html).
 
 ## Stability and the road to 1.0
 

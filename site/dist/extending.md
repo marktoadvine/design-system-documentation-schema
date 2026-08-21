@@ -1,0 +1,123 @@
+# Extending the schema — DSDS 0.20.0
+
+DSDS ships a fixed set of well-known kinds and a fixed set of fields on each. Every real project needs more than that eventually — vendor data a tool wants to stash, a document type the spec doesn't have a name for, or a completeness bar stricter than "optional." This page covers the three ways to get there, and when to reach for each one.
+
+| Mechanism | What it's for | Who else can read it |
+|---|---|---|
+| `$extensions` | Opaque data a specific tool needs, attached to something the spec already models | Only the tool that owns the namespace — everyone else skips it, by design |
+| A custom kind | A document shape the spec has no name for at all | Nobody, unless you also publish the schema that defines it |
+| A profile | Making an existing kind's *optional* fields required for your own project | Everybody — the document is still fully standard DSDS |
+
+## `$extensions`
+
+`$extensions` is a namespaced escape hatch for vendor or tool data. It's available at the document, entry, and section level, and — as of this page — on every section item too: a `guidelines`, `definitions`, or `steps` item, and a `freeform` entry.
+
+Every top-level key under `$extensions` MUST be a dotted namespace (`com.figma`, `com.acme`), matching the [Design Tokens Community Group's own `$extensions` convention](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/). That namespace is what keeps a tool that doesn't recognize your data from choking on it — it just skips keys it doesn't own.
+
+### Why item-level `$extensions` matters
+
+A `guidelines` item's shape is closed — `statement`, `level`, `refs`, and a handful of other well-known fields, nothing else. That's deliberate: every tool that understands the `guidelines` kind keeps understanding it, with no surprise fields to trip over. But it also means there was no way to attach a rationale or a documented failure mode to *one specific rule* without either abandoning the well-known `guidelines` kind entirely (see [custom kinds](#custom-kinds) below) or waiting for the spec to add a field everyone would then be stuck with, whether they wanted it or not.
+
+`$extensions` on the item itself resolves that without opening the shape up for everyone:
+
+```yaml
+sections:
+  - kind: guidelines
+    for: human
+    items:
+      - statement: Limit each surface to one primary button.
+        level: should
+        $extensions:
+          com.acme:
+            rationale: Multiple primary buttons compete for attention and force the user to guess which action is actually the recommended one.
+            failureMode: A dialog ships with two primary-styled buttons (e.g. "Save" and "Save as draft"), and usability testing shows users default to the wrong one.
+```
+
+A tool that doesn't know about `com.acme` — the reference validator, another vendor's linter, a generic DSDS reader — skips it entirely. The document is still fully standard DSDS: swap out the `$extensions` block and there's nothing left that wasn't already legal.
+
+See it in the repo's own [`button.yaml`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/examples/entries/button.yaml) for a real, validated example.
+
+## Custom kinds
+
+When the generic `entry` kind isn't specific enough — you want your own recognizable name for a whole category of document — use a namespaced custom kind instead of `entry`:
+
+```yaml
+id: acme-excerpt-onboarding
+kind: acme.excerpt
+name: Onboarding excerpt
+description: A short, reusable pull-quote of onboarding copy, shared across three different surfaces.
+```
+
+A custom entry kind (`acme.excerpt` above) or a custom section kind (`acme.checklist`, say) validates against the same **open** base every generic kind does — `entry.schema.yaml` for an entry, `section.schema.yaml` for a section. Open means genuinely open: no schema file backs `acme.excerpt` in this repo, so nothing stops a typo'd field or a value of the wrong type from passing silently. If you want your custom kind to actually enforce a shape — required fields, a closed set of allowed properties — you have to write and ship that schema file yourself, in your own copy of `scripts/validate.js`'s schema directory. Nothing in DSDS itself, or in any other tool, will ever recognize a `kind: acme.excerpt` document as anything but a bag of open fields.
+
+That's the tradeoff a custom kind makes: total freedom over the shape, in exchange for total unfamiliarity to every other tool. It's the right choice for a document type that's genuinely yours and nobody else's. It's the wrong choice for tightening a kind the spec already defines — for that, use a profile.
+
+<ds-callout variant="warning" title="A custom kind isn't a lighter-weight profile:">
+
+Renaming `component` to `acme.component` to "add a required field" doesn't narrow the component schema — it opts out of it entirely. `traits`, `combos`, `sourceFiles` all stop being validated, because nothing at that kind name says they should be. See [Profiles](#profiles) for the mechanism that actually narrows a kind instead of replacing it.
+
+</ds-callout>
+
+## Profiles
+
+A profile is a small, local schema file that makes some of a kind's *optional* fields required, for one project. It adds no new fields — it can only tighten a rule that already exists.
+
+That one property is what makes a profile safe to build on: **a profile may narrow. It must not extend.** A document that passes your profile is still, unconditionally, a valid DSDS document to a tool that has never heard of your profile. There's no fork, no dialect, no divergence — just a stricter bar for your own project to clear.
+
+<ds-callout title="Why this is safe:">
+
+A profile is built with JSON Schema's `allOf`, and `allOf` only ever *intersects* constraints — it can never remove one. There is no way to write a profile that makes a required field optional, because the base schema's own `required` list is still one of the `allOf` branches being checked. Try to loosen a base requirement and the base requirement simply survives.
+
+</ds-callout>
+
+This isn't a new idea. [DCAT-AP](https://www.w3.org/2016/12/staging-dcat-ap/), the EU's own metadata standard, is a published profile of the base DCAT vocabulary, narrowed for a particular community. OGC and XML Schematron use the same pattern. DSDS didn't need to invent a mechanism — `allOf` plus `required` (and, for a conditional rule, `if`/`then`) already is the standard JSON Schema idiom for a profile. What DSDS adds is a place to put one.
+
+### The `profiles/` directory
+
+Drop a file at `profiles/entries/<kind>.schema.yaml` or `profiles/sections/<kind>.schema.yaml`, and `scripts/validate.js` picks it up automatically — no code change, no registration step. `<kind>` can be a well-known kind (`component`, `guidelines`) or a namespaced custom one.
+
+A profile file needs its own `$id`, distinct from the schema it narrows — reusing the built-in schema's own `$id` crashes the validator outright, since two schemas can't be registered under the same id. It narrows by `$ref`-ing the real schema via `allOf`:
+
+```yaml
+# profiles/entries/component.schema.yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://your-org.example/profiles/entries/component.schema.yaml
+title: Acme's stable-component profile
+description: Once a component's status is stable, it must have a purpose and at least one source file.
+allOf:
+  - $ref: https://designsystemdocspec.org/v{{VERSION}}/entries/component.schema.yaml
+  - if:
+      required: [metadata]
+      properties:
+        metadata:
+          required: [status]
+          properties:
+            status:
+              required: [status]
+              properties:
+                status: {const: stable}
+    then:
+      required: [purpose, sourceFiles]
+```
+
+This is the **maturity ratchet** pattern, and it's the form worth leading with: *if the status is stable, then require these fields.* It works on anything carrying a lifecycle field — a component, a token, a theme — and it converts documentation completeness from a review conversation into a build failure.
+
+`profiles/` is never bundled. `scripts/bundle.js` only ever walks `schema/`, so a project's own profile — which encodes decisions specific to that project, not to the spec — can never leak into the published `dsds.bundled.schema.json`. It's read by the CLI validator only, and only for the project that placed it there.
+
+<ds-callout variant="tip" title="This repo doesn't ship a live profile:">
+
+`profiles/` is a per-project, opt-in mechanism — a profile encodes *your* completeness bar, not the spec's. This repo's own `npm run check` validates the spec's illustrative examples, which intentionally range from a bare minimum to fully described; requiring every one of them to be "stable-complete" would defeat the point of having minimal examples at all. The snippet above is real and tested, just not checked into this repo's own `profiles/` directory — copy it into yours to see it in action.
+
+</ds-callout>
+
+### What a profile can't do
+
+A profile can't add a field. If your organization needs a field the spec genuinely doesn't have anywhere — not "optional-but-empty," but structurally absent — that's not a profile; it's either `$extensions` (if it's your own tool's data) or feedback for the spec itself (if it's something every DSDS consumer would benefit from).
+
+## Choosing between the three
+
+- **Attaching data a specific tool needs, to something the spec already models?** `$extensions`.
+- **Documenting something the spec has no shape for at all — and you're fine with no other tool understanding it?** A custom kind.
+- **Making optional fields mandatory for your own project, without leaving standard DSDS?** A profile.
+
+They compose. A custom kind can carry its own `$extensions`. A profile can require that a `$extensions` namespace be present, the same way it requires any other field. Pick the smallest one that solves the actual problem — reaching for a custom kind to solve a "we want this field required" problem gives up far more (the entire closed shape of the kind you renamed away from) than it gains.

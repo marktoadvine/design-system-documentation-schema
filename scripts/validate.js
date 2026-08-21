@@ -10,10 +10,13 @@
 //     section.schema.yaml for a custom kind or the well-known generic
 //     `section` kind. Any entry kind may use any section kind - there
 //     is no placement gate.
-//   - entryId#itemId refs (see common/ref.schema.yaml's `to`) resolve to a
-//     real entry and a real item's `id` on it, document-wide - only
+//   - A ref's `to` (see common/ref.schema.yaml) resolves within the
+//     document: a bare id names a real entry or shared entry, and
+//     entryId#itemId also resolves the item half. Document-wide - only
 //     checked for base documents, since a standalone entry file can't see
-//     any entry but itself.
+//     any entry but itself. Doesn't follow `rel: file` to a sibling
+//     document - a corpus split across files needs project scope, which
+//     this validator doesn't have yet.
 // A file with a `schemaVersion` key is a base document (base.schema.yaml);
 // its inline `entries` are checked the same way a standalone entry file's
 // are - one validator, no special-casing. System-wide facts and
@@ -21,6 +24,7 @@
 // base document directly.
 "use strict";
 
+const fs = require("fs");
 const path = require("path");
 const Ajv = require("ajv/dist/2020");
 const addFormats = require("ajv-formats");
@@ -62,8 +66,69 @@ for (const file of walkYamlFiles(schemaDir)) {
   schemaById.set(schema.$id, schema);
 }
 
-function schemaFor(id, fallbackId) {
+function schemaFor(id, fallbackId, profileId) {
+  if (profileId) {
+    const profileValidate = ajv.getSchema(profileId);
+    if (profileValidate) return profileValidate;
+  }
   return ajv.getSchema(id) || ajv.getSchema(fallbackId);
+}
+
+// Optional local profiles: a project can drop a file at
+// profiles/entries/<kind>.schema.yaml or profiles/sections/<kind>.schema.yaml
+// that narrows an existing kind (built-in or custom) by $ref-ing its real
+// schema.yaml file via allOf and adding `required`/`if`-`then` on top -
+// never a new field. See site/content/extending.mdx for the one rule
+// (a profile may narrow, must not extend) and why that's what makes this
+// safe to build on.
+//
+// Read here, and only here - profiles/ is a sibling of schema/, not
+// nested inside it, so bundle.js's own walk of schema/ never sees it and
+// a private profile can never leak into the published schema.
+//
+// A profile MUST declare its own $id, distinct from the schema it's
+// profiling: adding two schemas under the same $id crashes Ajv outright
+// (`schema with key or id "..." already exists`), which is exactly the
+// failure mode that made profiling a built-in kind look impossible before
+// this dispatch-level fix - the schema files themselves already supported
+// $ref + allOf narrowing (see B1 in dsds-0.20.0-recommendations.md); only
+// wiring a profile in *alongside* the built-in schema instead of *as* it
+// was missing.
+const PROFILES_DIR = path.join(rootDir, "profiles");
+const profileEntryIdByKind = new Map(); // kind -> profile's own $id
+const profileSectionIdByKind = new Map();
+
+function loadProfiles(subdir, targetMap) {
+  const dir = path.join(PROFILES_DIR, subdir);
+  if (!fs.existsSync(dir)) return;
+  for (const file of walkYamlFiles(dir)) {
+    const schema = loadYaml(file);
+    if (!schema.$id) {
+      throw new Error(`Profile ${path.relative(rootDir, file)} has no $id of its own.`);
+    }
+    ajv.addSchema(schema, schema.$id);
+    const kind = path.basename(file).replace(/\.schema\.yaml$/, "");
+    targetMap.set(kind, schema.$id);
+  }
+}
+loadProfiles("entries", profileEntryIdByKind);
+loadProfiles("sections", profileSectionIdByKind);
+
+// The current spec version, read back out of any loaded schema's own
+// $id (they all encode the same version) rather than hardcoded — so this
+// file never needs touching on a version bump. See scripts/bump-version.js,
+// which rewrites every schema file's own $id but has no reason to know
+// this file exists.
+const SPEC_VERSION = (() => {
+  for (const id of schemaById.keys()) {
+    const m = /\/v([^/]+)\//.exec(id);
+    if (m) return m[1];
+  }
+  throw new Error("Could not determine the spec version from any loaded schema's $id.");
+})();
+
+function specUrl(relPath) {
+  return `https://designsystemdocspec.org/v${SPEC_VERSION}/${relPath}`;
 }
 
 // A branch is either a plain object schema, or one that extends a shared
@@ -138,14 +203,14 @@ function validateDiscriminatedItems(items, branches, prop, label, errors) {
 }
 
 function traitsBranches() {
-  const schema = schemaById.get("https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml");
+  const schema = schemaById.get(specUrl("entries/component.schema.yaml"));
   return schema.allOf[1].properties.traits.items.anyOf;
 }
 
 function validateSections(sections, label, errors) {
   for (const [i, section] of (sections || []).entries()) {
-    const sectionSchemaId = `https://designsystemdocspec.org/v0.20.0/sections/${section.kind}.schema.yaml`;
-    const validateSection = schemaFor(sectionSchemaId, "https://designsystemdocspec.org/v0.20.0/section.schema.yaml");
+    const sectionSchemaId = specUrl(`sections/${section.kind}.schema.yaml`);
+    const validateSection = schemaFor(sectionSchemaId, specUrl("section.schema.yaml"), profileSectionIdByKind.get(section.kind));
     const sectionLabel = `${label} section[${i}] (${section.kind})`;
 
     if (!validateSection(section)) {
@@ -156,9 +221,16 @@ function validateSections(sections, label, errors) {
   }
 }
 
+// `sections` now dispatches per kind too (entry.schema.yaml#/$defs/sections
+// -> section.schema.yaml#/$defs/dispatch), so the same-shape whole-entry
+// check below already reports a bad section - skip those here, since
+// validateSections() below reports the identical problem with a section
+// index and kind in the label instead of a bare instancePath.
+const NESTED_SECTION_ERROR = /^\/sections\/\d/;
+
 function validateEntry(entry, errors) {
-  const entrySchemaId = `https://designsystemdocspec.org/v0.20.0/entries/${entry.kind}.schema.yaml`;
-  const validate = schemaFor(entrySchemaId, "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml");
+  const entrySchemaId = specUrl(`entries/${entry.kind}.schema.yaml`);
+  const validate = schemaFor(entrySchemaId, specUrl("entry.schema.yaml"), profileEntryIdByKind.get(entry.kind));
   const isComponent = entry.kind === "component";
 
   if (!validate(entry)) {
@@ -166,6 +238,7 @@ function validateEntry(entry, errors) {
       // Per-trait shape errors are replaced below with discriminator-aware
       // ones; everything else still gets reported straight from AJV.
       if (isComponent && err.instancePath.startsWith("/traits")) continue;
+      if (NESTED_SECTION_ERROR.test(err.instancePath)) continue;
       errors.push(`entry "${entry.id}" schema: ${err.instancePath || "/"} ${err.message}`);
     }
     if (isComponent && Array.isArray(entry.traits)) {
@@ -177,9 +250,10 @@ function validateEntry(entry, errors) {
 }
 
 function validateShared(entry, errors) {
-  const validate = ajv.getSchema("https://designsystemdocspec.org/v0.20.0/shared.schema.yaml");
+  const validate = ajv.getSchema(specUrl("shared.schema.yaml"));
   if (!validate(entry)) {
     for (const err of validate.errors) {
+      if (NESTED_SECTION_ERROR.test(err.instancePath)) continue;
       errors.push(`shared "${entry.id}" schema: ${err.instancePath || "/"} ${err.message}`);
     }
   }
@@ -226,10 +300,22 @@ function validateSemanticRules(entry, errors) {
   }
 }
 
+// base.schema.yaml's own `entries`/`shared` items now dispatch per kind
+// (see entry.schema.yaml#/$defs/dispatch), the same shape the loop below
+// checks in JS - needed so the bundled schema an editor's $schema points
+// at is exactly as strict as this CLI (see C2). That means a bad entry or
+// shared item shows up in `validate`'s own Ajv errors here too; skip those
+// - the per-entry/per-shared loop below reports the identical problem
+// with better context (an id, kind-aware messages, discriminated `traits`
+// errors). Keep everything else this Ajv pass catches (a bogus top-level
+// base document field, an empty `entries`/`shared` array).
+const NESTED_ENTRY_OR_SHARED_ERROR = /^\/(entries|shared)\/\d/;
+
 function validateBase(doc, errors) {
-  const validate = ajv.getSchema("https://designsystemdocspec.org/v0.20.0/base.schema.yaml");
+  const validate = ajv.getSchema(specUrl("base.schema.yaml"));
   if (!validate(doc)) {
     for (const err of validate.errors) {
+      if (NESTED_ENTRY_OR_SHARED_ERROR.test(err.instancePath)) continue;
       errors.push(`base schema: ${err.instancePath || "/"} ${err.message}`);
     }
   }
@@ -390,32 +476,58 @@ function collectItemIds(entry) {
   return ids;
 }
 
-// Resolves the entryId#itemId form of a ref's `to` against the document's
-// actual entries/shared entries and their items - only meaningful for a
-// base document, since a standalone entry file has no other entries to
-// point at. A `same-as` ref most often targets a `base.shared` entry
-// (that's the whole point of `shared` - one canonical statement, pointed
-// at from many entries), so both arrays share this one id space via
-// entriesIn(doc). Skips anything that isn't the entryId#itemId form at all
-// (no "#", or "://" before the "#", which marks an ordinary URL fragment
-// instead).
+// Resolves a ref's `to` against the document's actual entries/shared
+// entries and their items - only meaningful for a base document, since a
+// standalone entry file has no other entries to point at. A `same-as` ref
+// most often targets a `base.shared` entry (that's the whole point of
+// `shared` - one canonical statement, pointed at from many entries), so
+// both arrays share this one id space via entriesIn(doc). Skips anything
+// that isn't a real internal pointer at all ("://" anywhere in `to` marks
+// an ordinary URL fragment, not an id or entryId#itemId).
+//
+// Two distinct checks, both scoped to this one document/file:
+//   - Bare `to` (DSDS-08): does the named entry/shared entry exist.
+//   - `to: entryId#itemId` (DSDS-05): does the entry exist, and does the
+//     named item exist somewhere in its sections.
+// Neither follows `rel: file` to a sibling document - a corpus split
+// across files needs the whole project loaded to resolve a cross-file
+// target, which this validator doesn't do yet (see C1 in
+// notes/recommendations.md). A validator that can't see the whole project
+// MUST NOT report an unresolved `to` as broken - it might legitimately
+// live in a sibling file. So when this document's own top-level `refs`
+// declares a `rel: file` link (the documented way to split a system
+// across files), an unresolved target here just means "not in this file,"
+// not "doesn't exist" - skip reporting it rather than fail every
+// correctly-split corpus. A self-contained document (no `rel: file` ref
+// anywhere) has nowhere else a target could be, so this stays a real
+// error there.
 function validateItemRefs(doc, errors) {
+  const isSplitAcrossFiles = (doc.refs || []).some((r) => r && r.rel === "file");
   const entities = entriesIn(doc);
+  const entityIds = new Set(entities.map((e) => e.id));
   const itemIdsByEntity = new Map(entities.map((e) => [e.id, collectItemIds(e)]));
 
   for (const entity of entities) {
     const found = [];
     findRefs(entity, "", found);
     for (const { to, rel, at } of found) {
+      if (to.includes("://")) continue;
+      const label = `"${entity.id}" ref${at ? ` (${at})` : ""} "${to}" (rel: ${rel})`;
       const hashIdx = to.indexOf("#");
-      if (hashIdx === -1) continue;
-      if (to.slice(0, hashIdx).includes("://")) continue;
+
+      if (hashIdx === -1) {
+        if (to && !entityIds.has(to) && !isSplitAcrossFiles) {
+          errors.push(err(RULES.ENTRY_REF_RESOLVES, `${label} targets unknown entry/shared "${to}"`));
+        }
+        continue;
+      }
+
       const targetId = to.slice(0, hashIdx);
       const itemId = to.slice(hashIdx + 1);
       if (!targetId || !itemId) continue;
+      if (isSplitAcrossFiles && !itemIdsByEntity.has(targetId)) continue;
 
       const itemIds = itemIdsByEntity.get(targetId);
-      const label = `"${entity.id}" ref${at ? ` (${at})` : ""} "${to}" (rel: ${rel})`;
       if (!itemIds) {
         errors.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown entry/shared "${targetId}"`));
         continue;

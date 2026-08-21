@@ -20,7 +20,7 @@ A series of actions/steps/tasks, like a tutorial, a migration, a pattern's inter
 | `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this one section, keyed by namespace. |
 | `ordered` | boolean |  | Whether entries must be done in order. Set to false for an unordered checklist. (Default: `true`) |
 
-**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-ref.md#list), [list](common-example.md#list), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`, [Extensions](common-extensions.md#extensions)
+**References:** [Section](sections-section.md#section), [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-ref.md#list), [list](common-example.md#list), [Extensions](common-extensions.md#extensions), [Metadata](metadata-metadata.md#metadata), `#/$defs/freeformEntry`
 
 ## Full schema JSON
 
@@ -99,6 +99,10 @@ A series of actions/steps/tasks, like a tutorial, a migration, a pattern's inter
                 "type": "boolean",
                 "default": false,
                 "description": "Whether this entry can be skipped without breaking the procedure or checklist."
+              },
+              "$extensions": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+                "description": "Escape hatch for tool data scoped to just this one step, keyed by namespace."
               }
             },
             "additionalProperties": false
