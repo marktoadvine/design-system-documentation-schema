@@ -114,6 +114,64 @@ function loadProfiles(subdir, targetMap) {
 loadProfiles("entries", profileEntryIdByKind);
 loadProfiles("sections", profileSectionIdByKind);
 
+// ---------------------------------------------------------------------------
+// Project discovery: following rel: file across sibling documents
+// ---------------------------------------------------------------------------
+//
+// A large system's documentation is meant to be split across files (see
+// base.schema.yaml's own $comment), each pointing at the others via an
+// ordinary `refs` entry (rel: file). A validator handed just one of those
+// files can't tell a genuinely broken `to:` from one that resolves in a
+// sibling it hasn't read - see C1 in notes/recommendations.md. This follows
+// that same rel: file link transitively, so resolution can run against the
+// whole project instead of just the one file it was handed.
+//
+// Bounded to ROOT_DIR - an href that resolves outside it is never read.
+// That's a real security boundary, not just tidiness: a hosted validator
+// fed an attacker-controlled document must not follow an href like
+// `../../../etc/passwd` onto the host's own filesystem.
+const ROOT_DIR = path.resolve(rootDir);
+
+function resolveHref(href, fromAbsPath) {
+  return path.resolve(path.dirname(fromAbsPath), href);
+}
+
+function isWithinRoot(absPath) {
+  const rel = path.relative(ROOT_DIR, absPath);
+  return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+}
+
+// Returns every entry/shared entity reachable from entryAbsPath by
+// following rel: file transitively, including entryAbsPath's own. A
+// sibling that doesn't exist, fails to parse, or resolves outside
+// ROOT_DIR is silently skipped - the caller can't tell "doesn't exist"
+// from "this validator couldn't check," so an unresolved target after
+// this is a warning, never a hard error (see validateItemRefs).
+function loadProject(entryAbsPath) {
+  const visited = new Map(); // absPath -> doc
+  const queue = [entryAbsPath];
+
+  while (queue.length) {
+    const absPath = queue.shift();
+    if (visited.has(absPath)) continue;
+    if (!isWithinRoot(absPath) || !fs.existsSync(absPath)) continue;
+    let doc;
+    try {
+      doc = loadYaml(absPath);
+    } catch (e) {
+      continue;
+    }
+    visited.set(absPath, doc);
+    for (const fileRef of doc.refs || []) {
+      if (fileRef && fileRef.rel === "file" && typeof fileRef.href === "string") {
+        queue.push(resolveHref(fileRef.href, absPath));
+      }
+    }
+  }
+
+  return [...visited.values()].flatMap((d) => entriesIn(d));
+}
+
 // The current spec version, read back out of any loaded schema's own
 // $id (they all encode the same version) rather than hardcoded — so this
 // file never needs touching on a version bump. See scripts/bump-version.js,
@@ -311,7 +369,7 @@ function validateSemanticRules(entry, errors) {
 // base document field, an empty `entries`/`shared` array).
 const NESTED_ENTRY_OR_SHARED_ERROR = /^\/(entries|shared)\/\d/;
 
-function validateBase(doc, errors) {
+function validateBase(doc, errors, warnings, opts = {}) {
   const validate = ajv.getSchema(specUrl("base.schema.yaml"));
   if (!validate(doc)) {
     for (const err of validate.errors) {
@@ -373,7 +431,7 @@ function validateBase(doc, errors) {
     }
   }
 
-  validateItemRefs(doc, errors);
+  validateItemRefs(doc, errors, warnings, opts);
   validateGraphCycles(doc, errors);
 }
 
@@ -485,39 +543,58 @@ function collectItemIds(entry) {
 // that isn't a real internal pointer at all ("://" anywhere in `to` marks
 // an ordinary URL fragment, not an id or entryId#itemId).
 //
-// Two distinct checks, both scoped to this one document/file:
+// Two distinct checks:
 //   - Bare `to` (DSDS-08): does the named entry/shared entry exist.
 //   - `to: entryId#itemId` (DSDS-05): does the entry exist, and does the
 //     named item exist somewhere in its sections.
-// Neither follows `rel: file` to a sibling document - a corpus split
-// across files needs the whole project loaded to resolve a cross-file
-// target, which this validator doesn't do yet (see C1 in
-// notes/recommendations.md). A validator that can't see the whole project
-// MUST NOT report an unresolved `to` as broken - it might legitimately
-// live in a sibling file. So when this document's own top-level `refs`
-// declares a `rel: file` link (the documented way to split a system
-// across files), an unresolved target here just means "not in this file,"
-// not "doesn't exist" - skip reporting it rather than fail every
-// correctly-split corpus. A self-contained document (no `rel: file` ref
-// anywhere) has nowhere else a target could be, so this stays a real
-// error there.
-function validateItemRefs(doc, errors) {
+//
+// A target found among this document's own entities is always checked -
+// that's a space this validator can fully see, whatever else is true.
+// When it isn't found here:
+//   - A self-contained document (no `rel: file` ref anywhere in its own
+//     top-level `refs`) has nowhere else the target could be. Unresolved
+//     here means genuinely broken - a hard error.
+//   - A document that declares `rel: file` is part of a larger project.
+//     loadProject() follows that link (transitively, bounded to
+//     ROOT_DIR - see above) and re-checks against the merged result. A
+//     target this still can't find is reported, but only as a warning:
+//     a sibling that couldn't be read (missing, outside the root) makes
+//     the search incomplete, and a validator that can't see the whole
+//     project MUST NOT assert a pointer is broken with the same
+//     confidence as one it fully resolved. `--strict` promotes these to
+//     failures once a project is clean.
+function validateItemRefs(doc, errors, warnings, opts = {}) {
   const isSplitAcrossFiles = (doc.refs || []).some((r) => r && r.rel === "file");
-  const entities = entriesIn(doc);
-  const entityIds = new Set(entities.map((e) => e.id));
-  const itemIdsByEntity = new Map(entities.map((e) => [e.id, collectItemIds(e)]));
+  const localEntities = entriesIn(doc);
+  const localIds = new Set(localEntities.map((e) => e.id));
+  const localItemIdsByEntity = new Map(localEntities.map((e) => [e.id, collectItemIds(e)]));
 
-  for (const entity of entities) {
+  // Only touches the filesystem when this document actually declares a
+  // rel: file ref - a self-contained document never triggers project
+  // discovery at all.
+  let projectIds = null;
+  let projectItemIdsByEntity = null;
+  if (isSplitAcrossFiles && opts.filePath) {
+    const projectEntities = loadProject(path.resolve(opts.filePath));
+    projectIds = new Set(projectEntities.map((e) => e.id));
+    projectItemIdsByEntity = new Map(projectEntities.map((e) => [e.id, collectItemIds(e)]));
+  }
+
+  for (const entity of localEntities) {
     const found = [];
     findRefs(entity, "", found);
     for (const { to, rel, at } of found) {
       if (to.includes("://")) continue;
       const label = `"${entity.id}" ref${at ? ` (${at})` : ""} "${to}" (rel: ${rel})`;
       const hashIdx = to.indexOf("#");
+      const scopeNote = "(checked this project's rel: file closure)";
 
       if (hashIdx === -1) {
-        if (to && !entityIds.has(to) && !isSplitAcrossFiles) {
+        if (!to || localIds.has(to)) continue;
+        if (!isSplitAcrossFiles) {
           errors.push(err(RULES.ENTRY_REF_RESOLVES, `${label} targets unknown entry/shared "${to}"`));
+        } else if (!projectIds || !projectIds.has(to)) {
+          warnings.push(err(RULES.ENTRY_REF_RESOLVES, `${label} targets unknown entry/shared "${to}" ${scopeNote}`));
         }
         continue;
       }
@@ -525,45 +602,72 @@ function validateItemRefs(doc, errors) {
       const targetId = to.slice(0, hashIdx);
       const itemId = to.slice(hashIdx + 1);
       if (!targetId || !itemId) continue;
-      if (isSplitAcrossFiles && !itemIdsByEntity.has(targetId)) continue;
 
-      const itemIds = itemIdsByEntity.get(targetId);
-      if (!itemIds) {
+      const localItemIds = localItemIdsByEntity.get(targetId);
+      if (localItemIds) {
+        if (!localItemIds.has(itemId)) {
+          errors.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown item "${itemId}" on "${targetId}"`));
+        }
+        continue;
+      }
+
+      if (!isSplitAcrossFiles) {
         errors.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown entry/shared "${targetId}"`));
         continue;
       }
-      if (!itemIds.has(itemId)) {
-        errors.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown item "${itemId}" on "${targetId}"`));
+
+      const projectItemIds = projectItemIdsByEntity && projectItemIdsByEntity.get(targetId);
+      if (!projectItemIds) {
+        warnings.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown entry/shared "${targetId}" ${scopeNote}`));
+      } else if (!projectItemIds.has(itemId)) {
+        warnings.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown item "${itemId}" on "${targetId}" ${scopeNote}`));
       }
     }
   }
 }
 
 // The reusable core: given an already-parsed document, returns every
-// error (both pure-schema and RULES-tagged semantic ones) as strings.
-// No I/O, no process exit - tools/conformance-test.js reuses this exact
-// function so a fixture is checked against the same logic validate.js's
-// own CLI runs, not a second copy of it.
-function validateDoc(doc) {
+// error (both pure-schema and RULES-tagged semantic ones) and every
+// warning (a project-scope finding this validator couldn't confirm with
+// full confidence - see validateItemRefs) as strings. No I/O beyond what
+// opts.filePath's project discovery does, no process exit -
+// tools/conformance-test.js reuses this exact function so a fixture is
+// checked against the same logic validate.js's own CLI runs, not a
+// second copy of it.
+//
+// opts.filePath is only needed to resolve a rel: file project - pass it
+// whenever the document being validated came from a real file on disk.
+function validateDoc(doc, opts = {}) {
   const errors = [];
+  const warnings = [];
   const isBase = typeof doc.schemaVersion !== "undefined";
   if (isBase) {
-    validateBase(doc, errors);
+    validateBase(doc, errors, warnings, opts);
   } else {
     validateEntry(doc, errors);
   }
-  return errors;
+  return { errors, warnings };
 }
 
-function validateFile(target) {
+function validateFile(target, opts = {}) {
   const doc = loadYaml(target);
   const isBase = typeof doc.schemaVersion !== "undefined";
-  const errors = validateDoc(doc);
+  const { errors, warnings } = validateDoc(doc, { filePath: target });
 
   const rel = path.relative(rootDir, target);
   if (errors.length) {
     console.error(`✗ ${rel} failed validation:\n`);
     for (const e of errors) console.error(`  - ${e}`);
+    if (warnings.length) {
+      console.error(`\n  ${warnings.length} warning(s):`);
+      for (const w of warnings) console.error(`  - ${w}`);
+    }
+    return false;
+  }
+
+  if (warnings.length && opts.strict) {
+    console.error(`✗ ${rel} failed validation in --strict mode:\n`);
+    for (const w of warnings) console.error(`  - ${w}`);
     return false;
   }
 
@@ -575,6 +679,10 @@ function validateFile(target) {
     console.log(`  ${doc.kind} "${doc.id}"  status: ${JSON.stringify(doc.metadata && doc.metadata.status)}`);
     console.log(`  ${(doc.sections || []).length} section(s), ${(doc.refs || []).length} ref(s)`);
   }
+  if (warnings.length) {
+    console.log(`  ${warnings.length} warning(s):`);
+    for (const w of warnings) console.log(`  - ${w}`);
+  }
   return true;
 }
 
@@ -583,11 +691,13 @@ function validateFile(target) {
 // full validate run (with its own process.exit) as a side effect.
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const targets = args.length ? args : defaultTargets();
+  const strict = args.includes("--strict");
+  const targets = args.filter((a) => a !== "--strict");
+  const resolvedTargets = targets.length ? targets : defaultTargets();
 
   let ok = true;
-  for (const target of targets) {
-    if (!validateFile(target)) ok = false;
+  for (const target of resolvedTargets) {
+    if (!validateFile(target, { strict })) ok = false;
   }
   process.exit(ok ? 0 : 1);
 }

@@ -46,8 +46,12 @@ for (const file of files) {
   }
 
   const doc = loadYaml(filePath);
-  const errors = validateDoc(doc);
-  const fired = idsIn(errors);
+  const { errors, warnings } = validateDoc(doc, { filePath });
+  // A rule can legitimately fire as either - a project-scope finding
+  // (see validateItemRefs in validate.js) is a warning until --strict,
+  // not an error - so a fixture proving one of those trips its rule id
+  // needs both channels checked, not just errors.
+  const fired = idsIn([...errors, ...warnings]);
   const missing = expected.filter((id) => !fired.has(id));
 
   if (missing.length) {

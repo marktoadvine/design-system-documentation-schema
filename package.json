@@ -16,6 +16,7 @@
     "sync-examples": "node scripts/sync-examples.js",
     "check-examples": "node scripts/sync-examples.js --check",
     "validate": "node scripts/validate.js",
+    "validate:strict": "node scripts/validate.js --strict",
     "bundle": "node scripts/bundle.js",
     "compose": "node scripts/compose.js",
     "conformance-test": "node scripts/conformance-test.js",
