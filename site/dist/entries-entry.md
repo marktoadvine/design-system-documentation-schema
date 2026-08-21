@@ -1,0 +1,136 @@
+# Entry
+
+The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.
+
+Source: `entries/entry.schema.yaml`
+
+## Entry {#entry}
+
+The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | ✓ | This entry's unique id in the design system graph. |
+| `kind` | `"system"` \| `"component"` \| `"token"` \| `"theme"` \| `"entry"` \| [namespaced](common-id.md#namespaced) | ✓ | What kind of thing this entry is, as a real design-system artifact: one of the 5 well-known kinds, or a namespaced custom kind. |
+| `name` | string | ✓ | The human-readable display name. |
+| `description` | string | ✓ | A one-line statement of what this entry is or is for. |
+| `purpose` | string |  | Explains the entry's reason for existing. |
+| `metadata` | [EntryMetadata](metadata-entry-metadata.md#entrymetadata) |  | Information about a single entry, on top of the fields every metadata object shares. |
+| `related` | [list](common-ref.md#list) |  | Pointers to another entry this one is similar to in usage or purpose. |
+| `extends` | [list](common-ref.md#list) |  | Pointers to another entry this one inherits from (rel: extends). |
+| `refs` | [list](common-ref.md#list) |  | This entry's other pointers to entries and outside resources, not covered by `related` or `extends`. |
+| `sections` | [Section](sections-section.md#section)[] |  | Every documentation section for this entry. (Min items: 1) |
+| `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
+
+**References:** [namespaced](common-id.md#namespaced), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [list](common-ref.md#list), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+
+## Full schema JSON
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml",
+  "title": "Entry",
+  "type": "object",
+  "description": "The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.",
+  "$comment": "Shared fields for every entry kind. Kind-specific fields, like a token's `tokenType`, live in that kind's own entries/<kind>.schema.yaml file instead.\n`kind` is one of 5 well-known values (`system`, `component`, `token`, `theme`, `entry`) or a namespaced custom value like \"acme.icon-library\". Use `entry` for anything that doesn't need fields beyond this base. Only add a dedicated file once a kind needs a field none of the others do.\nReusable content that isn't a design-system artifact (like a shared accessibility rule) doesn't belong here as a kind. Use the base document's `shared` list instead.",
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "description"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "This entry's unique id in the design system graph.",
+      "$comment": "Every ref that points at it uses this. A token entry's id uses a looser pattern (see entries/token.schema.yaml). Every other kind uses common/id.schema.yaml's standard pattern.",
+      "example": "button"
+    },
+    "kind": {
+      "description": "What kind of thing this entry is, as a real design-system artifact: one of the 5 well-known kinds, or a namespaced custom kind.",
+      "$comment": "Reusable content that is not an artifact at all (like a rule other entries point at instead of restating) belongs in the base document's `shared` list instead.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "system",
+            "component",
+            "token",
+            "theme",
+            "entry"
+          ],
+          "default": "entry"
+        },
+        {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced",
+          "description": "A namespaced custom kind.",
+          "example": "acme.icon-library"
+        }
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "The human-readable display name.",
+      "$comment": "Kept separate from `id`, which is machine-readable.",
+      "example": "Button"
+    },
+    "description": {
+      "type": "string",
+      "description": "A one-line statement of what this entry is or is for.",
+      "$comment": "The deeper explanation belongs in `sections`.",
+      "example": "An interactive element that triggers an action when activated."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Explains the entry's reason for existing.",
+      "example": "Gives users a single, consistent way to trigger an action across the product."
+    },
+    "metadata": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml"
+    },
+    "related": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+      "description": "Pointers to another entry this one is similar to in usage or purpose.",
+      "$comment": "rel: alternative-to, rel: pairs-with, and similar values are the common ones here.",
+      "example": [
+        {
+          "to": "link",
+          "rel": "alternative-to"
+        }
+      ]
+    },
+    "extends": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+      "description": "Pointers to another entry this one inherits from (rel: extends).",
+      "example": [
+        {
+          "to": "base-dialog",
+          "rel": "extends"
+        }
+      ]
+    },
+    "refs": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+      "description": "This entry's other pointers to entries and outside resources, not covered by `related` or `extends`.",
+      "example": [
+        {
+          "href": "https://github.com/org/ds/react/button",
+          "rel": "source"
+        }
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Every documentation section for this entry.",
+      "items": {
+        "$ref": "https://designsystemdocspec.org/v0.20.0/section.schema.yaml"
+      }
+    },
+    "$extensions": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml"
+    }
+  }
+}
+```

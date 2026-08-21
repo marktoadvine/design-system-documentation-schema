@@ -1,0 +1,66 @@
+id: humans-and-agents
+kind: entry
+name: DSDS for humans and agents
+description: A DSDS document serves two readers - people and AI agents. How a section's `for` field splits the work between them.
+
+sections:
+  - kind: section
+    for: all
+    title: Two readers, one array
+    freeform:
+      - title: Two readers, one document
+        body: "A DSDS document has two \"readers\": people and AI agents. The same file serves both. Most of what you write is for people. A small, optional part is only for agents. Write for people by default - that serves agents too. Mark a section `for: agent` only for firm, ready-to-act notes a person would not need. Keep both in sync: agent notes extend the human docs, and never contradict them."
+      - title: What each reader looks for
+        body: "People read docs to learn a component: what it is, when to use it, how it behaves. Agents read docs to build with it correctly. They look for firm rules, ways to avoid confusion, and how to check their own work. Most documentation works for both. A clear usage rule helps a person and an agent alike. Write it once, as a section with `for: all`, and both readers benefit. An earlier design split human and agent content into two separate top-level arrays. This design is different: every section lives in one place, an entry's `sections` array, and each one carries its own `for`."
+        refs:
+          - href: entries/button.yaml
+            rel: file
+            role: "button.yaml's for: human and for: agent guidelines sections"
+      - title: for vs. context
+        body: "The `for` field says *who* a section is written for. The field `context` says *what kind* of guidance it holds - a fitness judgment, not a construction rule."
+        refs:
+          - href: schema.html#sections-guidelines
+            rel: see-also
+            role: Full meaning of context
+
+  - kind: section
+    for: all
+    title: "for: all vs. for: agent"
+    freeform:
+      - title: "for: all - the docs everyone reads"
+        body: "Most sections are `for: all` or `for: human`. This is the default home for everything: guidelines, definitions, steps, and freeform content. Agents read these sections too."
+      - title: "for: agent - extra notes, for agents only"
+        body: "When a section is meant only for agents, mark it `for: agent`. Tools never surface these sections to people. Any section kind can carry `for: agent`. There is no separate, restricted vocabulary for agent-only content. Use it for guidance that clutters the human docs but helps an agent write correct code."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    title: "What belongs on a for: agent section"
+    items:
+      - statement: "Hard rules: `must`/`must-not` guideline items, so an agent treats them as firm limits."
+        level: should
+      - statement: "Telling look-alikes apart: notes that keep an agent from confusing this entry with a similar one - for example, \"use `link` to navigate, not this `button`.\""
+        level: should
+        refs:
+          - href: entries/button.yaml
+            rel: file
+            role: "Real example: button.yaml's alternatives ref pointing at link"
+      - statement: "Checks an agent can run: a `steps` section whose items' `refs` point at specific guideline items (`rel: depends-on`). This makes pass or fail traceable to a real rule."
+        level: should
+        refs:
+          - href: entries/button.yaml
+            rel: file
+            role: "Real example: button.yaml's agent-only steps section"
+      - statement: "Human-facing content people need to understand does not belong on a `for: agent` section. A quick test: does a person reading the docs need this? If yes, use `human` or `all`. Use `agent` only when the content helps LLMs or tools alone."
+        level: must-not
+
+  - kind: guidelines
+    for: all
+    title: How they work together
+    items:
+      - statement: "Agents read every section on an entry: human-and-all sections first for context, then the agent-only notes for enforceable specifics. A `for: agent` section adds to the human docs. It does not replace them."
+        level: should
+      - statement: "Do not move human-facing content onto a `for: agent` section. People never see it."
+        level: must-not
+      - statement: "Do not repeat the human docs on a `for: agent` section. Agent-only sections must extend the docs, never echo them."
+        level: must-not

@@ -1,0 +1,69 @@
+id: menu-button
+kind: component
+name: MenuButton
+description: A composed pattern of a trigger Button, a Popover, and a Menu for dropdown menus.
+purpose: Wire up a trigger button with a floating menu in a complete accessible dropdown pattern.
+
+metadata:
+  status: {status: stable}
+  tags: [navigation, overlay, composite]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/menubutton
+    rel: external-link
+    role: Sanity UI docs — MenuButton
+
+related:
+  - to: menu
+    rel: composes
+    note: Menu is the inner list component. MenuButton is the full composed pattern including the trigger and popover.
+  - to: button
+    rel: composes
+  - to: popover
+    rel: composes
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/menu/menuButton.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: MenuButton wires together a Button trigger, a Popover panel, and a Menu list into a complete accessible dropdown menu. It manages open/close state, keyboard interactions, and ARIA attributes automatically. Pass a `button` prop (a Button element) and a `menu` prop (a Menu element).
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: MenuButton composes a trigger button with a floating menu panel.
+    items:
+      - term: Trigger Button
+        definition: The Button element that opens the menu. Passed via the `button` prop. Required.
+      - term: Popover
+        definition: The floating panel that contains the Menu. Controlled internally. Required.
+      - term: Menu
+        definition: The Menu element containing MenuItems. Passed via the `menu` prop. Required.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: button
+        definition: "React.ReactElement. A Button element to use as the menu trigger. Required."
+      - term: menu
+        definition: "React.ReactElement. A Menu element containing the menu items. Required."
+      - term: id
+        definition: "string. ID used for ARIA relationships between the button and menu."
+      - term: popover
+        definition: "PopoverProps. Props forwarded to the internal Popover (placement, portal, etc.)."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use MenuButton for an 'Actions' or overflow (…) button that reveals a list of contextual commands.
+        level: should
+      - statement: Use MenuButton for a toolbar button that opens a dropdown of related options.
+        level: should

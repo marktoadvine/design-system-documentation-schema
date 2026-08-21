@@ -1,0 +1,35 @@
+id: avatar-counter
+kind: component
+name: AvatarCounter
+description: A numeric overflow indicator for AvatarStack, showing how many additional users are not displayed.
+purpose: Show how many additional collaborators are not visible in an AvatarStack.
+
+metadata:
+  status: {status: stable}
+  tags: [identity, presence, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/avatarcounter
+    rel: external-link
+    role: Sanity UI docs — AvatarCounter
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/avatar/avatarCounter.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: AvatarCounter renders a circular element styled like an Avatar that shows a numeric count. Place it as the last child of an AvatarStack to indicate how many additional users are not visually represented.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: count
+        definition: "number. The number of additional users to display."
+      - term: size
+        definition: "AvatarSize | AvatarSize[]. Must match the size of sibling Avatar components in the stack."

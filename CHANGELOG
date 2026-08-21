@@ -4,6 +4,45 @@ All notable changes to the DSDS specification are documented in this file.
 
 ---
 
+## [0.20.0] — 2026-08-20
+
+Breaking release — a full rewrite of the schema's shape, not an incremental change. The entity/document-block model (`spec/schema/`, JSON) is replaced by an entry/section model (`schema/`, YAML). Schema files are served at `https://designsystemdocspec.org/v0.20.0/...`. See the field-by-field mapping below, and [Conformance](https://designsystemdocspec.org/conformance.html#how-the-schema-is-organized) for the new shape's own design patterns.
+
+### Breaking changes
+
+- **`spec/` is dissolved.** `spec/schema/` and `spec/examples/` are replaced by `schema/` and `examples/` at the repo root. Document instances move from `.dsds.json` to `.dsds.yaml`.
+- **Root document restructured.** `dsdsVersion`, `systemInfo`, `entity`/`entityGroups` are replaced by `schemaVersion`, `name`, and `entries[]`. System-wide facts (version, organization, url, license, platforms) move onto a `kind: system` entry instead of living on the root document directly.
+- **Entity `identifier` renamed to entry `id`.**
+- **8 entity kinds collapse to 5.** `component`, `token`, `theme`, and `system` (new) keep their own schema files; `foundation`, `pattern`, `guide`, and `chunk` collapse into the generic `entry` kind (or a namespaced custom kind, e.g. `acme.icon-library`). There is no `token-group` kind — a group of tokens is a `metadata.group` fact on the tokens in it, not a separate artifact.
+- **`documentBlocks` + `agentDocumentBlocks` replaced by one `sections[]` array**, each section tagged `for: human | agent | all` instead of living in a separate array by audience.
+- **16 document-block kinds collapse to 4.** `guidelines`, `definitions`, `steps`, and the generic `section` replace `anatomy`, `api`, `variants`, `states`, `checklist`, `interactions`, `content`, `use-cases`, `imports`, `motion`, `principles`, `scale`, `design-specifications`, `accessibility`, and `sections`. A component's API/import surface moves to its own top-level `sourceFiles`/`imports` fields (pointing at real source instead of hand-typing an interface); variants and states merge into a component's own top-level `traits` field (boolean or enum).
+- **Three pointer types collapse into one.** `common/entity-ref`, `common/relationship`, and `common/link` are replaced by a single `common/ref` shape (`to`/`href` + `rel`), with one open `rel` vocabulary covering dependency, composition, citation, and external-link relationships.
+- **`common/criterion` is gone.** A conformance criterion is now a `guidelines` item's `checkedBy` (verification mode) plus `checks` (a `rel: test`/`lint-rule` ref to what actually runs the check), not a standalone object.
+- **`metadata.governance` replaced.** `{name, contact}` becomes `metadata.owner` (a plain mailbox string) and `metadata.reviewed[]` (an array of review events).
+- **Semantic rule catalog renumbered.** `rules/rules.yaml`'s 3-tier (`json-schema`/`semantic`/`lint`) catalog is replaced by `schema/conformance-rules.yaml`'s flat `DSDS-01`–`DSDS-07` catalog, enforced by the rewritten `scripts/validate.js`.
+
+### Additions
+
+- **`DSDS-06`/`DSDS-07`: cycle detection.** A `composes` or `depends-on` ref chain that leads back to an entry already in the chain now fails validation — restores a check the pre-0.20.0 spec had that the rewrite initially dropped.
+- **`scripts/compose.js`.** Splits a design system's documentation across multiple hand-authored `.dsds.yaml` fragment files, composed into one document before validation — a flat concatenate-then-validate tool, not a `$ref`/JSON-Pointer resolution mechanism.
+- **CSS Custom Highlight API in `<ds-code>`.** Syntax highlighting no longer wraps tokens in `<span>`s; highlighted ranges are registered via `CSS.highlights` and painted with `::highlight()`, eliminating a whole class of escape-order bug the span-wrapping approach was prone to. Falls back to plain, unhighlighted code in browsers without the API.
+- **The site, content pages, and root docs are fully retargeted at the new schema.** `scripts/build-site.js`, `render-prop-table.js`, `nav.js`, and `compile-mdx.mjs` now render property tables and cross-references from `schema/**/*.schema.yaml` (each file its own `allOf`-resolved definition, addressed by `$ref` string rather than bare `$defs` name). `AGENTS.md` and `README.md` are rewritten in full, including an accurate `## Project Structure` and a manual version-bump procedure (see Known gaps).
+- **The site consolidates from 9 narrative pages to 4.** Principles and a simplified Humans & agents and Interoperability merge into Overview; a simplified "How the schema is organized" merges into Conformance; Migration is removed outright (no versioned migration history exists yet — see the field-by-field mapping in this entry instead). Overview, Quick start, Conformance, and Stability remain as their own pages.
+- **`test/sanity-ui/`, a ~30-component real-world regression corpus, is converted** to the new schema (`test/invalid/`, its 0.15.2-era counterpart, is removed — fully superseded by `examples/invalid/`'s `DSDS-0#` fixtures). Wired into `npm run check` alongside a new `examples/interop/*.dsds.yaml` check.
+- **`scripts/extract-normative.mjs` ported** — the Conformance page's normative-statement index regenerates from `schema/**/*.schema.yaml` again, wired back into `postvalidate`.
+
+### Retired
+
+Four quality-tooling scripts checked things that no longer exist in the new model, rather than needing a port: `scripts/check-doc-coverage.mjs` and `scripts/render-summaries.js` verified auto-generated entity/block summary tables that the rewritten Schema Architecture page (hand-written prose) doesn't have; `scripts/lint-token-refs.mjs` guarded against raw CSS values forking from a token source inside `design-specifications`/`anatomy`/`states` blocks, all of which are gone — the new schema has no field left to fork; `scripts/lint-docs.js` and `rules/rules.yaml` (its quality-rules catalog) checked `documentBlocks`-shaped content that no longer exists.
+
+### Known gaps
+
+- `DSDS-08` (cross-file `href#itemId` resolution, for the multi-file composition `scripts/compose.js` enables) is designed but not yet implemented — see the graph-rigor-and-composition design notes.
+- `scripts/bump-version.js` and `scripts/visualize.js` still assume the pre-0.20.0 schema shape (a single `dsdsVersion.const` field; `spec/schema/`) and are not yet ported. See the README's [Cutting a release](https://designsystemdocspec.org/) section for the manual version-bump procedure in the meantime.
+- `examples/interop/ui-badge.dsds.json` and `nested-color.dsds.json` are unused, unconverted leftovers from the pre-0.20.0 interop example set — not referenced by any page.
+
+---
+
 ## [0.15.2] — 2026-07-16
 
 Patch release — one addition, non-breaking. Schema files are served at `https://designsystemdocspec.org/v0.15.2/...`.

@@ -1,0 +1,59 @@
+id: radio
+kind: component
+name: Radio
+description: A styled radio input for mutually exclusive selection within a group.
+purpose: Allow the user to select one option from a mutually exclusive group.
+
+metadata:
+  status: {status: stable}
+  tags: [form, input, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/radio
+    rel: external-link
+    role: Sanity UI docs — Radio
+
+related:
+  - to: checkbox
+    rel: alternative-to
+    note: Use Checkbox when multiple options can be selected simultaneously. Use Radio for single-choice groups.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/radio/radio.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Radio renders a styled native radio input. Use it within a fieldset/legend group where the user selects exactly one option. It is a controlled component — manage the selected value externally and pass it via `checked`.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: checked
+        definition: "boolean. Whether this radio option is selected. Controlled."
+      - term: value
+        definition: "string. The value submitted with the form when this option is selected."
+      - term: name
+        definition: "string. Groups radio inputs together. All radios sharing a name are mutually exclusive."
+      - term: disabled
+        definition: "boolean. Disables this radio option."
+      - term: readOnly
+        definition: "boolean. Renders in a non-editable state without disabling."
+      - term: onChange
+        definition: "(event: React.ChangeEvent<HTMLInputElement>) => void. Called when this radio option is selected."
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Wrap a group of Radio inputs in a `<fieldset>` with a `<legend>` describing the group — screen readers announce the legend as the group label, and without it each radio has no context.
+        level: must
+        tags: [accessibility]
+      - statement: Always associate each Radio with a visible label via `htmlFor`/`id` — without a label, the radio input has no accessible name.
+        level: must
+        tags: [accessibility]

@@ -1,0 +1,95 @@
+id: popover
+kind: component
+name: Popover
+description: A floating panel anchored to a reference element, for contextual rich content.
+purpose: Anchor a floating panel of rich content to a reference element.
+
+metadata:
+  status: {status: stable}
+  tags: [overlay, layout, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/popover
+    rel: external-link
+    role: Sanity UI docs — Popover
+
+related:
+  - to: tooltip
+    rel: alternative-to
+    note: Tooltip shows a brief read-only label on hover. Popover shows rich, potentially interactive content triggered by click.
+  - to: dialog
+    rel: alternative-to
+    note: Dialog is a modal overlay that blocks the page. Popover is non-modal and anchored to a specific element.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/popover/popover.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Popover renders a floating Card-like panel positioned relative to a reference element. It is used to show contextual menus, option lists, date pickers, and other rich content triggered by user interaction. Popover manages its own positioning via floating UI.
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: Popover is a floating panel anchored to a reference element.
+    items:
+      - term: Reference Element
+        definition: The trigger element the panel is anchored to. Can be a React ref or a virtual element. Required.
+      - term: Panel
+        definition: The floating container that holds the popover content. Required.
+      - term: Arrow
+        definition: An optional directional arrow pointing toward the reference element.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: open
+        definition: "boolean. Controls whether the popover is visible."
+      - term: content
+        definition: "React.ReactNode. Content rendered inside the popover panel."
+      - term: referenceElement
+        definition: "Element | VirtualElement | null. The element the popover is anchored to. When not provided, children serve as the reference."
+      - term: placement
+        definition: "'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'. Preferred placement of the panel relative to the reference."
+      - term: fallbackPlacements
+        definition: "Placement[]. Fallback placements used when the preferred one is clipped."
+      - term: portal
+        definition: "boolean. Renders the popover in a portal to avoid overflow clipping."
+      - term: animate
+        definition: "boolean. Enables entrance/exit animation."
+      - term: arrow
+        definition: "boolean. Show a directional arrow."
+      - term: radius
+        definition: "number | number[]. Border radius of the panel."
+      - term: padding
+        definition: "number | number[]. Internal padding of the panel."
+      - term: scheme
+        definition: "'light' | 'dark'. Color scheme of the panel."
+      - term: tone
+        definition: "'default' | 'primary' | 'positive' | 'caution' | 'critical'. Tone color applied to the panel."
+      - term: width
+        definition: "number. Width of the panel on the sizing scale."
+      - term: constrainSize
+        definition: "boolean. Constrains the popover size to stay within the viewport."
+      - term: overflow
+        definition: "'visible' | 'hidden' | 'auto' | 'scroll'. CSS overflow for the panel content."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Popover for anchoring a menu or option list to a trigger button.
+        level: should
+      - statement: Use Popover for showing a date picker, color picker, or other compound widget inline.
+        level: should
+      - statement: "Don't use Popover for displaying a simple short text label on hover — use Tooltip instead."
+        level: should-not
+        alternatives:
+          - to: tooltip
+            rel: alternative-to

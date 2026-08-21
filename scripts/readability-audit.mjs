@@ -45,7 +45,7 @@ const LONG_FORM_PATHS = [
   "recommendations.md",
   "site/content/overview.mdx",
   "site/content/quickstart.mdx",
-  "site/content/schema-architecture.mdx",
+  "site/content/conformance.mdx",
   ".claude/skills/review-schema/reference.md",
 ].filter((p) => fs.existsSync(path.join(ROOT, p)));
 

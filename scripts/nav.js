@@ -1,7 +1,7 @@
 /**
  * Shared navigation builder for the DSDS spec site.
  *
- * Discovers schema pages from spec/schema/ and produces the light-DOM
+ * Discovers schema pages from schema/ and produces the light-DOM
  * children markup expected by <ds-spec-nav>.
  *
  * Usage:
@@ -13,39 +13,27 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const SCHEMA_DIR = path.join(ROOT, "spec", "schema");
+const SCHEMA_DIR = path.join(ROOT, "schema");
 
-// Subdirectories of spec/schema/ that become nav groups.
+// Root-level schema files (schema/base.schema.yaml, schema/shared.schema.yaml)
+// that aren't inside one of DIR_GROUPS's subdirectories — they get their own
+// "Base" nav group, the same role `documentation`/dsds.schema.json played
+// for the old spec/schema/'s root file.
+const ROOT_FILES = ["base.schema.yaml", "shared.schema.yaml"];
+
+// Subdirectories of schema/ that become nav groups.
 const DIR_GROUPS = [
-  { dir: "documentation", label: "Documentation" },
   { dir: "common", label: "Common" },
-  { dir: "entities", label: "Entities" },
-  { dir: "document-blocks", label: "Document blocks" },
   { dir: "metadata", label: "Metadata" },
+  { dir: "entries", label: "Entries" },
+  { dir: "sections", label: "Sections" },
 ];
 
 // Top-level (non-schema-driven) links that always appear first.
 const TOP_LINKS = [
   { label: "Overview", href: "index.html", slug: "index" },
   { label: "Quick start", href: "quickstart.html", slug: "quickstart" },
-  {
-    label: "Humans & agents",
-    href: "humans-and-agents.html",
-    slug: "humans-and-agents",
-  },
-  {
-    label: "Schema architecture",
-    href: "schema-architecture.html",
-    slug: "schema-architecture",
-  },
   { label: "Conformance", href: "conformance.html", slug: "conformance" },
-  {
-    label: "Interoperability",
-    href: "interoperability.html",
-    slug: "interoperability",
-  },
-  { label: "Stability & 1.0", href: "stability.html", slug: "stability" },
-  { label: "Migration", href: "migration.html", slug: "migration" },
 ];
 
 function esc(text) {
@@ -58,38 +46,36 @@ function esc(text) {
 }
 
 /**
- * Scan spec/schema/ and return a lightweight list of page descriptors
+ * Scan schema/ and return a lightweight list of page descriptors
  * sufficient for building the nav: { slug, group, groupLabel, filename }.
  */
 function discoverNavPages() {
   const pages = [];
 
-  // Root schema goes into the "documentation" group
-  const rootPath = path.join(SCHEMA_DIR, "dsds.schema.json");
-  if (fs.existsSync(rootPath)) {
+  // Root-level files (base, shared) go into the "Base" group.
+  for (const filename of ROOT_FILES) {
+    const filePath = path.join(SCHEMA_DIR, filename);
+    if (!fs.existsSync(filePath)) continue;
+    const baseName = filename.replace(".schema.yaml", "");
     pages.push({
-      slug: "root",
-      group: "documentation",
-      groupLabel: "Documentation",
-      filename: "dsds.schema.json",
-      navLabel: "Root schema",
+      slug: baseName,
+      group: "root",
+      groupLabel: "Base",
+      filename,
     });
   }
 
   for (const group of DIR_GROUPS) {
-    // "documentation" group is populated above, not from a directory
-    if (group.dir === "documentation") continue;
-
     const dirPath = path.join(SCHEMA_DIR, group.dir);
     if (!fs.existsSync(dirPath)) continue;
 
     const files = fs
       .readdirSync(dirPath)
-      .filter((f) => f.endsWith(".schema.json"))
+      .filter((f) => f.endsWith(".schema.yaml"))
       .sort();
 
     for (const filename of files) {
-      const baseName = filename.replace(".schema.json", "");
+      const baseName = filename.replace(".schema.yaml", "");
       pages.push({
         slug: `${group.dir}-${baseName}`,
         group: group.dir,
@@ -133,7 +119,7 @@ function buildNavChildren(activeSlug, pages) {
   for (const [, group] of groups) {
     lines.push(`    <ds-nav-group label="${esc(group.label)}">`);
     for (const page of group.pages) {
-      const label = page.navLabel || page.filename.replace(".schema.json", "");
+      const label = page.navLabel || page.filename.replace(".schema.yaml", "");
       lines.push(
         `      <a href="${esc(page.slug)}.html" slug="${esc(page.slug)}">${esc(label)}</a>`,
       );
@@ -145,16 +131,18 @@ function buildNavChildren(activeSlug, pages) {
 }
 
 /**
- * Read the current spec version from `spec/schema/dsds.schema.json` so the
- * nav title, page <title> tags, and footer text always reflect what the
- * working tree says is current. This is the single source of truth for
- * "what version is the site at" — the bundle script reads it too.
+ * Read the current spec version from `schema/dsds.bundled.schema.json`'s own
+ * `$id` (ex: "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json")
+ * so the nav title, page <title> tags, and footer text always reflect what
+ * the working tree says is current. This is the single source of truth for
+ * "what version is the site at" — scripts/bundle.js writes that same `$id`.
  */
 function readSpecVersion() {
   try {
-    const rootSchemaPath = path.join(SCHEMA_DIR, "dsds.schema.json");
-    const root = JSON.parse(fs.readFileSync(rootSchemaPath, "utf-8"));
-    return root.properties && root.properties.dsdsVersion && root.properties.dsdsVersion.const;
+    const bundledPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
+    const bundled = JSON.parse(fs.readFileSync(bundledPath, "utf-8"));
+    const match = /\/v([^/]+)\/dsds\.bundled\.schema\.json$/.exec(bundled.$id || "");
+    return match ? match[1] : null;
   } catch (e) {
     return null;
   }

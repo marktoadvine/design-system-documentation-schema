@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schema — DSDS 0.20.0</title>
+  <meta name="description" content="Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape.">
+  <link rel="canonical" href="https://designsystemdocspec.org/schema">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="text/markdown" href="schema.md">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Design System Doc Schema">
+  <meta property="og:title" content="Schema — DSDS 0.20.0">
+  <meta property="og:description" content="Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape.">
+  <meta property="og:url" content="https://designsystemdocspec.org/schema">
+  <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta name="dsds-version" content="0.20.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Schema — DSDS 0.20.0","description":"Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape.","url":"https://designsystemdocspec.org/schema","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Schema","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/schema.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"base","url":"https://designsystemdocspec.org/schema#base"},{"@type":"DefinedTerm","name":"common/combo","url":"https://designsystemdocspec.org/schema#common-combo"},{"@type":"DefinedTerm","name":"common/example","url":"https://designsystemdocspec.org/schema#common-example"},{"@type":"DefinedTerm","name":"common/extensions","url":"https://designsystemdocspec.org/schema#common-extensions"},{"@type":"DefinedTerm","name":"common/id","url":"https://designsystemdocspec.org/schema#common-id"},{"@type":"DefinedTerm","name":"common/markdown","url":"https://designsystemdocspec.org/schema#common-markdown"},{"@type":"DefinedTerm","name":"common/ref","url":"https://designsystemdocspec.org/schema#common-ref"},{"@type":"DefinedTerm","name":"common/requirement-level","url":"https://designsystemdocspec.org/schema#common-requirement-level"},{"@type":"DefinedTerm","name":"common/showcase","url":"https://designsystemdocspec.org/schema#common-showcase"},{"@type":"DefinedTerm","name":"common/since","url":"https://designsystemdocspec.org/schema#common-since"},{"@type":"DefinedTerm","name":"entries/component","url":"https://designsystemdocspec.org/schema#entries-component"},{"@type":"DefinedTerm","name":"entries/entry","url":"https://designsystemdocspec.org/schema#entries-entry"},{"@type":"DefinedTerm","name":"entries/system","url":"https://designsystemdocspec.org/schema#entries-system"},{"@type":"DefinedTerm","name":"entries/theme","url":"https://designsystemdocspec.org/schema#entries-theme"},{"@type":"DefinedTerm","name":"entries/token","url":"https://designsystemdocspec.org/schema#entries-token"},{"@type":"DefinedTerm","name":"metadata/entry-metadata","url":"https://designsystemdocspec.org/schema#metadata-entry-metadata"},{"@type":"DefinedTerm","name":"metadata/metadata","url":"https://designsystemdocspec.org/schema#metadata-metadata"},{"@type":"DefinedTerm","name":"metadata/system-metadata","url":"https://designsystemdocspec.org/schema#metadata-system-metadata"},{"@type":"DefinedTerm","name":"sections/definitions","url":"https://designsystemdocspec.org/schema#sections-definitions"},{"@type":"DefinedTerm","name":"sections/guidelines","url":"https://designsystemdocspec.org/schema#sections-guidelines"},{"@type":"DefinedTerm","name":"sections/section","url":"https://designsystemdocspec.org/schema#sections-section"},{"@type":"DefinedTerm","name":"sections/steps","url":"https://designsystemdocspec.org/schema#sections-steps"},{"@type":"DefinedTerm","name":"shared","url":"https://designsystemdocspec.org/schema#shared"}]}</script>
+
+  <link rel="stylesheet" href="tokens.css?v=0.20.0">
+  <link rel="stylesheet" href="style.css?v=0.20.0">
+  <script src="components.js?v=0.20.0"></script>
+</head>
+<body>
+    <ds-spec-nav title="Design System Doc Schema 0.20.0" title-href="index.html" active="schema">
+    <a href="index.html" slug="index">Overview</a>
+    <a href="schema.html" slug="schema">Schema</a>
+    <ds-nav-group label="Core">
+      <a href="#base" slug="base">base</a>
+      <a href="#shared" slug="shared">shared</a>
+    </ds-nav-group>
+    <ds-nav-group label="Entries">
+      <a href="#entries-component" slug="entries-component">component</a>
+      <a href="#entries-entry" slug="entries-entry">entry</a>
+      <a href="#entries-system" slug="entries-system">system</a>
+      <a href="#entries-theme" slug="entries-theme">theme</a>
+      <a href="#entries-token" slug="entries-token">token</a>
+    </ds-nav-group>
+    <ds-nav-group label="Metadata">
+      <a href="#metadata-entry-metadata" slug="metadata-entry-metadata">entry-metadata</a>
+      <a href="#metadata-metadata" slug="metadata-metadata">metadata</a>
+      <a href="#metadata-system-metadata" slug="metadata-system-metadata">system-metadata</a>
+    </ds-nav-group>
+    <ds-nav-group label="Common">
+      <a href="#common-combo" slug="common-combo">combo</a>
+      <a href="#common-example" slug="common-example">example</a>
+      <a href="#common-extensions" slug="common-extensions">extensions</a>
+      <a href="#common-id" slug="common-id">id</a>
+      <a href="#common-markdown" slug="common-markdown">markdown</a>
+      <a href="#common-ref" slug="common-ref">ref</a>
+      <a href="#common-requirement-level" slug="common-requirement-level">requirement-level</a>
+      <a href="#common-showcase" slug="common-showcase">showcase</a>
+      <a href="#common-since" slug="common-since">since</a>
+    </ds-nav-group>
+    <ds-nav-group label="Sections">
+      <a href="#sections-definitions" slug="sections-definitions">definitions</a>
+      <a href="#sections-guidelines" slug="sections-guidelines">guidelines</a>
+      <a href="#sections-section" slug="sections-section">section</a>
+      <a href="#sections-steps" slug="sections-steps">steps</a>
+    </ds-nav-group>
+  </ds-spec-nav>
+  <ds-header title="Schema" description="Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape." source="schema/"><h1 slot="_fallback">Schema</h1><p slot="_fallback">Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape.</p></ds-header>
+<div class="content content--full">
+  <ds-def-section name="base" anchor="base" description="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents." type="object" source="schema/base.schema.yaml" layout="split"><h2 slot="_fallback" id="base">base</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/base.schema.yaml</ds-code></p><p slot="_fallback">A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents.</p>
+<ds-prop-table>
+  <ds-prop name="schemaVersion" type="string" required>The version of this spec the document follows.</ds-prop>
+  <ds-prop name="name" type="string" required>The name of the design system this document describes.</ds-prop>
+  <ds-prop name="entries" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]" required>Every entry this document owns, listed directly.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="$schema" type="string (uri-reference)">An optional hint for editor tools, like autocomplete or validate-on-save.</ds-prop>
+  <ds-prop name="shared" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">Reusable content that is not itself a design system artifact, for example an accessibility rule or a guideline that applies broadly.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="refs" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">The same pointer type entries use.</ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Escape hatch for tool-specific document-level data, keyed by namespace.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;schemaVersion&quot;: &quot;0.20.0&quot;,
+  &quot;name&quot;: &quot;Acme Design System&quot;,
+  &quot;entries&quot;: [
+    {
+      &quot;id&quot;: &quot;acme-design-system&quot;,
+      &quot;kind&quot;: &quot;system&quot;,
+      &quot;name&quot;: &quot;Acme Design System&quot;,
+      &quot;description&quot;: &quot;Acme's cross-platform design system.&quot;,
+      &quot;metadata&quot;: {
+        &quot;version&quot;: &quot;1.4.0&quot;,
+        &quot;organization&quot;: &quot;Acme Corp&quot;,
+        &quot;url&quot;: &quot;https://design.acme.example&quot;,
+        &quot;license&quot;: &quot;MIT&quot;,
+        &quot;platforms&quot;: [
+          &quot;react&quot;,
+          &quot;web-component&quot;
+        ],
+        &quot;status&quot;: {
+          &quot;status&quot;: &quot;stable&quot;
+        }
+      },
+      &quot;sections&quot;: [
+        {
+          &quot;kind&quot;: &quot;guidelines&quot;,
+          &quot;for&quot;: &quot;all&quot;,
+          &quot;title&quot;: &quot;Versioning&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;statement&quot;: &quot;This design system follows semver; breaking token renames bump the major version.&quot;,
+              &quot;level&quot;: &quot;must&quot;
+            }
+          ]
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;color.action.primary&quot;,
+      &quot;kind&quot;: &quot;token&quot;,
+      &quot;name&quot;: &quot;Action Primary&quot;,
+      &quot;description&quot;: &quot;The fill color for high-emphasis interactive surfaces.&quot;,
+      &quot;tokenType&quot;: &quot;color&quot;,
+      &quot;metadata&quot;: {
+        &quot;status&quot;: {
+          &quot;status&quot;: &quot;stable&quot;
+        },
+        &quot;tags&quot;: [
+          &quot;color&quot;
+        ]
+      }
+    },
+    {
+      &quot;id&quot;: &quot;dark&quot;,
+      &quot;kind&quot;: &quot;theme&quot;,
+      &quot;name&quot;: &quot;Dark&quot;,
+      &quot;description&quot;: &quot;Inverted-luminance theme for low-light surfaces and user preference.&quot;,
+      &quot;colorScheme&quot;: &quot;dark&quot;,
+      &quot;metadata&quot;: {
+        &quot;status&quot;: {
+          &quot;status&quot;: &quot;stable&quot;
+        }
+      },
+      &quot;refs&quot;: [
+        {
+          &quot;to&quot;: &quot;light&quot;,
+          &quot;rel&quot;: &quot;extends&quot;
+        },
+        {
+          &quot;href&quot;: &quot;tokens/dark.tokens.json&quot;,
+          &quot;rel&quot;: &quot;file&quot;,
+          &quot;note&quot;: &quot;DTCG source for this theme's token overrides - the specific tokens that differ from `light` are whichever this file redeclares.&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;button&quot;,
+      &quot;kind&quot;: &quot;component&quot;,
+      &quot;name&quot;: &quot;Button&quot;,
+      &quot;description&quot;: &quot;An interactive element that triggers an action when activated.&quot;,
+      &quot;metadata&quot;: {
+        &quot;status&quot;: {
+          &quot;status&quot;: &quot;stable&quot;
+        }
+      },
+      &quot;refs&quot;: [
+        {
+          &quot;to&quot;: &quot;color.action.primary&quot;,
+          &quot;rel&quot;: &quot;depends-on&quot;
+        }
+      ],
+      &quot;sections&quot;: [
+        {
+          &quot;kind&quot;: &quot;guidelines&quot;,
+          &quot;for&quot;: &quot;human&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;statement&quot;: &quot;Limit each surface to one primary button.&quot;,
+              &quot;level&quot;: &quot;should&quot;
+            }
+          ]
+        },
+        {
+          &quot;kind&quot;: &quot;guidelines&quot;,
+          &quot;for&quot;: &quot;all&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;level&quot;: &quot;must&quot;,
+              &quot;refs&quot;: [
+                {
+                  &quot;to&quot;: &quot;shared-a11y#touch-target&quot;,
+                  &quot;rel&quot;: &quot;same-as&quot;
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  &quot;shared&quot;: [
+    {
+      &quot;id&quot;: &quot;shared-a11y&quot;,
+      &quot;name&quot;: &quot;Shared Accessibility Rules&quot;,
+      &quot;description&quot;: &quot;Cross-cutting accessibility rules, stated once and referenced from every entry they apply to.&quot;,
+      &quot;sections&quot;: [
+        {
+          &quot;kind&quot;: &quot;guidelines&quot;,
+          &quot;for&quot;: &quot;all&quot;,
+          &quot;items&quot;: [
+            {
+              &quot;id&quot;: &quot;touch-target&quot;,
+              &quot;statement&quot;: &quot;Minimum touch target 44x44px.&quot;,
+              &quot;level&quot;: &quot;must&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="combo" anchor="common-combo" description="Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries." type="object" source="schema/common/combo.schema.yaml" layout="split"><h2 slot="_fallback" id="common-combo">combo</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/common/combo.schema.yaml</ds-code></p><p slot="_fallback">Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries.</p>
+<ds-prop-table>
+  <ds-prop name="subject" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>The subject of what elements can or cannot be paired with. Can be a trait, token, or entry id.</ds-prop>
+  <ds-prop name="items" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]" required>The elements paired with the subject.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="level" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>Whether the elements in <ds-code inline>items</ds-code> can or cannot be paired with the subject—and how strict the rule is.</ds-prop>
+  <ds-prop name="note" type="string">Why this rule holds.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;items&quot;: [
+    &quot;color.surface.default&quot;,
+    &quot;color.surface.raised&quot;
+  ],
+  &quot;note&quot;: &quot;Contrast is verified only against these surfaces; on any other background the label ratio is unproven.&quot;
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="example" anchor="common-example" description="A single example, illustrating something in context." type="object" source="schema/common/example.schema.yaml" layout="split"><h2 slot="_fallback" id="common-example">example</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/common/example.schema.yaml</ds-code></p><p slot="_fallback">A single example, illustrating something in context.</p>
+<ds-prop-table>
+  <ds-prop name="title" type="string" conditional>A short heading for the example.</ds-prop>
+  <ds-prop name="description" type="string" conditional>Describes the example in detail.</ds-prop>
+  <ds-prop name="showcase" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" conditional>A visual sample of this example.</ds-prop>
+  <ds-prop name="ref" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" conditional>Where this example lives in code.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;title&quot;: &quot;Loading state has an accessible announcement&quot;,
+  &quot;description&quot;: &quot;Renders with aria-live=\&quot;polite\&quot; so the loading state is announced.&quot;
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="extensions" anchor="common-extensions" description="Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern." type="object" source="schema/common/extensions.schema.yaml" layout="split"><h2 slot="_fallback" id="common-extensions">extensions</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/common/extensions.schema.yaml</ds-code></p><p slot="_fallback">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</p>
+<p><strong>Open map:</strong> keys are strings, values are <ds-code inline>object</ds-code></p>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;com.figma&quot;: {
+    &quot;context&quot;: &quot;Links this entry to its source Figma component for design-file lookups.&quot;,
+    &quot;displayName&quot;: &quot;Button/Primary&quot;,
+    &quot;nodeId&quot;: &quot;12:4045&quot;
+  }
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="id" anchor="common-id" description="Lowercase, dash-separated segments, optionally chained with dots." type="string" source="schema/common/id.schema.yaml" layout="split"><h2 slot="_fallback" id="common-id">id</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge> · <ds-code inline>schema/common/id.schema.yaml</ds-code></p><p slot="_fallback">Lowercase, dash-separated segments, optionally chained with dots.</p>
+<ds-callout variant="warning" title="Pattern:">Values must match <ds-code inline>^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$</ds-code>.</ds-callout>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>&quot;color.action.primary&quot;</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="markdown" anchor="common-markdown" description="Markdown content, including headings, tables, code fences, etc." type="string" source="schema/common/markdown.schema.yaml" layout="split"><h2 slot="_fallback" id="common-markdown">markdown</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge> · <ds-code inline>schema/common/markdown.schema.yaml</ds-code></p><p slot="_fallback">Markdown content, including headings, tables, code fences, etc.</p>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>&quot;Use for the single primary call-to-action on a surface.&quot;</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="ref" anchor="common-ref" description="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;" source="schema/common/ref.schema.yaml" layout="split"><h2 slot="_fallback" id="common-ref">ref</h2><p slot="_fallback"><ds-code inline>schema/common/ref.schema.yaml</ds-code></p><p slot="_fallback">The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;</p>
+<p><strong>Accepts one of:</strong></p>
+<ul>
+<li>string (uri-reference)</li>
+<li><strong>object</strong><ds-prop-table>
+  <ds-prop name="rel" type="&lt;ds-code inline&gt;&quot;depends-on&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;composes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;part-of&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;alternative-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;replaces&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;extends&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;implements&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;relates-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;same-as&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;refines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;lint-rule&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;test&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;source&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;design&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;storybook&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;package&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;external-link&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;pairs-with&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;excludes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;see-also&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>What kind of pointer this is, or a namespaced custom value.</ds-prop>
+  <ds-prop name="to" type="string">What this points at, inside this document's own graph.</ds-prop>
+  <ds-prop name="href" type="string (uri-reference)">What this points at, outside this document. Such as a file, URL, or package.</ds-prop>
+  <ds-prop name="role" type="string">What the thing being pointed at does in this context.</ds-prop>
+  <ds-prop name="note" type="string">Additional info related to the connection of the two items.</ds-prop>
+</ds-prop-table></li>
+</ul>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>&quot;https://storybook.org/ds/button&quot;</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="requirement-level" anchor="common-requirement-level" description="How strict a rule is, from must to must-not." type="string" source="schema/common/requirement-level.schema.yaml" layout="split"><h2 slot="_fallback" id="common-requirement-level">requirement-level</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge> · <ds-code inline>schema/common/requirement-level.schema.yaml</ds-code></p><p slot="_fallback">How strict a rule is, from must to must-not.</p>
+<p><strong>Allowed values:</strong></p>
+<ul class="enum-list">
+<li><ds-code inline>must</ds-code></li>
+<li><ds-code inline>should</ds-code></li>
+<li><ds-code inline>should-not</ds-code></li>
+<li><ds-code inline>must-not</ds-code></li>
+<li><ds-code inline>may</ds-code></li>
+</ul>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>&quot;must&quot;</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="showcase" anchor="common-showcase" description="A visual sample of something. Can be a media file (image or video) or a link to a live page." source="schema/common/showcase.schema.yaml" layout="split"><h2 slot="_fallback" id="common-showcase">showcase</h2><p slot="_fallback"><ds-code inline>schema/common/showcase.schema.yaml</ds-code></p><p slot="_fallback">A visual sample of something. Can be a media file (image or video) or a link to a live page.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;image&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;video&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;sound&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;html&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;code&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;other&quot;&lt;/ds-code&gt;" required>What kind of media this showcase is.</ds-prop>
+  <ds-prop name="url" type="string (uri-reference)" required>Where the showcase lives.</ds-prop>
+  <ds-prop name="alt" type="string">Alt text describing the image or video, for accessibility</ds-prop>
+  <ds-prop name="note" type="string">Provides additional detail about the showcase if needed.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;image&quot;,
+  &quot;url&quot;: &quot;https://cdn.example.com/screenshots/button-primary.png&quot;,
+  &quot;alt&quot;: &quot;Primary button in its default state, showing the filled blue background and white label.&quot;,
+  &quot;note&quot;: &quot;Captured from the Storybook build, light theme.&quot;
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="since" anchor="common-since" description="The version something was introduced in." type="string" source="schema/common/since.schema.yaml" layout="split"><h2 slot="_fallback" id="common-since">since</h2><p slot="_fallback"><ds-badge variant="kind">string</ds-badge> · <ds-code inline>schema/common/since.schema.yaml</ds-code></p><p slot="_fallback">The version something was introduced in.</p>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>&quot;1.4.0&quot;</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="component" anchor="entries-component" description="A reusable UI element, like a button or a dialog." source="schema/entries/component.schema.yaml" layout="split"><h2 slot="_fallback" id="entries-component">component</h2><p slot="_fallback"><ds-code inline>schema/entries/component.schema.yaml</ds-code></p><p slot="_fallback">A reusable UI element, like a button or a dialog.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;component&quot;&lt;/ds-code&gt;">Marks this entry as a component.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="sourceFiles" type="object {platform, file}[]">One entry per platform's source file.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="imports" type="object {platform, code, package}[]">One entry per platform.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="traits" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt; | &lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">The component's variants and states.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="combos" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">Define which of this component's own boolean traits or enum values can or cannot be paired with each other.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;id&quot;: &quot;button&quot;,
+  &quot;kind&quot;: &quot;component&quot;,
+  &quot;name&quot;: &quot;Button&quot;,
+  &quot;description&quot;: &quot;An interactive element that triggers an action when activated.&quot;,
+  &quot;metadata&quot;: {
+    &quot;status&quot;: {
+      &quot;status&quot;: &quot;stable&quot;
+    },
+    &quot;since&quot;: &quot;1.4.0&quot;,
+    &quot;updated&quot;: {
+      &quot;date&quot;: &quot;2026-06-02T00:00:00.000Z&quot;
+    },
+    &quot;tags&quot;: [
+      &quot;actions&quot;,
+      &quot;button&quot;,
+      &quot;cta&quot;,
+      &quot;form-control&quot;
+    ],
+    &quot;aliases&quot;: [
+      &quot;btn&quot;
+    ]
+  },
+  &quot;refs&quot;: [
+    {
+      &quot;to&quot;: &quot;button-group&quot;,
+      &quot;rel&quot;: &quot;part-of&quot;
+    },
+    {
+      &quot;to&quot;: &quot;icon-button&quot;,
+      &quot;rel&quot;: &quot;alternative-to&quot;
+    },
+    {
+      &quot;to&quot;: &quot;link&quot;,
+      &quot;rel&quot;: &quot;alternative-to&quot;
+    },
+    {
+      &quot;to&quot;: &quot;color.action.primary&quot;,
+      &quot;rel&quot;: &quot;depends-on&quot;
+    },
+    {
+      &quot;href&quot;: &quot;https://github.com/org/ds/react/button&quot;,
+      &quot;rel&quot;: &quot;source&quot;
+    },
+    {
+      &quot;href&quot;: &quot;https://storybook.org/ds/button&quot;,
+      &quot;rel&quot;: &quot;storybook&quot;,
+      &quot;role&quot;: &quot;hosted docs&quot;
+    },
+    {
+      &quot;href&quot;: &quot;./stories/button.stories.tsx&quot;,
+      &quot;rel&quot;: &quot;storybook&quot;,
+      &quot;role&quot;: &quot;CSF story source&quot;,
+      &quot;note&quot;: &quot;Component Story Format (CSF3) - the source the hosted docs above are built from.&quot;
+    },
+    {
+      &quot;href&quot;: &quot;npm:@org/ds-react&quot;,
+      &quot;rel&quot;: &quot;package&quot;
+    }
+  ],
+  &quot;traits&quot;: [
+    {
+      &quot;kind&quot;: &quot;boolean&quot;,
+      &quot;id&quot;: &quot;loading&quot;,
+      &quot;description&quot;: &quot;Shows a spinner in place of the label and blocks interaction while active.&quot;,
+      &quot;purpose&quot;: &quot;Prevents duplicate submissions while an action is in flight.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;enum&quot;,
+      &quot;id&quot;: &quot;size&quot;,
+      &quot;description&quot;: &quot;Controls the button's overall scale.&quot;,
+      &quot;values&quot;: [
+        {
+          &quot;id&quot;: &quot;small&quot;,
+          &quot;description&quot;: &quot;Compact size for dense layouts (e.g. toolbars).&quot;
+        },
+        {
+          &quot;id&quot;: &quot;medium&quot;,
+          &quot;description&quot;: &quot;The default size for most surfaces.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;large&quot;,
+          &quot;description&quot;: &quot;Larger touch target for primary calls-to-action.&quot;
+        }
+      ]
+    },
+    {
+      &quot;kind&quot;: &quot;enum&quot;,
+      &quot;id&quot;: &quot;variant&quot;,
+      &quot;description&quot;: &quot;Which visual style to render.&quot;,
+      &quot;values&quot;: [
+        {
+          &quot;id&quot;: &quot;primary&quot;,
+          &quot;description&quot;: &quot;The default, high-emphasis style for the main action on a surface.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;secondary&quot;,
+          &quot;description&quot;: &quot;Lower-emphasis alternative for secondary actions alongside a primary button.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;danger&quot;,
+          &quot;description&quot;: &quot;Destructive actions only (delete, revoke access, etc.).&quot;
+        }
+      ]
+    },
+    {
+      &quot;kind&quot;: &quot;boolean&quot;,
+      &quot;id&quot;: &quot;hover&quot;,
+      &quot;description&quot;: &quot;Background darkens slightly when the pointer is over the button.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;boolean&quot;,
+      &quot;id&quot;: &quot;disabled&quot;,
+      &quot;description&quot;: &quot;Dimmed and non-interactive; triggered by the `disabled` prop.&quot;
+    }
+  ],
+  &quot;combos&quot;: [
+    {
+      &quot;subject&quot;: &quot;loading&quot;,
+      &quot;level&quot;: &quot;must-not&quot;,
+      &quot;items&quot;: [
+        &quot;disabled&quot;
+      ],
+      &quot;note&quot;: &quot;A control can't be simultaneously loading and disabled - loading already blocks interaction, and layering both muddles what the button will do when the work finishes.&quot;
+    },
+    {
+      &quot;subject&quot;: &quot;size.small&quot;,
+      &quot;level&quot;: &quot;must-not&quot;,
+      &quot;items&quot;: [
+        &quot;variant.danger&quot;
+      ],
+      &quot;note&quot;: &quot;Destructive actions need the full-size touch target; a small danger button invites mis-taps on the most costly action.&quot;
+    }
+  ],
+  &quot;sourceFiles&quot;: [
+    {
+      &quot;platform&quot;: &quot;react&quot;,
+      &quot;file&quot;: &quot;./src/Button.tsx&quot;
+    }
+  ],
+  &quot;sections&quot;: [
+    {
+      &quot;kind&quot;: &quot;definitions&quot;,
+      &quot;for&quot;: &quot;all&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;term&quot;: &quot;OK&quot;,
+          &quot;definition&quot;: &quot;To confirm an action.&quot;
+        },
+        {
+          &quot;term&quot;: &quot;Cancel&quot;,
+          &quot;definition&quot;: &quot;To cancel an action.&quot;
+        }
+      ]
+    },
+    {
+      &quot;kind&quot;: &quot;steps&quot;,
+      &quot;for&quot;: &quot;agent&quot;,
+      &quot;ordered&quot;: false,
+      &quot;title&quot;: &quot;Pre-release checklist&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;title&quot;: &quot;Focus ring is visible in both light and dark themes.&quot;
+        },
+        {
+          &quot;title&quot;: &quot;Loading state announces to screen readers.&quot;
+        },
+        {
+          &quot;title&quot;: &quot;Works with a custom icon in the leading-icon slot.&quot;,
+          &quot;optional&quot;: true
+        }
+      ]
+    },
+    {
+      &quot;kind&quot;: &quot;guidelines&quot;,
+      &quot;for&quot;: &quot;human&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;statement&quot;: &quot;Limit each surface to one primary button.&quot;,
+          &quot;level&quot;: &quot;should&quot;
+        },
+        {
+          &quot;statement&quot;: &quot;Use buttons only for in-page actions, never navigation.&quot;,
+          &quot;level&quot;: &quot;must&quot;
+        },
+        {
+          &quot;level&quot;: &quot;must&quot;,
+          &quot;refs&quot;: [
+            {
+              &quot;href&quot;: &quot;https://example.atlassian.net/browse/DS-482&quot;,
+              &quot;rel&quot;: &quot;external-link&quot;
+            }
+          ]
+        }
+      ]
+    },
+    {
+      &quot;kind&quot;: &quot;guidelines&quot;,
+      &quot;for&quot;: &quot;agent&quot;,
+      &quot;context&quot;: &quot;when-to-use&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;statement&quot;: &quot;Do not use button when the action navigates to a new URL; use the link entry instead.&quot;,
+          &quot;level&quot;: &quot;must-not&quot;,
+          &quot;alternatives&quot;: [
+            {
+              &quot;to&quot;: &quot;link&quot;,
+              &quot;rel&quot;: &quot;alternative-to&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  &quot;$extensions&quot;: {
+    &quot;com.figma&quot;: {
+      &quot;displayName&quot;: &quot;Button/Primary&quot;,
+      &quot;nodeId&quot;: &quot;12:4045&quot;
+    }
+  }
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="entry" anchor="entries-entry" description="The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file." type="object" source="schema/entries/entry.schema.yaml" layout="split"><h2 slot="_fallback" id="entries-entry">entry</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/entries/entry.schema.yaml</ds-code></p><p slot="_fallback">The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file.</p>
+<ds-prop-table>
+  <ds-prop name="id" type="string" required>This entry's unique id in the design system graph.</ds-prop>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;system&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;component&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;token&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;theme&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;entry&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>What kind of thing this entry is, as a real design-system artifact: one of the 5 well-known kinds, or a namespaced custom kind.</ds-prop>
+  <ds-prop name="name" type="string" required>The human-readable display name.</ds-prop>
+  <ds-prop name="description" type="string" required>A one-line statement of what this entry is or is for.</ds-prop>
+  <ds-prop name="purpose" type="string">Explains the entry's reason for existing.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="related" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Pointers to another entry this one is similar to in usage or purpose.</ds-prop>
+  <ds-prop name="extends" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Pointers to another entry this one inherits from (rel: extends).</ds-prop>
+  <ds-prop name="refs" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">This entry's other pointers to entries and outside resources, not covered by <ds-code inline>related</ds-code> or <ds-code inline>extends</ds-code>.</ds-prop>
+  <ds-prop name="sections" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;id&quot;: &quot;confirmation-dialog&quot;,
+  &quot;kind&quot;: &quot;entry&quot;,
+  &quot;name&quot;: &quot;Confirmation Dialog&quot;,
+  &quot;description&quot;: &quot;A pre-composed destructive-action confirmation, built from Dialog, Button, and Icon.&quot;,
+  &quot;metadata&quot;: {
+    &quot;status&quot;: {
+      &quot;status&quot;: &quot;stable&quot;
+    }
+  },
+  &quot;refs&quot;: [
+    {
+      &quot;to&quot;: &quot;dialog&quot;,
+      &quot;rel&quot;: &quot;composes&quot;
+    },
+    {
+      &quot;to&quot;: &quot;button&quot;,
+      &quot;rel&quot;: &quot;composes&quot;
+    },
+    {
+      &quot;to&quot;: &quot;icon&quot;,
+      &quot;rel&quot;: &quot;composes&quot;
+    },
+    {
+      &quot;href&quot;: &quot;./chunks/confirmation-dialog.tsx&quot;,
+      &quot;rel&quot;: &quot;file&quot;,
+      &quot;role&quot;: &quot;React implementation&quot;
+    }
+  ],
+  &quot;sections&quot;: [
+    {
+      &quot;kind&quot;: &quot;guidelines&quot;,
+      &quot;for&quot;: &quot;all&quot;,
+      &quot;context&quot;: &quot;when-to-use&quot;,
+      &quot;title&quot;: &quot;When to use&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;statement&quot;: &quot;Confirming a destructive, hard-to-reverse action (delete, revoke access).&quot;,
+          &quot;level&quot;: &quot;should&quot;
+        },
+        {
+          &quot;statement&quot;: &quot;Confirming a routine save or submit action.&quot;,
+          &quot;level&quot;: &quot;should-not&quot;,
+          &quot;refs&quot;: [
+            {
+              &quot;to&quot;: &quot;button&quot;,
+              &quot;rel&quot;: &quot;alternative-to&quot;,
+              &quot;note&quot;: &quot;A routine action doesn't need an interruption; a plain button keeps the flow moving.&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="system" anchor="entries-system" description="A DSDS design system. System-level information and guidance for the design system as a whole." source="schema/entries/system.schema.yaml" layout="split"><h2 slot="_fallback" id="entries-system">system</h2><p slot="_fallback"><ds-code inline>schema/entries/system.schema.yaml</ds-code></p><p slot="_fallback">A DSDS design system. System-level information and guidance for the design system as a whole.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;system&quot;&lt;/ds-code&gt;">Marks this entry as a design system.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Facts about the design system as a whole.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;system&quot;,
+  &quot;metadata&quot;: {}
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="theme" anchor="entries-theme" description="A defined system theme." source="schema/entries/theme.schema.yaml" layout="split"><h2 slot="_fallback" id="entries-theme">theme</h2><p slot="_fallback"><ds-code inline>schema/entries/theme.schema.yaml</ds-code></p><p slot="_fallback">A defined system theme.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;theme&quot;&lt;/ds-code&gt;">Marks this entry as a theme.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="source" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Path to the theme's DTCG source file.</ds-prop>
+  <ds-prop name="colorScheme" type="&lt;ds-code inline&gt;&quot;light&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;dark&quot;&lt;/ds-code&gt;">Which native color-scheme setting this theme matches.<br><small>Default: <ds-code inline>"light"</ds-code></small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;id&quot;: &quot;dark&quot;,
+  &quot;kind&quot;: &quot;theme&quot;,
+  &quot;name&quot;: &quot;Dark&quot;,
+  &quot;description&quot;: &quot;Inverted-luminance theme for low-light surfaces and user preference.&quot;,
+  &quot;colorScheme&quot;: &quot;dark&quot;,
+  &quot;metadata&quot;: {
+    &quot;status&quot;: {
+      &quot;status&quot;: &quot;stable&quot;
+    },
+    &quot;since&quot;: &quot;1.2.0&quot;,
+    &quot;tags&quot;: [
+      &quot;theme&quot;
+    ]
+  },
+  &quot;refs&quot;: [
+    {
+      &quot;to&quot;: &quot;light&quot;,
+      &quot;rel&quot;: &quot;extends&quot;
+    },
+    {
+      &quot;href&quot;: &quot;tokens/dark.tokens.json&quot;,
+      &quot;rel&quot;: &quot;file&quot;,
+      &quot;note&quot;: &quot;DTCG source for this theme's token overrides - the specific tokens that differ from `light` are whichever this file redeclares.&quot;
+    }
+  ],
+  &quot;sections&quot;: [
+    {
+      &quot;kind&quot;: &quot;guidelines&quot;,
+      &quot;for&quot;: &quot;human&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;statement&quot;: &quot;Apply via the root color-scheme attribute, never per-component overrides.&quot;,
+          &quot;level&quot;: &quot;must&quot;
+        },
+        {
+          &quot;statement&quot;: &quot;Respect prefers-color-scheme unless the user has set an explicit preference.&quot;,
+          &quot;level&quot;: &quot;should&quot;
+        }
+      ]
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="token" anchor="entries-token" description="A single design token, from the Design Tokens Community Group (DTCG) format." source="schema/entries/token.schema.yaml" layout="split"><h2 slot="_fallback" id="entries-token">token</h2><p slot="_fallback"><ds-code inline>schema/entries/token.schema.yaml</ds-code></p><p slot="_fallback">A single design token, from the Design Tokens Community Group (DTCG) format.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;token&quot;&lt;/ds-code&gt;">Marks this entry as a token.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="id" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">This token's unique id.</ds-prop>
+  <ds-prop name="source" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Path to the token's DTCG source file's token reference.</ds-prop>
+  <ds-prop name="tokenType" type="string">The token's type, from DTCG.<br><small>Pattern: <ds-code inline>^[a-z][a-zA-Z0-9]*$</ds-code></small></ds-prop>
+  <ds-prop name="combos" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">Rules about which other tokens this one must or must never be paired with.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;id&quot;: &quot;color.action.primary&quot;,
+  &quot;kind&quot;: &quot;token&quot;,
+  &quot;name&quot;: &quot;Action Primary&quot;,
+  &quot;description&quot;: &quot;The fill color for high-emphasis interactive surfaces.&quot;,
+  &quot;tokenType&quot;: &quot;color&quot;,
+  &quot;combos&quot;: [
+    {
+      &quot;subject&quot;: &quot;{color.action.primary}&quot;,
+      &quot;level&quot;: &quot;must&quot;,
+      &quot;items&quot;: [
+        &quot;{color.surface.default}&quot;,
+        &quot;{color.surface.raised}&quot;
+      ],
+      &quot;note&quot;: &quot;Contrast is verified only against these surfaces; on any other background the label ratio is unproven.&quot;
+    }
+  ],
+  &quot;metadata&quot;: {
+    &quot;status&quot;: {
+      &quot;status&quot;: &quot;stable&quot;
+    },
+    &quot;since&quot;: &quot;1.0.0&quot;,
+    &quot;tags&quot;: [
+      &quot;color&quot;,
+      &quot;action&quot;,
+      &quot;primary&quot;
+    ],
+    &quot;group&quot;: &quot;color.action&quot;
+  },
+  &quot;refs&quot;: [
+    {
+      &quot;to&quot;: &quot;color.action.primary.hover&quot;,
+      &quot;rel&quot;: &quot;relates-to&quot;
+    },
+    {
+      &quot;href&quot;: &quot;./tokens.dtcg.json&quot;,
+      &quot;rel&quot;: &quot;file&quot;,
+      &quot;role&quot;: &quot;color.action.primary.*&quot;
+    }
+  ],
+  &quot;sections&quot;: [
+    {
+      &quot;kind&quot;: &quot;guidelines&quot;,
+      &quot;for&quot;: &quot;all&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;statement&quot;: &quot;Use for the single primary call-to-action on a surface.&quot;,
+          &quot;level&quot;: &quot;should&quot;
+        },
+        {
+          &quot;statement&quot;: &quot;Do not apply to destructive actions - use color.action.danger instead.&quot;,
+          &quot;level&quot;: &quot;must-not&quot;
+        }
+      ]
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="entry-metadata" anchor="metadata-entry-metadata" description="Information about a single entry, on top of the fields every metadata object shares." source="schema/metadata/entry-metadata.schema.yaml" layout="split"><h2 slot="_fallback" id="metadata-entry-metadata">entry-metadata</h2><p slot="_fallback"><ds-code inline>schema/metadata/entry-metadata.schema.yaml</ds-code></p><p slot="_fallback">Information about a single entry, on top of the fields every metadata object shares.</p>
+<ds-prop-table>
+  <ds-prop name="status" type="object &amp; any">A lifecycle status, optionally scoped to one platform.</ds-prop>
+  <ds-prop name="since" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">The version this entry was first introduced.</ds-prop>
+  <ds-prop name="group" type="string">A group name this entry belongs to, for example &quot;color.action&quot; on a set of related tokens.</ds-prop>
+  <ds-prop name="aliases" type="string[]">Other names this entry is also known or searched by, like a past name or a common misspelling.</ds-prop>
+  <ds-prop name="preview" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">A visual sample of this entry, either a media file or a link.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;status&quot;: {
+    &quot;deprecationNotice&quot;: &quot;Use `icon-button` instead - this variant never got contrast-tested and is being removed in 2.0.&quot;,
+    &quot;note&quot;: &quot;Still supported for legacy integrations only.&quot;
+  },
+  &quot;group&quot;: &quot;color.action&quot;,
+  &quot;aliases&quot;: [
+    &quot;btn&quot;
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="metadata" anchor="metadata-metadata" description="Optional information about an element." type="object" source="schema/metadata/metadata.schema.yaml" layout="split"><h2 slot="_fallback" id="metadata-metadata">metadata</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/metadata/metadata.schema.yaml</ds-code></p><p slot="_fallback">Optional information about an element.</p>
+<ds-prop-table>
+  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="owner" type="string">The owning team, role, or group.</ds-prop>
+  <ds-prop name="reviewed" type="object {date, by, note}[]">Independent reviews confirming this item's documentation, each recording who confirmed it and when.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="context" type="string">Why this entry was created, and how and why to use it.</ds-prop>
+  <ds-prop name="updated" type="object {date, note}">When this item's documentation last changed.</ds-prop>
+  <ds-prop name="origin" type="object {method, author, note}">How this entry's documentation came to exist, and who or what wrote it.</ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;tags&quot;: [
+    &quot;actions&quot;,
+    &quot;button&quot;,
+    &quot;cta&quot;,
+    &quot;form-control&quot;
+  ],
+  &quot;owner&quot;: &quot;ds@pizzapartysupertime.com&quot;,
+  &quot;reviewed&quot;: [
+    {
+      &quot;by&quot;: &quot;human:ahormati&quot;,
+      &quot;note&quot;: &quot;Copy and contrast ratios re-checked; no changes needed.&quot;
+    }
+  ],
+  &quot;context&quot;: &quot;Introduced to give provide agents extra information for how to ingest/use an entry.&quot;,
+  &quot;updated&quot;: {
+    &quot;note&quot;: &quot;Added the loading trait and its guideline.&quot;
+  },
+  &quot;origin&quot;: {
+    &quot;method&quot;: &quot;authored&quot;,
+    &quot;author&quot;: &quot;human&quot;,
+    &quot;note&quot;: &quot;The accessibility section was reviewed by a person, unlike the rest.&quot;
+  }
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="system-metadata" anchor="metadata-system-metadata" description="Information about the design system as a whole, on top of the fields every metadata object shares." source="schema/metadata/system-metadata.schema.yaml" layout="split"><h2 slot="_fallback" id="metadata-system-metadata">system-metadata</h2><p slot="_fallback"><ds-code inline>schema/metadata/system-metadata.schema.yaml</ds-code></p><p slot="_fallback">Information about the design system as a whole, on top of the fields every metadata object shares.</p>
+<ds-prop-table>
+  <ds-prop name="version" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">The current version of the design system.</ds-prop>
+  <ds-prop name="organization" type="string">The team or company that owns the design system.</ds-prop>
+  <ds-prop name="url" type="string (uri)">The main home page or repository for the design system.</ds-prop>
+  <ds-prop name="license" type="string">The license this design system is published under.</ds-prop>
+  <ds-prop name="platforms" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">The platforms this system ships on, for example &quot;react&quot; or &quot;web-component&quot;.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;organization&quot;: &quot;Acme Inc.&quot;,
+  &quot;url&quot;: &quot;https://github.com/acme/design-system&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;platforms&quot;: [
+    &quot;react&quot;,
+    &quot;web-component&quot;,
+    &quot;ios&quot;
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="definitions" anchor="sections-definitions" description="Term definitions. Can describe content labels within components or patterns, define naming conventions, act as a glossary, or be a simple way to outline component props/APIs." source="schema/sections/definitions.schema.yaml" layout="split"><h2 slot="_fallback" id="sections-definitions">definitions</h2><p slot="_fallback"><ds-code inline>schema/sections/definitions.schema.yaml</ds-code></p><p slot="_fallback">Term definitions. Can describe content labels within components or patterns, define naming conventions, act as a glossary, or be a simple way to outline component props/APIs.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;definitions&quot;&lt;/ds-code&gt;">Marks this section as term-definition documentation.</ds-prop>
+  <ds-prop name="items" type="object[]">One entry per term.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;definitions&quot;,
+  &quot;for&quot;: &quot;all&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;term&quot;: &quot;OK&quot;,
+      &quot;definition&quot;: &quot;To confirm an action.&quot;
+    },
+    {
+      &quot;term&quot;: &quot;Cancel&quot;,
+      &quot;definition&quot;: &quot;To cancel an action.&quot;
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="guidelines" anchor="sections-guidelines" description="Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists." source="schema/sections/guidelines.schema.yaml" layout="split"><h2 slot="_fallback" id="sections-guidelines">guidelines</h2><p slot="_fallback"><ds-code inline>schema/sections/guidelines.schema.yaml</ds-code></p><p slot="_fallback">Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt;">Marks this section as guidelines.</ds-prop>
+  <ds-prop name="context" type="&lt;ds-code inline&gt;&quot;when-to-use&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;how-to-use&quot;&lt;/ds-code&gt;">Which kind of guidance this section holds.<br><small>Default: <ds-code inline>"how-to-use"</ds-code></small></ds-prop>
+  <ds-prop name="items" type="any | any[]">The rules, in order.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;guidelines&quot;,
+  &quot;for&quot;: &quot;human&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;statement&quot;: &quot;Limit each surface to one primary button.&quot;,
+      &quot;level&quot;: &quot;should&quot;
+    },
+    {
+      &quot;statement&quot;: &quot;Use buttons only for in-page actions, never navigation.&quot;,
+      &quot;level&quot;: &quot;must&quot;
+    },
+    {
+      &quot;level&quot;: &quot;must&quot;,
+      &quot;refs&quot;: [
+        {
+          &quot;href&quot;: &quot;https://example.atlassian.net/browse/DS-482&quot;,
+          &quot;rel&quot;: &quot;external-link&quot;
+        }
+      ]
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="section" anchor="sections-section" description="A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`." type="object" source="schema/sections/section.schema.yaml" layout="split"><h2 slot="_fallback" id="sections-section">section</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/sections/section.schema.yaml</ds-code></p><p slot="_fallback">A logical documentation section. Every section uses the same structure (<ds-code inline>items</ds-code>), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own <ds-code inline>kind</ds-code> value and its own structure for <ds-code inline>items</ds-code>.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;definitions&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;steps&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;section&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>What kind of content section this is.</ds-prop>
+  <ds-prop name="for" type="&lt;ds-code inline&gt;&quot;human&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;agent&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;all&quot;&lt;/ds-code&gt;" required>Who or what this section is written for.<br><small>Default: <ds-code inline>"all"</ds-code></small></ds-prop>
+  <ds-prop name="items" type="object[]" conditional>The one universal list for this section kind's own structured content.</ds-prop>
+  <ds-prop name="freeform" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]" conditional>Nestable written content that can include headings. Available on every section kind regardless of <ds-code inline>items</ds-code>' own structure.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="title" type="string">An optional heading for the section.</ds-prop>
+  <ds-prop name="description" type="string">An optional one-line intro for the section.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Escape hatch for tool data scoped to just this one section, keyed by namespace.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;definitions&quot;,
+  &quot;for&quot;: &quot;human&quot;,
+  &quot;title&quot;: &quot;When to use&quot;,
+  &quot;description&quot;: &quot;Rules for using this component correctly.&quot;,
+  &quot;items&quot;: [
+    {}
+  ],
+  &quot;freeform&quot;: [
+    {
+      &quot;title&quot;: &quot;Install&quot;,
+      &quot;body&quot;: &quot;Add the package and its peer dependencies.&quot;
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="steps" anchor="sections-steps" description="A series of actions/steps/tasks, like a tutorial, a migration, a pattern's interaction flow, or checklist of things to verify." source="schema/sections/steps.schema.yaml" layout="split"><h2 slot="_fallback" id="sections-steps">steps</h2><p slot="_fallback"><ds-code inline>schema/sections/steps.schema.yaml</ds-code></p><p slot="_fallback">A series of actions/steps/tasks, like a tutorial, a migration, a pattern's interaction flow, or checklist of things to verify.</p>
+<ds-prop-table>
+  <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;steps&quot;&lt;/ds-code&gt;">Marks this section as a stepped process or checklist.</ds-prop>
+  <ds-prop name="ordered" type="boolean">Whether entries must be done in order. Set to false for an unordered checklist.<br><small>Default: <ds-code inline>true</ds-code></small></ds-prop>
+  <ds-prop name="items" type="object[]">The steps or checklist entries, in order.<br><small>Min items: 1</small></ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;kind&quot;: &quot;steps&quot;,
+  &quot;for&quot;: &quot;agent&quot;,
+  &quot;ordered&quot;: false,
+  &quot;title&quot;: &quot;Pre-release checklist&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;title&quot;: &quot;Focus ring is visible in both light and dark themes.&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Loading state announces to screen readers.&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Works with a custom icon in the leading-icon slot.&quot;,
+      &quot;optional&quot;: true
+    }
+  ]
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+<ds-def-section name="shared" anchor="shared" description="Reusable content other entries point at instead of restating. Not a design-system artifact in its own right." type="object" source="schema/shared.schema.yaml" layout="split"><h2 slot="_fallback" id="shared">shared</h2><p slot="_fallback"><ds-badge variant="kind">object</ds-badge> · <ds-code inline>schema/shared.schema.yaml</ds-code></p><p slot="_fallback">Reusable content other entries point at instead of restating. Not a design-system artifact in its own right.</p>
+<ds-prop-table>
+  <ds-prop name="id" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;" required>This entry's unique id.</ds-prop>
+  <ds-prop name="name" type="string" required>The human-readable display name.</ds-prop>
+  <ds-prop name="description" type="string" required>A one-line statement of what this shared entry is for.</ds-prop>
+  <ds-prop name="metadata" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;"></ds-prop>
+  <ds-prop name="refs" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Pointers from this entry to other things.</ds-prop>
+  <ds-prop name="sections" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;[]">The reusable content itself, in the same section structure an entry uses.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-code inline&gt;$ref&lt;/ds-code&gt;">Escape hatch for tool data or an outside id, the same structure as an entry's own $extensions.</ds-prop>
+</ds-prop-table>
+<ds-def-example slot="example">
+<ds-code language="json" wrap no-label>{
+  &quot;name&quot;: &quot;Shared accessibility rules&quot;,
+  &quot;description&quot;: &quot;Accessibility rules that apply broadly across components.&quot;,
+  &quot;metadata&quot;: {},
+  &quot;sections&quot;: []
+}</ds-code>
+</ds-def-example>
+</ds-def-section>
+
+  <ds-back-to-top></ds-back-to-top>
+</div>
+</body>
+</html>

@@ -1,180 +1,169 @@
-# Entity metadata
+# Metadata
 
-The metadata object every entity type accepts. Each field has its own schema file in this directory (status, since, last-updated, category, tags, aliases, summary, thumbnail, preview, links, governance, doc-origin); `extends` points at the shared entityExtends definition. Every field is optional, and each can appear only once. Simple fields are either a value or array ('since': '1.0.0', 'tags': [...]); status, lastUpdated, and docOrigin take a short string for the common case or an object for more detail.
+Optional information about an element.
 
-Source: `metadata/metadata.schema.json`
+Source: `metadata/metadata.schema.yaml`
 
-## entityMetadata {#entitymetadata}
+**3 definitions** in this file: `Metadata`, `note`, `isoDate`
 
-Optional metadata for an entity. Include only needed: lifecycle (status, since, lastUpdated), classification (category, tags, aliases), compact display (summary, thumbnail, preview), inheritance (extends), links (links), and who's accountable plus how the docs were made (governance, docOrigin).
+## Metadata {#metadata}
+
+Optional information about an element.
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `status` | [status](metadata-status.md#status) |  | Lifecycle status of the entity. A bare string sets the overall status (ex: 'stable', 'beta') and covers the common case. Use the object form to add per-platform readiness, an explanatory note, or a deprecation notice. A deprecated entity MUST use the object form, because deprecation needs a deprecationNotice that says what to use instead. |
-| `since` | [since](metadata-since.md#since) |  | The design system version in which this entity was introduced (ex:, '1.0.0', '2.3.0'). |
-| `lastUpdated` | [lastUpdated](metadata-last-updated.md#lastupdated) |  | When this entity's documentation last changed. A bare ISO 8601 date string ('2026-05-28') covers the common case. Use the object form to add a note describing what changed. |
-| `category` | [category](metadata-category.md#category) |  | Where this entity fits in the design system's taxonomy (ex: 'action', 'navigation', 'feedback', 'base', 'semantic'). MUST be lowercase kebab-case. |
-| `tags` | [tags](metadata-tags.md#tags) |  | Freeform keywords for grouping, search, and cross-referencing. |
-| `aliases` | [aliases](metadata-aliases.md#aliases) |  | Alternative names for this entity across teams, tools, or legacy systems. Used to assist with search, migration, and cross-referencing. |
-| `summary` | [summary](metadata-summary.md#summary) |  | One-line plain-text summary for compact display contexts (ex: list views, search results, hover cards). MUST NOT contain markup. |
-| `thumbnail` | [thumbnail](metadata-thumbnail.md#thumbnail) |  | A single image thumbnail for compact display, defined as a URL plus required alt text. |
-| `preview` | [preview](metadata-preview.md#preview) |  | A visual or interactive preview of the entity (ex: image, video, code snippet, or URL). The value is a presentation object. Its `kind` tag selects the media type. |
-| `extends` | [entityExtends](common-extends.md#entityextends) |  | Declares that this entity inherits from a parent entity in a parent system. The parent entity supplies the core definition (anatomy, API, variants, states, guidelines); this entity adds or overrides on top. |
-| `links` | [links](metadata-links.md#links) |  | Links to external resources (ex: source code, design files, docs pages, packages). Links cannot express how entities relate.  Use `relationships` array for inter-entity references. |
-| `governance` | [governance](metadata-governance.md#governance) |  | Who's accountable for this entity's docs, and their review state. `owner` is required — without one, this field answers nothing it's meant to. `lastReviewed` is optional but SHOULD be set once you have a review process; its object form records who reviewed it and which version, so a tool can answer 'is this verified, against what, and who vouches for it.' |
-| `docOrigin` | [docOrigin](metadata-doc-origin.md#docorigin) |  | How this entity's documentation came to exist. A bare string (ex: 'extracted') covers the common case. Use the object form when origins are mixed — say, a prop table extracted from code inside otherwise hand-written guidance — or when it needs explaining. This describes how the doc was produced, not how good it is: it just tells consumers how much to trust which parts. |
+| `tags` | string[] |  | Keywords for grouping, search, and filtering. (Min items: 1) |
+| `owner` | string |  | The owning team, role, or group. |
+| `reviewed` | object {date, by, note}[] |  | Independent reviews confirming this item's documentation, each recording who confirmed it and when. (Min items: 1) |
+| `context` | string |  | Why this entry was created, and how and why to use it. |
+| `updated` | object {date, note} |  | When this item's documentation last changed. |
+| `origin` | object {method, author, note} |  | How this entry's documentation came to exist, and who or what wrote it. |
+| `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace. |
 
-**References:** [status](metadata-status.md#status), [since](metadata-since.md#since), [lastUpdated](metadata-last-updated.md#lastupdated), [category](metadata-category.md#category), [tags](metadata-tags.md#tags), [aliases](metadata-aliases.md#aliases), [summary](metadata-summary.md#summary), [thumbnail](metadata-thumbnail.md#thumbnail), [preview](metadata-preview.md#preview), [entityExtends](common-extends.md#entityextends), [links](metadata-links.md#links), [governance](metadata-governance.md#governance), [docOrigin](metadata-doc-origin.md#docorigin)
+**References:** `#/$defs/isoDate`, [Extensions](common-extensions.md#extensions)
 
-**Example:**
+## note {#note}
 
-```json
-[
-  {
-    "status": "stable",
-    "since": "1.0.0",
-    "lastUpdated": "2026-05-28",
-    "category": "action",
-    "tags": [
-      "action",
-      "interactive",
-      "form",
-      "cta",
-      "submit"
-    ],
-    "summary": "Triggers an action or submits a form. The primary interactive element of the Acme Design System."
-  },
-  {
-    "status": {
-      "overall": "stable",
-      "platforms": {
-        "react": {
-          "status": "stable",
-          "since": "1.0.0"
-        },
-        "android": {
-          "status": "experimental",
-          "since": "3.0.0",
-          "note": "Compose implementation available in preview. API may change before v4."
-        },
-        "figma": {
-          "status": "stable",
-          "since": "1.0.0"
-        }
-      }
-    },
-    "since": "1.0.0",
-    "lastUpdated": {
-      "date": "2026-05-28",
-      "note": "Added focus-visible guidance and refreshed contrast requirements for inverse surfaces."
-    },
-    "aliases": [
-      "btn",
-      "cta",
-      "action-button"
-    ],
-    "thumbnail": {
-      "url": "https://design.acme.com/assets/thumbnails/button.png",
-      "alt": "A primary button labeled 'Save changes'."
-    },
-    "preview": {
-      "kind": "url",
-      "url": "https://storybook.acme.com/?path=/story/components-button--primary"
-    },
-    "links": [
-      {
-        "kind": "source",
-        "url": "https://code.acme.com/design-system/src/components/button/button.tsx",
-        "label": "React component source"
-      },
-      {
-        "kind": "design",
-        "url": "https://design-tool.acme.com/file/abc123?node-id=1234:5678",
-        "label": "Design file — Button variants"
-      }
-    ],
-    "governance": {
-      "owner": {
-        "name": "@acme/design-system",
-        "contact": "design-system@acme.com"
-      },
-      "lastReviewed": {
-        "date": "2026-06-12",
-        "reviewedAgainst": "@acme/ui@3.1.0"
-      }
-    },
-    "docOrigin": {
-      "overall": "authored",
-      "authorship": "ai-assisted",
-      "blocks": {
-        "api": "generated"
-      }
-    }
-  },
-  {
-    "status": {
-      "overall": "deprecated",
-      "deprecationNotice": "The legacy Button is deprecated as of 3.0.0. Use Button from @acme/components instead. See the migration guide at https://design.acme.com/migrations/button-v3."
-    }
-  }
-]
-```
+A plain-text note. MUST NOT contain markup.
+
+## isoDate {#isodate}
+
+An ISO 8601 date (YYYY-MM-DD).
+
+**Pattern:** `^\d{4}-\d{2}-\d{2}$`
 
 ## Full schema JSON
 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/metadata/metadata.schema.json",
-  "title": "Entity metadata",
-  "description": "The metadata object every entity type accepts. Each field has its own schema file in this directory (status, since, last-updated, category, tags, aliases, summary, thumbnail, preview, links, governance, doc-origin); `extends` points at the shared entityExtends definition. Every field is optional, and each can appear only once. Simple fields are either a value or array ('since': '1.0.0', 'tags': [...]); status, lastUpdated, and docOrigin take a short string for the common case or an object for more detail.",
+  "$id": "https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml",
+  "title": "Metadata",
+  "type": "object",
+  "description": "Optional information about an element.",
+  "$comment": "The shared foundation every entry's metadata builds on. Fields only meaningful for one kind live in a per-kind extension instead - entry-metadata.schema.yaml (every entry) or system-metadata.schema.yaml (a `kind: system` entry only).",
   "$defs": {
-    "entityMetadata": {
-      "type": "object",
-      "description": "Optional metadata for an entity. Include only needed: lifecycle (status, since, lastUpdated), classification (category, tags, aliases), compact display (summary, thumbnail, preview), inheritance (extends), links (links), and who's accountable plus how the docs were made (governance, docOrigin).",
-      "properties": {
-        "status": {
-          "$ref": "status.schema.json#/$defs/status"
-        },
-        "since": {
-          "$ref": "since.schema.json#/$defs/since"
-        },
-        "lastUpdated": {
-          "$ref": "last-updated.schema.json#/$defs/lastUpdated"
-        },
-        "category": {
-          "$ref": "category.schema.json#/$defs/category"
-        },
-        "tags": {
-          "$ref": "tags.schema.json#/$defs/tags"
-        },
-        "aliases": {
-          "$ref": "aliases.schema.json#/$defs/aliases"
-        },
-        "summary": {
-          "$ref": "summary.schema.json#/$defs/summary"
-        },
-        "thumbnail": {
-          "$ref": "thumbnail.schema.json#/$defs/thumbnail"
-        },
-        "preview": {
-          "$ref": "preview.schema.json#/$defs/preview"
-        },
-        "extends": {
-          "$ref": "../common/extends.schema.json#/$defs/entityExtends"
-        },
-        "links": {
-          "$ref": "links.schema.json#/$defs/links"
-        },
-        "governance": {
-          "$ref": "governance.schema.json#/$defs/governance"
-        },
-        "docOrigin": {
-          "$ref": "doc-origin.schema.json#/$defs/docOrigin"
-        }
+    "isoDate": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "An ISO 8601 date (YYYY-MM-DD).",
+      "example": "2026-06-02"
+    },
+    "note": {
+      "type": "string",
+      "description": "A plain-text note. MUST NOT contain markup.",
+      "example": "Reviewed against the latest Figma file; no changes needed."
+    }
+  },
+  "properties": {
+    "tags": {
+      "type": "array",
+      "description": "Keywords for grouping, search, and filtering.",
+      "$comment": "By convention, the first tag, if any, is the main category.",
+      "items": {
+        "type": "string"
       },
-      "additionalProperties": false,
-      "minProperties": 1
+      "minItems": 1,
+      "uniqueItems": true,
+      "example": [
+        "actions",
+        "button",
+        "cta",
+        "form-control"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "description": "The owning team, role, or group.",
+      "$comment": "Follows mailbox standard (RFC 5322).",
+      "example": "ds@pizzapartysupertime.com"
+    },
+    "reviewed": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Independent reviews confirming this item's documentation, each recording who confirmed it and when.",
+      "$comment": "A list of review events so human sign-offs and automated checks can both be recorded independently.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "$ref": "#/$defs/isoDate",
+            "description": "The date of the review."
+          },
+          "by": {
+            "type": "string",
+            "description": "Who or what performed the review.",
+            "$comment": "Follows the actor convention: `human:<id>` for a person, `<producer>/<version>` for an agent or tool, `process:<id>` for an automated process. Adapted from the Open Knowledge Format (OKF) spec.",
+            "example": "human:ahormati"
+          },
+          "note": {
+            "type": "string",
+            "description": "A plain-text note on the review outcome.",
+            "example": "Copy and contrast ratios re-checked; no changes needed."
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "string",
+      "description": "Why this entry was created, and how and why to use it.",
+      "example": "Introduced to give provide agents extra information for how to ingest/use an entry."
+    },
+    "updated": {
+      "type": "object",
+      "description": "When this item's documentation last changed.",
+      "$comment": "A bare date, or a date with a change note.",
+      "properties": {
+        "date": {
+          "$ref": "#/$defs/isoDate",
+          "description": "The date of the change."
+        },
+        "note": {
+          "type": "string",
+          "description": "A plain-text note on what changed.",
+          "example": "Added the loading trait and its guideline."
+        }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "description": "How this entry's documentation came to exist, and who or what wrote it.",
+      "$comment": "`method` and `author` both default to the common case (authored, by a human). A one-off exception, like \"the accessibility section was reviewed by a person, unlike the rest,\" belongs as a `note`.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "authored",
+            "generated",
+            "extracted",
+            "reconstructed"
+          ],
+          "default": "authored",
+          "description": "How this documentation as a whole came to exist."
+        },
+        "author": {
+          "type": "string",
+          "enum": [
+            "human",
+            "ai-assisted",
+            "ai-generated",
+            "machine-assisted",
+            "machine-generated"
+          ],
+          "default": "human",
+          "description": "Who or what actually wrote the content."
+        },
+        "note": {
+          "type": "string",
+          "description": "Free-text context about the origin, including any exceptions to `method` or `author`.",
+          "example": "The accessibility section was reviewed by a person, unlike the rest."
+        }
+      }
+    },
+    "$extensions": {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
+      "description": "Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace."
     }
   }
 }

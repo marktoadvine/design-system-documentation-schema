@@ -1,0 +1,124 @@
+id: card
+kind: component
+name: Card
+description: A versatile surface container with tone, border, shadow, and radius control.
+purpose: Provide a tone-aware surface container for content regions in Sanity UI.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, surface, container, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/card
+    rel: external-link
+    role: Sanity UI docs — Card
+  - href: https://github.com/sanity-io/ui/tree/main/src/primitives/card
+    rel: source
+    role: Source on GitHub
+
+related:
+  - to: box
+    rel: alternative-to
+    note: Card = Box + visual surface (tone colors, border, shadow, radius). Use Card when you need a visual container; use Box for pure layout.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/card/card.tsx
+
+traits:
+  - id: tone
+    kind: enum
+    name: Tone
+    description: Applies a semantic color context to the card surface and all children that inherit foreground color.
+    values:
+      - id: default
+        description: Neutral surface. Use for general-purpose content areas.
+      - id: primary
+        description: Brand-colored surface. Use to highlight primary content regions.
+      - id: positive
+        description: Green-tinted surface. Use for success states, confirmations, or positive notifications.
+      - id: caution
+        description: Amber-tinted surface. Use for warnings or content that requires attention.
+      - id: critical
+        description: Red-tinted surface. Use for errors, destructive states, or critical alerts.
+      - id: transparent
+        description: No background. Foreground colors still shift to match the semantic tone. Use when the visual surface comes from a parent.
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Card is the primary surface primitive in Sanity UI. It extends Box with visual surface properties — tone-aware background and foreground colors, configurable borders on any edge, shadow depth, and radius. Cards also support an optional scheme override to force light or dark rendering regardless of the ambient theme. Use Card as the root of any content region that needs a distinct visual surface.
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: Card is a single surface element. Its visual properties — background, foreground color, borders, shadow — are applied directly to the root element.
+    items:
+      - term: Surface
+        definition: The root element. Receives background color, foreground color, border, shadow, and radius from tone and prop values. All children inherit the tone's foreground color by default. Required.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: tone
+        definition: "'default' | 'primary' | 'positive' | 'caution' | 'critical' | 'transparent'. Semantic color tone for the card surface. Default: 'default'."
+      - term: shadow
+        definition: "number | number[]. Elevation shadow depth on the shadow scale (0–5). Accepts a responsive array."
+      - term: radius
+        definition: "number | number[]. Border radius on the radius scale (0–6). Accepts a responsive array."
+      - term: border
+        definition: "boolean | boolean[]. Renders a border on all four edges."
+      - term: borderTop
+        definition: "boolean | boolean[]. Renders a border on the top edge only."
+      - term: borderRight
+        definition: "boolean | boolean[]. Renders a border on the right edge only."
+      - term: borderBottom
+        definition: "boolean | boolean[]. Renders a border on the bottom edge only."
+      - term: borderLeft
+        definition: "boolean | boolean[]. Renders a border on the left edge only."
+      - term: muted
+        definition: "boolean. Applies a muted/subdued treatment to the card surface."
+      - term: pressed
+        definition: "boolean. Renders the card in a persistently active/pressed visual state."
+      - term: scheme
+        definition: "'light' | 'dark'. Overrides the ambient color scheme for this card and all its descendants."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different HTML element or component (e.g. 'article', 'section', 'li')."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Card for creating a visually distinct content region — a panel, a list item, a notification, a modal surface.
+        level: should
+      - statement: Use Card for applying tone-aware background and foreground color to a group of content without writing custom CSS.
+        level: should
+      - statement: Use Card for forcing a section of UI into light or dark mode using the `scheme` prop.
+        level: should
+      - statement: "Don't use Card for general-purpose layout without a distinct visual surface — Box is a zero-style layout primitive, while Card adds visual surface properties. Use Box when you only need spacing and layout, not a background or border."
+        level: should-not
+        alternatives:
+          - to: box
+            rel: alternative-to
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Use `scheme` sparingly — only when a section must visually contrast with the page's ambient scheme. Overriding the scheme on many nested components creates inconsistent light/dark behavior that is hard to maintain.
+        level: should
+        tags: [theming]
+      - statement: Use `tone='transparent'` when the visual surface is provided by a parent Card and you only want to shift foreground colors — layering two solid-background cards creates double backgrounds, and transparent preserves the parent surface.
+        level: must
+        tags: [visual-design]
+
+  - kind: guidelines
+    for: agent
+    context: how-to-use
+    items:
+      - statement: Use Box instead of Card when no visual surface properties (background, border, shadow) are needed.
+        level: should

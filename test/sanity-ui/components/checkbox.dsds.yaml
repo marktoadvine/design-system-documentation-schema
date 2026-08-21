@@ -1,0 +1,54 @@
+id: checkbox
+kind: component
+name: Checkbox
+description: A styled checkbox input for boolean or indeterminate selection.
+purpose: Capture a boolean or partially-selected value from the user.
+
+metadata:
+  status: {status: stable}
+  tags: [form, input, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/checkbox
+    rel: external-link
+    role: Sanity UI docs — Checkbox
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/checkbox/checkbox.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Checkbox renders a styled native checkbox input. It supports checked, unchecked, and indeterminate states, and can be paired with a label. It is a controlled component — manage state externally and pass it via `checked`.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: checked
+        definition: "boolean. Whether the checkbox is checked. Controlled."
+      - term: indeterminate
+        definition: "boolean. Renders the checkbox in an indeterminate (mixed) state, overriding checked."
+      - term: disabled
+        definition: "boolean. Disables the checkbox and prevents interaction."
+      - term: readOnly
+        definition: "boolean. Visually indicates the value is not editable without disabling it."
+      - term: onChange
+        definition: "(event: React.ChangeEvent<HTMLInputElement>) => void. Change handler for the controlled input."
+      - term: customValidity
+        definition: "string. Custom validation message for native form validation."
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Always associate a Checkbox with a visible label using `htmlFor`/`id` or by wrapping both in a `<label>` — without a label, the checkbox has no accessible name.
+        level: must
+        tags: [accessibility]
+      - statement: Use `indeterminate` only when a checkbox represents a partially-selected group, such as a 'select all' control where some children are checked — indeterminate is a semantic state with specific meaning, so avoid using it decoratively.
+        level: should
+        tags: [usage]

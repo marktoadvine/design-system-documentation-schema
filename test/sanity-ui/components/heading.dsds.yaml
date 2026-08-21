@@ -1,0 +1,69 @@
+id: heading
+kind: component
+name: Heading
+description: A typographic heading primitive that renders h1–h6 with size and weight control.
+purpose: Render a semantic heading that establishes document hierarchy.
+
+metadata:
+  status: {status: stable}
+  tags: [typography, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/heading
+    rel: external-link
+    role: Sanity UI docs — Heading
+
+related:
+  - to: text
+    rel: alternative-to
+    note: Heading has semantic heading role and heading type scale. Text is for body copy without heading semantics.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/text/heading.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Heading renders a heading element (h1–h6 via the `as` prop) with the heading type scale. Use it for page titles, section headers, and any text that establishes document hierarchy. Size and weight are independently configurable.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: size
+        definition: "number | number[]. Heading type scale size (0–4). 0 is smallest, 4 is largest. Default: 2."
+      - term: as
+        definition: "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'. The HTML heading element to render. MUST match document heading hierarchy. Default: 'h2'."
+      - term: weight
+        definition: "'regular' | 'medium' | 'semibold' | 'bold'. Font weight."
+      - term: align
+        definition: "'left' | 'center' | 'right' | TextAlign[]. Text alignment."
+      - term: muted
+        definition: "boolean. Renders in muted foreground color."
+      - term: accent
+        definition: "boolean. Renders in accent/brand color."
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Always set `as` to the correct semantic heading level for the document hierarchy — screen readers and SEO tools use heading levels to understand page structure, and visual size and semantic level must match.
+        level: must
+        tags: [accessibility]
+      - statement: Do not skip heading levels (e.g. h1 → h3) — WCAG 2.4.6 requires headings to convey structure, and skipping levels breaks screen reader navigation.
+        level: must-not
+        tags: [accessibility]
+        evidence:
+          - href: https://www.w3.org/TR/WCAG22/#headings-and-labels
+            rel: external-link
+
+  - kind: guidelines
+    for: agent
+    context: how-to-use
+    items:
+      - statement: Always set `as` to a heading element (h1–h6) that matches the document's heading order.
+        level: must

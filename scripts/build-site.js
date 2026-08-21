@@ -25,11 +25,14 @@ const { renderTemplate } = require("./render-template");
 const {
   esc,
   slug,
-  linkToRef,
   describeType: describeTypeShared,
   renderPropertyTable: renderPropertyTableShared,
   renderPropertyTableMarkdown: renderPropertyTableMarkdownShared,
   typeToMarkdown,
+  buildDefIndex: buildDefIndexShared,
+  resolveSchema,
+  loadSchemaYaml,
+  ROOT_FILES,
 } = require("./render-prop-table");
 
 // MDX compiler (ESM) — loaded dynamically in build()
@@ -46,19 +49,18 @@ async function loadMdxCompiler() {
 // ---------------------------------------------------------------------------
 
 const ROOT = path.resolve(__dirname, "..");
-const SPEC_DIR = path.join(ROOT, "spec");
 
 // Canonical site origin and the fallback description used by pages that
 // don't declare their own (MDX frontmatter `description`, or a schema
 // file's top-level `description`).
 const SITE_URL = "https://designsystemdocspec.org";
 const DEFAULT_DESCRIPTION =
-  "A machine-readable format for design system documentation. DSDS structures components, tokens, themes, foundations, patterns, and guides as a single source of truth for humans, parsers, and agents.";
-const SCHEMA_DIR = path.join(SPEC_DIR, "schema");
+  "A machine-readable format for design system documentation. DSDS structures a design system as a graph of entries (systems, components, tokens, themes, and custom kinds) and sections (definitions, guidelines, steps, and freeform content) for humans, parsers, and agents.";
+const SCHEMA_DIR = path.join(ROOT, "schema");
 const SITE_DIR = path.join(ROOT, "site");
 const CONTENT_DIR = path.join(SITE_DIR, "content");
 const DIST_DIR = path.join(SITE_DIR, "dist");
-const EXAMPLES_DIR = path.join(SPEC_DIR, "examples");
+const EXAMPLES_DIR = path.join(ROOT, "examples");
 const TEMPLATES_DIR = path.join(SITE_DIR, "templates");
 const PAGE_TEMPLATE_PATH = path.join(TEMPLATES_DIR, "page.template.html");
 const SUBTEMPLATES_DIR = path.join(TEMPLATES_DIR, "subtemplates");
@@ -80,11 +82,56 @@ function renderSub(name, vars) {
 
 /**
  * Auto-discover schema files and build the full page registry.
+ *
+ * Unlike the old spec/schema/ (many named `$defs` bundled per file), each
+ * schema/*.schema.yaml file is one definition, usually built by extending a
+ * shared base via `allOf` (see render-prop-table.js's resolveSchema). Each
+ * page's `data.$defs` holds that one resolved, flattened definition (keyed
+ * by the file's own `title`) plus any of the file's own local `$defs` (ex:
+ * component's `traitValue`) — the same shape discoverPages() has always
+ * produced, so renderSchemaPage()/buildSchemaMarkdown() below don't need to
+ * know the difference between the two schema generations.
+ *
+ * There's no per-definition example file the way spec/examples/{group}/
+ * {baseName}.json worked (examples/ is organized by purpose — quickstart,
+ * base, invalid — not mirroring schema/'s own directories), so `examples`
+ * is always null here; a schema page just doesn't render one.
+ *
  * Returns an array of page descriptors:
- *   { slug, title, group, groupLabel, filename, filePath, data }
+ *   { slug, title, group, groupLabel, filename, filePath, data, examples }
  */
-function discoverPages() {
+function discoverPages(schemaById) {
   const pages = [];
+
+  function makePage(group, groupLabel, filename, filePath) {
+    const raw = loadSchemaYaml(filePath);
+    const baseName = filename.replace(/\.schema\.yaml$/, "");
+    const pageSlug = group === "root" ? baseName : `${group}-${baseName}`;
+    const title = raw.title || baseName;
+
+    const defs = { [title]: resolveSchema(raw, schemaById) };
+    for (const [defName, def] of Object.entries(raw.$defs || {})) {
+      defs[defName] = def;
+    }
+
+    return {
+      slug: pageSlug,
+      title,
+      group,
+      groupLabel,
+      filename,
+      filePath,
+      data: { title, description: raw.description, $id: raw.$id, $defs: defs },
+      raw,
+      examples: null,
+    };
+  }
+
+  for (const filename of ROOT_FILES) {
+    const filePath = path.join(SCHEMA_DIR, filename);
+    if (!fs.existsSync(filePath)) continue;
+    pages.push(makePage("root", "Base", filename, filePath));
+  }
 
   for (const group of DIR_GROUPS) {
     const dirPath = path.join(SCHEMA_DIR, group.dir);
@@ -92,60 +139,12 @@ function discoverPages() {
 
     const files = fs
       .readdirSync(dirPath)
-      .filter((f) => f.endsWith(".schema.json"))
+      .filter((f) => f.endsWith(".schema.yaml"))
       .sort();
 
     for (const filename of files) {
-      const filePath = path.join(dirPath, filename);
-      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-      const baseName = filename.replace(".schema.json", "");
-      const pageSlug = `${group.dir}-${baseName}`;
-
-      // Look for a matching example file: spec/examples/{group}/{baseName}.json
-      const examplePath = path.join(
-        EXAMPLES_DIR,
-        group.dir,
-        `${baseName}.json`,
-      );
-      let examples = null;
-      if (fs.existsSync(examplePath)) {
-        try {
-          examples = JSON.parse(fs.readFileSync(examplePath, "utf-8"));
-        } catch (e) {
-          console.error(
-            `  ⚠  Failed to parse example ${examplePath}: ${e.message}`,
-          );
-        }
-      }
-
-      pages.push({
-        slug: pageSlug,
-        title: data.title || baseName,
-        group: group.dir,
-        groupLabel: group.label,
-        filename,
-        filePath,
-        data,
-        examples,
-      });
+      pages.push(makePage(group.dir, group.label, filename, path.join(dirPath, filename)));
     }
-  }
-
-  // Also include the root schema
-  const rootPath = path.join(SCHEMA_DIR, "dsds.schema.json");
-  if (fs.existsSync(rootPath)) {
-    const rootData = JSON.parse(fs.readFileSync(rootPath, "utf-8"));
-    pages.unshift({
-      slug: "root",
-      title: rootData.title || "Root Schema",
-      group: "documentation",
-      groupLabel: "Documentation",
-      filename: "dsds.schema.json",
-      navLabel: "Root schema",
-      filePath: rootPath,
-      data: rootData,
-      examples: null,
-    });
   }
 
   return pages;
@@ -155,29 +154,10 @@ function discoverPages() {
 // HTML helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Build a definition index from the discovered pages.
- * Maps: defName -> { pageSlug, filename }
- *
- * Note: `esc`, `slug`, and `linkToRef` are imported from
- * ./render-prop-table so the MDX shortcode preprocessor and the
- * schema-page generator share one canonical implementation.
- */
-function buildDefIndex(pages) {
-  const index = {};
-  for (const page of pages) {
-    for (const [defName, def] of Object.entries(page.data.$defs || {})) {
-      index[defName] = {
-        pageSlug: page.slug,
-        filename: page.filename,
-        description: def.description || "",
-      };
-    }
-  }
-  return index;
-}
-
-// Global definition index for cross-references
+// Global definition index for cross-references: { [$ref]: { pageSlug,
+// anchor, title, description } }, built once in build() by
+// ./render-prop-table's buildDefIndex (shared with the MDX shortcode
+// preprocessor, so both stay 1:1 with the same schema files).
 let DEF_INDEX = {};
 
 // ---------------------------------------------------------------------------
@@ -223,14 +203,23 @@ function renderDefinition(defName, defSchema, exampleData) {
   const hid = slug(defName);
   const content = [];
 
-  // If it's a simple string (like status), show that and stop — a bare
-  // string def has no properties/oneOf/anyOf/example content to add.
+  // If it's a simple string (like requirement-level, or id's pattern), show
+  // that and stop — a bare string def has no properties/oneOf/anyOf/example
+  // content to add.
   if (defSchema.type === "string" && !defSchema.properties) {
     if (defSchema.enum) {
       const items = defSchema.enum
         .map((val) => `<li><ds-code inline>${esc(String(val))}</ds-code></li>`)
         .join("\n");
       content.push(renderSub("enum-values", { items }));
+    }
+    if (defSchema.pattern) {
+      content.push(
+        renderSub("callout-warning", {
+          label: "Pattern",
+          message: `Values must match <ds-code inline>${esc(defSchema.pattern)}</ds-code>.`,
+        }),
+      );
     }
     return renderSub("def-section", {
       name: esc(defName),
@@ -248,15 +237,12 @@ function renderDefinition(defName, defSchema, exampleData) {
     const items = [];
     for (const alt of defSchema.oneOf) {
       if (alt.$ref) {
-        const refName = linkToRef(alt.$ref);
-        if (refName) {
-          const target = DEF_INDEX[refName];
-          items.push(
-            target
-              ? `<li><a href="${target.pageSlug}.html#${slug(refName)}">${esc(refName)}</a></li>`
-              : `<li><ds-code inline>${esc(refName)}</ds-code></li>`,
-          );
-        }
+        const target = DEF_INDEX[alt.$ref];
+        items.push(
+          target
+            ? `<li><a href="${target.pageSlug}.html#${target.anchor}">${esc(target.title)}</a></li>`
+            : `<li><ds-code inline>${esc(alt.$ref)}</ds-code></li>`,
+        );
       } else if (alt.type === "string") {
         items.push(
           `<li><strong>string</strong>${alt.description ? ` — ${esc(alt.description)}` : ""}</li>`,
@@ -358,12 +344,12 @@ function renderDefinition(defName, defSchema, exampleData) {
   // Cross-references: list all $ref targets in this definition
   const refs = collectRefs(defSchema);
   if (refs.length > 0) {
-    const refLinks = refs.map((refName) => {
-      const target = DEF_INDEX[refName];
+    const refLinks = refs.map((ref) => {
+      const target = DEF_INDEX[ref];
       if (target) {
-        return `<ds-type-ref href="${target.pageSlug}.html#${slug(refName)}">${esc(refName)}</ds-type-ref>`;
+        return `<ds-type-ref href="${target.pageSlug}.html#${target.anchor}">${esc(target.title)}</ds-type-ref>`;
       }
-      return `<ds-code inline>${esc(refName)}</ds-code>`;
+      return `<ds-code inline>${esc(ref)}</ds-code>`;
     });
     content.push(renderSub("cross-refs", { refs: refLinks.join(", ") }));
   }
@@ -387,7 +373,7 @@ function renderDefinition(defName, defSchema, exampleData) {
 }
 
 /**
- * Collect all unique $ref definition names from a schema object.
+ * Collect all unique $ref target strings from a schema object.
  */
 function collectRefs(obj, seen = new Set()) {
   if (Array.isArray(obj)) {
@@ -395,8 +381,7 @@ function collectRefs(obj, seen = new Set()) {
   } else if (obj !== null && typeof obj === "object") {
     for (const [key, value] of Object.entries(obj)) {
       if (key === "$ref" && typeof value === "string") {
-        const name = linkToRef(value);
-        if (name) seen.add(name);
+        seen.add(value);
       } else {
         collectRefs(value, seen);
       }
@@ -486,7 +471,7 @@ function renderSchemaPage(page) {
   const defNames = orderDefsByReference(defs);
   const examples = page.examples || {};
 
-  const relPath = page.group ? `${page.group}/${page.filename}` : page.filename;
+  const relPath = page.group && page.group !== "root" ? `${page.group}/${page.filename}` : page.filename;
   const header = renderSub("header", {
     title: esc(page.title),
     description_attr: page.data.description
@@ -502,16 +487,9 @@ function renderSchemaPage(page) {
   parts.push(
     renderSub("json-view", {
       label: esc(relPath),
-      json: esc(JSON.stringify(page.data, null, 2)),
+      json: esc(JSON.stringify(page.raw, null, 2)),
     }),
   );
-
-  // Always render top-level properties when they exist (ex: the root schema
-  // has both its own properties AND $defs like entityGroup)
-  if (page.data.properties) {
-    parts.push(renderSub("root-properties-heading", {}));
-    parts.push(renderPropertyTable(page.data));
-  }
 
   if (defNames.length === 0) {
     // Root-only schemas (no $defs) can still ship an example. By convention
@@ -579,6 +557,9 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
       for (const val of defSchema.enum) lines.push(`- \`${val}\``);
       lines.push("");
     }
+    if (defSchema.pattern) {
+      lines.push(`**Pattern:** \`${defSchema.pattern}\``, "");
+    }
     return lines.join("\n");
   }
 
@@ -587,15 +568,12 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
     lines.push("One of:", "");
     for (const alt of defSchema.oneOf) {
       if (alt.$ref) {
-        const refName = linkToRef(alt.$ref);
-        if (refName) {
-          const target = DEF_INDEX[refName];
-          lines.push(
-            target
-              ? `- [${refName}](${target.pageSlug}.md#${slug(refName)})`
-              : `- \`${refName}\``,
-          );
-        }
+        const target = DEF_INDEX[alt.$ref];
+        lines.push(
+          target
+            ? `- [${target.title}](${target.pageSlug}.md#${target.anchor})`
+            : `- \`${alt.$ref}\``,
+        );
       } else if (alt.type === "string") {
         lines.push(`- **string**${alt.description ? ` — ${alt.description}` : ""}`);
       } else if (alt.type === "object") {
@@ -678,11 +656,11 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
   // Cross-references
   const refs = collectRefs(defSchema);
   if (refs.length > 0) {
-    const refLinks = refs.map((refName) => {
-      const target = DEF_INDEX[refName];
+    const refLinks = refs.map((ref) => {
+      const target = DEF_INDEX[ref];
       return target
-        ? `[${refName}](${target.pageSlug}.md#${slug(refName)})`
-        : `\`${refName}\``;
+        ? `[${target.title}](${target.pageSlug}.md#${target.anchor})`
+        : `\`${ref}\``;
     });
     lines.push(`**References:** ${refLinks.join(", ")}`, "");
   }
@@ -712,18 +690,12 @@ function buildSchemaMarkdown(page) {
   const defs = page.data.$defs || {};
   const defNames = orderDefsByReference(defs);
   const examples = page.examples || {};
-  const relSource = page.group
-    ? `${page.group}/${page.filename}`
-    : page.filename;
+  const relSource =
+    page.group && page.group !== "root" ? `${page.group}/${page.filename}` : page.filename;
 
   const lines = [`# ${page.title}`, ""];
   if (page.data.description) lines.push(page.data.description, "");
   lines.push(`Source: \`${relSource}\``, "");
-
-  if (page.data.properties) {
-    const table = renderPropertyTableMarkdown(page.data);
-    if (table) lines.push("## Properties", "", table, "");
-  }
 
   if (defNames.length === 0) {
     // Root-only schemas (no $defs) can still ship an example — same
@@ -758,7 +730,7 @@ function buildSchemaMarkdown(page) {
     "## Full schema JSON",
     "",
     "```json",
-    JSON.stringify(page.data, null, 2),
+    JSON.stringify(page.raw, null, 2),
     "```",
     "",
   );
@@ -1051,73 +1023,43 @@ function titleCaseKind(kind) {
 /**
  * manifest.json — the typed machine index; the first file an agent should
  * fetch. Every field is derived from data the build already has in memory
- * (discoverPages()'s `pages`, the scoped-union $defs in
- * document-blocks.schema.json, and the standalone example files already in
- * spec/examples/minimal/) — nothing here is hand-authored, so it can't drift
- * from the schema.
+ * (discoverPages()'s `pages`) — nothing here is hand-authored, so it can't
+ * drift from the schema.
  *
- * `acceptsBlocks` is the flattened entity→block-kind relationship graph:
- * each entity $def's `documentBlocks.items.$ref` points at one of
- * document-blocks.schema.json's scoped unions (e.g. `componentDocumentBlock`),
- * whose own `kind` property is a plain enum of every block kind that entity
- * accepts — no allOf/if-then walking needed, just one property read.
+ * Unlike the old spec/schema/ (a fixed entity→block-kind acceptance graph,
+ * since each entity kind only accepted a scoped union of block kinds), the
+ * new schema has no placement gate: any entry kind may use any section
+ * kind (see docs-new-ported architecture notes on sections/section.schema.yaml).
+ * So this indexes the two open vocabularies directly instead — the 4
+ * well-known entry kinds (`entries/*.schema.yaml`, plus the generic `entry`
+ * kind, which has no dedicated file) and the 3 well-known section kinds
+ * (`sections/*.schema.yaml`, plus the generic `section` kind) — rather than
+ * which kind accepts which.
  *
- * Returns `{ manifestJson, entityDescriptors }`: the manifest itself, plus
- * one small standalone descriptor per entity kind — the same data as that
- * entity's manifest entry, addressable at its own canonical `@id`
- * (/id/entity/<kind>) instead of only reachable inside the array. Same
+ * Returns `{ manifestJson, entryDescriptors }`: the manifest itself, plus
+ * one small standalone descriptor per entry kind — the same data as that
+ * kind's manifest entry, addressable at its own canonical `@id`
+ * (/id/entry/<kind>) instead of only reachable inside the array. Same
  * source of truth, a second, independently-fetchable serialization of it.
  */
 function buildManifest(pages, version) {
-  const docBlocksPage = pages.find(
-    (p) => p.group === "document-blocks" && p.filename === "document-blocks.schema.json",
-  );
-  const scopedUnions = (docBlocksPage && docBlocksPage.data.$defs) || {};
-  const blockKindsSet = new Set();
-  const entities = [];
+  const entryPages = pages.filter((p) => p.group === "entries");
+  const sectionPages = pages.filter((p) => p.group === "sections");
 
-  for (const page of pages) {
-    if (page.group !== "entities") continue;
-    for (const [defName, defSchema] of Object.entries(page.data.$defs || {})) {
-      const kind =
-        defSchema.properties &&
-        defSchema.properties.kind &&
-        defSchema.properties.kind.const;
-      if (!kind) continue; // not every $def in an entities/ file is itself an entity (e.g. tokenGroup's nested shapes)
+  const entries = entryPages.map((page) => ({
+    kind: page.filename.replace(/\.schema\.yaml$/, ""),
+    page: `${SITE_URL}/${page.slug}`,
+    markdown: `${SITE_URL}/${page.slug}.md`,
+    schema: `${SITE_URL}/v${version}/dsds.bundled.schema.json`,
+  }));
+  entries.sort((a, b) => a.kind.localeCompare(b.kind));
 
-      let acceptsBlocks = [];
-      const itemsRef =
-        defSchema.properties.documentBlocks &&
-        defSchema.properties.documentBlocks.items &&
-        defSchema.properties.documentBlocks.items.$ref;
-      if (itemsRef) {
-        const unionDefName = linkToRef(itemsRef);
-        const union = scopedUnions[unionDefName];
-        const kindEnum =
-          union && union.properties && union.properties.kind && union.properties.kind.enum;
-        if (kindEnum) acceptsBlocks = kindEnum;
-      }
-      acceptsBlocks.forEach((k) => blockKindsSet.add(k));
-
-      const examplePath = path.join(EXAMPLES_DIR, "minimal", `${kind}.json`);
-
-      entities.push({
-        kind,
-        page: `${SITE_URL}/${page.slug}`,
-        markdown: `${SITE_URL}/${page.slug}.md`,
-        schema: `${SITE_URL}/v${version}/dsds.bundled.schema.json`,
-        example: fs.existsSync(examplePath)
-          ? `${SITE_URL}/examples/${kind}.json`
-          : null,
-        acceptsBlocks,
-      });
-    }
-  }
-
-  entities.sort((a, b) => a.kind.localeCompare(b.kind));
+  const sectionKinds = sectionPages
+    .map((page) => page.filename.replace(/\.schema\.yaml$/, ""))
+    .sort();
 
   const manifest = {
-    dsdsVersion: version,
+    schemaVersion: version,
     bundledSchema: `${SITE_URL}/v${version}/dsds.bundled.schema.json`,
     mcp: "https://www.npmjs.com/package/dsds-mcp",
     indexes: {
@@ -1126,32 +1068,36 @@ function buildManifest(pages, version) {
       agents: `${SITE_URL}/AGENTS.md`,
       sitemap: `${SITE_URL}/sitemap.xml`,
     },
-    blockKinds: [...blockKindsSet].sort(),
-    entities,
+    // Both vocabularies are open — a namespaced custom kind (ex:
+    // "acme.icon-library") is always valid alongside these well-known ones.
+    // The generic "entry"/"section" fallback kinds are already included
+    // here: entries/entry.schema.yaml and sections/section.schema.yaml are
+    // real files in their own right, not just a conceptual fallback.
+    entryKinds: entries.map((e) => e.kind).sort(),
+    sectionKinds: [...sectionKinds].sort(),
+    entries,
   };
 
-  const entityDescriptors = entities.map((e) => ({
+  const entryDescriptors = entries.map((e) => ({
     kind: e.kind,
     json:
       JSON.stringify(
         {
           "@context": "https://schema.org",
-          "@id": `${SITE_URL}/id/entity/${e.kind}`,
+          "@id": `${SITE_URL}/id/entry/${e.kind}`,
           "@type": "APIReference",
           identifier: e.kind,
           name: titleCaseKind(e.kind),
           page: e.page,
           markdown: e.markdown,
           schema: e.schema,
-          example: e.example,
-          acceptsBlocks: e.acceptsBlocks,
         },
         null,
         2,
       ) + "\n",
   }));
 
-  return { manifestJson: JSON.stringify(manifest, null, 2) + "\n", entityDescriptors };
+  return { manifestJson: JSON.stringify(manifest, null, 2) + "\n", entryDescriptors };
 }
 
 // ---------------------------------------------------------------------------
@@ -1182,18 +1128,19 @@ async function build() {
     fs.mkdirSync(DIST_DIR, { recursive: true });
   }
 
-  // Discover all schema pages (with examples attached)
-  const pages = discoverPages();
-  const withExamples = pages.filter((p) => p.examples !== null).length;
-  console.log(
-    `  Discovered ${pages.length} schema files across ${DIR_GROUPS.length} directories.`,
-  );
-  console.log(`  Found ${withExamples} matching example files.\n`);
-
-  // Build the global definition index for cross-references
-  DEF_INDEX = buildDefIndex(pages);
+  // Build the global definition index for cross-references first — pages
+  // are resolved (allOf flattened) against schemaById, which the index
+  // build already loaded every schema/*.schema.yaml file into.
+  const { schemaById, index } = buildDefIndexShared({ schemaDir: SCHEMA_DIR });
+  DEF_INDEX = index;
   console.log(
     `  Indexed ${Object.keys(DEF_INDEX).length} definitions for cross-referencing.\n`,
+  );
+
+  // Discover all schema pages
+  const pages = discoverPages(schemaById);
+  console.log(
+    `  Discovered ${pages.length} schema files across ${DIR_GROUPS.length + 1} directories (including the schema root).\n`,
   );
 
   // Copy tokens
@@ -1233,14 +1180,10 @@ async function build() {
     path.join(DIST_DIR, "robots.txt"),
   );
 
-  // Standalone, addressable entity examples — the same bare, complete
-  // documents validate.js already validates (BARE_ENTITY_DIRS), exposed at
-  // /examples/<kind>.json and referenced by manifest.json below.
-  fs.cpSync(
-    path.join(EXAMPLES_DIR, "minimal"),
-    path.join(DIST_DIR, "examples"),
-    { recursive: true },
-  );
+  // The whole examples/ tree, exposed at /examples/ — the same documents
+  // scripts/validate.js validates on every build, so nothing served here
+  // can drift from the schema.
+  fs.cpSync(EXAMPLES_DIR, path.join(DIST_DIR, "examples"), { recursive: true });
 
   // Bundle web components into a single IIFE for file:// compatibility.
   bundleComponents(SITE_DIR, DIST_DIR);
@@ -1357,9 +1300,8 @@ async function build() {
       "utf-8",
     );
 
-    const relSource = page.group
-      ? `${page.group}/${page.filename}`
-      : page.filename;
+    const relSource =
+      page.group && page.group !== "root" ? `${page.group}/${page.filename}` : page.filename;
     console.log(`  ✓  site/dist/${page.slug}.html  ← ${relSource}`);
 
     sitemapEntries.push({
@@ -1388,8 +1330,7 @@ async function build() {
   // not by skipping the write — skipping is what let the site go stale.
   const bundledSchemaPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
   if (fs.existsSync(bundledSchemaPath)) {
-    const bundledSchema = JSON.parse(fs.readFileSync(bundledSchemaPath, "utf-8"));
-    const version = bundledSchema.properties?.dsdsVersion?.const;
+    const version = readSpecVersion();
     if (version) {
       const versionDir = path.join(DIST_DIR, `v${version}`);
       const versionedBundle = path.join(versionDir, "dsds.bundled.schema.json");
@@ -1401,23 +1342,23 @@ async function build() {
       fs.mkdirSync(versionDir, { recursive: true });
       fs.copyFileSync(bundledSchemaPath, versionedBundle);
       console.log(
-        `  ✓  ${relTarget}  ← spec/schema/dsds.bundled.schema.json${changed ? " (refreshed)" : ""}\n`,
+        `  ✓  ${relTarget}  ← schema/dsds.bundled.schema.json${changed ? " (refreshed)" : ""}\n`,
       );
 
       // ── Versioned split schema files ────────────────────────────────
       //
-      // Every split schema file's `$id` (ex: "https://.../v0.15.2/common/
-      // criterion.schema.json") is a promise that the file is servable at
-      // that exact URL. Mirror the whole spec/schema/ tree — root file and
-      // every group subdirectory — into site/dist/v<version>/ so each $id
+      // Every split schema file's `$id` (ex: "https://.../v0.20.0/common/
+      // ref.schema.yaml") is a promise that the file is servable at that
+      // exact URL. Mirror the whole schema/ tree — root files and every
+      // group subdirectory — into site/dist/v<version>/ so each $id
       // resolves instead of 404ing. The bundle above is copied separately
       // since it isn't part of this walk (it has no group subdirectory).
-      const splitSchemaFiles = [path.join(SCHEMA_DIR, "dsds.schema.json")];
+      const splitSchemaFiles = ROOT_FILES.map((f) => path.join(SCHEMA_DIR, f));
       for (const group of DIR_GROUPS) {
         const dirPath = path.join(SCHEMA_DIR, group.dir);
         if (!fs.existsSync(dirPath)) continue;
         for (const filename of fs.readdirSync(dirPath)) {
-          if (filename.endsWith(".schema.json")) {
+          if (filename.endsWith(".schema.yaml")) {
             splitSchemaFiles.push(path.join(dirPath, filename));
           }
         }
@@ -1429,7 +1370,7 @@ async function build() {
         fs.copyFileSync(srcPath, destPath);
       }
       console.log(
-        `  ✓  site/dist/v${version}/{${DIR_GROUPS.map((g) => g.dir).join(",")}}/*.schema.json  ← spec/schema/ (${splitSchemaFiles.length} files mirrored)\n`,
+        `  ✓  site/dist/v${version}/{${DIR_GROUPS.map((g) => g.dir).join(",")}}/*.schema.yaml  ← schema/ (${splitSchemaFiles.length} files mirrored)\n`,
       );
     }
   }
@@ -1462,21 +1403,21 @@ async function build() {
     path.join(DIST_DIR, "AGENTS.md"),
   );
 
-  const { manifestJson, entityDescriptors } = buildManifest(pages, version);
+  const { manifestJson, entryDescriptors } = buildManifest(pages, version);
   fs.writeFileSync(path.join(DIST_DIR, "manifest.json"), manifestJson, "utf-8");
 
-  // Standalone canonical descriptors — /id/entity/<kind>.json — the same
-  // data as each entity's manifest.json entry, independently addressable by
-  // its own @id instead of only reachable inside the array.
-  const entityIdDir = path.join(DIST_DIR, "id", "entity");
-  fs.mkdirSync(entityIdDir, { recursive: true });
-  for (const { kind, json } of entityDescriptors) {
-    fs.writeFileSync(path.join(entityIdDir, `${kind}.json`), json, "utf-8");
+  // Standalone canonical descriptors — /id/entry/<kind>.json — the same
+  // data as each entry kind's manifest.json entry, independently
+  // addressable by its own @id instead of only reachable inside the array.
+  const entryIdDir = path.join(DIST_DIR, "id", "entry");
+  fs.mkdirSync(entryIdDir, { recursive: true });
+  for (const { kind, json } of entryDescriptors) {
+    fs.writeFileSync(path.join(entryIdDir, `${kind}.json`), json, "utf-8");
   }
 
   console.log(
     `  ✓  site/dist/sitemap.xml, site/dist/llms.txt, site/dist/llms-full.txt, ` +
-      `site/dist/AGENTS.md, site/dist/manifest.json, site/dist/id/entity/*.json  ← ${sitemapEntries.length} pages indexed\n`,
+      `site/dist/AGENTS.md, site/dist/manifest.json, site/dist/id/entry/*.json  ← ${sitemapEntries.length} pages indexed\n`,
   );
 
   console.log(

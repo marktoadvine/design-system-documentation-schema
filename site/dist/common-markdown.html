@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown — DSDS 0.20.0</title>
+  <meta name="description" content="Markdown content, including headings, tables, code fences, etc.">
+  <link rel="canonical" href="https://designsystemdocspec.org/common-markdown">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="text/markdown" href="common-markdown.md">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Design System Doc Spec">
+  <meta property="og:title" content="Markdown — DSDS 0.20.0">
+  <meta property="og:description" content="Markdown content, including headings, tables, code fences, etc.">
+  <meta property="og:url" content="https://designsystemdocspec.org/common-markdown">
+  <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta name="dsds-version" content="0.20.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Markdown — DSDS 0.20.0","description":"Markdown content, including headings, tables, code fences, etc.","url":"https://designsystemdocspec.org/common-markdown","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-markdown.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Markdown","url":"https://designsystemdocspec.org/common-markdown#markdown"}]}</script>
+
+  <link rel="stylesheet" href="tokens.css?v=0.20.0">
+  <link rel="stylesheet" href="style.css?v=0.20.0">
+  <script src="components.js?v=0.20.0"></script>
+</head>
+<body>
+  <nav class="skip-nav" aria-label="Skip links">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+</nav>
+    <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="common-markdown">
+    <a href="index.html" slug="index">Overview</a>
+    <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="conformance.html" slug="conformance">Conformance</a>
+    <ds-nav-group label="Base">
+      <a href="base.html" slug="base">base</a>
+      <a href="shared.html" slug="shared">shared</a>
+    </ds-nav-group>
+    <ds-nav-group label="Common">
+      <a href="common-combo.html" slug="common-combo">combo</a>
+      <a href="common-example.html" slug="common-example">example</a>
+      <a href="common-extensions.html" slug="common-extensions">extensions</a>
+      <a href="common-id.html" slug="common-id">id</a>
+      <a href="common-markdown.html" slug="common-markdown">markdown</a>
+      <a href="common-ref.html" slug="common-ref">ref</a>
+      <a href="common-requirement-level.html" slug="common-requirement-level">requirement-level</a>
+      <a href="common-showcase.html" slug="common-showcase">showcase</a>
+      <a href="common-since.html" slug="common-since">since</a>
+    </ds-nav-group>
+    <ds-nav-group label="Metadata">
+      <a href="metadata-entry-metadata.html" slug="metadata-entry-metadata">entry-metadata</a>
+      <a href="metadata-metadata.html" slug="metadata-metadata">metadata</a>
+      <a href="metadata-system-metadata.html" slug="metadata-system-metadata">system-metadata</a>
+    </ds-nav-group>
+    <ds-nav-group label="Entries">
+      <a href="entries-component.html" slug="entries-component">component</a>
+      <a href="entries-entry.html" slug="entries-entry">entry</a>
+      <a href="entries-system.html" slug="entries-system">system</a>
+      <a href="entries-theme.html" slug="entries-theme">theme</a>
+      <a href="entries-token.html" slug="entries-token">token</a>
+    </ds-nav-group>
+    <ds-nav-group label="Sections">
+      <a href="sections-definitions.html" slug="sections-definitions">definitions</a>
+      <a href="sections-guidelines.html" slug="sections-guidelines">guidelines</a>
+      <a href="sections-section.html" slug="sections-section">section</a>
+      <a href="sections-steps.html" slug="sections-steps">steps</a>
+    </ds-nav-group>
+  </ds-spec-nav>
+  <div class="content">
+    <main class="content__main" id="main-content" role="main">
+    <ds-header title="Markdown" description="Markdown content, including headings, tables, code fences, etc." source="common/markdown.schema.yaml"></ds-header>
+    <div class="content__container">
+        <div class="content__inner">
+
+          <ds-json-view label="common/markdown.schema.yaml">
+  <ds-code language="json" label="common/markdown.schema.yaml" wrap>{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml&quot;,
+  &quot;title&quot;: &quot;Markdown&quot;,
+  &quot;type&quot;: &quot;string&quot;,
+  &quot;description&quot;: &quot;Markdown content, including headings, tables, code fences, etc.&quot;,
+  &quot;$comment&quot;: &quot;For a real code sample, prefer pointing a `ref` at a file instead of embedding one here.&quot;,
+  &quot;example&quot;: &quot;Use for the single primary call-to-action on a surface.&quot;
+}</ds-code>
+</ds-json-view>
+<ds-def-section name="Markdown" anchor="markdown" description="Markdown content, including headings, tables, code fences, etc." type="string">
+
+</ds-def-section>
+
+          <ds-back-to-top></ds-back-to-top>
+        </div>
+    </div>
+
+    </main>
+  </div>
+</body>
+</html>

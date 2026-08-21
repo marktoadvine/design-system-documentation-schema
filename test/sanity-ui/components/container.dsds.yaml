@@ -1,0 +1,33 @@
+id: container
+kind: component
+name: Container
+description: A max-width wrapper that constrains content to a readable line length or layout width.
+purpose: Constrain content to a maximum width using the design system's container scale.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/container
+    rel: external-link
+    role: Sanity UI docs — Container
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/container/container.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Container extends Box with a `width` prop that maps to the design system's container width scale. Use it to constrain page content, dialog bodies, or any region that should have a maximum width.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: width
+        definition: "number | 'auto' | (number | 'auto')[]. Max-width on the container width scale. 0 is narrowest, higher numbers are wider. 'auto' removes the max-width constraint."

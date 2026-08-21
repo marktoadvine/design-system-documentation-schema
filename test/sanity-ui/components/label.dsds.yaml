@@ -1,0 +1,49 @@
+id: label
+kind: component
+name: Label
+description: A typographic primitive for form field labels, using the label type scale.
+purpose: Render a form field label using the label type scale.
+
+metadata:
+  status: {status: stable}
+  tags: [typography, form, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/label
+    rel: external-link
+    role: Sanity UI docs — Label
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/text/label.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Label renders text using the label type scale — slightly smaller and tighter-tracked than body text, optimized for form field labels and UI metadata. Renders a <label> element by default.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: size
+        definition: "number | number[]. Label type scale size (0–4)."
+      - term: weight
+        definition: "'regular' | 'medium' | 'semibold' | 'bold'. Font weight."
+      - term: muted
+        definition: "boolean. Renders in muted foreground color."
+      - term: htmlFor
+        definition: "string. Associates the label with a form field by ID."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different element (default: label)."
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Always set `htmlFor` to the ID of the associated form control — associating label with input is required for screen reader accessibility and increases the click/tap target area.
+        level: must
+        tags: [accessibility]

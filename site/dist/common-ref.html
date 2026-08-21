@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ref — DSDS 0.20.0</title>
+  <meta name="description" content="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;">
+  <link rel="canonical" href="https://designsystemdocspec.org/common-ref">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="text/markdown" href="common-ref.md">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Design System Doc Spec">
+  <meta property="og:title" content="Ref — DSDS 0.20.0">
+  <meta property="og:description" content="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;">
+  <meta property="og:url" content="https://designsystemdocspec.org/common-ref">
+  <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta name="dsds-version" content="0.20.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Ref — DSDS 0.20.0","description":"The one pointer type. \"A points to B, and this is what kind of pointer it is.\"","url":"https://designsystemdocspec.org/common-ref","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-ref.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Ref","url":"https://designsystemdocspec.org/common-ref#ref"},{"@type":"DefinedTerm","name":"list","url":"https://designsystemdocspec.org/common-ref#list"}]}</script>
+
+  <link rel="stylesheet" href="tokens.css?v=0.20.0">
+  <link rel="stylesheet" href="style.css?v=0.20.0">
+  <script src="components.js?v=0.20.0"></script>
+</head>
+<body>
+  <nav class="skip-nav" aria-label="Skip links">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+</nav>
+    <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="common-ref">
+    <a href="index.html" slug="index">Overview</a>
+    <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="conformance.html" slug="conformance">Conformance</a>
+    <ds-nav-group label="Base">
+      <a href="base.html" slug="base">base</a>
+      <a href="shared.html" slug="shared">shared</a>
+    </ds-nav-group>
+    <ds-nav-group label="Common">
+      <a href="common-combo.html" slug="common-combo">combo</a>
+      <a href="common-example.html" slug="common-example">example</a>
+      <a href="common-extensions.html" slug="common-extensions">extensions</a>
+      <a href="common-id.html" slug="common-id">id</a>
+      <a href="common-markdown.html" slug="common-markdown">markdown</a>
+      <a href="common-ref.html" slug="common-ref">ref</a>
+      <a href="common-requirement-level.html" slug="common-requirement-level">requirement-level</a>
+      <a href="common-showcase.html" slug="common-showcase">showcase</a>
+      <a href="common-since.html" slug="common-since">since</a>
+    </ds-nav-group>
+    <ds-nav-group label="Metadata">
+      <a href="metadata-entry-metadata.html" slug="metadata-entry-metadata">entry-metadata</a>
+      <a href="metadata-metadata.html" slug="metadata-metadata">metadata</a>
+      <a href="metadata-system-metadata.html" slug="metadata-system-metadata">system-metadata</a>
+    </ds-nav-group>
+    <ds-nav-group label="Entries">
+      <a href="entries-component.html" slug="entries-component">component</a>
+      <a href="entries-entry.html" slug="entries-entry">entry</a>
+      <a href="entries-system.html" slug="entries-system">system</a>
+      <a href="entries-theme.html" slug="entries-theme">theme</a>
+      <a href="entries-token.html" slug="entries-token">token</a>
+    </ds-nav-group>
+    <ds-nav-group label="Sections">
+      <a href="sections-definitions.html" slug="sections-definitions">definitions</a>
+      <a href="sections-guidelines.html" slug="sections-guidelines">guidelines</a>
+      <a href="sections-section.html" slug="sections-section">section</a>
+      <a href="sections-steps.html" slug="sections-steps">steps</a>
+    </ds-nav-group>
+  </ds-spec-nav>
+  <div class="content">
+    <main class="content__main" id="main-content" role="main">
+    <ds-header title="Ref" description="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;" source="common/ref.schema.yaml"></ds-header>
+    <div class="content__container">
+        <div class="content__inner">
+
+          <ds-json-view label="common/ref.schema.yaml">
+  <ds-code language="json" label="common/ref.schema.yaml" wrap>{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;,
+  &quot;title&quot;: &quot;Ref&quot;,
+  &quot;description&quot;: &quot;The one pointer type. \&quot;A points to B, and this is what kind of pointer it is.\&quot;&quot;,
+  &quot;$comment&quot;: &quot;The schema's pointer: \&quot;A points to B\&quot;. `rel` says what kind of pointer it is. Dependencies, composition, extension, citations, and every other connection use this pointer with a different `rel`.\nExactly one of `to` or `href` described B. `to` points inside this document (an entry id, or `entryId#itemId` for one item inside it). `href` points outside it (a file, URL, or package). This is independent of `rel`.\nOnly add a new `rel` value if no existing one covers the idea. Otherwise extend that value's description instead.\nA bare string is shorthand for `{href: &lt;string&gt;}`. Bare strings can't be safely read as an internal id. Use the full object when the target is internal or an external link needs more description.&quot;,
+  &quot;oneOf&quot;: [
+    {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;uri-reference&quot;,
+      &quot;description&quot;: &quot;Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.&quot;,
+      &quot;example&quot;: &quot;https://storybook.org/ds/button&quot;
+    },
+    {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;required&quot;: [
+        &quot;rel&quot;
+      ],
+      &quot;oneOf&quot;: [
+        {
+          &quot;required&quot;: [
+            &quot;to&quot;
+          ]
+        },
+        {
+          &quot;required&quot;: [
+            &quot;href&quot;
+          ]
+        }
+      ],
+      &quot;properties&quot;: {
+        &quot;rel&quot;: {
+          &quot;oneOf&quot;: [
+            {
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;enum&quot;: [
+                &quot;depends-on&quot;,
+                &quot;composes&quot;,
+                &quot;part-of&quot;,
+                &quot;alternative-to&quot;,
+                &quot;replaces&quot;,
+                &quot;extends&quot;,
+                &quot;implements&quot;,
+                &quot;relates-to&quot;,
+                &quot;same-as&quot;,
+                &quot;refines&quot;,
+                &quot;lint-rule&quot;,
+                &quot;test&quot;,
+                &quot;file&quot;,
+                &quot;source&quot;,
+                &quot;design&quot;,
+                &quot;storybook&quot;,
+                &quot;package&quot;,
+                &quot;external-link&quot;,
+                &quot;pairs-with&quot;,
+                &quot;excludes&quot;,
+                &quot;see-also&quot;
+              ]
+            },
+            {
+              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced&quot;
+            }
+          ],
+          &quot;description&quot;: &quot;What kind of pointer this is, or a namespaced custom value.&quot;,
+          &quot;$comment&quot;: &quot;Grouped by purpose: `depends-on`, `composes`, `part-of`, `alternative-to`, `replaces`, `extends`, `implements`, and `relates-to` describe how things connect. `same-as` and `refines` describe how content is written. `lint-rule` and `test` describe how a rule is checked. `file`, `source`, `design`, `storybook`, `package`, and `external-link` point outside this spec. `pairs-with` and `excludes` are a light note about two things combining. `see-also` is a generic \&quot;worth reading too\&quot; for when nothing more specific fits.\n`implements` is a real, working version of something more general. Such as a component implementing a pattern, or a platform build implementing a cross-platform one. Different from `composes` (\&quot;built from these parts\&quot;), and from `design`/`storybook` (which say what kind of thing this is, not why it's linked).\n`same-as` means this item repeats content declared once elsewhere, instead of restating it. Point `to` at \&quot;&lt;shared-id&gt;#&lt;item-id&gt;\&quot; and skip the item's own `statement`. Different from `refines` (a genuine restatement for a different reader) and `alternative-to` (one thing standing in for another, not the same thing).\n`refines` is an agent-only rule that sharpens a human-facing one; `to` names that rule's id. `lint-rule` and `test` point a rule at whatever actually checks it, usually a test file via `href`. For a stricter combination rule than `pairs-with`/`excludes` gives you, use a combo instead. `file` is also how a theme entry points at its real source file, instead of listing every token it changes.\nNamespaced custom values (ex: \&quot;acme.supersedes\&quot;) are allowed too.&quot;,
+          &quot;example&quot;: &quot;depends-on&quot;
+        },
+        &quot;to&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;What this points at, inside this document's own graph.&quot;,
+          &quot;$comment&quot;: &quot;A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it.&quot;,
+          &quot;example&quot;: &quot;shared-a11y#focus-visible&quot;
+        },
+        &quot;href&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;format&quot;: &quot;uri-reference&quot;,
+          &quot;description&quot;: &quot;What this points at, outside this document. Such as a file, URL, or package.&quot;,
+          &quot;$comment&quot;: &quot;A URI. Can be a relative path (`./tests/button.a11y.test.ts`) or a pseudo-scheme like `npm:@org/ds-react`.&quot;,
+          &quot;example&quot;: &quot;./tests/button.a11y.test.ts&quot;
+        },
+        &quot;role&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;What the thing being pointed at does in this context.&quot;,
+          &quot;example&quot;: &quot;hosted docs&quot;
+        },
+        &quot;note&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;Additional info related to the connection of the two items.&quot;,
+          &quot;example&quot;: &quot;Component Story Format (CSF3) - the source the hosted docs above are built from.&quot;
+        }
+      },
+      &quot;additionalProperties&quot;: false
+    }
+  ],
+  &quot;$defs&quot;: {
+    &quot;list&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;minItems&quot;: 1,
+      &quot;$comment&quot;: &quot;Every consumer expects an array of refs. Pulled out here so call sites don't have to redefine it.&quot;,
+      &quot;items&quot;: {
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;
+      }
+    }
+  }
+}</ds-code>
+</ds-json-view>
+<ds-def-index title="2 definitions">
+<!--<p><strong>2 definitions</strong> in this file:</p>-->
+<ul>
+<li><a href="#ref"><ds-code inline>Ref</ds-code></a></li>
+<li><a href="#list"><ds-code inline>list</ds-code></a></li>
+</ul>
+</ds-def-index>
+<ds-def-section name="Ref" anchor="ref" description="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;">
+<p><strong>Accepts one of:</strong></p>
+<ul>
+<li><strong>string</strong> — Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.</li>
+<li><strong>object</strong><ds-prop-table>
+  <ds-prop name="rel" type="&lt;ds-code inline&gt;&quot;depends-on&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;composes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;part-of&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;alternative-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;replaces&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;extends&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;implements&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;relates-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;same-as&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;refines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;lint-rule&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;test&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;source&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;design&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;storybook&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;package&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;external-link&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;pairs-with&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;excludes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;see-also&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of pointer this is, or a namespaced custom value.</ds-prop>
+  <ds-prop name="to" type="string">What this points at, inside this document's own graph.</ds-prop>
+  <ds-prop name="href" type="string (uri-reference)">What this points at, outside this document. Such as a file, URL, or package.</ds-prop>
+  <ds-prop name="role" type="string">What the thing being pointed at does in this context.</ds-prop>
+  <ds-prop name="note" type="string">Additional info related to the connection of the two items.</ds-prop>
+</ds-prop-table></li>
+</ul>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="common-ref.html#ref">Ref</ds-type-ref></ds-cross-refs>
+</ds-def-section>
+<ds-def-section name="list" anchor="list" type="array">
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-ref.html#ref">Ref</ds-type-ref></ds-cross-refs>
+</ds-def-section>
+
+          <ds-back-to-top></ds-back-to-top>
+        </div>
+    </div>
+
+    </main>
+  </div>
+</body>
+</html>

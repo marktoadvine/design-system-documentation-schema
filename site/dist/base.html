@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Base — DSDS 0.20.0</title>
+  <meta name="description" content="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents.">
+  <link rel="canonical" href="https://designsystemdocspec.org/base">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="text/markdown" href="base.md">
+  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Design System Doc Spec">
+  <meta property="og:title" content="Base — DSDS 0.20.0">
+  <meta property="og:description" content="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents.">
+  <meta property="og:url" content="https://designsystemdocspec.org/base">
+  <meta property="og:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
+  <meta name="dsds-version" content="0.20.0">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Base — DSDS 0.20.0","description":"A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents.","url":"https://designsystemdocspec.org/base","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/base.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Base","url":"https://designsystemdocspec.org/base#base"}]}</script>
+
+  <link rel="stylesheet" href="tokens.css?v=0.20.0">
+  <link rel="stylesheet" href="style.css?v=0.20.0">
+  <script src="components.js?v=0.20.0"></script>
+</head>
+<body>
+  <nav class="skip-nav" aria-label="Skip links">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+</nav>
+    <ds-spec-nav title="Design System Doc Spec 0.20.0" title-href="index.html" active="base">
+    <a href="index.html" slug="index">Overview</a>
+    <a href="quickstart.html" slug="quickstart">Quick start</a>
+    <a href="conformance.html" slug="conformance">Conformance</a>
+    <ds-nav-group label="Base">
+      <a href="base.html" slug="base">base</a>
+      <a href="shared.html" slug="shared">shared</a>
+    </ds-nav-group>
+    <ds-nav-group label="Common">
+      <a href="common-combo.html" slug="common-combo">combo</a>
+      <a href="common-example.html" slug="common-example">example</a>
+      <a href="common-extensions.html" slug="common-extensions">extensions</a>
+      <a href="common-id.html" slug="common-id">id</a>
+      <a href="common-markdown.html" slug="common-markdown">markdown</a>
+      <a href="common-ref.html" slug="common-ref">ref</a>
+      <a href="common-requirement-level.html" slug="common-requirement-level">requirement-level</a>
+      <a href="common-showcase.html" slug="common-showcase">showcase</a>
+      <a href="common-since.html" slug="common-since">since</a>
+    </ds-nav-group>
+    <ds-nav-group label="Metadata">
+      <a href="metadata-entry-metadata.html" slug="metadata-entry-metadata">entry-metadata</a>
+      <a href="metadata-metadata.html" slug="metadata-metadata">metadata</a>
+      <a href="metadata-system-metadata.html" slug="metadata-system-metadata">system-metadata</a>
+    </ds-nav-group>
+    <ds-nav-group label="Entries">
+      <a href="entries-component.html" slug="entries-component">component</a>
+      <a href="entries-entry.html" slug="entries-entry">entry</a>
+      <a href="entries-system.html" slug="entries-system">system</a>
+      <a href="entries-theme.html" slug="entries-theme">theme</a>
+      <a href="entries-token.html" slug="entries-token">token</a>
+    </ds-nav-group>
+    <ds-nav-group label="Sections">
+      <a href="sections-definitions.html" slug="sections-definitions">definitions</a>
+      <a href="sections-guidelines.html" slug="sections-guidelines">guidelines</a>
+      <a href="sections-section.html" slug="sections-section">section</a>
+      <a href="sections-steps.html" slug="sections-steps">steps</a>
+    </ds-nav-group>
+  </ds-spec-nav>
+  <div class="content">
+    <main class="content__main" id="main-content" role="main">
+    <ds-header title="Base" description="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents." source="base.schema.yaml"></ds-header>
+    <div class="content__container">
+        <div class="content__inner">
+
+          <ds-json-view label="base.schema.yaml">
+  <ds-code language="json" label="base.schema.yaml" wrap>{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
+  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/base.schema.yaml&quot;,
+  &quot;title&quot;: &quot;Base&quot;,
+  &quot;description&quot;: &quot;A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents.&quot;,
+  &quot;$comment&quot;: &quot;Base only has one document structure. Unlike an entry or a section, nothing here varies by kind.&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;required&quot;: [
+    &quot;schemaVersion&quot;,
+    &quot;name&quot;,
+    &quot;entries&quot;
+  ],
+  &quot;properties&quot;: {
+    &quot;schemaVersion&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;The version of this spec the document follows.&quot;,
+      &quot;$comment&quot;: &quot;The one authoritative version marker. Distinct from `metadata.version`, which is the design system's own release version.&quot;,
+      &quot;example&quot;: &quot;0.20.0&quot;
+    },
+    &quot;$schema&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;format&quot;: &quot;uri-reference&quot;,
+      &quot;description&quot;: &quot;An optional hint for editor tools, like autocomplete or validate-on-save.&quot;,
+      &quot;$comment&quot;: &quot;Usually a URL to the exact versioned schema file. Not authoritative: `schemaVersion` is the real source of truth for which version this document targets.&quot;,
+      &quot;example&quot;: &quot;https://designsystemdocspec.org/v0.20.0/v0.20.0/dsds.bundled.schema.json&quot;
+    },
+    &quot;name&quot;: {
+      &quot;type&quot;: &quot;string&quot;,
+      &quot;description&quot;: &quot;The name of the design system this document describes.&quot;,
+      &quot;example&quot;: &quot;Acme Design System&quot;
+    },
+    &quot;entries&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;minItems&quot;: 1,
+      &quot;description&quot;: &quot;Every entry this document owns, listed directly.&quot;,
+      &quot;$comment&quot;: &quot;A single-entry file just has one item here. System-wide facts (version, organization, url, license, platforms) live on this list's own `kind: system` entry. Reusable content that is not a standalong artifact belongs in `shared`.&quot;,
+      &quot;items&quot;: {
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entry.schema.yaml&quot;
+      }
+    },
+    &quot;shared&quot;: {
+      &quot;type&quot;: &quot;array&quot;,
+      &quot;minItems&quot;: 1,
+      &quot;description&quot;: &quot;Reusable content that is not itself a design system artifact, for example an accessibility rule or a guideline that applies broadly.&quot;,
+      &quot;$comment&quot;: &quot;Enables multiple artifacts to reference share content from one source. The content is agnostic to entry `kind`. A shared entry is never meant to be its own page.&quot;,
+      &quot;items&quot;: {
+        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/shared.schema.yaml&quot;
+      }
+    },
+    &quot;refs&quot;: {
+      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
+      &quot;description&quot;: &quot;The same pointer type entries use.&quot;,
+      &quot;$comment&quot;: &quot;Enables pointing at a parent document (rel: extends) and splitting a system across several files (rel: file, pointing at a sibling document that owns other entries in this same system).&quot;,
+      &quot;example&quot;: [
+        {
+          &quot;href&quot;: &quot;./starter-kit.dsds.yaml&quot;,
+          &quot;rel&quot;: &quot;file&quot;,
+          &quot;role&quot;: &quot;core&quot;
+        }
+      ]
+    },
+    &quot;$extensions&quot;: {
+      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
+      &quot;description&quot;: &quot;Escape hatch for tool-specific document-level data, keyed by namespace.&quot;,
+      &quot;$comment&quot;: &quot;Same structure as an entry's own $extensions.&quot;
+    }
+  },
+  &quot;additionalProperties&quot;: false
+}</ds-code>
+</ds-json-view>
+<ds-def-section name="Base" anchor="base" description="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents." type="object">
+<ds-prop-table>
+  <ds-prop name="schemaVersion" type="string" required>The version of this spec the document follows.</ds-prop>
+  <ds-prop name="name" type="string" required>The name of the design system this document describes.</ds-prop>
+  <ds-prop name="entries" type="&lt;ds-type-ref href=&quot;entries-entry.html#entry&quot;&gt;Entry&lt;/ds-type-ref&gt;[]" required>Every entry this document owns, listed directly.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="$schema" type="string (uri-reference)">An optional hint for editor tools, like autocomplete or validate-on-save.</ds-prop>
+  <ds-prop name="shared" type="&lt;ds-type-ref href=&quot;shared.html#shared&quot;&gt;Shared&lt;/ds-type-ref&gt;[]">Reusable content that is not itself a design system artifact, for example an accessibility rule or a guideline that applies broadly.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="refs" type="&lt;ds-type-ref href=&quot;common-ref.html#list&quot;&gt;list&lt;/ds-type-ref&gt;">The same pointer type entries use.</ds-prop>
+  <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool-specific document-level data, keyed by namespace.</ds-prop>
+</ds-prop-table>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="entries-entry.html#entry">Entry</ds-type-ref>, <ds-type-ref href="shared.html#shared">Shared</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref></ds-cross-refs>
+</ds-def-section>
+
+          <ds-back-to-top></ds-back-to-top>
+        </div>
+    </div>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+id: inline
+kind: component
+name: Inline
+description: A horizontally-wrapping flex row for inline groups of elements.
+purpose: Arrange children in a wrapping horizontal row with uniform gap.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/inline
+    rel: external-link
+    role: Sanity UI docs — Inline
+
+related:
+  - to: flex
+    rel: alternative-to
+    note: Inline is Flex with direction='row' and wrap='wrap' — a simpler API for wrapping inline groups.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/inline/inline.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Inline renders a flex row with wrap enabled and uniform gap between children. It is the standard primitive for groups of badges, tags, chips, or any horizontally-arranged, wrapping content.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: gap
+        definition: "number | number[]. Gap between children on the spacing scale."
+      - term: space
+        definition: "number | number[]. Deprecated. Use `gap` instead."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different HTML element."

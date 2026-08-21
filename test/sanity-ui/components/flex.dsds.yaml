@@ -1,0 +1,70 @@
+id: flex
+kind: component
+name: Flex
+description: A flexbox layout primitive with responsive direction, alignment, and gap control.
+purpose: Arrange children in a flexbox row or column with responsive alignment and gap.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, primitive, flexbox]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/flex
+    rel: external-link
+    role: Sanity UI docs — Flex
+
+related:
+  - to: stack
+    rel: alternative-to
+    note: Stack is Flex with direction='column' and a fixed gap. Use Stack for simple vertical lists; Flex for full flexbox control.
+  - to: inline
+    rel: alternative-to
+    note: Inline is Flex with direction='row' and wrap='wrap'. Use Inline for horizontally-wrapping inline groups.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/flex/flex.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Flex extends Box with flexbox-specific layout props — direction, alignment, justification, wrapping, and gap. All props accept responsive arrays. Use Flex when you need explicit flexbox control. Use Stack for a simple vertical column with uniform gap.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: direction
+        definition: "'row' | 'row-reverse' | 'column' | 'column-reverse' | FlexDirection[]. CSS flex-direction. Accepts a responsive array. Default: 'row'."
+      - term: align
+        definition: "'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline' | FlexAlign[]. CSS align-items."
+      - term: justify
+        definition: "'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | FlexJustify[]. CSS justify-content."
+      - term: wrap
+        definition: "'nowrap' | 'wrap' | 'wrap-reverse' | FlexWrap[]. CSS flex-wrap."
+      - term: gap
+        definition: "number | number[]. Gap between children on the spacing scale."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different HTML element."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Flex for laying out children in a row with alignment and spacing control.
+        level: should
+      - statement: Use Flex for building a horizontal toolbar or button group.
+        level: should
+      - statement: "Don't use Flex for a simple vertical stack of items with equal spacing — Stack is a Flex column with uniform gap, a simpler API for the common case."
+        level: should-not
+        alternatives:
+          - to: stack
+            rel: alternative-to
+      - statement: "Don't use Flex for a grid of items with defined columns — Grid uses CSS grid layout and provides column/row template control."
+        level: should-not
+        alternatives:
+          - to: grid
+            rel: alternative-to

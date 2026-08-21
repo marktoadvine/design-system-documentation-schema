@@ -1,0 +1,294 @@
+# ComponentEntry
+
+A reusable UI element, like a button or a dialog.
+
+Source: `entries/component.schema.yaml`
+
+**2 definitions** in this file: `ComponentEntry`, `traitValue`
+
+## ComponentEntry {#componententry}
+
+A reusable UI element, like a button or a dialog.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | ✓ | This entry's unique id in the design system graph. |
+| `kind` | `"component"` | ✓ | Marks this entry as a component. |
+| `name` | string | ✓ | The human-readable display name. |
+| `description` | string | ✓ | A one-line statement of what this entry is or is for. |
+| `purpose` | string |  | Explains the entry's reason for existing. |
+| `metadata` | object |  |  |
+| `related` | [list](common-ref.md#list) |  | Pointers to another entry this one is similar to in usage or purpose. |
+| `extends` | [list](common-ref.md#list) |  | Pointers to another entry this one inherits from (rel: extends). |
+| `refs` | [list](common-ref.md#list) |  | This entry's other pointers to entries and outside resources, not covered by `related` or `extends`. |
+| `sections` | [Section](sections-section.md#section)[] |  | Every documentation section for this entry. (Min items: 1) |
+| `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
+| `sourceFiles` | object {platform, file}[] |  | One entry per platform's source file. (Min items: 1) |
+| `imports` | object {platform, code, package}[] |  | One entry per platform. (Min items: 1) |
+| `traits` | object \| object[] |  | The component's variants and states. (Min items: 1) |
+| `combos` | [Combo](common-combo.md#combo)[] |  | Define which of this component's own boolean traits or enum values can or cannot be paired with each other. (Min items: 1) |
+
+**References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [Id](common-id.md#id), [Ref](common-ref.md#ref), [traitValue](entries-component.md#traitvalue), [list](common-ref.md#list), [Combo](common-combo.md#combo), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [Since](common-since.md#since), [Section](sections-section.md#section), [Extensions](common-extensions.md#extensions)
+
+## traitValue {#traitvalue}
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | [Id](common-id.md#id) | ✓ | The machine-readable id. |
+| `description` | [Markdown](common-markdown.md#markdown) | ✓ | What this is, how it looks or behaves, and any constraints. |
+| `name` | string |  | The human-readable name. Uses `id` when left out. |
+| `purpose` | [Markdown](common-markdown.md#markdown) |  | Why this exists. |
+| `examples` | [list](common-example.md#list) |  | Examples showing this in context. |
+| `since` | [Since](common-since.md#since) |  | The version this was introduced. |
+
+**References:** [Id](common-id.md#id), [Markdown](common-markdown.md#markdown), [list](common-example.md#list), [Since](common-since.md#since)
+
+## Full schema JSON
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml",
+  "title": "ComponentEntry",
+  "description": "A reusable UI element, like a button or a dialog.",
+  "$comment": "`traits`, `combos`, `imports`, and `sourceFiles` live directly here rather than in a section, since they're facts about the component as a build artifact, not documentation content.",
+  "allOf": [
+    {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "component",
+          "description": "Marks this entry as a component."
+        },
+        "metadata": {
+          "allOf": [
+            {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml"
+            }
+          ],
+          "unevaluatedProperties": false
+        },
+        "sourceFiles": {
+          "type": "array",
+          "minItems": 1,
+          "description": "One entry per platform's source file.",
+          "$comment": "Defining the source file in the schema enables a tool to extract the component's full API (properties, events, slots, CSS hooks) straight from the code. This avoids drift between docs and code.",
+          "items": {
+            "type": "object",
+            "required": [
+              "platform",
+              "file"
+            ],
+            "properties": {
+              "platform": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml",
+                "description": "The platform or framework this interface applies to.",
+                "$comment": "When the document declares a `metadata.platforms` list, this MUST be one of its entries.",
+                "example": "react"
+              },
+              "file": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml",
+                "description": "Path to the component's source file.",
+                "$comment": "A bare string is a plain file path (shorthand for href). Use the full ref object when role or note matters.",
+                "example": "./src/Button.tsx"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "imports": {
+          "type": "array",
+          "minItems": 1,
+          "description": "One entry per platform.",
+          "$comment": "List the primary platform first.",
+          "items": {
+            "type": "object",
+            "required": [
+              "platform",
+              "code"
+            ],
+            "properties": {
+              "platform": {
+                "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml",
+                "description": "The platform this applies to.",
+                "$comment": "When the document declares a `metadata.platforms` list, this MUST be one of its entries.",
+                "example": "react"
+              },
+              "code": {
+                "type": "string",
+                "description": "The import statement itself, written out.",
+                "example": "import { Button } from '@acme/ui';"
+              },
+              "package": {
+                "type": "string",
+                "description": "The package to install, exactly as named in the package manager.",
+                "example": "@acme/ui"
+              }
+            }
+          }
+        },
+        "traits": {
+          "type": "array",
+          "description": "The component's variants and states.",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml#/$defs/traitValue"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "kind"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "boolean",
+                        "description": "Marks this trait as a yes/no toggle.",
+                        "$comment": "This covers both a boolean prop variant choice (like an `outlined` prop) and a runtime state (like `hover`). Use `description` to explicitly call out if necessary."
+                      },
+                      "refs": {
+                        "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+                        "description": "Pointers to resources for this trait: a design tool entry, a source file, or a verifying test."
+                      }
+                    }
+                  }
+                ],
+                "unevaluatedProperties": false
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml#/$defs/traitValue"
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "values"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "enum",
+                        "description": "Marks this trait as an enumerated configuration dimension."
+                      },
+                      "id": {
+                        "description": "The machine-readable name for the dimension, for example 'size'."
+                      },
+                      "name": {
+                        "description": "The human-readable name of the dimension, for example 'Size'."
+                      },
+                      "description": {
+                        "description": "What this dimension of variation controls."
+                      },
+                      "refs": {
+                        "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+                        "description": "Pointers to resources for this dimension as a whole: a design tool entry, a source file, or a verifying test."
+                      },
+                      "values": {
+                        "type": "array",
+                        "minItems": 1,
+                        "description": "The possible values, in order. The first value is implied as the default.",
+                        "$comment": "Each value is a `traitValue`.",
+                        "example": [
+                          {
+                            "id": "small",
+                            "description": "Compact size for dense layouts."
+                          },
+                          {
+                            "id": "medium",
+                            "description": "The default size for most surfaces."
+                          }
+                        ],
+                        "items": {
+                          "allOf": [
+                            {
+                              "$ref": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml#/$defs/traitValue"
+                            }
+                          ],
+                          "properties": {
+                            "refs": {
+                              "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+                              "description": "Pointers to resources for this specific value: a design tool entry, a source file, or a verifying test."
+                            }
+                          },
+                          "unevaluatedProperties": false
+                        }
+                      }
+                    }
+                  }
+                ],
+                "unevaluatedProperties": false
+              }
+            ]
+          }
+        },
+        "combos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://designsystemdocspec.org/v0.20.0/common/combo.schema.yaml"
+          },
+          "description": "Define which of this component's own boolean traits or enum values can or cannot be paired with each other.",
+          "example": [
+            {
+              "subject": "loading",
+              "level": "must-not",
+              "items": [
+                "disabled"
+              ],
+              "note": "A control can't be simultaneously loading and disabled."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "traitValue": {
+      "type": "object",
+      "required": [
+        "id",
+        "description"
+      ],
+      "$comment": "The shared properties of boolean and enum traits. Contains all the details to describe a trait's value, what it is, and what it's for.",
+      "properties": {
+        "id": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml",
+          "description": "The machine-readable id.",
+          "example": "loading"
+        },
+        "name": {
+          "type": "string",
+          "description": "The human-readable name. Uses `id` when left out.",
+          "example": "Loading"
+        },
+        "description": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml",
+          "description": "What this is, how it looks or behaves, and any constraints.",
+          "example": "Shows a spinner in place of the label and blocks interaction while active."
+        },
+        "purpose": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml",
+          "description": "Why this exists.",
+          "example": "Prevents duplicate submissions while an action is in flight."
+        },
+        "examples": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml#/$defs/list",
+          "description": "Examples showing this in context."
+        },
+        "since": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml",
+          "description": "The version this was introduced."
+        }
+      }
+    }
+  }
+}
+```

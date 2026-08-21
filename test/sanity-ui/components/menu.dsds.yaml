@@ -1,0 +1,67 @@
+id: menu
+kind: component
+name: Menu
+description: A vertical list of actionable items with keyboard navigation.
+purpose: Present a keyboard-navigable list of actions in a floating or inline context.
+
+metadata:
+  status: {status: stable}
+  tags: [navigation, overlay, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/menu
+    rel: external-link
+    role: Sanity UI docs — Menu
+
+related:
+  - to: menu-button
+    rel: pairs-with
+    note: MenuButton is the composed pattern of Button + Popover + Menu. Menu is the inner list component used standalone or within that pattern.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/menu/menu.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Menu renders a vertical list of MenuItem, MenuDivider, and MenuGroup children. It manages roving tabindex keyboard navigation. Use it inside a Popover or Dialog to present a contextual list of actions. It is typically composed with MenuButton for a complete dropdown menu pattern.
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: Menu is a container for MenuItem, MenuDivider, and MenuGroup children.
+    items:
+      - term: Menu Container
+        definition: The role=menu wrapper that handles keyboard navigation. Required.
+      - term: MenuItem
+        definition: An individual actionable item with icon, label, and optional shortcut text.
+      - term: MenuGroup
+        definition: A labeled section grouping related MenuItems.
+      - term: MenuDivider
+        definition: A horizontal rule visually separating menu sections.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: padding
+        definition: "number | number[]. Padding around the menu contents."
+      - term: radius
+        definition: "number | number[]. Border radius of the menu container."
+      - term: space
+        definition: "number | number[]. Gap between items. Deprecated — use `gap` on a Stack instead."
+      - term: focusFirst
+        definition: "boolean. Automatically focus the first MenuItem when the Menu mounts."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Menu for presenting a contextual action list anchored to a button via MenuButton.
+        level: should
+      - statement: Use Menu for grouping related commands in a right-click context menu.
+        level: should

@@ -1,0 +1,15 @@
+schemaVersion: "0.20.0"
+
+name: Pizza Party Design System
+
+metadata:
+  organization: Pizza Party Super-time LLC
+  version: 0.1.0
+  status: alpha
+platforms: [web-component]
+
+entries:
+  - id: button
+    kind: component
+    name: Button
+    description: Triggers an action

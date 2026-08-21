@@ -30,10 +30,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const yaml = require("js-yaml");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const SCHEMA_DIR = path.join(ROOT, "spec", "schema");
+const SCHEMA_DIR = path.join(ROOT, "schema");
 const PAGE = path.join(ROOT, "site", "content", "conformance.mdx");
 
 const BEGIN = "{/* dsds:normative-index */}";
@@ -97,11 +101,7 @@ function extract() {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) walkDir(full);
-      else if (
-        entry.name.endsWith(".schema.json") &&
-        entry.name !== "dsds.bundled.schema.json"
-      )
-        files.push(full);
+      else if (entry.name.endsWith(".schema.yaml")) files.push(full);
     }
   })(SCHEMA_DIR);
   files.sort();
@@ -112,8 +112,8 @@ function extract() {
   for (const file of files) {
     const rel = path
       .relative(SCHEMA_DIR, file)
-      .replace(/\.schema\.json$/, "");
-    const parsed = JSON.parse(fs.readFileSync(file, "utf-8"));
+      .replace(/\.schema\.yaml$/, "");
+    const parsed = yaml.load(fs.readFileSync(file, "utf-8"), { schema: yaml.JSON_SCHEMA });
     const descs = [];
     collectDescriptions(parsed, "", descs);
     const statements = [];

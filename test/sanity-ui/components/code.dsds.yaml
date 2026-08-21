@@ -1,0 +1,39 @@
+id: code
+kind: component
+name: Code
+description: A monospace typography primitive for inline code, tokens, and short code snippets.
+purpose: Render inline code text in the system monospace font.
+
+metadata:
+  status: {status: stable}
+  tags: [typography, primitive, code]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/code
+    rel: external-link
+    role: Sanity UI docs — Code
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/code/code.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Code renders text in the monospace code font with the code type scale. Use it for inline code references, token names, keyboard shortcuts in prose, or any context requiring monospace rendering.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: size
+        definition: "number | number[]. Code type scale size."
+      - term: weight
+        definition: "string. Font weight."
+      - term: language
+        definition: "string. Programming language identifier. Informational — no syntax highlighting is applied by the component itself."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different element (default: code)."

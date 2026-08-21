@@ -1,0 +1,66 @@
+id: switch
+kind: component
+name: Switch
+description: A toggle switch for binary on/off settings.
+purpose: Let the user toggle a binary setting that takes immediate effect.
+
+metadata:
+  status: {status: stable}
+  tags: [form, input, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/switch
+    rel: external-link
+    role: Sanity UI docs — Switch
+
+related:
+  - to: checkbox
+    rel: alternative-to
+    note: Use Checkbox for form submissions or multi-select lists. Use Switch for settings that apply immediately on toggle.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/switch/switch.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Switch renders a styled toggle control representing an on/off state. It is a controlled component built on a native checkbox input. Use it for settings that take immediate effect when toggled, rather than form submissions.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: checked
+        definition: "boolean. Whether the switch is on. Controlled."
+      - term: disabled
+        definition: "boolean. Disables the switch and prevents interaction."
+      - term: readOnly
+        definition: "boolean. Renders in a non-editable state without disabling."
+      - term: onChange
+        definition: "(event: React.ChangeEvent<HTMLInputElement>) => void. Change handler for controlled state."
+      - term: customValidity
+        definition: "string. Custom native form validation message."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Switch for toggling a setting that takes immediate effect, such as enabling notifications or dark mode.
+        level: should
+      - statement: "Don't use Switch to replace a Checkbox in a form that requires explicit submission — prefer Checkbox there."
+        level: should-not
+        alternatives:
+          - to: checkbox
+            rel: alternative-to
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Always associate Switch with a visible label using `htmlFor`/`id` or a wrapping `<label>` — the switch knob alone has no accessible name.
+        level: must
+        tags: [accessibility]

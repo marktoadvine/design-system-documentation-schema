@@ -1,0 +1,49 @@
+id: stack
+kind: component
+name: Stack
+description: A vertical flex column that applies uniform spacing between children.
+purpose: Arrange children in a vertical column with uniform gap.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/stack
+    rel: external-link
+    role: Sanity UI docs — Stack
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/stack/stack.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Stack renders a flex column with equal gap between all children. It is the standard primitive for vertical lists, form fields, and any UI where items should be spaced evenly in a column.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: gap
+        definition: "number | number[]. Gap between children on the spacing scale. Accepts a responsive array."
+      - term: space
+        definition: "number | number[]. Deprecated. Use `gap` instead."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different HTML element."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Stack for stacking form fields, list items, or content sections vertically with consistent spacing.
+        level: should
+      - statement: "Don't use Stack for laying children in a row or with complex alignment requirements — use Flex for full flexbox control including direction, alignment, and justification."
+        level: should-not
+        alternatives:
+          - to: flex
+            rel: alternative-to

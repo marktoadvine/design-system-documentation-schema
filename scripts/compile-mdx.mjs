@@ -42,20 +42,6 @@ const {
   renderPropertyTableForRef,
   buildDefIndex: buildSharedDefIndex,
 } = require("./render-prop-table.js");
-const summaries = require("./render-summaries.js");
-
-// Self-closing shortcodes that render a schema-derived summary table. Each
-// maps to a generator in render-summaries.js. Like <ds-prop-table>, these
-// keep the Schema Architecture page's cross-cutting tables 1:1 with the
-// schema so they cannot drift as entities, blocks, or metadata kinds change.
-const SUMMARY_SHORTCODES = {
-  "ds-entity-table": summaries.renderEntityTable,
-  "ds-metadata-kinds-table": summaries.renderMetadataKindsTable,
-  "ds-block-scope-table": summaries.renderBlockScopeTable,
-  "ds-block-types-table": summaries.renderBlockTypesTable,
-  "ds-block-applies-table": summaries.renderBlockAppliesTable,
-  "ds-schema-tree": summaries.renderSchemaTree,
-};
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -64,31 +50,29 @@ const SUMMARY_SHORTCODES = {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const CONTENT_DIR = path.join(ROOT, "site", "content");
-const EXAMPLES_DIR = path.join(ROOT, "spec", "examples", "minimal");
-const SCHEMA_DIR = path.join(ROOT, "spec", "schema");
+const EXAMPLES_DIR = path.join(ROOT, "examples");
+const SCHEMA_DIR = path.join(ROOT, "schema");
 
 // ---------------------------------------------------------------------------
 // Canonical spec version (single source of truth)
 //
-// The DSDS version lives in spec/schema/dsds.schema.json at
-// properties.dsdsVersion.const. Content pages NEVER hardcode a version —
-// they reference it through the {{VERSION}} token, which is substituted here
-// at build time. The bundle script, nav, and footer read the same source, so
-// a single `bump-version` of the const propagates to every rendered page.
+// The DSDS version lives in schema/dsds.bundled.schema.json's own `$id`
+// (ex: "https://.../v0.20.0/dsds.bundled.schema.json") — see nav.js's
+// readSpecVersion() for the same extraction. Content pages NEVER hardcode a
+// version — they reference it through the {{VERSION}} token, which is
+// substituted here at build time. The bundle script, nav, and footer read
+// the same source, so one `npm run bundle` propagates to every rendered page.
 // ---------------------------------------------------------------------------
 
 let CACHED_VERSION = null;
 function readSpecVersion() {
   if (CACHED_VERSION !== null) return CACHED_VERSION;
   try {
-    const rootSchema = JSON.parse(
-      fs.readFileSync(path.join(SCHEMA_DIR, "dsds.schema.json"), "utf-8"),
+    const bundled = JSON.parse(
+      fs.readFileSync(path.join(SCHEMA_DIR, "dsds.bundled.schema.json"), "utf-8"),
     );
-    CACHED_VERSION =
-      (rootSchema.properties &&
-        rootSchema.properties.dsdsVersion &&
-        rootSchema.properties.dsdsVersion.const) ||
-      "";
+    const match = /\/v([^/]+)\/dsds\.bundled\.schema\.json$/.exec(bundled.$id || "");
+    CACHED_VERSION = match ? match[1] : "";
   } catch {
     CACHED_VERSION = "";
   }
@@ -222,16 +206,23 @@ function preprocessExamples(source) {
       const filePath = path.join(EXAMPLES_DIR, file);
       if (!fs.existsSync(filePath)) {
         console.error(`    ⚠  <ds-example> file not found: ${file}`);
-        return `<!-- Example not found: ${file} -->`;
+        return `{/* Example not found: ${file} */}`;
+      }
+      const meta = label ? ` label="${label}"` : "";
+      // YAML example files (most of examples/ as of the 0.20.0 schema) are
+      // embedded as-authored, no reformatting — unlike JSON, YAML's own
+      // whitespace/comments are part of what the example is demonstrating.
+      if (/\.ya?ml$/.test(file)) {
+        const raw = fs.readFileSync(filePath, "utf-8").trimEnd();
+        return "```yaml" + meta + "\n" + raw + "\n```";
       }
       try {
         const json = JSON.parse(fs.readFileSync(filePath, "utf-8"));
         const formatted = JSON.stringify(json, null, 2);
-        const meta = label ? ` label="${label}"` : "";
         return "```json" + meta + "\n" + formatted + "\n```";
       } catch (err) {
         console.error(`    ⚠  Failed to parse ${file}: ${err.message}`);
-        return `<!-- Failed to load example: ${file} -->`;
+        return `{/* Failed to load example: ${file} */}`;
       }
     },
   );
@@ -259,7 +250,10 @@ function preprocessExamples(source) {
 // placeholder for the rendered HTML in `postProcess`.
 // ===========================================================================
 
-// Shared cross-reference index, built lazily on first preprocess.
+// Shared cross-reference index, built lazily on first preprocess. Holds
+// both halves buildSharedDefIndex() returns: `index` (the $ref → page/anchor
+// lookup describeType() needs) and `schemaById` (the raw-schema-by-$id
+// registry resolveSchema() needs to flatten an allOf chain).
 let MDX_DEF_INDEX = null;
 function getMdxDefIndex() {
   if (MDX_DEF_INDEX === null) {
@@ -288,7 +282,7 @@ function preprocessPropTables(source, slots) {
         console.error(
           `    ⚠  <ds-prop-table> missing required schema="…" or def="…" attribute`,
         );
-        return `<!-- ds-prop-table: missing attributes -->`;
+        return `{/* ds-prop-table: missing attributes */}`;
       }
       const schemaRef = schemaMatch[1];
       const defName = defMatch[1];
@@ -300,18 +294,22 @@ function preprocessPropTables(source, slots) {
       const omitMatch = attrs.match(/omit="([^"]+)"/);
       const pathMatch = attrs.match(/path="([^"]+)"/);
 
+      const { schemaById, index } = getMdxDefIndex();
       const html = renderPropertyTableForRef(schemaRef, defName, {
         schemaDir: SCHEMA_DIR,
-        defIndex: getMdxDefIndex(),
+        defIndex: index,
+        schemaById,
         delta: isDelta,
         omit: omitMatch ? omitMatch[1].split(",").map((s) => s.trim()) : undefined,
         path: pathMatch ? pathMatch[1] : undefined,
       });
 
-      // Comments that start with `ds-prop-table:` indicate a render failure
-      // (missing schema, missing def, parse error). Pass those through
-      // directly so they remain visible in the output as a diagnostic.
-      if (html.startsWith("<!--")) return html;
+      // Comments that start with `{/* ds-prop-table:` indicate a render
+      // failure (missing schema, missing def, parse error). Pass those
+      // through directly so they remain visible in the output as a
+      // diagnostic — MDX comment syntax, not `<!-- -->`, since this is
+      // substituted straight into MDX source before compilation.
+      if (html.startsWith("{/*")) return html;
 
       const idx = slots.push(html) - 1;
       // Self-closing custom element placeholder: MDX preserves this
@@ -319,31 +317,6 @@ function preprocessPropTables(source, slots) {
       return `<ds-prop-table-slot idx="${idx}" />`;
     },
   );
-}
-
-/**
- * Expand each summary shortcode (<ds-entity-table />, <ds-block-types-table />,
- * etc.) into a rendered table, reusing the same slot/placeholder mechanism as
- * <ds-prop-table>. The generator reads the schema directly, so the table is
- * always current.
- */
-function preprocessSummaries(source, slots) {
-  let s = source;
-  for (const [tag, fn] of Object.entries(SUMMARY_SHORTCODES)) {
-    const re = new RegExp(`<${tag}\\s*(?:/>|></${tag}>)`, "g");
-    s = s.replace(re, () => {
-      let html;
-      try {
-        html = fn({ schemaDir: SCHEMA_DIR, defIndex: getMdxDefIndex() });
-      } catch (e) {
-        console.error(`    ⚠  <${tag}> failed: ${e.message}`);
-        return `<!-- ${tag}: ${e.message} -->`;
-      }
-      const idx = slots.push(html) - 1;
-      return `<ds-prop-table-slot idx="${idx}" />`;
-    });
-  }
-  return s;
 }
 
 function substitutePropTablePlaceholders(html, slots) {
@@ -373,7 +346,6 @@ function preprocess(source) {
   s = preprocessDsCodeBlocks(s);
   s = preprocessExamples(s);
   s = preprocessPropTables(s, propTableSlots);
-  s = preprocessSummaries(s, propTableSlots);
   s = stripJsxComments(s);
   s = escapeCurlyBraces(s);
   return { source: s, propTableSlots };

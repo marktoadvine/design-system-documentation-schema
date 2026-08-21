@@ -1,0 +1,101 @@
+id: box
+kind: component
+name: Box
+description: A zero-style layout primitive with responsive margin, padding, display, and overflow control.
+purpose: Apply responsive spacing, display, and layout properties to any element without visual styling.
+
+metadata:
+  status: {status: stable}
+  tags: [layout, primitive, spacing]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/box
+    rel: external-link
+    role: Sanity UI docs — Box
+
+related:
+  - to: card
+    rel: alternative-to
+    note: Box is a zero-style layout primitive. Card adds surface properties (background, border, shadow, tone).
+  - to: flex
+    rel: alternative-to
+    note: Flex extends Box with flexbox-specific alignment and direction props.
+  - to: stack
+    rel: alternative-to
+    note: Stack is a vertical flex column with automatic equal gap between children.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/box/box.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Box is the foundational layout primitive in Sanity UI. It renders a <div> with no visual styling and exposes the full spacing and layout prop system — margin, padding, display, overflow, sizing, and flex shorthand. All props accept responsive arrays for breakpoint-aware layouts. Box is the base from which Card, Flex, Stack, Grid, Inline, and Container all extend.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: display
+        definition: "'none' | 'block' | 'inline-block' | 'flex' | 'grid' | BoxDisplay[]. CSS display value. Accepts a responsive array."
+      - term: margin
+        definition: "number | number[]. All-sides margin on the spacing scale. Accepts a responsive array."
+      - term: marginX
+        definition: "number | number[]. Horizontal (left + right) margin."
+      - term: marginY
+        definition: "number | number[]. Vertical (top + bottom) margin."
+      - term: marginTop
+        definition: "number | number[]. Top margin."
+      - term: marginRight
+        definition: "number | number[]. Right margin."
+      - term: marginBottom
+        definition: "number | number[]. Bottom margin."
+      - term: marginLeft
+        definition: "number | number[]. Left margin."
+      - term: padding
+        definition: "number | number[]. All-sides padding on the spacing scale."
+      - term: paddingX
+        definition: "number | number[]. Horizontal (left + right) padding."
+      - term: paddingY
+        definition: "number | number[]. Vertical (top + bottom) padding."
+      - term: paddingTop
+        definition: "number | number[]. Top padding."
+      - term: paddingRight
+        definition: "number | number[]. Right padding."
+      - term: paddingBottom
+        definition: "number | number[]. Bottom padding."
+      - term: paddingLeft
+        definition: "number | number[]. Left padding."
+      - term: overflow
+        definition: "'hidden' | 'visible' | 'auto' | 'scroll' | BoxOverflow[]. CSS overflow behavior."
+      - term: height
+        definition: "'fill' | 'stretch' | BoxHeight[]. Height shorthand."
+      - term: sizing
+        definition: "'border' | 'content' | BoxSizing[]. CSS box-sizing value."
+      - term: flex
+        definition: "number | 'none' | FlexValue[]. CSS flex shorthand for use inside Flex containers."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different HTML element (default: div)."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Box for adding responsive margin or padding to any element without custom CSS.
+        level: should
+      - statement: Use Box for controlling display, overflow, or sizing at specific breakpoints.
+        level: should
+      - statement: "Don't use Box for laying out children in a row or column — Flex exposes flexbox-specific props (align, direction, wrap, justify) with better semantics than setting display='flex' on Box."
+        level: should-not
+        alternatives:
+          - to: flex
+            rel: alternative-to
+      - statement: "Don't use Box for creating a surface with background color, border, or shadow — Card extends Box with visual surface properties, while Box has no visual styling."
+        level: should-not
+        alternatives:
+          - to: card
+            rel: alternative-to

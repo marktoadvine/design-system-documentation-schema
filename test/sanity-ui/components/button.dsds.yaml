@@ -1,0 +1,250 @@
+id: button
+kind: component
+name: Button
+description: A clickable element that triggers an action, styled with mode and tone variants.
+purpose: Trigger a user-initiated action in the current view without navigating away.
+
+metadata:
+  status: {status: stable}
+  tags: [action, interactive, form, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/button
+    rel: external-link
+    role: Sanity UI docs — Button
+  - href: https://github.com/sanity-io/ui/tree/main/src/primitives/button
+    rel: source
+    role: Source on GitHub
+  - href: https://www.npmjs.com/package/@sanity/ui
+    rel: package
+    role: "@sanity/ui on npm"
+
+related:
+  - to: switch
+    rel: alternative-to
+    note: "Button (with selected) can toggle, but Switch is semantically correct for persistent boolean settings."
+  - to: menu-button
+    rel: pairs-with
+    note: "MenuButton composes Button with a Popover+Menu — use it when the button opens a dropdown menu."
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/button/button.tsx
+
+traits:
+  - id: mode
+    kind: enum
+    name: Mode
+    description: Controls the visual treatment of the button surface — filled, outlined-ghost, or ink-on-transparent.
+    values:
+      - id: default
+        description: Filled background. The most visually prominent button. Use for primary actions.
+      - id: ghost
+        description: Transparent background with a visible border on hover. Use for secondary or tertiary actions alongside a default button.
+      - id: bleed
+        description: No background or border at rest. Ink color only. Use for low-emphasis actions in dense UI (toolbars, sidebars).
+  - id: tone
+    kind: enum
+    name: Tone
+    description: Applies semantic color meaning to the button surface.
+    values:
+      - id: default
+        description: Neutral gray. General-purpose actions with no semantic weight.
+      - id: primary
+        description: Brand blue. The most important action on a surface. Limit to one per view.
+      - id: positive
+        description: Green. Confirms or completes something beneficial — publish, save, approve.
+      - id: caution
+        description: Yellow/amber. Warns of a consequence that is reversible or requires attention.
+      - id: critical
+        description: Red. Destructive or irreversible actions — delete, revoke, remove. Pair with a confirmation step.
+  - id: hover
+    kind: boolean
+    name: Hover
+    description: Pointer over the button. Background transitions to the hover shade for the current mode and tone combination.
+    purpose: Confirms interactivity before the user commits to clicking. Critical for ghost and bleed modes where the resting state has no visible surface.
+  - id: active
+    kind: boolean
+    name: Active
+    description: Button is being pressed (mousedown / touchstart). Background transitions to the pressed shade to provide tactile feedback.
+    purpose: Provides tactile feedback confirming the click was registered.
+  - id: focus
+    kind: boolean
+    name: Focus
+    description: Keyboard focus. A 2px focus ring appears with 2px offset from the button boundary, rendered with the system focus color.
+    purpose: Makes keyboard position visible to keyboard and low-vision users. Required by WCAG 2.4.7 (Focus Visible, Level AA).
+  - id: disabled
+    kind: boolean
+    name: Disabled
+    description: Non-interactive. Opacity reduced to 0.5 to signal unavailability. Pointer events suppressed. Use sparingly — prefer loading, or keep the button enabled and explain the constraint inline.
+    purpose: Communicates that the action exists but is currently unavailable. A disabled button without context is an accessibility antipattern — if possible, keep the button enabled and show an error on activation instead.
+  - id: loading
+    kind: boolean
+    name: Loading
+    description: An async operation triggered by the button is in progress. A Spinner replaces the icon slot; the label remains visible. Pointer events suppressed.
+    purpose: Prevents double-submission and communicates that the action was registered and the system is processing it. Preferred over disabled for async operations.
+  - id: selected
+    kind: boolean
+    name: Selected
+    description: Persistent pressed appearance for toggle patterns. Controlled via the `selected` prop. Requires aria-pressed for screen reader accessibility.
+    purpose: Communicates a persistent on/off state, such as a toolbar toggle button. Must be paired with aria-pressed='true' so assistive technology can announce the toggled state.
+
+combos:
+  - subject: loading
+    level: should-not
+    items: [disabled]
+    note: Loading already makes the button non-interactive — setting both is redundant.
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Button is the primary interactive primitive in Sanity UI. It supports three visual modes (default, ghost, bleed), five semantic tones, optional leading and trailing icons, a loading state, and a selected state. All sizing and spacing props accept responsive arrays for breakpoint-aware layouts.
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: A Button is composed of an outer interactive container, an optional leading icon, a text label, and an optional trailing icon. A focus ring appears on keyboard focus.
+    items:
+      - term: Container
+        definition: The interactive root element. Receives background, border, radius, and padding. Handles pointer and keyboard events. Required.
+      - term: Label
+        definition: The visible text of the button, set via the `text` prop. Hidden when the button is icon-only.
+      - term: Leading Icon
+        definition: Optional icon rendered before the label, set via the `icon` prop.
+      - term: Trailing Icon
+        definition: Optional icon rendered after the label, set via the `iconRight` prop.
+      - term: Focus Ring
+        definition: Visible outline shown on keyboard focus. Drawn with the system focus color. Required.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: mode
+        definition: "'default' | 'ghost' | 'bleed'. Visual surface treatment. Default: 'default'."
+      - term: tone
+        definition: "'default' | 'primary' | 'positive' | 'caution' | 'critical'. Semantic color tone applied to the button. Default: 'default'."
+      - term: text
+        definition: "ReactNode. Button label content."
+      - term: icon
+        definition: "ElementType | ReactNode. Leading icon rendered before the label."
+      - term: iconRight
+        definition: "ElementType | ReactNode. Trailing icon rendered after the label."
+      - term: loading
+        definition: "boolean. When true, displays a spinner and makes the button non-interactive. Default: false."
+      - term: selected
+        definition: "boolean. Renders the button in a persistent pressed/active state for toggle use. Default: false."
+      - term: disabled
+        definition: "boolean. When true, the button is non-interactive and visually dimmed. Default: false."
+      - term: type
+        definition: "'button' | 'reset' | 'submit'. HTML button type. Always set explicitly. Default: 'button'."
+      - term: width
+        definition: "'fill'. Set to 'fill' to expand the button to its container width."
+      - term: fontSize
+        definition: "number | number[]. Type scale size. Accepts a responsive array."
+      - term: padding
+        definition: "number | number[]. Internal padding on the spacing scale."
+      - term: radius
+        definition: "number | number[]. Border radius on the radius scale (0–6)."
+      - term: gap
+        definition: "number | number[]. Gap between icon and label on the spacing scale."
+      - term: justify
+        definition: "FlexJustify | FlexJustify[]. How content is justified within the button."
+      - term: textAlign
+        definition: "'left' | 'center' | 'right'. Text alignment within the label."
+      - term: textWeight
+        definition: "'regular' | 'medium' | 'semibold' | 'bold'. Font weight of the label text."
+      - term: muted
+        definition: "boolean. Renders the button with reduced visual emphasis. Default: false."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render the button as a different HTML element or React component."
+
+  - kind: definitions
+    for: all
+    title: Events
+    items:
+      - term: onClick
+        definition: "(event: React.MouseEvent<HTMLButtonElement>) => void. Fires when the button is activated by a pointer click, the Enter key, or the Space key. Does not fire when `disabled` or `loading` is true. Bubbles."
+      - term: onFocus
+        definition: "(event: React.FocusEvent<HTMLButtonElement>) => void. Fires when the button receives focus, either from keyboard Tab navigation or a programmatic `.focus()` call. Does not fire when the button is disabled."
+      - term: onBlur
+        definition: "(event: React.FocusEvent<HTMLButtonElement>) => void. Fires when the button loses focus. Use to trigger deferred validation or dismiss popovers anchored to this button."
+      - term: onMouseEnter
+        definition: "(event: React.MouseEvent<HTMLButtonElement>) => void. Fires when the pointer enters the button boundary. Not suppressed when the button is disabled or loading — use this to attach Tooltip behavior to non-interactive buttons."
+      - term: onMouseLeave
+        definition: "(event: React.MouseEvent<HTMLButtonElement>) => void. Fires when the pointer leaves the button boundary."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Button for triggering an in-page action such as saving, publishing, or deleting a record.
+        level: should
+      - statement: Use Button for submitting a form.
+        level: should
+      - statement: Use Button for opening a dialog, panel, or popover.
+        level: should
+      - statement: Don't use Button for navigating to a different URL or route — buttons without href lack browser navigation affordances (right-click, open in new tab, history) and announce incorrectly to screen readers.
+        level: should-not
+      - statement: "Don't use Button to toggle a persistent boolean setting — Switch communicates an on/off state with accessible role='switch', while a Button with selected=true requires additional ARIA to convey the same semantics."
+        level: should-not
+        alternatives:
+          - to: switch
+            rel: alternative-to
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Use `tone='critical'` only for destructive or irreversible actions. Always pair with a confirmation dialog — critical red is a strong interrupt signal, and overusing it dilutes its meaning and trains users to ignore it.
+        level: must
+        tags: [visual-design]
+      - statement: Set `type` explicitly on every button inside a form — the browser default is 'submit', which will unexpectedly submit the nearest form when the button is inside one.
+        level: must
+        tags: [development]
+      - statement: Prefer the `loading` state over `disabled` during async operations — a loading button communicates that the action was registered and the system is working, while a disabled button gives no feedback.
+        level: should
+        tags: [interaction]
+      - statement: Do not use Button for navigation. Use an anchor element styled with the `as` prop only when navigation and action are genuinely combined — screen readers announce buttons and links differently.
+        level: must-not
+        tags: [accessibility]
+      - statement: Limit one `primary` tone button per surface — primary tone establishes the dominant action hierarchy, and multiple primary buttons fragment the user's attention.
+        level: must
+        tags: [visual-design]
+      - statement: Icon-only buttons must have an accessible label via aria-label.
+        level: must
+        tags: [accessibility]
+      - statement: Toggle buttons (using `selected`) must use aria-pressed.
+        level: must
+        tags: [accessibility]
+
+  - kind: definitions
+    for: all
+    title: Keyboard interactions
+    items:
+      - term: Enter
+        definition: Activates the button.
+      - term: Space
+        definition: Activates the button.
+      - term: Tab
+        definition: Moves focus forward to the next interactive element.
+      - term: Shift+Tab
+        definition: Moves focus back to the previous interactive element.
+
+  - kind: guidelines
+    for: agent
+    context: how-to-use
+    items:
+      - statement: Always set the `type` prop explicitly inside forms.
+        level: must
+      - statement: "Don't use Button for page navigation — use an anchor element instead."
+        level: must-not
+      - statement: "Don't use `tone='critical'` for non-destructive actions to draw attention — use `tone='primary'` for prominence instead. Critical tone is reserved for destructive actions only."
+        level: must-not
+      - statement: "Don't set both `loading` and `disabled` — use only `loading`, since it already makes the button non-interactive."
+        level: must-not
+      - statement: "`link` is not part of this corpus, but the distinction still applies: Button triggers an action; a link navigates to a URL."
+        level: should

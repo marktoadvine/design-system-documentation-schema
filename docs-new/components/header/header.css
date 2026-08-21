@@ -1,0 +1,22 @@
+  :host([hidden]) { display: none !important; }
+  :host {
+      display: block;
+      background: #0936C7;
+      padding: 4em 2em 1em;
+      height: 75vh;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+  }
+
+  h1 {
+      font-weight: 300;
+      font-size: 5em;
+      margin: 0;
+      color: #fff;
+  }
+
+  p {
+      max-width: 65ch;
+  }

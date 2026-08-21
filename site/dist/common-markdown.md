@@ -1,0 +1,23 @@
+# Markdown
+
+Markdown content, including headings, tables, code fences, etc.
+
+Source: `common/markdown.schema.yaml`
+
+## Markdown {#markdown}
+
+Markdown content, including headings, tables, code fences, etc.
+
+## Full schema JSON
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml",
+  "title": "Markdown",
+  "type": "string",
+  "description": "Markdown content, including headings, tables, code fences, etc.",
+  "$comment": "For a real code sample, prefer pointing a `ref` at a file instead of embedding one here.",
+  "example": "Use for the single primary call-to-action on a surface."
+}
+```

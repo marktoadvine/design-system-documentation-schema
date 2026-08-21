@@ -1,0 +1,59 @@
+  :host([hidden]) { display: none !important; }
+  :host {
+      display: block;
+      /*min-height: 100vh;*/
+      /*
+      background-image: linear-gradient(to right, #1a1a1a 0%, #1a1a1a 50%, #212121 50%, #212121 100%);
+      */
+  }
+
+  :host([layout="split"]) .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Grid items default to min-width: auto, i.e. they refuse to shrink
+     below their content's intrinsic width (a long unbroken example JSON
+     line, for instance) - that's what was pushing .end past its 1fr
+     share. <ds-code>'s own `overflow-x: auto` still handles any line
+     wider than the column. */
+  :host([layout="split"]) .cols .start,
+  :host([layout="split"]) .cols .end {
+    min-width: 0;
+  }
+
+header {
+    margin-bottom: 2em;
+}
+
+header h2 {
+    font-weight: 300;
+    font-size: 3em;
+    margin: 0;
+    color: #fff;
+}
+
+header p {
+    margin: 0;
+    font-size: 12px;
+}
+
+/* align-items stays at .cols's default (stretch) so .start is as tall
+   as .end, giving position: sticky room to stick within as you scroll
+   past the (usually taller) example on the right. */
+.start {
+    position: sticky;
+    top: 48px;
+    align-self: start;
+   /* padding-inline-start: 3em;*/
+   padding: 6em 2em;
+}
+
+.end {
+    background-color: #212121;
+    padding: 8em 2em 6em;
+}
+
+p {
+    max-width: 65ch;
+}

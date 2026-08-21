@@ -1,0 +1,57 @@
+id: migration
+kind: entry
+name: Migration
+description: How this schema's vocabulary changes, and how to keep documents forward-compatible while it does.
+
+refs:
+  - href: stability.html
+    rel: see-also
+    role: Which parts of the schema are open vs. closed
+
+sections:
+  - kind: section
+    for: all
+    title: Reading why a shape changed
+    freeform:
+      - title: No versioned changelog yet
+        body: DSDS is still pre-1.0. The project is still consolidating its vocabulary. There is no versioned migration history yet, so this page is not a changelog. It explains how to read the schema's own change history, and how to write documents that absorb future changes without a rewrite.
+      - title: $comment fields carry the change history
+        body: |-
+          Every schema file under `schema/` carries a `$comment` field. Each field explains the reasoning behind the file's current shape, including, in many cases, what an earlier draft looked like and why the project consolidated it. For example, `sections/section.schema.yaml` documents an entire pass of section-kind merges in its header comment, with the reasoning for each merge:
+
+          - Old `checklist` and `interactions` merged into `steps`.
+          - Old `variants`, `states`, and the `traits` section merged into a component's own top-level `traits` field.
+          - Old `use-cases`, `localization`, and `content` merged into `guidelines`.
+          - Old `api` and `imports` sections merged into a component's own top-level `sourceFiles` and `imports` fields.
+      - title: Two smaller, more recent examples
+        body: |-
+          `sections/guidelines.schema.yaml` gained an optional `context` field (`when-to-use` or `how-to-use`). Before this field existed, only a free-text section `title` held this distinction, and nothing structural told a "when to use" judgment apart from a construction rule. One small property closed this gap, instead of a new section kind.
+
+          `entry.kind` briefly carried an eighth value, `shared`, for content that entries point at instead of restate. But `kind` means "what kind of *thing in the design system* is this," and a content-reuse mechanism is not a thing in the design system. So `shared` moved into its own `base.shared` registry instead of stretching the enum.
+        refs:
+          - href: schema.html#common-ref
+            rel: see-also
+            role: The current shape of base.shared
+      - title: Where to look when in doubt
+        body: If you wonder why a field has its current shape, read the relevant `.schema.yaml` file's `$comment` first. The same applies if you wonder whether an older shape you saw elsewhere still applies. Right now, this comment is the closest thing this spec has to a changelog.
+
+  - kind: guidelines
+    for: all
+    title: Writing forward-compatible documents
+    description: A few schema design choices exist so that a document written today keeps validating as the vocabulary grows.
+    items:
+      - statement: "Use the open, pattern-validated fields (`tokenType`, `common/ref.rel`, `metadata.status`'s status value) instead of a new `$extensions` field, when one of them fits. A new token category or relationship type is only a new string, not a breaking change."
+        level: should
+      - statement: "Use `$extensions` for tool-specific data only, namespaced by reverse domain (`com.figma`, `com.storybook`). This never collides with a future core field, because core fields do not live under `$extensions`."
+        level: should
+
+  - kind: steps
+    for: all
+    ordered: true
+    title: Validating against the current schema
+    description: After you pull a schema update, run both commands to confirm your documents still validate.
+    items:
+      - title: Regenerate the bundled schema
+        description: "`node tools/bundle.js` regenerates `schema/dsds.bundled.schema.json` from the hand-authored files under `schema/`."
+      - title: Validate your documents
+        description: "`npm run validate` checks every example in `examples/` (or specific files you pass it) against the bundled schema plus the semantic rules in `tools/validate.js`."

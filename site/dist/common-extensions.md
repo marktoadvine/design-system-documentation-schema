@@ -1,48 +1,39 @@
 # Extensions
 
-Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces.
+Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.
 
-Source: `common/extensions.schema.json`
+Source: `common/extensions.schema.yaml`
 
-## extensions {#extensions}
+## Extensions {#extensions}
 
-All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.
+Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.
 
-**Example:**
+Open map — values are `object`.
 
-```json
-{
-  "com.figma": {
-    "componentId": "abc123def456",
-    "variableCollectionId": "VariableCollectionId:1234:5678"
-  },
-  "com.storybook": {
-    "storyId": "components-button--primary"
-  },
-  "com.internal": {
-    "teamOwner": "design-systems",
-    "jiraProject": "DS",
-    "lastAuditDate": "2024-11-15"
-  }
-}
-```
+**References:** [namespaced](common-id.md#namespaced)
 
 ## Full schema JSON
 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.15.2/common/extensions.schema.json",
+  "$id": "https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml",
   "title": "Extensions",
-  "description": "Vendor-specific extensions. An open object for tool metadata outside the core schema. Keys MUST use vendor namespaces.",
-  "$defs": {
-    "extensions": {
-      "type": "object",
-      "description": "All vendor-specific extensions . Keys MUST use a namespace of at least two dot-separated segments (reverse domain recommended), Example: 'com.figma', 'acme.tooling'; the pattern is case-tolerant. Tools that don't recognize an extension MUST keep it. Extension data SHOULD NOT duplicate core schema fields.",
-      "propertyNames": {
-        "pattern": "^[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)+$"
-      },
-      "additionalProperties": true
+  "type": "object",
+  "description": "Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.",
+  "$comment": "By convention, an outside id goes under `$extensions.<namespace>.displayName`. Worth noting: nothing enforces that specific key. Each top-level key MUST be a dotted namespace, like `com.acme`, matching the Design Tokens Community Group's own `$extensions` convention. This helps tools avoid unfamiliar data.\nRecommended: add a `context` key under each namespace explaining what the extension is for and how a tool should use it.",
+  "propertyNames": {
+    "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": true
+  },
+  "example": {
+    "com.figma": {
+      "context": "Links this entry to its source Figma component for design-file lookups.",
+      "displayName": "Button/Primary",
+      "nodeId": "12:4045"
     }
   }
 }

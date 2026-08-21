@@ -1,0 +1,79 @@
+id: index
+kind: entry
+name: Design System Doc Schema
+description: A machine-readable format for design system documentation. DSDS structures components, tokens, themes, and any other design-system artifact as a single source of truth for humans, parsers, and agents.
+
+sections:
+  - kind: section
+    for: all
+    title: About
+    freeform:
+      - title: Draft specification
+        body: "**Draft Specification — 29 July 2026:** This is a draft. It can still change. No standards body has endorsed it yet. We welcome feedback and contributions on GitHub."
+        refs:
+          - href: https://github.com/somerandomdude/design-system-documentation-schema
+            rel: source
+            role: Latest version
+          - href: https://github.com/somerandomdude/design-system-documentation-schema/issues
+            rel: see-also
+            role: Feedback
+      - title: A machine-readable format for design system documentation
+        body: "This standard puts design system docs in one shared format that any tool can read. A DSDS document is a **base**: `schemaVersion`, a `name`, and a list of **entries** - a system, plus components, tokens, themes, and the generic `entry` kind for anything else. The goal is one source of truth that feeds your docs, trains your agents, and reaches every touchpoint."
+      - title: Relationship to DTCG
+        body: "DSDS complements the [W3C Design Tokens Format](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) (DTCG). It does not replace DTCG. DTCG owns token *values*. DSDS owns the *meaning and usage* around them. A token entry points at its DTCG source instead of restating its value."
+
+  - kind: guidelines
+    for: all
+    title: Core principles
+    items:
+      - statement: "Information is more valuable when it is portable. Tools change. Needs change. Budgets change. A design system's source of truth must survive a rebuild, a reorganization, or a change in strategy."
+        level: should
+      - statement: "Documentation does not have to choose between humans and agents. Humans and agents read the same entries. A section's `for` field names the audience for that content. There is no separate, parallel structure to maintain."
+        level: should
+      - statement: "A doc standard must grow with you. Getting started is easy. Fields like `tokenType` and `ref.rel` are open-ended strings, not closed enums, so new vocabulary does not require a spec change."
+        level: should
+
+  - kind: section
+    for: all
+    title: Flexible and modular
+    freeform:
+      - title: Design systems have different needs
+        body: Design systems have different documentation needs. The schema can be as simple or as detailed as you need. DSDS has strong opinions, but it does not force them on you.
+      - title: One sections array, typed by kind
+        body: "Every entry's structured docs live in one **sections** array. Each section is a typed object with a `kind` field. The spec defines 3 section kinds: `guidelines`, `definitions`, and `steps`. Every section, regardless of kind, can also carry `freeform` - headed, nestable prose - alongside its own kind-specific `items`. A component also carries `sourceFiles`, `traits`, `combos`, and `imports` as top-level fields of its own, not sections."
+        refs:
+          - href: schema.html
+            rel: see-also
+            role: Full schema reference
+      - title: No placement gating
+        body: Any entry kind can use any section kind - there is no gating rule matching an entry's `kind` to which section kinds it may carry.
+
+  - kind: section
+    for: all
+    title: Next steps
+    freeform:
+      - title: Start here
+        body: If you are new to DSDS, start with the Quick Start Guide. It covers document structure, entry kinds, the section system, and minimal examples you can copy.
+        refs:
+          - href: quickstart.html
+            rel: see-also
+            role: Quick Start Guide
+      - title: Full reference
+        body: For the full schema reference, see the Schema page. It covers document structure, entry properties, section kinds, and all shared models.
+        refs:
+          - href: schema.html
+            rel: see-also
+            role: Schema
+      - title: Source files
+        body: "The schema files in `schema/` hold the JSON Schema definitions. The examples in `examples/` show a working example of each entry and section kind."
+
+  - kind: section
+    for: all
+    title: Contributors
+    freeform:
+      - title: PJ Onori
+        body: "[PJ Onori](https://pjonori.com) - Current maintainer."
+      - title: Afyia Smith
+        body: "[Afyia Smith](https://afyiasmith.co/) - the `owner`/`reviewed` and `origin` metadata schemas."
+      - title: Suleiman Ali Shakir
+        body: "[Suleiman Ali Shakir](https://iamsuleiman.com/) - Documentation copy-edits."

@@ -1,0 +1,72 @@
+id: badge
+kind: component
+name: Badge
+description: A compact status or category label with semantic tone coloring.
+purpose: Communicate status, category, or count in a compact visual chip.
+
+metadata:
+  status: {status: stable}
+  tags: [status, label, primitive]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/badge
+    rel: external-link
+    role: Sanity UI docs — Badge
+
+related:
+  - to: button
+    rel: alternative-to
+    note: Badge is non-interactive and purely presentational. Button triggers actions.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/badge/badge.tsx
+
+traits:
+  - id: tone
+    kind: enum
+    name: Tone
+    description: Semantic color applied to the badge.
+    values:
+      - id: default
+        description: Neutral. For general-purpose labels with no semantic weight.
+      - id: primary
+        description: Brand blue. Highlights a selected, active, or notable state.
+      - id: positive
+        description: Green. Indicates success, completion, or an approved state.
+      - id: caution
+        description: Amber. Indicates a warning or a state requiring attention.
+      - id: critical
+        description: Red. Indicates an error, failure, or a critical condition.
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Badge renders a small pill-shaped label used for status indicators, category tags, or counts. It supports five semantic tones that inherit from the ambient Card tone context.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: tone
+        definition: "'default' | 'primary' | 'positive' | 'caution' | 'critical'. Semantic color tone. Default: 'default'."
+      - term: fontSize
+        definition: "number | number[]. Type scale size for the badge label."
+      - term: radius
+        definition: "number | number[]. Border radius on the radius scale."
+      - term: as
+        definition: "ElementType | keyof JSX.IntrinsicElements. Render as a different element."
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Keep badge text to one or two words maximum — Badge is a compact, scannable indicator, and long text defeats its purpose and breaks layouts.
+        level: must
+        tags: [content]
+      - statement: Use tone to communicate semantic meaning, not just for visual variety — users learn to associate tone colors with meaning, and applying tones decoratively trains users to ignore them.
+        level: must
+        tags: [visual-design]

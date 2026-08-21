@@ -1,0 +1,87 @@
+id: toast
+kind: component
+name: Toast / useToast
+description: A brief notification that appears and auto-dismisses to communicate a completed action or status change.
+purpose: Display brief auto-dismissing status notifications to the user.
+
+metadata:
+  status: {status: stable}
+  tags: [feedback, overlay, composite]
+
+refs:
+  - href: https://www.sanity.io/ui/docs/primitives/toast
+    rel: external-link
+    role: Sanity UI docs — Toast
+
+related:
+  - to: dialog
+    rel: alternative-to
+    note: Dialog requires user action and blocks the page. Toast is non-blocking, auto-dismisses, and requires no response.
+
+sourceFiles:
+  - platform: react
+    file: ./src/primitives/toast/toast.tsx
+
+sections:
+  - kind: section
+    for: all
+    title: Overview
+    freeform:
+      - title: About
+        body: Sanity UI's toast system consists of a ToastProvider at the root, a Toast component for rendering individual notifications, and a useToast hook for pushing notifications from anywhere in the tree. Toasts auto-dismiss after a configurable duration and support different status tones.
+
+  - kind: definitions
+    for: all
+    title: Anatomy
+    description: The toast system is composed of a provider, a toast component, and a hook.
+    items:
+      - term: ToastProvider
+        definition: Root context provider that manages the toast queue. Must wrap the application (or subtree) where toasts are used. Required.
+      - term: Toast
+        definition: An individual notification card rendered by the provider. Not typically composed directly — push via useToast instead. Required.
+      - term: useToast Hook
+        definition: React hook that returns a `push` function for dispatching toast notifications from any component.
+
+  - kind: definitions
+    for: all
+    title: Props
+    items:
+      - term: useToast().push
+        definition: "(params: ToastParams) => void. Pushes a new toast notification into the queue."
+      - term: ToastParams.title
+        definition: "string. The primary message of the toast. Required."
+      - term: ToastParams.description
+        definition: "string. Optional secondary descriptive text."
+      - term: ToastParams.status
+        definition: "'info' | 'warning' | 'error' | 'success'. Status tone that controls the toast color and icon."
+      - term: ToastParams.duration
+        definition: "number. Auto-dismiss delay in milliseconds. Defaults to 4000."
+      - term: ToastParams.id
+        definition: "string. Unique ID to prevent duplicate toasts. If a toast with the same id is already shown, it will be updated instead."
+      - term: ToastParams.closable
+        definition: "boolean. Show a manual close button on the toast."
+
+  - kind: guidelines
+    for: all
+    context: when-to-use
+    items:
+      - statement: Use Toast for confirming a completed action, such as saving a document or copying a link.
+        level: should
+      - statement: Use Toast for reporting a recoverable error or warning that does not block the user.
+        level: should
+      - statement: "Don't use Toast for showing required information the user must act on — use a Dialog or inline validation instead."
+        level: should-not
+        alternatives:
+          - to: dialog
+            rel: alternative-to
+
+  - kind: guidelines
+    for: human
+    context: how-to-use
+    items:
+      - statement: Keep toast messages short (under 80 characters for the title) — toasts auto-dismiss, so users must be able to read the message before it disappears.
+        level: must
+        tags: [content]
+      - statement: Never put interactive content (form fields, confirmation buttons) in a toast — toasts dismiss before the user can reliably interact with embedded controls. Use a Dialog for confirmation flows.
+        level: must-not
+        tags: [usage]

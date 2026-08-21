@@ -1,0 +1,81 @@
+id: glossary
+kind: entry
+name: Glossary
+description: Terms this spec uses with a specific, load-bearing meaning - not generic JSON Schema vocabulary.
+
+sections:
+  - kind: definitions
+    for: all
+    title: Terms
+    items:
+      - term: Combo
+        definition: "The shared rule shape for \"these things do or don't go together\": a `subject`, a `level` saying whether `items` is the permitted set or the forbidden set, and `items` (bare target strings). Used on a component's own top-level `combos` and a token's own top-level `combos`."
+      - term: $comment
+        definition: "The JSON Schema annotation keyword this spec uses, at the property level, for *how, when, or why* to use a property - never validated, never shown to an end reader. Paired with `description`, which says what the property *is*."
+      - term: $extensions
+        definition: The escape hatch for tool-specific data, present on `entry`, `section`, and the base document. Keyed by a reverse-DNS-style namespace (e.g. `com.figma`), freeform underneath.
+      - term: Definitions
+        definition: A section kind holding term definitions - what a term means, how and when to use it, and related terms it's often confused with.
+      - term: Description
+        definition: "The field name for text that says what its parent thing *is*, always. Kept distinct from `note`, which is a record *about* the parent, not what defines it."
+      - term: Entry
+        definition: One thing in the design system graph - a system, component, token, theme, or the generic `entry` kind for anything else.
+      - term: Entry kinds
+        definition: "The five values an entry's `kind` can take: `system`, `component`, `token`, `theme`, `entry`. Four have their own dedicated schema file; `entry` is the explicit generic kind, checked against the open base directly."
+      - term: For
+        definition: "`human`, `agent`, or `all`. A required field on every section, saying who it's written for."
+      - term: Freeform
+        definition: An optional array of headed, arbitrarily-nested sub-content available on every section kind, alongside that kind's own structured `items`.
+      - term: Group
+        definition: "`metadata.group`, a group name an entry belongs to (for example `color.action` on a set of related tokens). The recommended way to group tokens."
+      - term: Guidelines
+        definition: A section kind holding rules for an entry - how to build it, or (when the section's own `context` is `when-to-use`) when it's the right choice at all. Every item pairs a `statement` with a `level`.
+      - term: Id
+        definition: "The one identifier shape in this spec, lowercase-dash segments optionally dot-chained (e.g. `color.action.primary`). Used both for an entry's own globally-unique `id` and for flat, locally-scoped ids on section items."
+      - term: Item
+        definition: "The one universal box a section's content lives in. Every section kind has an `items` array and puts everything there, never under a kind-specific key."
+      - term: Kind
+        definition: The one discriminator field name used at every level of this spec, on every entry and every section, naming which shape applies.
+      - term: Metadata
+        definition: "Minor/optional facts about an entry that aren't documentation and aren't pointers to other entries - `tags`, `owner`, `reviewed`, `context`, `updated`, `origin`, plus per-kind additions like `status`/`since` or (for a system entry) `version`/`organization`/`platforms`."
+      - term: Name
+        definition: "The field name for a thing's human-readable identifier, always paired with a machine-readable `id` (an entry's own `name`, a `shared` entry's `name`, a component's own `traits` item `name`). The display counterpart to `id`, not a heading - use `title` for a heading over content that isn't itself an identified artifact."
+      - term: Note
+        definition: "The field name for a supplementary record or annotation *about* its parent, never what defines the parent (that's `description`). Always a plain string, never markdown. Appears on `common/ref`, `common/showcase`, `common/combo`, and metadata's `reviewed`/`updated`/`origin`."
+      - term: Origin
+        definition: "`metadata.origin`, how an entry's documentation came to exist and who or what wrote it: `method` and `author`."
+      - term: Owner
+        definition: "`metadata.owner`, the team, role, or person accountable for an entry, as a plain mailbox-style string."
+      - term: Part
+        definition: A per-item discriminator inside an array that can hold more than one distinct shape (used in a component's own `traits`). Plays the same role one level down that a section's own `kind` plays for the section itself.
+      - term: Platform
+        definition: "An id naming a target platform/framework (`react`, `ios`, etc.), used on a status entry, a component's own `sourceFiles`/`imports` entries. A `kind: system` entry's `metadata.platforms` is the full registry."
+      - term: Purpose
+        definition: Why something exists or holds, on a component's own `traits` item.
+      - term: Ref
+        definition: "The one pointer type in this spec: `{rel, to|href, ...}`. `to` addresses something inside this document's own graph; `href` addresses something outside it. `rel` says what kind of pointer it is."
+      - term: Rel
+        definition: "The field on a `ref` naming the relationship (`depends-on`, `composes`, `part-of`, `alternative-to`, `extends`, and others, or a namespaced custom value)."
+      - term: Reviewed
+        definition: "`metadata.reviewed`, a list of independent confirmations that an entry's documentation is accurate, each with a `date`, a `by` (who or what confirmed it, human:<id>/<producer>/<version>/process:<id>), and a `note`."
+      - term: Base document
+        definition: "A file with a top-level `schemaVersion` key. Holds `entries` (always an array, even for one), optional `shared` content, and its own `refs`/`$extensions`."
+      - term: Section
+        definition: "One piece of an entry's documentation - a typed container tagged by who it's `for`, whose content always lives in `items` and/or `freeform`."
+      - term: Statement
+        definition: "The actual claim text on a guideline item (or, informally, wherever a field holds \"the rule/scenario in words\")."
+      - term: Status
+        definition: "A lifecycle value (`stable`, `deprecated`, `beta`, etc.), optionally scoped to one platform. Lives in `metadata.status`, always a single object."
+      - term: System
+        definition: "The entry kind for the design system as a whole. Carries system-wide `metadata` (`version`, `organization`, `url`, `license`, `platforms`) and system-wide `sections`."
+      - term: Tags
+        definition: Freeform classification keywords on `metadata`, for grouping/search/filtering.
+      - term: Title
+        definition: "The one word this spec uses for a short heading describing a subject - a section's own optional `title`, a `freeform` entry's required `title`, a `steps` entry's required `title`, and a `common/example`'s own optional `title`. Always a plain string, not markdown. Distinct from `name`, the human-readable counterpart to an `id` - a different pairing, not a heading."
+      - term: Token overrides
+        definition: "A map of purpose-name to token reference (e.g. `{background: \"{color.action.primary}\"}`), used inside a component's own `traits` entries to say which token fills which visual role."
+      - term: Traits
+        definition: "A component-only field for every way it can vary - an on/off dimension (`boolean`) or a set of named options (`enum`), tagged per entry by `kind`."
+    freeform:
+      - title: Full rename history
+        body: This is a reader-facing summary. For the etymology behind each term - what it used to be called and why it changed - see `docs-new/glossary.md`.

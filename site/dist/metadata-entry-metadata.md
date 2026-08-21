@@ -1,0 +1,152 @@
+# EntryMetadata
+
+Information about a single entry, on top of the fields every metadata object shares.
+
+Source: `metadata/entry-metadata.schema.yaml`
+
+**2 definitions** in this file: `EntryMetadata`, `statusValue`
+
+## EntryMetadata {#entrymetadata}
+
+Information about a single entry, on top of the fields every metadata object shares.
+
+| Property | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tags` | string[] |  | Keywords for grouping, search, and filtering. (Min items: 1) |
+| `owner` | string |  | The owning team, role, or group. |
+| `reviewed` | object {date, by, note}[] |  | Independent reviews confirming this item's documentation, each recording who confirmed it and when. (Min items: 1) |
+| `context` | string |  | Why this entry was created, and how and why to use it. |
+| `updated` | object {date, note} |  | When this item's documentation last changed. |
+| `origin` | object {method, author, note} |  | How this entry's documentation came to exist, and who or what wrote it. |
+| `$extensions` | [Extensions](common-extensions.md#extensions) |  | Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace. |
+| `status` | object |  | A lifecycle status, optionally scoped to one platform. |
+| `since` | [Since](common-since.md#since) |  | The version this entry was first introduced. |
+| `group` | string |  | A group name this entry belongs to, for example "color.action" on a set of related tokens. |
+| `aliases` | string[] |  | Other names this entry is also known or searched by, like a past name or a common misspelling. |
+| `preview` | [Showcase](common-showcase.md#showcase) |  | A visual sample of this entry, either a media file or a link. |
+
+**References:** [Metadata](metadata-metadata.md#metadata), [Id](common-id.md#id), `#/$defs/statusValue`, [Since](common-since.md#since), [Showcase](common-showcase.md#showcase), `#/$defs/isoDate`, [Extensions](common-extensions.md#extensions)
+
+## statusValue {#statusvalue}
+
+A lowercase, dash-separated lifecycle word, for example "stable" or "deprecated".
+
+**Pattern:** `^[a-z0-9]+(-[a-z0-9]+)*$`
+
+## Full schema JSON
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml",
+  "title": "EntryMetadata",
+  "description": "Information about a single entry, on top of the fields every metadata object shares.",
+  "$comment": "Adds fields that only make sense per-entry: `status`, `since`, `group`, `aliases`, `preview`. A system's own metadata adds a different set instead - see metadata/system-metadata.schema.yaml.\nDeliberately left open (no `unevaluatedProperties`) - a system entry needs this schema's fields AND system-metadata.schema.yaml's own fields to both apply to the same `metadata` object at once, so only the combined usage (entries/system.schema.yaml's own `metadata` property) can correctly close the union. Every other kind file (component/token/theme) closes its own `metadata` property locally instead, since only this schema applies there.",
+  "allOf": [
+    {
+      "$ref": "https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "A lifecycle status, optionally scoped to one platform.",
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "platform": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml",
+                  "description": "Which platform this status applies to.",
+                  "$comment": "This field isn't necessary if only one platform exists.",
+                  "example": "react"
+                },
+                "status": {
+                  "$ref": "#/$defs/statusValue"
+                },
+                "since": {
+                  "$ref": "https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml",
+                  "description": "The version this platform (or the system overall) reached this status."
+                },
+                "deprecationNotice": {
+                  "type": "string",
+                  "description": "What to use instead, and why.",
+                  "$comment": "Required when `status` is deprecated.",
+                  "example": "Use `icon-button` instead - this variant never got contrast-tested and is being removed in 2.0."
+                },
+                "note": {
+                  "type": "string",
+                  "description": "Free-text context.",
+                  "example": "Still supported for legacy integrations only."
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "if": {
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "deprecated"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "deprecationNotice"
+                ]
+              }
+            }
+          ]
+        },
+        "since": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml",
+          "description": "The version this entry was first introduced."
+        },
+        "group": {
+          "type": "string",
+          "description": "A group name this entry belongs to, for example \"color.action\" on a set of related tokens.",
+          "$comment": "The recommended way to group tokens - there is no separate token-group entry kind. A group is a fact about its members, not a second artifact wrapping them, so it lives here rather than as an entry other tokens point at.",
+          "example": "color.action"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Other names this entry is also known or searched by, like a past name or a common misspelling.",
+          "example": [
+            "btn"
+          ]
+        },
+        "preview": {
+          "$ref": "https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml",
+          "description": "A visual sample of this entry, either a media file or a link.",
+          "$comment": "For a code sample, use a section's own examples instead, which can point at a real file or story."
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "statusValue": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "examples": [
+        "experimental",
+        "stable",
+        "deprecated",
+        "beta",
+        "planned"
+      ],
+      "description": "A lowercase, dash-separated lifecycle word, for example \"stable\" or \"deprecated\".",
+      "$comment": "This enum isn't closed. Any term is allowed."
+    }
+  }
+}
+```

@@ -1,0 +1,10 @@
+{
+  "@context": "https://schema.org",
+  "@id": "https://designsystemdocspec.org/id/entry/component",
+  "@type": "APIReference",
+  "identifier": "component",
+  "name": "Component",
+  "page": "https://designsystemdocspec.org/entries-component",
+  "markdown": "https://designsystemdocspec.org/entries-component.md",
+  "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+}

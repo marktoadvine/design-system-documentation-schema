@@ -1,0 +1,27 @@
+  :host([hidden]) { display: none !important; }
+  :host { display: block; }
+  :host([inline]) { display: inline; }
+
+  pre {
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre;
+    background: #212121;
+  }
+
+  :host([wrap]) pre {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-x: visible;
+  }
+
+  /* JSON syntax highlighting, painted via the CSS Custom Highlight API
+     (code.js registers these names' Ranges in CSS.highlights). Scoped to
+     this shadow root: only highlights whose Ranges live in here paint,
+     even though the underlying Highlight objects are shared across every
+     <ds-code> instance on the page. Ignored outright in browsers without
+     the API - the code just renders unhighlighted. */
+  ::highlight(hl-k) { color: #9cdcfe; }
+  ::highlight(hl-s) { color: #ce9178; }
+  ::highlight(hl-n) { color: #b5cea8; }
+  ::highlight(hl-b) { color: #569cd6; }

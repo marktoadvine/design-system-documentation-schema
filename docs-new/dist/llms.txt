@@ -1,0 +1,62 @@
+# Design System Doc Schema (DSDS)
+
+> A machine-readable format for design system documentation. DSDS structures components, tokens, themes, and any other design-system artifact as a single source of truth for humans, parsers, and agents.
+
+This site is two pages: Overview (/, everything that isn't schema reference) and Schema (/schema, every definition). Each has a plain-markdown mirror at the same path with a `.md` extension (/index.md, /schema.md) — the full content as text, no HTML/JS to parse. Both list their own sections below with `#anchor` links straight to that part of the page. The bundled schema JSON is the single-file version of everything on the Schema page.
+
+## Machine-readable schema
+
+- [manifest.json](https://designsystemdocspec.org/manifest.json): the typed machine index — every entry kind, the section kinds it accepts, and links to its page/markdown/schema/example. Start here.
+- [Bundled schema, v0.20.0](https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json): every definition in one JSON file
+- [llms-full.txt](https://designsystemdocspec.org/llms-full.txt): both pages' full text plus the bundled schema, in one file for one-request ingestion
+- [sitemap.xml](https://designsystemdocspec.org/sitemap.xml): every page on this site
+
+## Overview (https://designsystemdocspec.org/, markdown: https://designsystemdocspec.org/index.md)
+
+- [Design System Doc Schema](https://designsystemdocspec.org/#overview): A machine-readable format for design system documentation. DSDS structures components, tokens, themes, and any other design-system artifact as a single source of truth for humans, parsers, and agents.
+- [Principles](https://designsystemdocspec.org/#principles): The design principles this spec is held to, and why the schema is shaped the way it is.
+- [DSDS for humans and agents](https://designsystemdocspec.org/#humans-and-agents): A DSDS document serves two readers - people and AI agents. How a section's `for` field splits the work between them.
+- [Stability and the road to 1.0](https://designsystemdocspec.org/#stability): What is settled and what is still in flux in the pre-1.0 DSDS schema, and what changes without a spec bump versus what does not.
+- [Migration](https://designsystemdocspec.org/#migration): How this schema's vocabulary changes, and how to keep documents forward-compatible while it does.
+- [Architecture](https://designsystemdocspec.org/#architecture): The small, fixed set of shapes this spec is built from - the patterns to follow when adding a new section kind, common shape, or field.
+- [Glossary](https://designsystemdocspec.org/#glossary): Terms this spec uses with a specific, load-bearing meaning - not generic JSON Schema vocabulary.
+
+## Schema (https://designsystemdocspec.org/schema, markdown: https://designsystemdocspec.org/schema.md)
+
+### Core
+
+- [base](https://designsystemdocspec.org/schema#base)
+- [shared](https://designsystemdocspec.org/schema#shared)
+
+### Entries
+
+- [component](https://designsystemdocspec.org/schema#entries-component)
+- [entry](https://designsystemdocspec.org/schema#entries-entry)
+- [system](https://designsystemdocspec.org/schema#entries-system)
+- [theme](https://designsystemdocspec.org/schema#entries-theme)
+- [token](https://designsystemdocspec.org/schema#entries-token)
+
+### Metadata
+
+- [entry-metadata](https://designsystemdocspec.org/schema#metadata-entry-metadata)
+- [metadata](https://designsystemdocspec.org/schema#metadata-metadata)
+- [system-metadata](https://designsystemdocspec.org/schema#metadata-system-metadata)
+
+### Common
+
+- [combo](https://designsystemdocspec.org/schema#common-combo)
+- [example](https://designsystemdocspec.org/schema#common-example)
+- [extensions](https://designsystemdocspec.org/schema#common-extensions)
+- [id](https://designsystemdocspec.org/schema#common-id)
+- [markdown](https://designsystemdocspec.org/schema#common-markdown)
+- [ref](https://designsystemdocspec.org/schema#common-ref)
+- [requirement-level](https://designsystemdocspec.org/schema#common-requirement-level)
+- [showcase](https://designsystemdocspec.org/schema#common-showcase)
+- [since](https://designsystemdocspec.org/schema#common-since)
+
+### Sections
+
+- [definitions](https://designsystemdocspec.org/schema#sections-definitions)
+- [guidelines](https://designsystemdocspec.org/schema#sections-guidelines)
+- [section](https://designsystemdocspec.org/schema#sections-section)
+- [steps](https://designsystemdocspec.org/schema#sections-steps)
