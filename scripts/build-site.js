@@ -470,16 +470,13 @@ function orderDefsByReference(defs) {
   return ordered;
 }
 
-/**
- * Render a full page body for a single schema file.
- */
-/**
- * Render a schema page's header and content as separate strings — the page
- * shell (see pageHtml/main.template.html) keeps the header in its own slot
- * rather than folding it into the page's content.
- */
+// Returns the schema page's own content blocks separately (header,
+// sourceView, defIndex, definitions) instead of one flattened string — the
+// caller drops each into its own named slot in main-schema.template.html,
+// so the page's structure (source view, then an index, then the
+// definitions themselves) is declared in that template file, not buried
+// in the order this function happens to push things in JS.
 function renderSchemaPage(page) {
-  const parts = [];
   const defs = page.data.$defs || {};
   const defNames = orderDefsByReference(defs);
   const examples = page.examples || {};
@@ -494,33 +491,29 @@ function renderSchemaPage(page) {
     badge: "",
   });
 
-  // The source view is a fixed-position toggle (see source-view.js), so its
-  // place in the content flow doesn't affect where it renders — pushed
-  // first just so it isn't lost if an early return below skips the rest.
   // Reads the real file text, not a re-serialized page.raw - that's the
   // actual schema/*.schema.yaml source, comments included, not a lossy
   // JSON re-encoding of it (see the CHANGELOG entry this replaced).
-  parts.push(
-    renderSub("source-view", {
-      label: esc(relPath),
-      source: esc(fs.readFileSync(page.filePath, "utf-8").trimEnd()),
-    }),
-  );
+  const sourceView = renderSub("source-view", {
+    label: esc(relPath),
+    source: esc(fs.readFileSync(page.filePath, "utf-8").trimEnd()),
+  });
 
   if (defNames.length === 0) {
     // Root-only schemas (no $defs) can still ship an example. By convention
     // the entire example file is treated as one root-level example document.
-    if (page.examples !== null && page.examples !== undefined) {
-      parts.push(
-        renderSub("example", {
-          json: esc(JSON.stringify(page.examples, null, 2)),
-        }),
-      );
-    }
-    return { header, content: parts.join("\n"), defNames };
+    // (Every page currently has at least one $defs entry - its own resolved
+    // root schema, added in discoverPages() - so this branch doesn't fire
+    // today. Kept for a schema file that genuinely has none.)
+    const definitions =
+      page.examples !== null && page.examples !== undefined
+        ? renderSub("example", { json: esc(JSON.stringify(page.examples, null, 2)) })
+        : "";
+    return { header, sourceView, defIndex: "", definitions, defNames };
   }
 
   // Definition index (if more than one definition)
+  let defIndex = "";
   if (defNames.length > 1) {
     const items = defNames
       .map(
@@ -528,18 +521,19 @@ function renderSchemaPage(page) {
           `<li><a href="#${slug(defName)}"><ds-code inline>${esc(defName)}</ds-code></a></li>`,
       )
       .join("\n");
-    parts.push(renderSub("def-index", { count: defNames.length, items }));
+    defIndex = renderSub("def-index", { count: defNames.length, items });
   }
 
   // Render each definition with its matching example (if any)
-  for (const defName of defNames) {
-    // The example file can have the defName as a key with an example value
-    const exampleData =
-      examples[defName] !== undefined ? examples[defName] : null;
-    parts.push(renderDefinition(defName, defs[defName], exampleData));
-  }
+  const definitions = defNames
+    .map((defName) => {
+      // The example file can have the defName as a key with an example value
+      const exampleData = examples[defName] !== undefined ? examples[defName] : null;
+      return renderDefinition(defName, defs[defName], exampleData);
+    })
+    .join("\n");
 
-  return { header, content: parts.join("\n"), defNames };
+  return { header, sourceView, defIndex, definitions, defNames };
 }
 
 // ---------------------------------------------------------------------------
@@ -820,18 +814,13 @@ function buildJsonLd({ name, description, url, version, pageType, activeSlug, de
 function pageHtml(
   title,
   activeSlug,
-  headerHtml,
-  contentHtml,
+  mainHtml,
   pages,
-  layout,
   version,
   description,
   pageType = "guide",
   defNames,
 ) {
-  const layoutCls = layout === "full" ? " content--full" : "";
-  const contentCls = "content" + layoutCls;
-
   // Derive the spec version from the schema if the caller didn't pass one
   // explicitly. This keeps every `DSDS <v>` string in the rendered HTML
   // tied to dsds.schema.json#/properties/dsdsVersion/const — the same
@@ -856,7 +845,10 @@ function pageHtml(
   // Each top-level section of the page (<head>, skip link, main content
   // area) is its own subtemplate, so the page shell below is just the
   // order they're assembled in — reorder or restructure a section by
-  // editing its file, not by hunting through the whole page shell.
+  // editing its file, not by hunting through the whole page shell. The
+  // main content area itself is built by the caller (renderMainGuide()/
+  // renderMainSchema() below), since its own structure is type-specific -
+  // this shell doesn't need to know or care which type it's wrapping.
   const head = renderSub("head", {
     title: esc(fullTitle),
     description: esc(desc),
@@ -874,18 +866,46 @@ function pageHtml(
     }),
   });
   const skipLink = renderSub("skip-link", {});
-  const main = renderSub("main", {
-    content_class: contentCls,
-    header: headerHtml,
-    content: contentHtml,
-    back_to_top: renderSub("back-to-top", {}),
-  });
 
   return renderTemplate(PAGE_TEMPLATE_PATH, {
     head,
     skip_link: skipLink,
     nav: buildSpecNav(activeSlug, pages, v),
-    main,
+    main: mainHtml,
+  });
+}
+
+// content--full removes the reading-width cap some pages want (ex: a wide
+// property table). Shared by both page types below since either could
+// need it in principle, even though only guide pages use it today.
+function contentClassFor(layout) {
+  return "content" + (layout === "full" ? " content--full" : "");
+}
+
+// The "plain content" page type (site/templates/subtemplates/
+// main-guide.template.html) - a header plus one block of already-rendered
+// body content (compiled MDX), nothing else structural.
+function renderMainGuide({ header, content, layout }) {
+  return renderSub("main-guide", {
+    content_class: contentClassFor(layout),
+    header,
+    content,
+    back_to_top: renderSub("back-to-top", {}),
+  });
+}
+
+// The schema-docs page type (site/templates/subtemplates/
+// main-schema.template.html) - a header, the source-view toggle, an
+// optional definition index, then the definitions themselves, each its
+// own named slot instead of one flattened content string.
+function renderMainSchema({ header, sourceView, defIndex, definitions }) {
+  return renderSub("main-schema", {
+    content_class: contentClassFor(null),
+    header,
+    source_view: sourceView,
+    def_index: defIndex,
+    definitions,
+    back_to_top: renderSub("back-to-top", {}),
   });
 }
 
@@ -1241,13 +1261,12 @@ async function build() {
       badge: badge ? `<ds-badge>${esc(badge)}</ds-badge>` : "",
     });
 
+    const mainHtml = renderMainGuide({ header, content: body, layout });
     const html = pageHtml(
       title,
       slug,
-      header,
-      body,
+      mainHtml,
       pages,
-      layout,
       undefined,
       mdxPage.meta.description,
     );
@@ -1292,14 +1311,13 @@ async function build() {
 
   // ── Schema-driven pages ───────────────────────────────────────────────
   for (const page of pages) {
-    const { header, content, defNames } = renderSchemaPage(page);
+    const { header, sourceView, defIndex, definitions, defNames } = renderSchemaPage(page);
+    const mainHtml = renderMainSchema({ header, sourceView, defIndex, definitions });
     const html = pageHtml(
       page.title,
       page.slug,
-      header,
-      content,
+      mainHtml,
       pages,
-      null,
       undefined,
       page.data.description,
       "schema",

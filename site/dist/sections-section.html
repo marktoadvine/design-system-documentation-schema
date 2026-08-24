@@ -240,15 +240,7 @@ $defs:
         description: Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.
     additionalProperties: false</ds-code>
 </ds-source-view>
-<ds-def-index title="3 definitions">
-<!--<p><strong>3 definitions</strong> in this file:</p>-->
-<ul>
-<li><a href="#section"><ds-code inline>Section</ds-code></a></li>
-<li><a href="#dispatch"><ds-code inline>dispatch</ds-code></a></li>
-<li><a href="#freeformentry"><ds-code inline>freeformEntry</ds-code></a></li>
-</ul>
-</ds-def-index>
-<ds-def-section name="Section" anchor="section" description="A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`." type="object">
+          <ds-def-section name="Section" anchor="section" description="A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`." type="object">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;definitions&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;steps&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;section&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of content section this is.</ds-prop>
   <ds-prop name="for" type="&lt;ds-code inline&gt;&quot;human&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;agent&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;all&quot;&lt;/ds-code&gt;" required>Who or what this section is written for.<br><small>Default: <ds-code inline>"all"</ds-code></small></ds-prop>

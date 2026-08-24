@@ -205,14 +205,7 @@ $defs:
           else:
             $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml</ds-code>
 </ds-source-view>
-<ds-def-index title="2 definitions">
-<!--<p><strong>2 definitions</strong> in this file:</p>-->
-<ul>
-<li><a href="#entry"><ds-code inline>Entry</ds-code></a></li>
-<li><a href="#dispatch"><ds-code inline>dispatch</ds-code></a></li>
-</ul>
-</ds-def-index>
-<ds-def-section name="Entry" anchor="entry" description="The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file." type="object">
+          <ds-def-section name="Entry" anchor="entry" description="The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file." type="object">
 <ds-prop-table>
   <ds-prop name="id" type="string" required>This entry's unique id in the design system graph.</ds-prop>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;system&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;component&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;token&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;theme&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;entry&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of thing this entry is, as a real design-system artifact: one of the 5 well-known kinds, or a namespaced custom kind.</ds-prop>
