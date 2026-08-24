@@ -26,52 +26,34 @@ A defined system theme.
 
 **References:** [Entry](entries-entry.md#entry), [EntryMetadata](metadata-entry-metadata.md#entrymetadata), [Ref](common-ref.md#ref), [list](common-ref.md#list), [dispatch](sections-section.md#dispatch), [Extensions](common-extensions.md#extensions)
 
-## Full schema JSON
+## Full schema source
 
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml",
-  "title": "ThemeEntry",
-  "description": "A defined system theme.",
-  "$comment": "This entry doesn't list which tokens the theme overrides. `source` points to the DTCG JSON file which acts as the source of truth.",
-  "allOf": [
-    {
-      "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
-    },
-    {
-      "type": "object",
-      "properties": {
-        "kind": {
-          "const": "theme",
-          "description": "Marks this entry as a theme."
-        },
-        "metadata": {
-          "allOf": [
-            {
-              "$ref": "https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml"
-            }
-          ],
-          "unevaluatedProperties": false
-        },
-        "source": {
-          "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml",
-          "description": "Path to the theme's DTCG source file.",
-          "$comment": "A bare string is a plain file path (shorthand for href); use the full ref object when role or note matters.",
-          "example": "tokens/dark.tokens.json"
-        },
-        "colorScheme": {
-          "type": "string",
-          "enum": [
-            "light",
-            "dark"
-          ],
-          "default": "light",
-          "description": "Which native color-scheme setting this theme matches."
-        }
-      }
-    }
-  ],
-  "unevaluatedProperties": false
-}
+```yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml
+title: ThemeEntry
+description: A defined system theme.
+$comment: This entry doesn't list which tokens the theme overrides. `source` points to the DTCG JSON file which acts as the source of truth.
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml
+  - type: object
+    properties:
+      kind:
+        const: theme
+        description: Marks this entry as a theme.
+      metadata:
+        allOf:
+          - $ref: https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml
+        unevaluatedProperties: false
+      source:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml
+        description: Path to the theme's DTCG source file.
+        $comment: A bare string is a plain file path (shorthand for href); use the full ref object when role or note matters.
+        example: tokens/dark.tokens.json
+      colorScheme:
+        type: string
+        enum: [light, dark]
+        default: light
+        description: Which native color-scheme setting this theme matches.
+unevaluatedProperties: false
 ```

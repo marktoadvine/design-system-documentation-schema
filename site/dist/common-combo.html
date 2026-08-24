@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-combo">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-combo.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Combo — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Combo — DSDS 0.20.0","description":"Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries.","url":"https://designsystemdocspec.org/common-combo","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-combo.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Combo","url":"https://designsystemdocspec.org/common-combo#combo"},{"@type":"DefinedTerm","name":"target","url":"https://designsystemdocspec.org/common-combo#target"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Combo — DSDS 0.20.0","description":"Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries.","url":"https://designsystemdocspec.org/common-combo","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-combo.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Combo","url":"https://designsystemdocspec.org/common-combo#combo"},{"@type":"DefinedTerm","name":"target","url":"https://designsystemdocspec.org/common-combo#target"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,70 +76,54 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/combo.schema.yaml">
-  <ds-code language="json" label="common/combo.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/combo.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Combo&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;description&quot;: &quot;Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries.&quot;,
-  &quot;$comment&quot;: &quot;[TODO: FILL OUT]&quot;,
-  &quot;required&quot;: [
-    &quot;subject&quot;,
-    &quot;items&quot;,
-    &quot;level&quot;
-  ],
-  &quot;properties&quot;: {
-    &quot;subject&quot;: {
-      &quot;$ref&quot;: &quot;#/$defs/target&quot;,
-      &quot;description&quot;: &quot;The subject of what elements can or cannot be paired with. Can be a trait, token, or entry id.&quot;,
-      &quot;example&quot;: &quot;size.large&quot;
-    },
-    &quot;items&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;uniqueItems&quot;: true,
-      &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;#/$defs/target&quot;
-      },
-      &quot;description&quot;: &quot;The elements paired with the subject.&quot;,
-      &quot;$comment&quot;: &quot;What `level` says (permitted or forbidden) applies to every entry here.&quot;,
-      &quot;example&quot;: [
-        &quot;color.surface.default&quot;,
-        &quot;color.surface.raised&quot;
-      ]
-    },
-    &quot;level&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml&quot;,
-      &quot;description&quot;: &quot;Whether the elements in `items` can or cannot be paired with the subject—and how strict the rule is.&quot;,
-      &quot;$comment&quot;: &quot;`must`/`should` make `items` allowed. `should-not`/`must-not` make `items` denied. `must`/`must-not` make the rule explicit. `should`/`should-not` make it a recommendation.&quot;
-    },
-    &quot;note&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;Why this rule holds.&quot;,
-      &quot;$comment&quot;: &quot;Provides rationale to the rule defined in `subject`/`items`/`level`.&quot;,
-      &quot;example&quot;: &quot;Contrast is verified only against these surfaces; on any other background the label ratio is unproven.&quot;
-    }
-  },
-  &quot;additionalProperties&quot;: false,
-  &quot;$defs&quot;: {
-    &quot;target&quot;: {
-      &quot;description&quot;: &quot;A bare id, or a token reference wrapped in braces.&quot;,
-      &quot;anyOf&quot;: [
-        {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;
-        },
-        {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;pattern&quot;: &quot;^\\{[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*\\}$&quot;,
-          &quot;description&quot;: &quot;A token reference, wrapped in braces.&quot;
-        }
-      ],
-      &quot;example&quot;: &quot;{color.action.primary}&quot;
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/combo.schema.yaml">
+  <ds-code language="yaml" label="common/combo.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/combo.schema.yaml
+title: Combo
+type: object
+description: Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries.
+$comment: &gt;-
+  A combo is a pairing rule, It lives on the entry the rule is about
+  (`subject`), naming what else (`items`) can or cannot be used with
+  it, and how strict the rule is (`level`). `subject` and each of
+  `items` do not need to be the same type.
+required: [subject, items, level]
+properties:
+  subject:
+    $ref: &quot;#/$defs/target&quot;
+    description: &quot;The subject of what elements can or cannot be paired with. Can be a trait, token, or entry id.&quot;
+    example: size.large
+  items:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      $ref: &quot;#/$defs/target&quot;
+    description: The elements paired with the subject.
+    $comment: What `level` says (permitted or forbidden) applies to every entry here.
+    example: [&quot;{color.surface.default}&quot;, &quot;{color.surface.raised}&quot;]
+  level:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml
+    description: Whether the elements in `items` can or cannot be paired with the subject—and how strict the rule is.
+    $comment: &gt;-
+      `must`/`should` make `items` allowed. `should-not`/`must-not` make `items`
+      denied. `must`/`must-not` make the rule explicit. `should`/`should-not` make it a recommendation.
+  note:
+    type: string
+    description: Why this rule holds.
+    $comment: Provides rationale to the rule defined in `subject`/`items`/`level`.
+    example: Contrast is verified only against these surfaces; on any other background the label ratio is unproven.
+additionalProperties: false
+$defs:
+  target:
+    description: A bare id, or a token reference wrapped in braces.
+    anyOf:
+      - $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+      - type: string
+        pattern: '^\{[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*\}$'
+        description: A token reference, wrapped in braces.
+    example: &quot;{color.action.primary}&quot;</ds-code>
+</ds-source-view>
 <ds-def-index title="2 definitions">
 <!--<p><strong>2 definitions</strong> in this file:</p>-->
 <ul>

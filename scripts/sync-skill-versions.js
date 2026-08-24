@@ -14,8 +14,8 @@
  *   node scripts/sync-skill-versions.js --help
  *
  * When run without a version argument, reads the target from
- * schema/dsds.bundled.schema.json's own `$id` (ex:
- * "https://.../v0.20.0/dsds.bundled.schema.json") — the same source
+ * schema/dsds.bundled.yaml's own `$id` (ex:
+ * "https://.../v0.20.0/dsds.bundled.yaml") — the same source
  * nav.js's readSpecVersion() uses — so running this after `npm run bundle`
  * picks up a freshly bumped version automatically.
  */
@@ -24,13 +24,13 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const BUNDLED_SCHEMA = path.join(ROOT, "schema", "dsds.bundled.schema.json");
+const BUNDLED_SCHEMA = path.join(ROOT, "schema", "dsds.bundled.yaml");
 const SKILLS_DIR = path.join(ROOT, ".agents", "skills");
 
 function readBundledVersion() {
   if (!fs.existsSync(BUNDLED_SCHEMA)) return null;
-  const bundled = JSON.parse(fs.readFileSync(BUNDLED_SCHEMA, "utf-8"));
-  const match = /\/v([^/]+)\/dsds\.bundled\.schema\.json$/.exec(bundled.$id || "");
+  const raw = fs.readFileSync(BUNDLED_SCHEMA, "utf-8");
+  const match = /\/v([^/\s"']+)\/dsds\.bundled\.yaml/.exec(raw);
   return match ? match[1] : null;
 }
 
@@ -43,7 +43,7 @@ Usage:
 
 Arguments:
   <version>    Target version string (ex: 0.20.1). If omitted, reads from
-               schema/dsds.bundled.schema.json's own $id.
+               schema/dsds.bundled.yaml's own $id.
 
 Options:
   --dry-run    Print planned changes without writing files.

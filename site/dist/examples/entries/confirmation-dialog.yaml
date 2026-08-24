@@ -28,7 +28,7 @@ refs:
 sections:
   - kind: guidelines
     for: all
-    context: when-to-use
+    framing: when-to-use
     title: When to use
     items:
       - statement: Confirming a destructive, hard-to-reverse action (delete, revoke access).

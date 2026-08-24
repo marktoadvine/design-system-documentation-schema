@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/entries-theme">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="entries-theme.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="ThemeEntry — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"ThemeEntry — DSDS 0.20.0","description":"A defined system theme.","url":"https://designsystemdocspec.org/entries-theme","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-theme.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"ThemeEntry","url":"https://designsystemdocspec.org/entries-theme#themeentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"ThemeEntry — DSDS 0.20.0","description":"A defined system theme.","url":"https://designsystemdocspec.org/entries-theme","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-theme.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"ThemeEntry","url":"https://designsystemdocspec.org/entries-theme#themeentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,53 +76,35 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="entries/theme.schema.yaml">
-  <ds-code language="json" label="entries/theme.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml&quot;,
-  &quot;title&quot;: &quot;ThemeEntry&quot;,
-  &quot;description&quot;: &quot;A defined system theme.&quot;,
-  &quot;$comment&quot;: &quot;This entry doesn't list which tokens the theme overrides. `source` points to the DTCG JSON file which acts as the source of truth.&quot;,
-  &quot;allOf&quot;: [
-    {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entry.schema.yaml&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;properties&quot;: {
-        &quot;kind&quot;: {
-          &quot;const&quot;: &quot;theme&quot;,
-          &quot;description&quot;: &quot;Marks this entry as a theme.&quot;
-        },
-        &quot;metadata&quot;: {
-          &quot;allOf&quot;: [
-            {
-              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml&quot;
-            }
-          ],
-          &quot;unevaluatedProperties&quot;: false
-        },
-        &quot;source&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;,
-          &quot;description&quot;: &quot;Path to the theme's DTCG source file.&quot;,
-          &quot;$comment&quot;: &quot;A bare string is a plain file path (shorthand for href); use the full ref object when role or note matters.&quot;,
-          &quot;example&quot;: &quot;tokens/dark.tokens.json&quot;
-        },
-        &quot;colorScheme&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;enum&quot;: [
-            &quot;light&quot;,
-            &quot;dark&quot;
-          ],
-          &quot;default&quot;: &quot;light&quot;,
-          &quot;description&quot;: &quot;Which native color-scheme setting this theme matches.&quot;
-        }
-      }
-    }
-  ],
-  &quot;unevaluatedProperties&quot;: false
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="entries/theme.schema.yaml">
+  <ds-code language="yaml" label="entries/theme.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/entries/theme.schema.yaml
+title: ThemeEntry
+description: A defined system theme.
+$comment: This entry doesn't list which tokens the theme overrides. `source` points to the DTCG JSON file which acts as the source of truth.
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml
+  - type: object
+    properties:
+      kind:
+        const: theme
+        description: Marks this entry as a theme.
+      metadata:
+        allOf:
+          - $ref: https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml
+        unevaluatedProperties: false
+      source:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml
+        description: Path to the theme's DTCG source file.
+        $comment: A bare string is a plain file path (shorthand for href); use the full ref object when role or note matters.
+        example: tokens/dark.tokens.json
+      colorScheme:
+        type: string
+        enum: [light, dark]
+        default: light
+        description: Which native color-scheme setting this theme matches.
+unevaluatedProperties: false</ds-code>
+</ds-source-view>
 <ds-def-section name="ThemeEntry" anchor="themeentry" description="A defined system theme." type="object">
 <ds-prop-table>
   <ds-prop name="id" type="string" required>This entry's unique id in the design system graph.</ds-prop>

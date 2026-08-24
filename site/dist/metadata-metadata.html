@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/metadata-metadata">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="metadata-metadata.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Metadata — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Metadata — DSDS 0.20.0","description":"Optional information about an element.","url":"https://designsystemdocspec.org/metadata-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Metadata","url":"https://designsystemdocspec.org/metadata-metadata#metadata"},{"@type":"DefinedTerm","name":"note","url":"https://designsystemdocspec.org/metadata-metadata#note"},{"@type":"DefinedTerm","name":"isoDate","url":"https://designsystemdocspec.org/metadata-metadata#isodate"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Metadata — DSDS 0.20.0","description":"Optional information about an element.","url":"https://designsystemdocspec.org/metadata-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Metadata","url":"https://designsystemdocspec.org/metadata-metadata#metadata"},{"@type":"DefinedTerm","name":"note","url":"https://designsystemdocspec.org/metadata-metadata#note"},{"@type":"DefinedTerm","name":"isoDate","url":"https://designsystemdocspec.org/metadata-metadata#isodate"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,140 +76,110 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="metadata/metadata.schema.yaml">
-  <ds-code language="json" label="metadata/metadata.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Metadata&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;description&quot;: &quot;Optional information about an element.&quot;,
-  &quot;$comment&quot;: &quot;The shared foundation every entry's metadata builds on. Fields only meaningful for one kind live in a per-kind extension instead - entry-metadata.schema.yaml (every entry) or system-metadata.schema.yaml (a `kind: system` entry only).&quot;,
-  &quot;$defs&quot;: {
-    &quot;isoDate&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;format&quot;: &quot;date&quot;,
-      &quot;pattern&quot;: &quot;^\\d{4}-\\d{2}-\\d{2}$&quot;,
-      &quot;description&quot;: &quot;An ISO 8601 date (YYYY-MM-DD).&quot;,
-      &quot;example&quot;: &quot;2026-06-02&quot;
-    },
-    &quot;note&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;A plain-text note. MUST NOT contain markup.&quot;,
-      &quot;example&quot;: &quot;Reviewed against the latest Figma file; no changes needed.&quot;
-    }
-  },
-  &quot;properties&quot;: {
-    &quot;tags&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;description&quot;: &quot;Keywords for grouping, search, and filtering.&quot;,
-      &quot;$comment&quot;: &quot;By convention, the first tag, if any, is the main category.&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;string&quot;
-      },
-      &quot;minItems&quot;: 1,
-      &quot;uniqueItems&quot;: true,
-      &quot;example&quot;: [
-        &quot;actions&quot;,
-        &quot;button&quot;,
-        &quot;cta&quot;,
-        &quot;form-control&quot;
-      ]
-    },
-    &quot;owner&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;The owning team, role, or group.&quot;,
-      &quot;$comment&quot;: &quot;Follows mailbox standard (RFC 5322).&quot;,
-      &quot;example&quot;: &quot;ds@pizzapartysupertime.com&quot;
-    },
-    &quot;reviewed&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;description&quot;: &quot;Independent reviews confirming this item's documentation, each recording who confirmed it and when.&quot;,
-      &quot;$comment&quot;: &quot;A list of review events so human sign-offs and automated checks can both be recorded independently.&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;object&quot;,
-        &quot;properties&quot;: {
-          &quot;date&quot;: {
-            &quot;$ref&quot;: &quot;#/$defs/isoDate&quot;,
-            &quot;description&quot;: &quot;The date of the review.&quot;
-          },
-          &quot;by&quot;: {
-            &quot;type&quot;: &quot;string&quot;,
-            &quot;description&quot;: &quot;Who or what performed the review.&quot;,
-            &quot;$comment&quot;: &quot;Follows the actor convention: `human:&lt;id&gt;` for a person, `&lt;producer&gt;/&lt;version&gt;` for an agent or tool, `process:&lt;id&gt;` for an automated process. Adapted from the Open Knowledge Format (OKF) spec.&quot;,
-            &quot;example&quot;: &quot;human:ahormati&quot;
-          },
-          &quot;note&quot;: {
-            &quot;type&quot;: &quot;string&quot;,
-            &quot;description&quot;: &quot;A plain-text note on the review outcome.&quot;,
-            &quot;example&quot;: &quot;Copy and contrast ratios re-checked; no changes needed.&quot;
-          }
-        }
-      }
-    },
-    &quot;context&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;Why this entry was created, and how and why to use it.&quot;,
-      &quot;example&quot;: &quot;Introduced to give provide agents extra information for how to ingest/use an entry.&quot;
-    },
-    &quot;updated&quot;: {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;When this item's documentation last changed.&quot;,
-      &quot;$comment&quot;: &quot;A bare date, or a date with a change note.&quot;,
-      &quot;properties&quot;: {
-        &quot;date&quot;: {
-          &quot;$ref&quot;: &quot;#/$defs/isoDate&quot;,
-          &quot;description&quot;: &quot;The date of the change.&quot;
-        },
-        &quot;note&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;A plain-text note on what changed.&quot;,
-          &quot;example&quot;: &quot;Added the loading trait and its guideline.&quot;
-        }
-      }
-    },
-    &quot;origin&quot;: {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;description&quot;: &quot;How this entry's documentation came to exist, and who or what wrote it.&quot;,
-      &quot;$comment&quot;: &quot;`method` and `author` both default to the common case (authored, by a human). A one-off exception, like \&quot;the accessibility section was reviewed by a person, unlike the rest,\&quot; belongs as a `note`.&quot;,
-      &quot;properties&quot;: {
-        &quot;method&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;enum&quot;: [
-            &quot;authored&quot;,
-            &quot;generated&quot;,
-            &quot;extracted&quot;,
-            &quot;reconstructed&quot;
-          ],
-          &quot;default&quot;: &quot;authored&quot;,
-          &quot;description&quot;: &quot;How this documentation as a whole came to exist.&quot;
-        },
-        &quot;author&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;enum&quot;: [
-            &quot;human&quot;,
-            &quot;ai-assisted&quot;,
-            &quot;ai-generated&quot;,
-            &quot;machine-assisted&quot;,
-            &quot;machine-generated&quot;
-          ],
-          &quot;default&quot;: &quot;human&quot;,
-          &quot;description&quot;: &quot;Who or what actually wrote the content.&quot;
-        },
-        &quot;note&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;Free-text context about the origin, including any exceptions to `method` or `author`.&quot;,
-          &quot;example&quot;: &quot;The accessibility section was reviewed by a person, unlike the rest.&quot;
-        }
-      }
-    },
-    &quot;$extensions&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-      &quot;description&quot;: &quot;Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.&quot;
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="metadata/metadata.schema.yaml">
+  <ds-code language="yaml" label="metadata/metadata.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml
+title: Metadata
+type: object
+description: Optional information about an element.
+$comment: &gt;-
+  The shared foundation every entry's metadata builds on. Fields only meaningful
+  for one kind live in a per-kind extension instead - entry-metadata.schema.yaml
+  (every entry) or system-metadata.schema.yaml (a `kind: system` entry only).
+$defs:
+  isoDate:
+    type: string
+    format: date
+    pattern: '^\d{4}-\d{2}-\d{2}$'
+    description: An ISO 8601 date (YYYY-MM-DD).
+    example: &quot;2026-06-02&quot;
+  note:
+    type: string
+    description: A plain-text note. MUST NOT contain markup.
+    example: Reviewed against the latest Figma file; no changes needed.
+properties:
+  tags:
+    type: array
+    description: Keywords for grouping, search, and filtering. By convention, the first tag, if any, is the main category.
+    $comment: &gt;-
+      The first tag can be used as a category.
+    items:
+      type: string
+    minItems: 1
+    uniqueItems: true
+    example: [actions, button, cta, form-control]
+  owner:
+      type: string
+      description: The owning team, role, or group.
+      $comment: Follows mailbox standard (RFC 5322).
+      example: ds@pizzapartysupertime.com
+  reviewed:
+    type: array
+    minItems: 1
+    description: Independent reviews confirming this item's documentation, each recording who confirmed it and when.
+    $comment: A list of review events so human sign-offs and automated checks can both be recorded independently.
+    items:
+      type: object
+      properties:
+        date:
+          $ref: &quot;#/$defs/isoDate&quot;
+          description: The date of the review.
+        by:
+          type: string
+          description: Who or what performed the review.
+          $comment: &gt;-
+            Follows the actor convention: `human:&lt;id&gt;` for a person,
+            `&lt;producer&gt;/&lt;version&gt;` for an agent or tool, `process:&lt;id&gt;`
+            for an automated process. Adapted from the Open Knowledge
+            Format (OKF) spec.
+          example: human:ahormati
+        note:
+          type: string
+          description: A plain-text note on the review outcome.
+          example: Copy and contrast ratios re-checked; no changes needed.
+  context:
+    type: string
+    description: Why this entry was created, and how and why to use it.
+    example: Introduced to give provide agents extra information for how to ingest/use an entry.
+  updated:
+    type: object
+    description: When this item's documentation last changed.
+    $comment: A bare date, or a date with a change note.
+    properties:
+      date:
+        $ref: &quot;#/$defs/isoDate&quot;
+        description: The date of the change.
+      note:
+        type: string
+        description: A plain-text note on what changed.
+        example: Added the loading trait and its guideline.
+  origin:
+    type: object
+    description: How this entry's documentation came to exist, and who or what wrote it.
+    $comment: &gt;-
+      `method` and `author` both default to the common case
+      (authored, by a human). A one-off exception, like
+      &quot;the accessibility section was reviewed by a
+      person, unlike the rest,&quot; belongs as a `note`.
+    properties:
+      method:
+        type: string
+        enum: [authored, generated, extracted, reconstructed]
+        default: authored
+        description: How this documentation as a whole came to exist.
+      author:
+        type: string
+        enum: [human, ai-assisted, ai-generated, machine-assisted, machine-generated]
+        default: human
+        description: Who or what actually wrote the content.
+      note:
+        type: string
+        description: Free-text context about the origin, including any exceptions to `method` or `author`.
+        example: The accessibility section was reviewed by a person, unlike the rest.
+  $extensions:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+    description: Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.</ds-code>
+</ds-source-view>
 <ds-def-index title="3 definitions">
 <!--<p><strong>3 definitions</strong> in this file:</p>-->
 <ul>
@@ -219,7 +190,7 @@
 </ds-def-index>
 <ds-def-section name="Metadata" anchor="metadata" description="Optional information about an element." type="object">
 <ds-prop-table>
-  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering. By convention, the first tag, if any, is the main category.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="owner" type="string">The owning team, role, or group.</ds-prop>
   <ds-prop name="reviewed" type="object {date, by, note}[]">Independent reviews confirming this item's documentation, each recording who confirmed it and when.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="context" type="string">Why this entry was created, and how and why to use it.</ds-prop>

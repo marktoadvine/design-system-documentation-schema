@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/sections-section">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="sections-section.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Section — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Section — DSDS 0.20.0","description":"A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/\u003ckind>.schema.yaml file adds its own `kind` value and its own structure for `items`.","url":"https://designsystemdocspec.org/sections-section","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-section.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Section","url":"https://designsystemdocspec.org/sections-section#section"},{"@type":"DefinedTerm","name":"dispatch","url":"https://designsystemdocspec.org/sections-section#dispatch"},{"@type":"DefinedTerm","name":"freeformEntry","url":"https://designsystemdocspec.org/sections-section#freeformentry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Section — DSDS 0.20.0","description":"A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/\u003ckind>.schema.yaml file adds its own `kind` value and its own structure for `items`.","url":"https://designsystemdocspec.org/sections-section","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-section.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Section","url":"https://designsystemdocspec.org/sections-section#section"},{"@type":"DefinedTerm","name":"dispatch","url":"https://designsystemdocspec.org/sections-section#dispatch"},{"@type":"DefinedTerm","name":"freeformEntry","url":"https://designsystemdocspec.org/sections-section#freeformentry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,208 +76,170 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="sections/section.schema.yaml">
-  <ds-code language="json" label="sections/section.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Section&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;description&quot;: &quot;A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`.&quot;,
-  &quot;$comment&quot;: &quot;`freeform` lives here on the base so every kind can carry nested, headed content alongside its own structured `items`. A `guidelines` section can pair its rules with background reading, a `steps` section can pair its checklist with extra context, and so on. A section should use either `items` or `freeform`.A section that's only `freeform` content (this used to be its own `kind: freeform`) picks whichever kind fits it best.  If nothing fits, use the generic `kind: section` instead.\nThis file doesn't close its own list of properties. Each sections/&lt;kind&gt;.schema.yaml file adds its own extra fields on top (steps' `ordered`, definitions' term/definition items), and closes the combined structure itself, at the item level.&quot;,
-  &quot;required&quot;: [
-    &quot;kind&quot;,
-    &quot;for&quot;
-  ],
-  &quot;anyOf&quot;: [
-    {
-      &quot;required&quot;: [
-        &quot;items&quot;
-      ]
-    },
-    {
-      &quot;required&quot;: [
-        &quot;freeform&quot;
-      ]
-    }
-  ],
-  &quot;properties&quot;: {
-    &quot;kind&quot;: {
-      &quot;description&quot;: &quot;What kind of content section this is.&quot;,
-      &quot;$comment&quot;: &quot;One of the 3 specific content patterns, the generic `section`, or a namespaced custom kind, like \&quot;acme.custom-section\&quot;.&quot;,
-      &quot;oneOf&quot;: [
-        {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;enum&quot;: [
-            &quot;definitions&quot;,
-            &quot;guidelines&quot;,
-            &quot;steps&quot;,
-            &quot;section&quot;
-          ],
-          &quot;default&quot;: &quot;section&quot;
-        },
-        {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced&quot;,
-          &quot;description&quot;: &quot;A namespaced custom kind.&quot;,
-          &quot;example&quot;: &quot;acme.custom-section&quot;
-        }
-      ]
-    },
-    &quot;for&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;enum&quot;: [
-        &quot;human&quot;,
-        &quot;agent&quot;,
-        &quot;all&quot;
-      ],
-      &quot;default&quot;: &quot;all&quot;,
-      &quot;description&quot;: &quot;Who or what this section is written for.&quot;
-    },
-    &quot;title&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;An optional heading for the section.&quot;,
-      &quot;example&quot;: &quot;When to use&quot;
-    },
-    &quot;description&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;An optional one-line intro for the section.&quot;,
-      &quot;example&quot;: &quot;Rules for using this component correctly.&quot;
-    },
-    &quot;metadata&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml&quot;
-    },
-    &quot;items&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;description&quot;: &quot;The one universal list for this section kind's own structured content.&quot;,
-      &quot;$comment&quot;: &quot;Never under a kind-specific key like parts, steps, or properties.&quot;,
-      &quot;items&quot;: {
-        &quot;type&quot;: &quot;object&quot;
-      }
-    },
-    &quot;freeform&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;description&quot;: &quot;Nestable written content that can include headings. Available on every section kind regardless of `items`' own structure.&quot;,
-      &quot;$comment&quot;: &quot;See this file's own $comment above for why this lives on the base instead of its own section kind.&quot;,
-      &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;#/$defs/freeformEntry&quot;
-      },
-      &quot;example&quot;: [
-        {
-          &quot;title&quot;: &quot;Install&quot;,
-          &quot;body&quot;: &quot;Add the package and its peer dependencies.&quot;
-        }
-      ]
-    },
-    &quot;$extensions&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-      &quot;description&quot;: &quot;Escape hatch for tool data scoped to just this one section, keyed by namespace.&quot;,
-      &quot;$comment&quot;: &quot;A tool that only cares about one section, like an api section, can stash its data here instead of using the whole entry's escape hatch.&quot;
-    }
-  },
-  &quot;$defs&quot;: {
-    &quot;dispatch&quot;: {
-      &quot;$comment&quot;: &quot;Routes a section to its own sections/&lt;kind&gt;.schema.yaml by `kind`, falling back to this file (the open base) for the generic `section` kind or a namespaced custom kind with no dedicated file. Used anywhere a section is embedded (an entry's or a shared item's own `sections`) instead of a bare $ref to this file, so the bundled schema enforces the same per-kind shape scripts/validate.js does in JS.&quot;,
-      &quot;if&quot;: {
-        &quot;required&quot;: [
-          &quot;kind&quot;
-        ],
-        &quot;properties&quot;: {
-          &quot;kind&quot;: {
-            &quot;const&quot;: &quot;definitions&quot;
-          }
-        }
-      },
-      &quot;then&quot;: {
-        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml&quot;
-      },
-      &quot;else&quot;: {
-        &quot;if&quot;: {
-          &quot;required&quot;: [
-            &quot;kind&quot;
-          ],
-          &quot;properties&quot;: {
-            &quot;kind&quot;: {
-              &quot;const&quot;: &quot;guidelines&quot;
-            }
-          }
-        },
-        &quot;then&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml&quot;
-        },
-        &quot;else&quot;: {
-          &quot;if&quot;: {
-            &quot;required&quot;: [
-              &quot;kind&quot;
-            ],
-            &quot;properties&quot;: {
-              &quot;kind&quot;: {
-                &quot;const&quot;: &quot;steps&quot;
-              }
-            }
-          },
-          &quot;then&quot;: {
-            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml&quot;
-          },
-          &quot;else&quot;: {
-            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml&quot;
-          }
-        }
-      }
-    },
-    &quot;freeformEntry&quot;: {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;required&quot;: [
-        &quot;title&quot;
-      ],
-      &quot;properties&quot;: {
-        &quot;id&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;,
-          &quot;description&quot;: &quot;A stable id for linking to this entry directly, unique within the section.&quot;,
-          &quot;$comment&quot;: &quot;Tools MAY derive one from the title when this is left out.&quot;,
-          &quot;example&quot;: &quot;install&quot;
-        },
-        &quot;title&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;The entry's heading, for example 'Installation'.&quot;,
-          &quot;example&quot;: &quot;Installation&quot;
-        },
-        &quot;body&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml&quot;,
-          &quot;description&quot;: &quot;The entry's content.&quot;,
-          &quot;$comment&quot;: &quot;Can be left out when the entry only groups sub-entries.&quot;,
-          &quot;example&quot;: &quot;Add the package and its peer dependencies.&quot;
-        },
-        &quot;examples&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml#/$defs/list&quot;
-        },
-        &quot;refs&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-          &quot;description&quot;: &quot;\&quot;See also\&quot; pointers for this entry. To point at another entry, use the entry's own top-level `refs` instead.&quot;,
-          &quot;example&quot;: [
-            {
-              &quot;to&quot;: &quot;button&quot;,
-              &quot;rel&quot;: &quot;relates-to&quot;
-            }
-          ]
-        },
-        &quot;items&quot;: {
-          &quot;type&quot;: &quot;array&quot;,
-          &quot;minItems&quot;: 1,
-          &quot;items&quot;: {
-            &quot;$ref&quot;: &quot;#/$defs/freeformEntry&quot;
-          },
-          &quot;description&quot;: &quot;Sub-entries nested beneath this one, to any depth.&quot;
-        },
-        &quot;$extensions&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-          &quot;description&quot;: &quot;Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.&quot;
-        }
-      },
-      &quot;additionalProperties&quot;: false
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="sections/section.schema.yaml">
+  <ds-code language="yaml" label="sections/section.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/section.schema.yaml
+title: Section
+type: object
+description: &gt;-
+  A logical documentation section. Every section uses the same structure
+  (`items`), no matter its kind, and is tagged with who it is for (human,
+  agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`.
+$comment: &gt;-
+  `freeform` lives here on the base so
+  every kind can carry nested, headed content alongside its own
+  structured `items`. A `guidelines` section can pair its rules with
+  background reading, a `steps` section can pair its checklist with
+  extra context, and so on. A section should use either `items` or
+  `freeform`.A section that's only `freeform` content (this used to be
+  its own `kind: freeform`) picks whichever kind fits it best.  If nothing fits, use the generic `kind: section` instead.
+
+  This file doesn't close its own list of properties. Each
+  sections/&lt;kind&gt;.schema.yaml file adds its own extra fields on top
+  (steps' `ordered`, definitions' term/definition items), and closes
+  the combined structure itself, at the item level.
+required: [kind, for]
+anyOf:
+  - required: [items]
+  - required: [freeform]
+properties:
+  kind:
+    description: What kind of content section this is.
+    $comment: One of the 3 specific content patterns, the generic `section`, or a namespaced custom kind, like &quot;acme.custom-section&quot;.
+    oneOf:
+      - type: string
+        enum: [definitions, guidelines, steps, section]
+        default: section
+      - $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced
+        description: A namespaced custom kind.
+        example: acme.custom-section
+  for:
+    type: string
+    enum: [human, agent, all]
+    default: all
+    description: Who or what this section is written for.
+  title:
+    type: string
+    description: An optional heading for the section.
+    example: When to use
+  description:
+    type: string
+    description: An optional one-line intro for the section.
+    example: Rules for using this component correctly.
+  context:
+    description: What job this section is doing.
+    $comment: &gt;-
+      Open, the same way `entry.kind`/`section.kind` are: one of the
+      well-known values below, or a namespaced custom one (ex:
+      &quot;acme.slots&quot;). Optional - a section with no stated `context` is
+      just its kind's default shape. Named to match `metadata.context`
+      (why this entry exists) - this is the same idea one level down,
+      why this section exists. Lives on the shared base, not a single
+      kind's file, since more than one kind can use it: a `definitions`
+      section's anatomy table vs. glossary vs. prop list is the
+      original case, but any section kind can be doing a distinguishable
+      job its `title` alone doesn't make machine-readable.
+    oneOf:
+      - type: string
+        enum: [anatomy, terms, keyboard, events]
+      - $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced
+        description: A namespaced custom value.
+        example: acme.slots
+    example: anatomy
+  metadata:
+    $ref: https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml
+  items:
+    type: array
+    description: The one universal list for this section kind's own structured content.
+    $comment: Never under a kind-specific key like parts, steps, or properties.
+    items:
+      type: object
+  freeform:
+    type: array
+    minItems: 1
+    description: Nestable written content that can include headings. Available on every section kind regardless of `items`' own structure.
+    $comment: See this file's own $comment above for why this lives on the base instead of its own section kind.
+    items:
+      $ref: &quot;#/$defs/freeformEntry&quot;
+    example:
+      - title: Install
+        body: Add the package and its peer dependencies.
+  $extensions:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+    description: Escape hatch for tool data scoped to just this one section, keyed by namespace.
+    $comment: A tool that only cares about one section, like an api section, can stash its data here instead of using the whole entry's escape hatch.
+$defs:
+  dispatch:
+    $comment: &gt;-
+      Routes a section to its own sections/&lt;kind&gt;.schema.yaml by `kind`,
+      falling back to this file (the open base) for the generic `section`
+      kind or a namespaced custom kind with no dedicated file. Used
+      anywhere a section is embedded (an entry's or a shared item's own
+      `sections`) instead of a bare $ref to this file, so the bundled
+      schema enforces the same per-kind shape scripts/validate.js does
+      in JS.
+    if:
+      required: [kind]
+      properties:
+        kind:
+          const: definitions
+    then:
+      $ref: https://designsystemdocspec.org/v0.20.0/sections/definitions.schema.yaml
+    else:
+      if:
+        required: [kind]
+        properties:
+          kind:
+            const: guidelines
+      then:
+        $ref: https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml
+      else:
+        if:
+          required: [kind]
+          properties:
+            kind:
+              const: steps
+        then:
+          $ref: https://designsystemdocspec.org/v0.20.0/sections/steps.schema.yaml
+        else:
+          $ref: https://designsystemdocspec.org/v0.20.0/section.schema.yaml
+  freeformEntry:
+    type: object
+    required: [title]
+    properties:
+      id:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+        description: A stable id for linking to this entry directly, unique within the section.
+        $comment: You can leave this out - a tool MUST derive one from this item's own text (see common/id.schema.yaml's own $comment for the rule).
+        example: install
+      title:
+        type: string
+        description: The entry's heading, for example 'Installation'.
+        example: Installation
+      body:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml
+        description: The entry's content.
+        $comment: Can be left out when the entry only groups sub-entries.
+        example: Add the package and its peer dependencies.
+      examples:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml#/$defs/list
+      refs:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+        description: &quot;\&quot;See also\&quot; pointers for this entry. To point at another entry, use the entry's own top-level `refs` instead.&quot;
+        example:
+          - to: button
+            rel: relates-to
+      items:
+        type: array
+        minItems: 1
+        items:
+          $ref: &quot;#/$defs/freeformEntry&quot;
+        description: Sub-entries nested beneath this one, to any depth.
+      $extensions:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+        description: Escape hatch for tool data scoped to just this one freeform entry, keyed by namespace.
+    additionalProperties: false</ds-code>
+</ds-source-view>
 <ds-def-index title="3 definitions">
 <!--<p><strong>3 definitions</strong> in this file:</p>-->
 <ul>
@@ -293,6 +256,7 @@
   <ds-prop name="freeform" type="&lt;ds-code inline&gt;freeformEntry&lt;/ds-code&gt;[]" conditional>Nestable written content that can include headings. Available on every section kind regardless of <ds-code inline>items</ds-code>' own structure.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="title" type="string">An optional heading for the section.</ds-prop>
   <ds-prop name="description" type="string">An optional one-line intro for the section.</ds-prop>
+  <ds-prop name="context" type="&lt;ds-code inline&gt;&quot;anatomy&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;terms&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;keyboard&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;events&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;">What job this section is doing.</ds-prop>
   <ds-prop name="metadata" type="&lt;ds-type-ref href=&quot;metadata-metadata.html#metadata&quot;&gt;Metadata&lt;/ds-type-ref&gt;">Optional information about an element.</ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this one section, keyed by namespace.</ds-prop>
 </ds-prop-table>

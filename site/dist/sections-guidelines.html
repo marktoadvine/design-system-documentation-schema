@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/sections-guidelines">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="sections-guidelines.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="GuidelinesSection — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"GuidelinesSection — DSDS 0.20.0","description":"Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists.","url":"https://designsystemdocspec.org/sections-guidelines","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-guidelines.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"GuidelinesSection","url":"https://designsystemdocspec.org/sections-guidelines#guidelinessection"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"GuidelinesSection — DSDS 0.20.0","description":"Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists.","url":"https://designsystemdocspec.org/sections-guidelines","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/sections-guidelines.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"GuidelinesSection","url":"https://designsystemdocspec.org/sections-guidelines#guidelinessection"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,194 +76,179 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="sections/guidelines.schema.yaml">
-  <ds-code language="json" label="sections/guidelines.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml&quot;,
-  &quot;title&quot;: &quot;GuidelinesSection&quot;,
-  &quot;description&quot;: &quot;Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists.&quot;,
-  &quot;$comment&quot;: &quot;The same structure covers both a how-to-build rule and a when-to-use judgment. Only `context` is different (`context: when-to-use` for a judgment).\n`statement` is required unless the item points somewhere else instead. Use `same-as` for a statement already declared once elsewhere (usually a shared item), or `external-link` for a rule tracked in another system, like a ticket. Both always go in `refs`.\n`alternatives`, `evidence`, `related`, and `checks` are `refs` lists with a specific name, so a tool can ask \&quot;what backs up this guideline\&quot; without checking every `refs` entry's `rel`. `refs` itself is the catch-all for anything that doesn't fit those four.\n`checkedBy` says what type of verification is used, not what does the checking. Point `checks` (rel: test or lint-rule) at the actual test or lint rule. `example` always matches `level`, so there's no need for a separate pass/fail flag.&quot;,
-  &quot;allOf&quot;: [
-    {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;properties&quot;: {
-        &quot;kind&quot;: {
-          &quot;const&quot;: &quot;guidelines&quot;,
-          &quot;description&quot;: &quot;Marks this section as guidelines.&quot;
-        },
-        &quot;context&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;enum&quot;: [
-            &quot;when-to-use&quot;,
-            &quot;how-to-use&quot;
-          ],
-          &quot;default&quot;: &quot;how-to-use&quot;,
-          &quot;description&quot;: &quot;Which kind of guidance this section holds.&quot;,
-          &quot;$comment&quot;: &quot;when-to-use is a fit judgment: whether, or when, this entry is the right choice at all. how-to-use is an implementation rule: how to apply or use it correctly, once chosen.&quot;
-        },
-        &quot;items&quot;: {
-          &quot;type&quot;: &quot;array&quot;,
-          &quot;minItems&quot;: 1,
-          &quot;description&quot;: &quot;The rules, in order.&quot;,
-          &quot;items&quot;: {
-            &quot;type&quot;: &quot;object&quot;,
-            &quot;anyOf&quot;: [
-              {
-                &quot;required&quot;: [
-                  &quot;statement&quot;
-                ]
-              },
-              {
-                &quot;required&quot;: [
-                  &quot;refs&quot;
-                ],
-                &quot;properties&quot;: {
-                  &quot;refs&quot;: {
-                    &quot;contains&quot;: {
-                      &quot;type&quot;: &quot;object&quot;,
-                      &quot;required&quot;: [
-                        &quot;rel&quot;
-                      ],
-                      &quot;properties&quot;: {
-                        &quot;rel&quot;: {
-                          &quot;enum&quot;: [
-                            &quot;same-as&quot;,
-                            &quot;external-link&quot;
-                          ]
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            ],
-            &quot;required&quot;: [
-              &quot;level&quot;
-            ],
-            &quot;properties&quot;: {
-              &quot;id&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;,
-                &quot;description&quot;: &quot;A stable id for this guideline, so another item, like an agent-only refinement or a checklist entry, can point at it.&quot;
-              },
-              &quot;statement&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml&quot;,
-                &quot;description&quot;: &quot;An individual, concrete usage rule.&quot;,
-                &quot;$comment&quot;: &quot;When the section's context is when-to-use, this states a user situation. Leave it out only when `refs` carries a same-as or external-link pointer instead (see the file comment above).&quot;,
-                &quot;example&quot;: &quot;Limit each surface to one primary button.&quot;
-              },
-              &quot;level&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml&quot;
-              },
-              &quot;example&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml&quot;,
-                &quot;description&quot;: &quot;An example illustrating this rule.&quot;,
-                &quot;$comment&quot;: &quot;MUST reflect `level`. A `must-not` item's example MUST show what not to do.&quot;
-              },
-              &quot;alternatives&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-                &quot;description&quot;: &quot;Pointers from this guideline to a better-suited alternative when this is a fit judgment.&quot;,
-                &quot;example&quot;: [
-                  {
-                    &quot;to&quot;: &quot;link&quot;,
-                    &quot;rel&quot;: &quot;alternative-to&quot;
-                  }
-                ]
-              },
-              &quot;evidence&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-                &quot;description&quot;: &quot;Pointers from this guideline to an outside standard this rule follows, like WCAG or MDN.&quot;,
-                &quot;example&quot;: [
-                  {
-                    &quot;href&quot;: &quot;https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html&quot;,
-                    &quot;rel&quot;: &quot;external-link&quot;
-                  }
-                ]
-              },
-              &quot;related&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-                &quot;description&quot;: &quot;Pointers from this guideline to agent-only refinements pointing at the human rule it amends.&quot;,
-                &quot;example&quot;: [
-                  {
-                    &quot;to&quot;: &quot;button#loading-announcement&quot;,
-                    &quot;rel&quot;: &quot;refines&quot;
-                  }
-                ]
-              },
-              &quot;checks&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-                &quot;description&quot;: &quot;Pointers from this guideline to the lint rule or test that proves it (rel: test, rel: lint-rule).&quot;,
-                &quot;example&quot;: [
-                  {
-                    &quot;href&quot;: &quot;./tests/button.a11y.test.ts&quot;,
-                    &quot;rel&quot;: &quot;test&quot;
-                  }
-                ]
-              },
-              &quot;checkedBy&quot;: {
-                &quot;type&quot;: &quot;string&quot;,
-                &quot;enum&quot;: [
-                  &quot;automated&quot;,
-                  &quot;assisted&quot;,
-                  &quot;manual&quot;
-                ],
-                &quot;description&quot;: &quot;How strict this rule's own verification is.&quot;,
-                &quot;$comment&quot;: &quot;`automated`: a tool checks this on its own. Point `checks` (rel: test, lint-rule) at the real tool that's doing the checking.\n`assisted`: a tool flags likely cases, but a person makes the call.\n`manual`: a person checks this by hand, no tool involved. Leave this out if you don't know yet how it'll be checked.&quot;
-              },
-              &quot;tags&quot;: {
-                &quot;type&quot;: &quot;array&quot;,
-                &quot;description&quot;: &quot;Freeform keywords that relate guidelines across categories.&quot;,
-                &quot;items&quot;: {
-                  &quot;type&quot;: &quot;string&quot;
-                },
-                &quot;minItems&quot;: 1,
-                &quot;uniqueItems&quot;: true,
-                &quot;example&quot;: [
-                  &quot;accessibility&quot;,
-                  &quot;focus&quot;
-                ]
-              },
-              &quot;refs&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-                &quot;description&quot;: &quot;The general-purpose fallback for any pointer that doesn't fit `alternatives`/`evidence`/`related`/`checks`.&quot;,
-                &quot;$comment&quot;: &quot;Includes rel: same-as and rel: external-link, which point at where the rule is really stated, instead of here (see `statement`'s own $comment).&quot;,
-                &quot;example&quot;: [
-                  {
-                    &quot;to&quot;: &quot;shared-a11y#focus-visible&quot;,
-                    &quot;rel&quot;: &quot;same-as&quot;
-                  }
-                ]
-              },
-              &quot;$extensions&quot;: {
-                &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-                &quot;description&quot;: &quot;Escape hatch for tool data scoped to just this one guideline, keyed by namespace.&quot;,
-                &quot;$comment&quot;: &quot;A custom `kind` (ex: \&quot;acme.rule\&quot;) can add its own typed fields directly. A well-known kind like `guidelines` can't — its item shape is closed so every tool that understands `guidelines` keeps understanding it — so this is the one way to attach org-specific data (a rationale, a failure mode, an internal ticket) to a single item without forking the kind.&quot;
-              }
-            },
-            &quot;additionalProperties&quot;: false
-          }
-        }
-      }
-    }
-  ],
-  &quot;unevaluatedProperties&quot;: false
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="sections/guidelines.schema.yaml">
+  <ds-code language="yaml" label="sections/guidelines.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/sections/guidelines.schema.yaml
+title: GuidelinesSection
+description: Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists.
+$comment: &gt;-
+  The same structure covers both a how-to-build rule and a when-to-use
+  judgment. Only `framing` is different (`framing: when-to-use` for a
+  judgment). Named `framing`, not `context`, to stay clear of
+  section.schema.yaml's own `context` field (what job this section is
+  doing) - this one is narrower, just how-to-use vs. when-to-use.
+
+  `statement` is required unless the item points somewhere else
+  instead. Use `same-as` for a statement already declared once elsewhere
+  (usually a shared item), or `external-link` for a rule tracked in
+  another system, like a ticket. Both always go in `refs`.
+
+  `alternatives`, `evidence`, `related`, and `checks` are `refs`
+  lists with a specific name, so a tool can ask &quot;what backs up this
+  guideline&quot; without checking every `refs` entry's `rel`. `refs` itself
+  is the catch-all for anything that doesn't fit those four.
+
+  `checkedBy` says what type of verification is used, not what does the
+  checking. Point `checks` (rel: test or lint-rule) at the actual test
+  or lint rule. `example` always matches `level`, so there's no need
+  for a separate pass/fail flag.
+
+  An `external-link` item with no `statement` (just `level` plus the
+  `refs` entry) is intentional, not a gap: it says &quot;this rule exists,
+  at this strictness, tracked in another system&quot; without restating text
+  that lives there. It's genuinely unreadable on its own - there is no
+  local summary to fall back on - so a reader who wants the actual rule
+  MUST follow the link. A renderer SHOULD show the level and the link
+  clearly (not hide a level-with-nothing-under-it as if it were
+  empty content), and an author who expects a person to read the
+  guideline without following the link SHOULD add a `statement` instead
+  of leaving this form as the only text.
+
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/section.schema.yaml
+  - type: object
+    properties:
+      kind:
+        const: guidelines
+        description: Marks this section as guidelines.
+      framing:
+        type: string
+        enum: [when-to-use, how-to-use]
+        default: how-to-use
+        description: Which kind of guidance this section holds.
+        $comment: &gt;-
+          when-to-use is a fit judgment: whether, or when, this entry
+          is the right choice at all. how-to-use is an implementation
+          rule: how to apply or use it correctly, once chosen.
+      items:
+        type: array
+        minItems: 1
+        description: The rules, in order.
+        items:
+          type: object
+          anyOf:
+            - required: [statement]
+            - required: [refs]
+              properties:
+                refs:
+                  contains:
+                    type: object
+                    required: [rel]
+                    properties:
+                      rel:
+                        enum: [same-as, external-link]
+          required: [level]
+          properties:
+            id:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+              description: A stable id for this guideline, so another item, like an agent-only refinement or a checklist entry, can point at it.
+              $comment: You can leave this out - a tool MUST derive one from this item's own text (see common/id.schema.yaml's own $comment for the rule).
+            statement:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/markdown.schema.yaml
+              description: An individual, concrete usage rule.
+              $comment: &gt;-
+                When the section's framing is when-to-use, this states
+                a user situation. Leave it out only when `refs` carries a
+                same-as or external-link pointer instead (see the file
+                comment above).
+              example: Limit each surface to one primary button.
+            level:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml
+            example:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml
+              description: An example illustrating this rule.
+              $comment: MUST reflect `level`. A `must-not` item's example MUST show what not to do.
+            alternatives:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+              description: &quot;Pointers from this guideline to a better-suited alternative when this is a fit judgment.&quot;
+              example:
+                - to: link
+                  rel: alternative-to
+            evidence:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+              description: &quot;Pointers from this guideline to an outside standard this rule follows, like WCAG or MDN.&quot;
+              example:
+                - href: https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html
+                  rel: external-link
+            related:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+              description: Pointers from this guideline to agent-only refinements pointing at the human rule it amends.
+              example:
+                - to: &quot;button#loading-announcement&quot;
+                  rel: refines
+            checks:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+              description: &quot;Pointers from this guideline to the lint rule or test that proves it (rel: test, rel: lint-rule).&quot;
+              example:
+                - href: ./tests/button.a11y.test.ts
+                  rel: test
+            checkedBy:
+              type: string
+              enum: [automated, assisted, manual]
+              description: How strict this rule's own verification is.
+              $comment: &gt;-
+                `automated`: a tool checks this on its own. Point
+                `checks` (rel: test, lint-rule) at the real tool that's
+                doing the checking.
+
+                `assisted`: a tool flags likely cases, but a person
+                makes the call.
+
+                `manual`: a person checks this by hand, no tool involved.
+                Leave this out if you don't know yet how it'll be checked.
+            tags:
+              type: array
+              description: Freeform keywords that relate guidelines across categories.
+              items:
+                type: string
+              minItems: 1
+              uniqueItems: true
+              example: [accessibility, focus]
+            refs:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+              description: The general-purpose fallback for any pointer that doesn't fit `alternatives`/`evidence`/`related`/`checks`.
+              $comment: &quot;Includes rel: same-as and rel: external-link, which point at where the rule is really stated, instead of here (see `statement`'s own $comment).&quot;
+              example:
+                - to: &quot;shared-a11y#focus-visible&quot;
+                  rel: same-as
+            $extensions:
+              $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+              description: Escape hatch for tool data scoped to just this one guideline, keyed by namespace.
+              $comment: &gt;-
+                A custom `kind` (ex: &quot;acme.rule&quot;) can add its own typed
+                fields directly. A well-known kind like `guidelines` can't —
+                its item shape is closed so every tool that understands
+                `guidelines` keeps understanding it — so this is the one way
+                to attach org-specific data (a rationale, a failure mode, an
+                internal ticket) to a single item without forking the kind.
+          additionalProperties: false
+
+unevaluatedProperties: false</ds-code>
+</ds-source-view>
 <ds-def-section name="GuidelinesSection" anchor="guidelinessection" description="Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists." type="object">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt;" required>Marks this section as guidelines.</ds-prop>
   <ds-prop name="for" type="&lt;ds-code inline&gt;&quot;human&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;agent&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;all&quot;&lt;/ds-code&gt;" required>Who or what this section is written for.<br><small>Default: <ds-code inline>"all"</ds-code></small></ds-prop>
   <ds-prop name="title" type="string">An optional heading for the section.</ds-prop>
   <ds-prop name="description" type="string">An optional one-line intro for the section.</ds-prop>
+  <ds-prop name="context" type="&lt;ds-code inline&gt;&quot;anatomy&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;terms&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;keyboard&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;events&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;common-id.html#namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;">What job this section is doing.</ds-prop>
   <ds-prop name="metadata" type="&lt;ds-type-ref href=&quot;metadata-metadata.html#metadata&quot;&gt;Metadata&lt;/ds-type-ref&gt;">Optional information about an element.</ds-prop>
   <ds-prop name="items" type="any | any[]">The rules, in order.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="freeform" type="&lt;ds-code inline&gt;freeformEntry&lt;/ds-code&gt;[]">Nestable written content that can include headings. Available on every section kind regardless of <ds-code inline>items</ds-code>' own structure.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this one section, keyed by namespace.</ds-prop>
-  <ds-prop name="context" type="&lt;ds-code inline&gt;&quot;when-to-use&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;how-to-use&quot;&lt;/ds-code&gt;">Which kind of guidance this section holds.<br><small>Default: <ds-code inline>"how-to-use"</ds-code></small></ds-prop>
+  <ds-prop name="framing" type="&lt;ds-code inline&gt;&quot;when-to-use&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;how-to-use&quot;&lt;/ds-code&gt;">Which kind of guidance this section holds.<br><small>Default: <ds-code inline>"how-to-use"</ds-code></small></ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="sections-section.html#section">Section</ds-type-ref>, <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-requirement-level.html#requirementlevel">RequirementLevel</ds-type-ref>, <ds-type-ref href="common-example.html#example">Example</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref>, <ds-type-ref href="metadata-metadata.html#metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="sections-section.html#section">Section</ds-type-ref>, <ds-type-ref href="common-id.html#id">Id</ds-type-ref>, <ds-type-ref href="common-markdown.html#markdown">Markdown</ds-type-ref>, <ds-type-ref href="common-requirement-level.html#requirementlevel">RequirementLevel</ds-type-ref>, <ds-type-ref href="common-example.html#example">Example</ds-type-ref>, <ds-type-ref href="common-ref.html#list">list</ds-type-ref>, <ds-type-ref href="common-extensions.html#extensions">Extensions</ds-type-ref>, <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref>, <ds-type-ref href="metadata-metadata.html#metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
 </ds-def-section>
 
           <ds-back-to-top></ds-back-to-top>

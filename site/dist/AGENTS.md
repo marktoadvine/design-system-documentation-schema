@@ -15,7 +15,7 @@ either the spec itself or a document written against it.
   each with a one-line description and a link to its plain-markdown mirror.
   Start here if you're exploring the site.
 - **Bundled schema** — every entry kind, section kind, and shared definition
-  in one JSON file, at `/v<version>/dsds.bundled.schema.json` (the exact,
+  in one YAML file, at `/v<version>/dsds.bundled.yaml` (the exact,
   current-version link is in llms.txt and manifest.json). Prefer this over
   parsing HTML when you just need field names, types, and requiredness.
 - **Every page has a `.md` mirror** at the same path (e.g. `/quickstart.md`,

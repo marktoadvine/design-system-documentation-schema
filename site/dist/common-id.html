@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-id">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-id.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Id — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Id — DSDS 0.20.0","description":"Lowercase, dash-separated segments, optionally chained with dots.","url":"https://designsystemdocspec.org/common-id","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-id.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Id","url":"https://designsystemdocspec.org/common-id#id"},{"@type":"DefinedTerm","name":"tokenId","url":"https://designsystemdocspec.org/common-id#tokenid"},{"@type":"DefinedTerm","name":"namespaced","url":"https://designsystemdocspec.org/common-id#namespaced"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Id — DSDS 0.20.0","description":"Lowercase, dash-separated segments, optionally chained with dots.","url":"https://designsystemdocspec.org/common-id","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-id.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Id","url":"https://designsystemdocspec.org/common-id#id"},{"@type":"DefinedTerm","name":"tokenId","url":"https://designsystemdocspec.org/common-id#tokenid"},{"@type":"DefinedTerm","name":"namespaced","url":"https://designsystemdocspec.org/common-id#namespaced"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,34 +76,34 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/id.schema.yaml">
-  <ds-code language="json" label="common/id.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Id&quot;,
-  &quot;type&quot;: &quot;string&quot;,
-  &quot;description&quot;: &quot;Lowercase, dash-separated segments, optionally chained with dots.&quot;,
-  &quot;$comment&quot;: &quot;An id from an outside tool that doesn't fit this format goes under `$extensions.&lt;namespace&gt;.displayName` instead.&quot;,
-  &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*$&quot;,
-  &quot;example&quot;: &quot;color.action.primary&quot;,
-  &quot;$defs&quot;: {
-    &quot;tokenId&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;The same as the base id format, but a segment can also be separated by a slash.&quot;,
-      &quot;$comment&quot;: &quot;Only for token entries. Their id often comes from a design tool that names paths that way.&quot;,
-      &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*$&quot;,
-      &quot;example&quot;: &quot;color/action/primary&quot;
-    },
-    &quot;namespaced&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;A dotted, namespaced custom value. The open extension point alongside a fixed set of well-known values.&quot;,
-      &quot;$comment&quot;: &quot;Same lowercase-dash-per-segment format as the base id, but requires at least one dot. This is so a custom value can't collide with existing ids.&quot;,
-      &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)+$&quot;,
-      &quot;example&quot;: &quot;acme.icon-library&quot;
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/id.schema.yaml">
+  <ds-code language="yaml" label="common/id.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+title: Id
+type: string
+description: Lowercase, dash-separated segments, optionally chained with dots.
+$comment: &gt;-
+  An id from an outside tool that doesn't fit this format goes under
+  `$extensions.&lt;namespace&gt;.displayName` instead.
+
+  A section item's own `id` is always optional to write, but a consuming tool MUST be able to address every item. An agent citing &quot;why did you do that&quot; needs something to cite, and same-as/refines/checks all point at an item by id. When an item has no `id`, a tool MUST derive one so content has a consistent id. Lowercase the item's own primary text field (a definitions item's `term`, a guidelines item's `statement`, a steps item's or freeform entry's `title`), replace each run of characters outside `[a-z0-9]` with a single dash, then trim any leading or trailing dash. This is the same rule this site's own `&lt;ds-heading&gt;` component already uses for a page's own heading
+  anchors - one algorithm, not a new one invented for this.
+pattern: '^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$'
+example: color.action.primary
+$defs:
+  tokenId:
+    type: string
+    description: The same as the base id format, but a segment can also be separated by a slash.
+    $comment: Only for token entries. Their id often comes from a design tool that names paths that way.
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*$'
+    example: color/action/primary
+  namespaced:
+    type: string
+    description: A dotted, namespaced custom value. The open extension point alongside a fixed set of well-known values.
+    $comment: Same lowercase-dash-per-segment format as the base id, but requires at least one dot. This is so a custom value can't collide with existing ids.
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)+$'
+    example: acme.icon-library</ds-code>
+</ds-source-view>
 <ds-def-index title="3 definitions">
 <!--<p><strong>3 definitions</strong> in this file:</p>-->
 <ul>

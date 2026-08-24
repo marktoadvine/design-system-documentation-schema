@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-showcase">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-showcase.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Showcase — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Showcase — DSDS 0.20.0","description":"A visual sample of something. Can be a media file (image or video) or a link to a live page.","url":"https://designsystemdocspec.org/common-showcase","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-showcase.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Showcase","url":"https://designsystemdocspec.org/common-showcase#showcase"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Showcase — DSDS 0.20.0","description":"A visual sample of something. Can be a media file (image or video) or a link to a live page.","url":"https://designsystemdocspec.org/common-showcase","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-showcase.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Showcase","url":"https://designsystemdocspec.org/common-showcase#showcase"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,51 +76,34 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/showcase.schema.yaml">
-  <ds-code language="json" label="common/showcase.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Showcase&quot;,
-  &quot;description&quot;: &quot;A visual sample of something. Can be a media file (image or video) or a link to a live page.&quot;,
-  &quot;$comment&quot;: &quot;For code, point at a file or story with a `ref` instead.&quot;,
-  &quot;required&quot;: [
-    &quot;kind&quot;,
-    &quot;url&quot;
-  ],
-  &quot;properties&quot;: {
-    &quot;kind&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;enum&quot;: [
-        &quot;image&quot;,
-        &quot;video&quot;,
-        &quot;sound&quot;,
-        &quot;html&quot;,
-        &quot;file&quot;,
-        &quot;code&quot;,
-        &quot;other&quot;
-      ],
-      &quot;description&quot;: &quot;What kind of media this showcase is.&quot;
-    },
-    &quot;url&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;format&quot;: &quot;uri-reference&quot;,
-      &quot;description&quot;: &quot;Where the showcase lives.&quot;,
-      &quot;example&quot;: &quot;https://cdn.example.com/screenshots/button-primary.png&quot;
-    },
-    &quot;alt&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;Alt text describing the image or video, for accessibility&quot;,
-      &quot;example&quot;: &quot;Primary button in its default state, showing the filled blue background and white label.&quot;
-    },
-    &quot;note&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;Provides additional detail about the showcase if needed.&quot;,
-      &quot;example&quot;: &quot;Captured from the Storybook build, light theme.&quot;
-    }
-  },
-  &quot;additionalProperties&quot;: false
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/showcase.schema.yaml">
+  <ds-code language="yaml" label="common/showcase.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml
+title: Showcase
+description: A visual sample of something. Can be a media file (image or video) or a link to a live page.
+$comment: For code, point at a file or story with a `ref` instead.
+
+required: [kind, url]
+properties:
+  kind:
+    type: string
+    enum: [image, video, sound, html, file, code, other]
+    description: What kind of media this showcase is.
+  url:
+    type: string
+    format: uri-reference
+    description: Where the showcase lives.
+    example: https://cdn.example.com/screenshots/button-primary.png
+  alt:
+    type: string
+    description: Alt text describing the image or video, for accessibility
+    example: Primary button in its default state, showing the filled blue background and white label.
+  note:
+    type: string
+    description: Provides additional detail about the showcase if needed.
+    example: Captured from the Storybook build, light theme.
+additionalProperties: false</ds-code>
+</ds-source-view>
 <ds-def-section name="Showcase" anchor="showcase" description="A visual sample of something. Can be a media file (image or video) or a link to a live page.">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;image&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;video&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;sound&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;html&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;code&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;other&quot;&lt;/ds-code&gt;" required>What kind of media this showcase is.</ds-prop>

@@ -19,7 +19,7 @@
  * The MDX content pages (site/content/) are NOT rewritten here: they use
  * the {{VERSION}} token, substituted at build time by compile-mdx.mjs from
  * the same source this script reads the current version from
- * (schema/dsds.bundled.schema.json's own $id). A bump therefore propagates
+ * (schema/dsds.bundled.yaml's own $id). A bump therefore propagates
  * to every site page on the next `npm run build`, with no MDX rewriting.
  *
  * After a successful bump the script runs `npm run bundle` (regenerate the
@@ -127,7 +127,7 @@ const CURRENT_VERSION = readSpecVersion();
 
 if (!CURRENT_VERSION) {
   console.error(
-    "✗ Could not read the current version from schema/dsds.bundled.schema.json's " +
+    "✗ Could not read the current version from schema/dsds.bundled.yaml's " +
       "own $id. Run `npm run bundle` first.",
   );
   process.exit(1);

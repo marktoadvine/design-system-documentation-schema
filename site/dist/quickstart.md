@@ -2,7 +2,9 @@
 
 ## What is DSDS?
 
-DSDS (Design System Doc Spec) is a YAML/JSON format for documenting design systems. It puts every piece of docs — components, tokens, themes, and anything else — in a machine-readable shape: a graph of **entries**, each carrying typed **sections**.
+DSDS (Design System Doc Spec) is a YAML format for documenting design systems. It puts every piece of docs — components, tokens, themes, and anything else — in a machine-readable shape: a graph of **entries**, each carrying typed **sections**.
+
+Write your documents in YAML — every example on this site, the default `npm run check` sweep, and the tooling all assume it. The schema itself is written in [JSON Schema](https://json-schema.org/) (that's the language the *rules* are written in, a separate thing from the format your *documents* need to be in). Since YAML is a superset of JSON, a JSON document would technically still parse — but nothing in this repo discovers or exercises that path, so don't rely on it.
 
 <ds-callout title="Key idea:">
 
@@ -52,18 +54,18 @@ Use a multi-file split for large systems where a different team owns each compon
 
 ## Entry kinds
 
-Every entry has a `kind` field. There are 5 well-known values, plus an open, namespaced escape hatch for anything else.
+Every entry has a `kind` field. There are 5 well-known values, plus an open option for anything else.
 
 | Kind | Description |
 |------|-------------|
 | `system` | The design system as a whole — version, organization, url, license, platforms, plus system-wide documentation. |
-| `component` | A reusable UI element — buttons, inputs, modals. Carries its own `sourceFiles`, `imports`, `traits` (variants and states), and `combos` on top of the shared envelope. |
+| `component` | A reusable UI element — buttons, inputs, modals. Carries its own `sourceFiles`, `imports`, `traits` (variants and states), and `combos`, on top of the fields every entry shares. |
 | `token` | A single design token. Carries `tokenType` and a `source` pointer to the real DTCG value — never the value itself. |
 | `theme` | A named set of token overrides — dark mode, high-contrast, a brand variant. Points at its own DTCG source file. |
-| `entry` | The generic, open kind for anything else — a foundation, a pattern, a guide. Has no fields beyond the shared envelope. |
-| *(namespaced)* | A custom kind like `acme.icon-library`, for a document that wants its own recognizable name instead of the generic `entry`. |
+| `entry` | The generic, open kind for anything else — a foundation, a pattern, a guide. Has no fields beyond what every entry shares. |
+| *(custom)* | A custom kind like `acme.icon-library`, for a document that wants its own recognizable name instead of the generic `entry`. |
 
-### The shared envelope
+### Fields every entry shares
 
 Every entry kind shares one open base: `id`, `kind`, `name`, `description` (required), plus `purpose`, `metadata`, `related`, `extends`, `refs`, `sections`, `$extensions` (optional). See [Conformance](conformance.html#how-the-schema-is-organized) for how the schema itself is put together.
 
@@ -90,7 +92,7 @@ metadata:
 
 ## The section system
 
-Structured docs live in the `sections` array on each entry. Each section is typed by its `kind` field — `definitions`, `guidelines`, `steps`, or the generic `section`. Any entry kind can use any section kind; there's no placement gate matching an entry's `kind` to which section kinds it may carry.
+Structured docs live in the `sections` array on each entry. Each section has a `kind` field naming its type — `definitions`, `guidelines`, `steps`, or the generic `section`. Any entry kind can use any section kind; nothing restricts which section kinds go with which entry kind.
 
 Every section also carries a `for` field (`human`, `agent`, or `all`) naming its audience — see [Humans and agents on the Overview page](index.html#humans-and-agents).
 
@@ -102,17 +104,18 @@ Each guideline item pairs a `statement` with a `level` (an RFC 2119 requirement 
 
 The `level` field's values are lowercase kebab-case, like every DSDS vocabulary: `must`, `should`, `should-not`, `must-not`, `may`. Tools display them as badges: <ds-badge>MUST</ds-badge>, <ds-badge>SHOULD</ds-badge>, <ds-badge>SHOULD NOT</ds-badge>, <ds-badge>MUST NOT</ds-badge>. Agents treat `must`/`must-not` items as hard limits.
 
-A `guidelines` section also carries `context`: `when-to-use` for a fit judgment (is this entry the right choice at all), or `how-to-use` (the default) for an implementation rule once it's chosen.
+A `guidelines` section also carries `framing`: `when-to-use` for a fit judgment (is this entry the right choice at all), or `how-to-use` (the default) for an implementation rule once it's chosen.
 
 ### Definitions: a glossary, anatomy, or prop list
 
-A `definitions` section pairs a `term` with its `definition` — use it for anatomy parts, naming conventions, or a component's own prop/event list when there's no real source file to extract from:
+A `definitions` section pairs a `term` with its `definition` — use it for anatomy parts, naming conventions, or a component's own prop/event list when there's no real source file to extract from. `context` (a field every section kind can carry, not just `definitions` — see [sections/section](sections-section.html)) names which of those jobs it's doing (`anatomy`, `terms`, `keyboard`, `events`, or a namespaced custom value) — optional, but it's what lets a tool find "the anatomy table" without matching on the human-facing `title`:
 
 ```yaml
 sections:
   - kind: definitions
     for: all
     title: Anatomy
+    context: anatomy
     items:
       - term: Container
         definition: The interactive root element. Receives background, border, radius, and padding.
@@ -159,7 +162,7 @@ Unlike sections, a few facts about a component live directly on the entry, not i
 
 - **`sourceFiles`** — one entry per platform, pointing at the real source file a tool can extract the component's API from. Replaces hand-typed prop tables.
 - **`imports`** — one entry per platform, with the install package and the exact import statement.
-- **`traits`** — every variant (an enum, like `size: sm | md | lg`) and state (a boolean, like `hover` or `disabled`) the component can be in.
+- **`traits`** — every way the component can vary: a `kind: enum` dimension (like `size: sm | md | lg`) or a `kind: boolean` toggle (like `hover` or `loading`). A trait's own optional `setBy` (`consumer` or `component`) says whether it's a value the consumer sets, or a condition the component sets on its own — `kind` alone doesn't tell you that, since a boolean trait can be either (`disabled` is usually a prop the consumer passes in; `hover` never is).
 - **`combos`** — pairing rules between traits, tokens, or entries (e.g. "loading and disabled must not both be set").
 
 ```yaml
@@ -171,6 +174,7 @@ traits:
   - id: tone
     kind: enum
     name: Tone
+    setBy: consumer
     values:
       - id: default
         description: Neutral. General-purpose actions.
@@ -180,6 +184,12 @@ traits:
     kind: boolean
     name: Loading
     description: An async operation triggered by the button is in progress.
+    setBy: consumer
+  - id: hover
+    kind: boolean
+    name: Hover
+    description: Background darkens slightly when the pointer is over the button.
+    setBy: component
 
 combos:
   - subject: loading
@@ -190,19 +200,21 @@ combos:
 
 ---
 
-## Escape hatches
+## Going beyond the basics
 
 ### $extensions
 
-`$extensions` is a namespaced escape hatch for vendor or tool data, at the document, entry, or section level. Keys MUST be namespaced (e.g. `com.figma`) so a tool integration never collides with a future core field:
+`$extensions` is a place for vendor or tool-specific data, at the document, entry, or section level. Keys MUST use a namespace (e.g. `com.figma`) so a tool integration never collides with a future field the spec adds:
 
 <ds-example file="quickstart/07-button-custom.yaml" label="Linking a component to its Figma source" />
 
 ### Custom kinds
 
-When the generic `entry` kind isn't specific enough, use a namespaced custom kind instead — it validates against the same open `entry.schema.yaml` base the generic kind does:
+When the generic `entry` kind isn't specific enough, use a custom kind instead — it's checked against the same open `entry.schema.yaml` base the generic kind is:
 
-<ds-example file="quickstart/11-custom-entry.yaml" label="A namespaced custom entry kind" />
+<ds-example file="quickstart/11-custom-entry.yaml" label="A custom entry kind" />
+
+See [Extending the schema](extending.html) for a third option too — profiles, for making an existing kind's optional fields required on your own project — and for more on when to reach for each of the three.
 
 ---
 
@@ -230,7 +242,7 @@ A described token adds `metadata.group` (the recommended way to group related to
 
 ### Shared content
 
-Content that isn't itself a design-system artifact — a cross-cutting accessibility rule stated once and pointed at from every entry it applies to — lives in the base document's `shared` array, addressed via `entryId#itemId` and `rel: same-as`:
+Content that isn't itself a design-system artifact — an accessibility rule that applies to more than one entry, stated once and pointed at from everywhere it applies — lives in the base document's `shared` array, addressed via `entryId#itemId` and `rel: same-as`:
 
 <ds-example file="quickstart/12-shared-sections.yaml" label="A shared rule, referenced instead of restated" />
 
@@ -243,7 +255,7 @@ Content that isn't itself a design-system artifact — a cross-cutting accessibi
 Add `$schema` to get editor autocompletion and inline validation:
 
 ```yaml
-$schema: https://designsystemdocspec.org/v{{VERSION}}/dsds.bundled.schema.json
+$schema: https://designsystemdocspec.org/v{{VERSION}}/dsds.bundled.yaml
 id: my-component
 kind: component
 name: My Component

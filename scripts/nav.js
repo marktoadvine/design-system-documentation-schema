@@ -37,6 +37,7 @@ const TOP_LINKS = [
   { label: "Overview", href: "index.html", slug: "index" },
   { label: "Quick start", href: "quickstart.html", slug: "quickstart" },
   { label: "Extending the schema", href: "extending.html", slug: "extending" },
+  { label: "What's not here", href: "gaps.html", slug: "gaps" },
   { label: "Conformance", href: "conformance.html", slug: "conformance" },
 ];
 
@@ -144,17 +145,19 @@ function buildNavChildren(activeSlug, pages) {
 }
 
 /**
- * Read the current spec version from `schema/dsds.bundled.schema.json`'s own
- * `$id` (ex: "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json")
+ * Read the current spec version from `schema/dsds.bundled.yaml`'s own
+ * `$id` (ex: "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml")
  * so the nav title, page <title> tags, and footer text always reflect what
  * the working tree says is current. This is the single source of truth for
  * "what version is the site at" — scripts/bundle.js writes that same `$id`.
+ * Matched directly against the raw file text (no parse) so this keeps
+ * working regardless of which text format the bundle happens to be in.
  */
 function readSpecVersion() {
   try {
-    const bundledPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
-    const bundled = JSON.parse(fs.readFileSync(bundledPath, "utf-8"));
-    const match = /\/v([^/]+)\/dsds\.bundled\.schema\.json$/.exec(bundled.$id || "");
+    const bundledPath = path.join(SCHEMA_DIR, "dsds.bundled.yaml");
+    const raw = fs.readFileSync(bundledPath, "utf-8");
+    const match = /\/v([^/\s"']+)\/dsds\.bundled\.yaml/.exec(raw);
     return match ? match[1] : null;
   } catch (e) {
     return null;

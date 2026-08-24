@@ -2,7 +2,7 @@
 // <ds-code>
 //
 // Attributes:
-//   language — optional language label (e.g. "json", "bash")
+//   language — optional language label (e.g. "json", "yaml", "bash")
 //   label   — optional label shown in top-right corner
 //   inline  — boolean, renders as inline <code> instead of block
 //   wrap    — boolean, wraps long lines (white-space: pre-wrap) instead of
@@ -10,7 +10,8 @@
 //
 // Content:
 //   Text content inside the element is rendered as code.
-//   For JSON content, set language="json" for syntax highlighting.
+//   For JSON or YAML content, set language="json"/"yaml" for syntax
+//   highlighting.
 //
 // Syntax highlighting uses the CSS Custom Highlight API
 // (https://www.bram.us/2024/02/18/custom-highlight-api-for-syntax-highlighting/)
@@ -20,10 +21,11 @@
 // painted with ::highlight() in CODE_CSS below. This sidesteps a whole
 // class of escape-order bug the previous span-wrapping approach was prone
 // to (there's no HTML to mis-escape at all — textContent handles safety
-// for every token, not just the ones this file's regex anticipates), at
-// the cost of only working in browsers that support the API (Chrome 105+,
-// Safari 17.2+, Firefox 140+ as of this writing). Unsupported browsers
-// just render plain, unhighlighted code — see SUPPORTS_HIGHLIGHT_API below.
+// for every token, not just the ones this file's regex anticipates).
+// Requires a browser with the API (Chrome 105+, Safari 17.2+, Firefox
+// 140+ as of this writing) - no fallback path for older browsers; this is
+// this site's only syntax-highlighting mechanism, deliberately, not one of
+// two to keep in sync.
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { createShadow, esc, BASE_RESET, FONT } from "./_shared.js";
@@ -53,10 +55,166 @@ function tokenizeJson(raw) {
   return tokens;
 }
 
-const HIGHLIGHT_NAMES = ["hl-k", "hl-s", "hl-n", "hl-b"];
+// ── YAML tokenizer ──────────────────────────────────────────────────────
+// Line-based, not a real YAML parser - this only ever needs to highlight
+// this site's own example files, not arbitrary YAML. Tracks one piece of
+// state across lines (whether we're inside a block scalar opened by `>-`
+// or `|`), since everything more-indented than the key that opened one is
+// that scalar's literal text, not new structure to tokenize.
 
-export const SUPPORTS_HIGHLIGHT_API =
-  typeof Highlight !== "undefined" && typeof CSS !== "undefined" && !!CSS.highlights;
+// A plain (unquoted) scalar counts as a boolean/null only when the ENTIRE
+// value is exactly one of these words - "Turn the toggle on" never
+// qualifies just because it contains "on".
+const YAML_BOOL_RE = /^(?:true|false|null)$/;
+// Likewise a number only when the entire value is numeric - "48px" and
+// "2.5.5" stay strings, matching how YAML itself resolves scalar types
+// (a value that's only partly numeric was never a number to begin with).
+const YAML_NUMBER_RE = /^-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$/;
+// Where a YAML key ends: identifier characters immediately followed by `:`
+// and then whitespace or end of line. Doesn't match a quoted key
+// ("my key": ...) - none of this site's own examples use one.
+const YAML_KEY_RE = /^([A-Za-z0-9_.$-]+):(?=\s|$)/;
+const YAML_BLOCK_SCALAR_RE = /^[|>][+-]?\d*$/;
+
+// The first '#' that starts a real comment: preceded by whitespace or the
+// start of the line, and not inside an open quote. -1 if there isn't one.
+function findYamlCommentIndex(line) {
+  let quote = null;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+    } else if (ch === '"' || ch === "'") {
+      quote = ch;
+    } else if (ch === "#" && (i === 0 || /\s/.test(line[i - 1]))) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// Splits a flow collection's inner text ("a, {b: c}, [d]") on its
+// top-level commas only - a comma nested inside another [...]/{...} or a
+// quoted string doesn't split. Offsets are relative to `text`.
+function splitFlowSegments(text) {
+  const segments = [];
+  let depth = 0;
+  let quote = null;
+  let segStart = 0;
+  for (let i = 0; i <= text.length; i++) {
+    const ch = text[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (i === text.length || (ch === "," && depth === 0)) {
+      segments.push({ text: text.slice(segStart, i), start: segStart });
+      segStart = i + 1;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === "[" || ch === "{") depth++;
+    else if (ch === "]" || ch === "}") depth--;
+  }
+  return segments;
+}
+
+// Tokenizes one YAML "value" position - the text after a key's `:`, a bare
+// list item, or one segment of a flow collection - and pushes any tokens
+// found onto `tokens`. Handles a quoted string, a flow sequence/mapping
+// (recursing into its own segments), or a bare scalar.
+function tokenizeYamlValue(text, offset, tokens) {
+  const leading = text.match(/^\s*/)[0].length;
+  const trailing = text.match(/\s*$/)[0].length;
+  const value = text.slice(leading, text.length - trailing);
+  if (!value) return;
+  const valueOffset = offset + leading;
+
+  if (value[0] === '"' || value[0] === "'") {
+    const closeAt = value.lastIndexOf(value[0]);
+    const end = closeAt > 0 ? closeAt + 1 : value.length;
+    tokens.push({ start: valueOffset, end: valueOffset + end, cls: "hl-s" });
+    return;
+  }
+
+  if (
+    (value[0] === "[" && value[value.length - 1] === "]") ||
+    (value[0] === "{" && value[value.length - 1] === "}")
+  ) {
+    const inner = value.slice(1, -1);
+    const innerOffset = valueOffset + 1;
+    for (const seg of splitFlowSegments(inner)) {
+      tokenizeYamlSegment(seg.text, innerOffset + seg.start, tokens);
+    }
+    return;
+  }
+
+  const cls = YAML_BOOL_RE.test(value) ? "hl-b" : YAML_NUMBER_RE.test(value) ? "hl-n" : "hl-s";
+  tokens.push({ start: valueOffset, end: valueOffset + value.length, cls });
+}
+
+// One segment inside a flow collection - either a bare value ([a, b]'s
+// "a") or its own key: value pair ({status: stable}'s "status: stable").
+function tokenizeYamlSegment(text, offset, tokens) {
+  const leading = text.match(/^\s*/)[0].length;
+  const rest = text.slice(leading);
+  const keyMatch = rest.match(YAML_KEY_RE);
+  if (keyMatch) {
+    const keyStart = offset + leading;
+    tokens.push({ start: keyStart, end: keyStart + keyMatch[1].length, cls: "hl-k" });
+    tokenizeYamlValue(rest.slice(keyMatch[0].length), keyStart + keyMatch[0].length, tokens);
+  } else {
+    tokenizeYamlValue(text, offset, tokens);
+  }
+}
+
+function tokenizeYaml(raw) {
+  const tokens = [];
+  let offset = 0;
+  let blockScalarIndent = null;
+
+  for (const line of raw.split("\n")) {
+    const lineStart = offset;
+    offset += line.length + 1;
+    if (!line.trim()) continue;
+
+    if (blockScalarIndent !== null) {
+      const indent = line.match(/^\s*/)[0].length;
+      if (indent > blockScalarIndent) continue; // still inside the scalar's own text
+      blockScalarIndent = null; // dedented back out - parse this line normally below
+    }
+
+    const commentIndex = findYamlCommentIndex(line);
+    const content = commentIndex === -1 ? line : line.slice(0, commentIndex);
+    if (!content.trim()) continue;
+
+    // Leading indentation plus any "- " list markers (more than one for a
+    // list nested directly under another list, on one line).
+    const prefixLen = content.match(/^(\s*(?:-\s+)*)/)[0].length;
+    const rest = content.slice(prefixLen);
+    if (!rest) continue;
+
+    const keyMatch = rest.match(YAML_KEY_RE);
+    if (!keyMatch) {
+      tokenizeYamlValue(rest, lineStart + prefixLen, tokens);
+      continue;
+    }
+
+    const keyStart = lineStart + prefixLen;
+    tokens.push({ start: keyStart, end: keyStart + keyMatch[1].length, cls: "hl-k" });
+    const valueText = rest.slice(keyMatch[0].length);
+    if (YAML_BLOCK_SCALAR_RE.test(valueText.trim())) {
+      blockScalarIndent = prefixLen; // opens a block scalar at this key's own indent
+    } else {
+      tokenizeYamlValue(valueText, keyStart + keyMatch[0].length, tokens);
+    }
+  }
+  return tokens;
+}
+
+const TOKENIZERS = { json: tokenizeJson, yaml: tokenizeYaml, yml: tokenizeYaml };
+
+const HIGHLIGHT_NAMES = ["hl-k", "hl-s", "hl-n", "hl-b"];
 
 // One shared Highlight per token class, reused by every <ds-code> instance
 // on the page. CSS.highlights is a single global registry, not scoped per
@@ -68,15 +226,13 @@ export const SUPPORTS_HIGHLIGHT_API =
 // itself scoped per shadow tree, so this sharing is safe: a rule defined in
 // one <ds-code>'s shadow root only paints Ranges whose nodes live inside
 // that same tree, even though the Highlight object backing it is shared.
-const sharedHighlights = SUPPORTS_HIGHLIGHT_API
-  ? Object.fromEntries(
-      HIGHLIGHT_NAMES.map((name) => {
-        const highlight = new Highlight();
-        CSS.highlights.set(name, highlight);
-        return [name, highlight];
-      }),
-    )
-  : {};
+const sharedHighlights = Object.fromEntries(
+  HIGHLIGHT_NAMES.map((name) => {
+    const highlight = new Highlight();
+    CSS.highlights.set(name, highlight);
+    return [name, highlight];
+  }),
+);
 
 const CODE_CSS = `
   ${BASE_RESET}
@@ -94,17 +250,16 @@ const CODE_CSS = `
   }
   .wrapper pre { color: var(--ds-color-text); }
 
-  /* JSON syntax highlighting, painted via the CSS Custom Highlight API
-     (registered in CSS.highlights by tokenizeJson()/_render() below).
-     ::highlight() can't be nested under .wrapper the way the old
+  /* JSON/YAML syntax highlighting, painted via the CSS Custom Highlight API
+     (registered in CSS.highlights by tokenizeJson()/tokenizeYaml()/_render()
+     below). ::highlight() can't be nested under .wrapper the way the old
      span-based .wrapper .hl-k selectors were - it's a tree-scoped
      pseudo-element, not a descendant combinator target - but scoping still
      holds: only Ranges whose nodes live inside this shadow root paint here,
      even though the underlying Highlight objects are shared across every
-     ds-code instance on the page. Ignored outright in browsers without
-     the API - the code just renders unhighlighted. Note: no backticks in
-     this comment - it lives inside CODE_CSS's own template literal, and a
-     literal backtick here would terminate that string early. */
+     ds-code instance on the page. Note: no backticks in this comment - it
+     lives inside CODE_CSS's own template literal, and a literal backtick
+     here would terminate that string early. */
   ::highlight(hl-k) { color: var(--ds-syntax-light-key); }
   ::highlight(hl-s) { color: var(--ds-syntax-light-string); }
   ::highlight(hl-n) { color: var(--ds-syntax-light-number); }
@@ -246,13 +401,14 @@ export class DsCode extends HTMLElement {
 
     // Plain text, not innerHTML — the code stays one untouched Text node,
     // so Range offsets below line up exactly with `rawBlock`'s own indices,
-    // and non-JSON content needs no escaping at all (textContent is always
-    // HTML-safe).
+    // and unhighlighted content needs no escaping at all (textContent is
+    // always HTML-safe).
     const codeEl = this._shadow.querySelector("code");
     codeEl.textContent = rawBlock;
 
-    if (SUPPORTS_HIGHLIGHT_API && lang === "json" && codeEl.firstChild) {
-      for (const { start, end, cls } of tokenizeJson(rawBlock)) {
+    const tokenize = TOKENIZERS[lang];
+    if (tokenize && codeEl.firstChild) {
+      for (const { start, end, cls } of tokenize(rawBlock)) {
         const range = new Range();
         range.setStart(codeEl.firstChild, start);
         range.setEnd(codeEl.firstChild, end);

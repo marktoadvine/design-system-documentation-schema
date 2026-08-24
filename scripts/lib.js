@@ -14,7 +14,20 @@ const schemaDir = path.join(rootDir, "schema");
 const exampleDirs = [
   path.join(rootDir, "examples/entries"),
   path.join(rootDir, "examples/base"),
+  path.join(rootDir, "examples/quickstart"),
 ];
+
+// 01-base-document.yaml is deliberately incomplete - the Quick Start page
+// itself labels it "not valid on its own yet" (it's the first step of a
+// build-up that only gets a real `entries` array at 03). Every other
+// quickstart/*.yaml is a genuinely complete, standalone-valid document
+// and belongs in the default sweep same as any other example. Excluding
+// one known, deliberately-special file from a directory walk is the same
+// pattern walkYamlFiles() uses for dsds.bundled.yaml (it doesn't end in
+// .schema.yaml, so the extension filter alone already keeps it out - see
+// scripts/bundle.js's own comment on why the bundle isn't named
+// dsds.bundled.schema.yaml).
+const EXCLUDED_FROM_DEFAULT = new Set([path.join(rootDir, "examples/quickstart/01-base-document.yaml")]);
 // The live site's own content isn't ported to the new schema yet (that's a
 // later phase of the v0.20.0 migration) - no docEntryDirs equivalent until
 // it is.
@@ -48,6 +61,7 @@ function defaultTargets() {
       ? fs.readdirSync(dir)
           .filter((f) => f.endsWith(".yaml"))
           .map((f) => path.join(dir, f))
+          .filter((f) => !EXCLUDED_FROM_DEFAULT.has(f))
       : []
   );
 }

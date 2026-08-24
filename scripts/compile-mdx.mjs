@@ -56,22 +56,22 @@ const SCHEMA_DIR = path.join(ROOT, "schema");
 // ---------------------------------------------------------------------------
 // Canonical spec version (single source of truth)
 //
-// The DSDS version lives in schema/dsds.bundled.schema.json's own `$id`
-// (ex: "https://.../v0.20.0/dsds.bundled.schema.json") — see nav.js's
-// readSpecVersion() for the same extraction. Content pages NEVER hardcode a
-// version — they reference it through the {{VERSION}} token, which is
-// substituted here at build time. The bundle script, nav, and footer read
-// the same source, so one `npm run bundle` propagates to every rendered page.
+// The DSDS version lives in schema/dsds.bundled.yaml's own `$id`
+// (ex: "https://.../v0.20.0/dsds.bundled.yaml") — see nav.js's
+// readSpecVersion() for the same extraction (matched against raw file text,
+// no parse, so it doesn't care which text format the bundle is in).
+// Content pages NEVER hardcode a version — they reference it through the
+// {{VERSION}} token, which is substituted here at build time. The bundle
+// script, nav, and footer read the same source, so one `npm run bundle`
+// propagates to every rendered page.
 // ---------------------------------------------------------------------------
 
 let CACHED_VERSION = null;
 function readSpecVersion() {
   if (CACHED_VERSION !== null) return CACHED_VERSION;
   try {
-    const bundled = JSON.parse(
-      fs.readFileSync(path.join(SCHEMA_DIR, "dsds.bundled.schema.json"), "utf-8"),
-    );
-    const match = /\/v([^/]+)\/dsds\.bundled\.schema\.json$/.exec(bundled.$id || "");
+    const raw = fs.readFileSync(path.join(SCHEMA_DIR, "dsds.bundled.yaml"), "utf-8");
+    const match = /\/v([^/\s"']+)\/dsds\.bundled\.yaml/.exec(raw);
     CACHED_VERSION = match ? match[1] : "";
   } catch {
     CACHED_VERSION = "";

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-since">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-since.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Since — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Since — DSDS 0.20.0","description":"The version something was introduced in.","url":"https://designsystemdocspec.org/common-since","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-since.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Since","url":"https://designsystemdocspec.org/common-since#since"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Since — DSDS 0.20.0","description":"The version something was introduced in.","url":"https://designsystemdocspec.org/common-since","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-since.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Since","url":"https://designsystemdocspec.org/common-since#since"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,17 +76,15 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/since.schema.yaml">
-  <ds-code language="json" label="common/since.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Since&quot;,
-  &quot;type&quot;: &quot;string&quot;,
-  &quot;description&quot;: &quot;The version something was introduced in.&quot;,
-  &quot;$comment&quot;: &quot;This value isn't pattern-validated since design system's own version scheme can vary.&quot;,
-  &quot;example&quot;: &quot;1.4.0&quot;
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/since.schema.yaml">
+  <ds-code language="yaml" label="common/since.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml
+title: Since
+type: string
+description: The version something was introduced in.
+$comment: This value isn't pattern-validated since design system's own version scheme can vary.
+example: 1.4.0</ds-code>
+</ds-source-view>
 <ds-def-section name="Since" anchor="since" description="The version something was introduced in." type="string">
 
 </ds-def-section>

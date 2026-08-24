@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/metadata-system-metadata">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="metadata-system-metadata.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="SystemMetadata — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"SystemMetadata — DSDS 0.20.0","description":"Information about the design system as a whole, on top of the fields every metadata object shares.","url":"https://designsystemdocspec.org/metadata-system-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-system-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"SystemMetadata","url":"https://designsystemdocspec.org/metadata-system-metadata#systemmetadata"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"SystemMetadata — DSDS 0.20.0","description":"Information about the design system as a whole, on top of the fields every metadata object shares.","url":"https://designsystemdocspec.org/metadata-system-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-system-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"SystemMetadata","url":"https://designsystemdocspec.org/metadata-system-metadata#systemmetadata"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,63 +76,46 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="metadata/system-metadata.schema.yaml">
-  <ds-code language="json" label="metadata/system-metadata.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata/system-metadata.schema.yaml&quot;,
-  &quot;title&quot;: &quot;SystemMetadata&quot;,
-  &quot;description&quot;: &quot;Information about the design system as a whole, on top of the fields every metadata object shares.&quot;,
-  &quot;$comment&quot;: &quot;Adds fields specifically for the system. See metadata/entry-metadata.schema.yaml for the per-entry equivalent.&quot;,
-  &quot;allOf&quot;: [
-    {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;properties&quot;: {
-        &quot;version&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml&quot;,
-          &quot;description&quot;: &quot;The current version of the design system.&quot;
-        },
-        &quot;organization&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;The team or company that owns the design system.&quot;,
-          &quot;example&quot;: &quot;Acme Inc.&quot;
-        },
-        &quot;url&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;format&quot;: &quot;uri&quot;,
-          &quot;description&quot;: &quot;The main home page or repository for the design system.&quot;,
-          &quot;example&quot;: &quot;https://github.com/acme/design-system&quot;
-        },
-        &quot;license&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;The license this design system is published under.&quot;,
-          &quot;example&quot;: &quot;MIT&quot;
-        },
-        &quot;platforms&quot;: {
-          &quot;type&quot;: &quot;array&quot;,
-          &quot;description&quot;: &quot;The platforms this system ships on, for example \&quot;react\&quot; or \&quot;web-component\&quot;.&quot;,
-          &quot;$comment&quot;: &quot;When this list is present, every other `platform` value used anywhere in the document MUST match one of these.&quot;,
-          &quot;minItems&quot;: 1,
-          &quot;uniqueItems&quot;: true,
-          &quot;items&quot;: {
-            &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;
-          },
-          &quot;example&quot;: [
-            &quot;react&quot;,
-            &quot;web-component&quot;,
-            &quot;ios&quot;
-          ]
-        }
-      }
-    }
-  ]
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="metadata/system-metadata.schema.yaml">
+  <ds-code language="yaml" label="metadata/system-metadata.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/metadata/system-metadata.schema.yaml
+title: SystemMetadata
+description: Information about the design system as a whole, on top of the fields every metadata object shares.
+$comment: Adds fields specifically for the system. See metadata/entry-metadata.schema.yaml for the per-entry equivalent.
+
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml
+  - type: object
+    properties:
+      version:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml
+        description: The current version of the design system.
+      organization:
+        type: string
+        description: The team or company that owns the design system.
+        example: Acme Inc.
+      url:
+        type: string
+        format: uri
+        description: The main home page or repository for the design system.
+        example: https://github.com/acme/design-system
+      license:
+        type: string
+        description: The license this design system is published under.
+        example: MIT
+      platforms:
+        type: array
+        description: The platforms this system ships on, for example &quot;react&quot; or &quot;web-component&quot;.
+        $comment: When this list is present, every other `platform` value used anywhere in the document MUST match one of these.
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+        example: [react, web-component, ios]</ds-code>
+</ds-source-view>
 <ds-def-section name="SystemMetadata" anchor="systemmetadata" description="Information about the design system as a whole, on top of the fields every metadata object shares." type="object">
 <ds-prop-table>
-  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering. By convention, the first tag, if any, is the main category.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="owner" type="string">The owning team, role, or group.</ds-prop>
   <ds-prop name="reviewed" type="object {date, by, note}[]">Independent reviews confirming this item's documentation, each recording who confirmed it and when.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="context" type="string">Why this entry was created, and how and why to use it.</ds-prop>

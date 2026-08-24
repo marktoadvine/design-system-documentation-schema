@@ -7,7 +7,7 @@ This site documents DSDS, a versioned JSON Schema. Every page below has an HTML 
 ## Machine-readable schema
 
 - [manifest.json](https://designsystemdocspec.org/manifest.json): the typed machine index — every entity kind, the block kinds it accepts, and links to its page/markdown/schema/example. Start here.
-- [Bundled schema, v0.20.0](https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json): every definition in one JSON file
+- [Bundled schema, v0.20.0](https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml): every definition in one file
 - [llms-full.txt](https://designsystemdocspec.org/llms-full.txt): every guide's full text plus the bundled schema, in one file for one-request ingestion
 - [AGENTS.md](https://designsystemdocspec.org/AGENTS.md): how to consume these docs as an agent — where to start, what's normative, how to self-check your work
 - [sitemap.xml](https://designsystemdocspec.org/sitemap.xml): every page on this site
@@ -16,8 +16,9 @@ This site documents DSDS, a versioned JSON Schema. Every page below has an HTML 
 
 - [Design system doc spec 0.20.0](https://designsystemdocspec.org/): A machine-readable format for design system documentation. DSDS structures a design system as a graph of entries (systems, components, tokens, themes, and custom kinds) and sections (definitions, guidelines, steps, and freeform content) for humans, parsers, and agents. ([markdown](https://designsystemdocspec.org/index.md))
 - [DSDS quick start guide](https://designsystemdocspec.org/quickstart): Get started with DSDS — document structure, entry kinds, the section system, and minimal examples you can copy. ([markdown](https://designsystemdocspec.org/quickstart.md))
-- [Extending the schema — DSDS 0.20.0](https://designsystemdocspec.org/extending): Three ways to go beyond what the spec ships with — $extensions for opaque tool data, custom kinds for a document shape the spec doesn't have, and profiles for narrowing an existing kind's optional fields into required ones. ([markdown](https://designsystemdocspec.org/extending.md))
-- [Conformance — DSDS 0.20.0](https://designsystemdocspec.org/conformance): Conformance classes, RFC 2119 requirement levels, enforcement tiers, stability guarantees, and the generated index of every normative statement in the DSDS schemas. ([markdown](https://designsystemdocspec.org/conformance.md))
+- [Extending the schema — DSDS 0.20.0](https://designsystemdocspec.org/extending): Three ways to go beyond what the spec ships with — $extensions for tool-specific data, custom kinds for a document shape the spec doesn't have, and profiles for making an existing kind's optional fields required. ([markdown](https://designsystemdocspec.org/extending.md))
+- [What the schema doesn't have — DSDS 0.20.0](https://designsystemdocspec.org/gaps): A list of things people expect a design system spec to have that DSDS deliberately doesn't — prop tables, anatomy diagrams, typed accessibility facts, token groups — and what to use instead of each. ([markdown](https://designsystemdocspec.org/gaps.md))
+- [Conformance — DSDS 0.20.0](https://designsystemdocspec.org/conformance): What it means for a document to follow the DSDS 0.20.0 spec, how the schema is organized, what's stable ahead of version 1.0, and every rule the spec enforces. ([markdown](https://designsystemdocspec.org/conformance.md))
 
 ## Common
 

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-requirement-level">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-requirement-level.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="RequirementLevel — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"RequirementLevel — DSDS 0.20.0","description":"How strict a rule is, from must to must-not.","url":"https://designsystemdocspec.org/common-requirement-level","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-requirement-level.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"RequirementLevel","url":"https://designsystemdocspec.org/common-requirement-level#requirementlevel"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"RequirementLevel — DSDS 0.20.0","description":"How strict a rule is, from must to must-not.","url":"https://designsystemdocspec.org/common-requirement-level","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-requirement-level.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"RequirementLevel","url":"https://designsystemdocspec.org/common-requirement-level#requirementlevel"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,23 +76,16 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/requirement-level.schema.yaml">
-  <ds-code language="json" label="common/requirement-level.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml&quot;,
-  &quot;title&quot;: &quot;RequirementLevel&quot;,
-  &quot;type&quot;: &quot;string&quot;,
-  &quot;description&quot;: &quot;How strict a rule is, from must to must-not.&quot;,
-  &quot;$comment&quot;: &quot;The values come directly from [RFC 2119](https://www.rfc-editor.org/info/rfc2119/).&quot;,
-  &quot;enum&quot;: [
-    &quot;must&quot;,
-    &quot;should&quot;,
-    &quot;should-not&quot;,
-    &quot;must-not&quot;,
-    &quot;may&quot;
-  ]
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/requirement-level.schema.yaml">
+  <ds-code language="yaml" label="common/requirement-level.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml
+title: RequirementLevel
+type: string
+description: How strict a rule is, from must to must-not.
+$comment: The values come directly from [RFC 2119](https://www.rfc-editor.org/info/rfc2119/).
+
+enum: [must, should, should-not, must-not, may]</ds-code>
+</ds-source-view>
 <ds-def-section name="RequirementLevel" anchor="requirementlevel" description="How strict a rule is, from must to must-not." type="string">
 <p><strong>Allowed values:</strong></p>
 <ul class="enum-list">

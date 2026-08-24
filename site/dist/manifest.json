@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.20.0",
-  "bundledSchema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json",
+  "bundledSchema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml",
   "mcp": "https://www.npmjs.com/package/dsds-mcp",
   "indexes": {
     "llms": "https://designsystemdocspec.org/llms.txt",
@@ -26,31 +26,31 @@
       "kind": "component",
       "page": "https://designsystemdocspec.org/entries-component",
       "markdown": "https://designsystemdocspec.org/entries-component.md",
-      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "entry",
       "page": "https://designsystemdocspec.org/entries-entry",
       "markdown": "https://designsystemdocspec.org/entries-entry.md",
-      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "system",
       "page": "https://designsystemdocspec.org/entries-system",
       "markdown": "https://designsystemdocspec.org/entries-system.md",
-      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "theme",
       "page": "https://designsystemdocspec.org/entries-theme",
       "markdown": "https://designsystemdocspec.org/entries-theme.md",
-      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "token",
       "page": "https://designsystemdocspec.org/entries-token",
       "markdown": "https://designsystemdocspec.org/entries-token.md",
-      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json"
+      "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     }
   ]
 }

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-ref">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-ref.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Ref — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Ref — DSDS 0.20.0","description":"The one pointer type. \"A points to B, and this is what kind of pointer it is.\"","url":"https://designsystemdocspec.org/common-ref","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-ref.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Ref","url":"https://designsystemdocspec.org/common-ref#ref"},{"@type":"DefinedTerm","name":"list","url":"https://designsystemdocspec.org/common-ref#list"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Ref — DSDS 0.20.0","description":"The one pointer type. \"A points to B, and this is what kind of pointer it is.\"","url":"https://designsystemdocspec.org/common-ref","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-ref.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Ref","url":"https://designsystemdocspec.org/common-ref#ref"},{"@type":"DefinedTerm","name":"list","url":"https://designsystemdocspec.org/common-ref#list"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,114 +76,132 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/ref.schema.yaml">
-  <ds-code language="json" label="common/ref.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Ref&quot;,
-  &quot;description&quot;: &quot;The one pointer type. \&quot;A points to B, and this is what kind of pointer it is.\&quot;&quot;,
-  &quot;$comment&quot;: &quot;The schema's pointer: \&quot;A points to B\&quot;. `rel` says what kind of pointer it is. Dependencies, composition, extension, citations, and every other connection use this pointer with a different `rel`.\nExactly one of `to` or `href` described B. `to` points inside this document (an entry id, or `entryId#itemId` for one item inside it). `href` points outside it (a file, URL, or package). This is independent of `rel`.\nOnly add a new `rel` value if no existing one covers the idea. Otherwise extend that value's description instead.\nA bare string is shorthand for `{href: &lt;string&gt;}`. Bare strings can't be safely read as an internal id. Use the full object when the target is internal or an external link needs more description.&quot;,
-  &quot;oneOf&quot;: [
-    {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;format&quot;: &quot;uri-reference&quot;,
-      &quot;description&quot;: &quot;Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.&quot;,
-      &quot;example&quot;: &quot;https://storybook.org/ds/button&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;required&quot;: [
-        &quot;rel&quot;
-      ],
-      &quot;oneOf&quot;: [
-        {
-          &quot;required&quot;: [
-            &quot;to&quot;
-          ]
-        },
-        {
-          &quot;required&quot;: [
-            &quot;href&quot;
-          ]
-        }
-      ],
-      &quot;properties&quot;: {
-        &quot;rel&quot;: {
-          &quot;oneOf&quot;: [
-            {
-              &quot;type&quot;: &quot;string&quot;,
-              &quot;enum&quot;: [
-                &quot;depends-on&quot;,
-                &quot;composes&quot;,
-                &quot;part-of&quot;,
-                &quot;alternative-to&quot;,
-                &quot;replaces&quot;,
-                &quot;extends&quot;,
-                &quot;implements&quot;,
-                &quot;relates-to&quot;,
-                &quot;same-as&quot;,
-                &quot;refines&quot;,
-                &quot;lint-rule&quot;,
-                &quot;test&quot;,
-                &quot;file&quot;,
-                &quot;source&quot;,
-                &quot;design&quot;,
-                &quot;storybook&quot;,
-                &quot;package&quot;,
-                &quot;external-link&quot;,
-                &quot;pairs-with&quot;,
-                &quot;excludes&quot;,
-                &quot;see-also&quot;
-              ]
-            },
-            {
-              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced&quot;
-            }
-          ],
-          &quot;description&quot;: &quot;What kind of pointer this is, or a namespaced custom value.&quot;,
-          &quot;$comment&quot;: &quot;Grouped by purpose: `depends-on`, `composes`, `part-of`, `alternative-to`, `replaces`, `extends`, `implements`, and `relates-to` describe how things connect. `same-as` and `refines` describe how content is written. `lint-rule` and `test` describe how a rule is checked. `file`, `source`, `design`, `storybook`, `package`, and `external-link` point outside this spec. `pairs-with` and `excludes` are a light note about two things combining. `see-also` is a generic \&quot;worth reading too\&quot; for when nothing more specific fits.\n`implements` is a real, working version of something more general. Such as a component implementing a pattern, or a platform build implementing a cross-platform one. Different from `composes` (\&quot;built from these parts\&quot;), and from `design`/`storybook` (which say what kind of thing this is, not why it's linked).\n`same-as` means this item repeats content declared once elsewhere, instead of restating it. Point `to` at \&quot;&lt;shared-id&gt;#&lt;item-id&gt;\&quot; and skip the item's own `statement`. Different from `refines` (a genuine restatement for a different reader) and `alternative-to` (one thing standing in for another, not the same thing).\n`refines` is an agent-only rule that sharpens a human-facing one; `to` names that rule's id. `lint-rule` and `test` point a rule at whatever actually checks it, usually a test file via `href`. For a stricter combination rule than `pairs-with`/`excludes` gives you, use a combo instead. `file` is also how a theme entry points at its real source file, instead of listing every token it changes.\nNamespaced custom values (ex: \&quot;acme.supersedes\&quot;) are allowed too.&quot;,
-          &quot;example&quot;: &quot;depends-on&quot;
-        },
-        &quot;to&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\\.[a-z0-9]+(-[a-z0-9]+)*)*)?$&quot;,
-          &quot;description&quot;: &quot;What this points at, inside this document's own graph.&quot;,
-          &quot;$comment&quot;: &quot;A bare id points at a whole entry. Add `#itemId` (ex: `shared-a11y#focus-visible`) to point at one item inside it. The entry half accepts a token id's looser slash-separated form too (see common/id.schema.yaml's tokenId), since `to` can target a token entry.\nThis pattern only checks the target is *shaped* like an id (or id#itemId) - not that it actually exists. A capitalized display name (`to: Button`) or a value with a space in it can never be a real id, whatever else is in the document, so this catches that class of mistake with no other file needed. Whether the target actually resolves is a separate, resolution-level check (see DSDS-05 for the #itemId form).&quot;,
-          &quot;example&quot;: &quot;shared-a11y#focus-visible&quot;
-        },
-        &quot;href&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;format&quot;: &quot;uri-reference&quot;,
-          &quot;description&quot;: &quot;What this points at, outside this document. Such as a file, URL, or package.&quot;,
-          &quot;$comment&quot;: &quot;A URI. Can be a relative path (`./tests/button.a11y.test.ts`) or a pseudo-scheme like `npm:@org/ds-react`.&quot;,
-          &quot;example&quot;: &quot;./tests/button.a11y.test.ts&quot;
-        },
-        &quot;role&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;What the thing being pointed at does in this context.&quot;,
-          &quot;example&quot;: &quot;hosted docs&quot;
-        },
-        &quot;note&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;Additional info related to the connection of the two items.&quot;,
-          &quot;example&quot;: &quot;Component Story Format (CSF3) - the source the hosted docs above are built from.&quot;
-        }
-      },
-      &quot;additionalProperties&quot;: false
-    }
-  ],
-  &quot;$defs&quot;: {
-    &quot;list&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;$comment&quot;: &quot;Every consumer expects an array of refs. Pulled out here so call sites don't have to redefine it.&quot;,
-      &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;
-      }
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/ref.schema.yaml">
+  <ds-code language="yaml" label="common/ref.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml
+title: Ref
+description: The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;
+$comment: &gt;-
+  The schema's pointer: &quot;A points to B&quot;. `rel` says what
+  kind of pointer it is. Dependencies, composition, extension,
+  citations, and every other connection use this pointer with a
+  different `rel`.
+
+  Exactly one of `to` or `href` described B. `to` points inside this
+  document (an entry id, or `entryId#itemId` for one item inside it).
+  `href` points outside it (a file, URL, or package). This is
+  independent of `rel`.
+
+  Only add a new `rel` value if no existing one covers the idea.
+  Otherwise extend that value's description instead.
+
+  A bare string is shorthand for `{href: &lt;string&gt;}`. Bare strings can't
+  be safely read as an internal id. Use the full object when the target
+  is internal or an external link needs more description.
+oneOf:
+  - type: string
+    format: uri-reference
+    description: &quot;Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.&quot;
+    example: https://storybook.org/ds/button
+  - type: object
+    required: [rel]
+    oneOf:
+      - required: [to]
+      - required: [href]
+    properties:
+      rel:
+        oneOf:
+          - type: string
+            enum: [depends-on, composes, part-of, alternative-to, replaces, extends, implements, relates-to, same-as, refines, lint-rule, test, file, source, design, storybook, package, external-link, pairs-with, excludes, see-also]
+          - $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced
+        description: What kind of pointer this is, or a namespaced custom value.
+        $comment: &gt;-
+          Grouped by purpose: `depends-on`, `composes`, `part-of`,
+          `alternative-to`, `replaces`, `extends`, `implements`, and
+          `relates-to` describe how things connect. `same-as` and `refines`
+          describe how content is written. `lint-rule` and `test` describe
+          how a rule is checked. `file`, `source`, `design`, `storybook`,
+          `package`, and `external-link` point outside this spec.
+          `pairs-with` and `excludes` are a light note about two things
+          combining. `see-also` is a generic &quot;worth reading too&quot; for when
+          nothing more specific fits.
+
+          `implements` is a real, working version of something more
+          general. Such as a component implementing a pattern, or a
+          platform build implementing a cross-platform one. Different from
+          `composes` (&quot;built from these parts&quot;), and from
+          `design`/`storybook` (which say what kind of thing this is, not
+          why it's linked).
+
+          `same-as` means this item repeats content declared once
+          elsewhere, instead of restating it. Point `to` at
+          &quot;&lt;shared-id&gt;#&lt;item-id&gt;&quot; and skip the item's own `statement`.
+          Different from `refines` (a genuine restatement for a different
+          reader) and `alternative-to` (one thing standing in for another,
+          not the same thing).
+
+          `refines` is an agent-only rule that sharpens a human-facing
+          one; `to` names that rule's id. `lint-rule` and `test` point a
+          rule at whatever actually checks it, usually a test file via
+          `href`. For a stricter combination rule than
+          `pairs-with`/`excludes` gives you, use a combo instead. `file`
+          is also how a theme entry points at its real source file,
+          instead of listing every token it changes.
+
+          Use `refs` with `rel: source` for an entry's primary source
+          file (see button.yaml's GitHub link) - every tool reading
+          `common/ref` already understands it, unlike a custom field or
+          `$extensions`. Exception: a component uses its own
+          `sourceFiles` instead, since it's structured (one entry per
+          platform) and what tooling already extracts an API from.
+          `metadata.preview` and `examples[].ref` are for a sample, not
+          the real source.
+
+          Namespaced custom values (ex: &quot;acme.supersedes&quot;) are allowed
+          too.
+        example: depends-on
+      to:
+        type: string
+        pattern: '^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*)?$'
+        description: What this points at, inside this document's own graph.
+        $comment: &gt;-
+          A bare id points at a whole entry. Add `#itemId` (ex:
+          `shared-a11y#focus-visible`) to point at one item inside it. The
+          entry half accepts a token id's looser slash-separated form too
+          (see common/id.schema.yaml's tokenId), since `to` can target a
+          token entry.
+
+          This pattern only checks the target is *shaped* like an id (or
+          id#itemId) - not that it actually exists. A capitalized display
+          name (`to: Button`) or a value with a space in it can never be a
+          real id, whatever else is in the document, so this catches that
+          class of mistake with no other file needed. Whether the target
+          actually resolves is a separate, resolution-level check (see
+          DSDS-05 for the #itemId form).
+        example: &quot;shared-a11y#focus-visible&quot;
+      href:
+        type: string
+        format: uri-reference
+        description: What this points at, outside this document. Such as a file, URL, or package.
+        $comment: A URI. Can be a relative path (`./tests/button.a11y.test.ts`) or a pseudo-scheme like `npm:@org/ds-react`.
+        example: ./tests/button.a11y.test.ts
+      role:
+        type: string
+        description: What the thing being pointed at does in this context.
+        example: hosted docs
+      note:
+        type: string
+        description: Additional info related to the connection of the two items.
+        example: Component Story Format (CSF3) - the source the hosted docs above are built from.
+    additionalProperties: false
+$defs:
+  list:
+    type: array
+    minItems: 1
+    $comment: Every consumer expects an array of refs. Pulled out here so call sites don't have to redefine it.
+    items:
+      $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml</ds-code>
+</ds-source-view>
 <ds-def-index title="2 definitions">
 <!--<p><strong>2 definitions</strong> in this file:</p>-->
 <ul>

@@ -1,6 +1,0 @@
-  :host([hidden]) { display: none !important; }
-  :host { display: inline; }
-
-  a {
-      color: #fff;
-  }

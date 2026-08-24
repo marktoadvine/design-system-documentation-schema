@@ -288,6 +288,44 @@ function traitsBranches() {
   return schema.allOf[1].properties.traits.items.anyOf;
 }
 
+// Ajv reports a failed `contains` (ex: guidelines.schema.yaml's "refs
+// must include a same-as or external-link entry") by testing every array
+// item against the contains sub-schema and surfacing each item's own
+// sub-errors right alongside the actual summary - "/refs/0/rel must be
+// equal to one of the allowed values" before "/refs must contain at
+// least 1 valid item(s)". Noise, not signal: nobody needs "here's why
+// item 0 specifically didn't match," only "here's what would have
+// matched." This collapses a `contains` failure and the per-item probe
+// errors Ajv generated finding it into one message built from whatever
+// `enum`/`required` sub-errors it found along the way.
+function collapseContainsFailures(ajvErrors) {
+  const containsErrors = ajvErrors.filter((e) => e.keyword === "contains");
+  if (!containsErrors.length) return ajvErrors;
+
+  const prefixes = containsErrors.map((e) => `${e.schemaPath}/`);
+
+  return ajvErrors
+    .map((e) => {
+      if (e.keyword !== "contains") return e;
+      const prefix = `${e.schemaPath}/`;
+      const needs = ajvErrors
+        .filter((n) => n !== e && n.schemaPath.startsWith(prefix))
+        .map((n) => {
+          if (n.keyword === "enum" && n.params && Array.isArray(n.params.allowedValues)) {
+            const parts = n.schemaPath.slice(prefix.length).split("/");
+            const field = parts[0] === "properties" ? parts[1] : parts[0];
+            return `\`${field}\` in [${n.params.allowedValues.join(", ")}]`;
+          }
+          if (n.keyword === "required" && n.params) return `\`${n.params.missingProperty}\``;
+          return null;
+        })
+        .filter(Boolean);
+      const need = needs.length ? [...new Set(needs)].join(" or ") : "a matching item";
+      return { ...e, message: `must contain at least one item with ${need}` };
+    })
+    .filter((e) => e.keyword === "contains" || !prefixes.some((p) => e.schemaPath.startsWith(p)));
+}
+
 function validateSections(sections, label, errors) {
   for (const [i, section] of (sections || []).entries()) {
     const sectionSchemaId = specUrl(`sections/${section.kind}.schema.yaml`);
@@ -295,7 +333,7 @@ function validateSections(sections, label, errors) {
     const sectionLabel = `${label} section[${i}] (${section.kind})`;
 
     if (!validateSection(section)) {
-      for (const err of validateSection.errors) {
+      for (const err of collapseContainsFailures(validateSection.errors)) {
         errors.push(`${sectionLabel} schema: ${err.instancePath || "/"} ${err.message}`);
       }
     }
@@ -309,7 +347,13 @@ function validateSections(sections, label, errors) {
 // index and kind in the label instead of a bare instancePath.
 const NESTED_SECTION_ERROR = /^\/sections\/\d/;
 
-function validateEntry(entry, errors) {
+// opts.standalone marks an entry validated as its own file (not wrapped
+// in a base document's `entries`), the only case validateItemRefs() runs
+// here - an entry nested inside a base document is already covered by
+// that base document's own single validateItemRefs() pass, which sees
+// every sibling entry/shared entity at once; running it again per-entry
+// would just duplicate every finding.
+function validateEntry(entry, errors, warnings, opts = {}) {
   const entrySchemaId = specUrl(`entries/${entry.kind}.schema.yaml`);
   const validate = schemaFor(entrySchemaId, specUrl("entry.schema.yaml"), profileEntryIdByKind.get(entry.kind));
   const isComponent = entry.kind === "component";
@@ -327,6 +371,11 @@ function validateEntry(entry, errors) {
     }
   }
   validateSections(entry.sections, `entry "${entry.id}"`, errors);
+  if (opts.standalone) {
+    validateItemRefs(entry, errors, warnings, opts);
+    validateComboTargets(entry, errors, warnings, opts);
+    validateSameAsLevels(entry, errors, warnings, opts);
+  }
   validateSemanticRules(entry, errors);
 }
 
@@ -401,7 +450,7 @@ function validateBase(doc, errors, warnings, opts = {}) {
     }
   }
   for (const entry of doc.entries || []) {
-    validateEntry(entry, errors);
+    validateEntry(entry, errors, warnings, opts);
   }
   for (const entry of doc.shared || []) {
     validateShared(entry, errors);
@@ -455,6 +504,8 @@ function validateBase(doc, errors, warnings, opts = {}) {
   }
 
   validateItemRefs(doc, errors, warnings, opts);
+  validateComboTargets(doc, errors, warnings, opts);
+  validateSameAsLevels(doc, errors, warnings, opts);
   validateGraphCycles(doc, errors);
 }
 
@@ -538,6 +589,29 @@ function validateGraphCycles(doc, errors) {
 // every item shape carries an `id`; this only indexes the ones that do, so
 // a ref at an entry that exists but an item that doesn't reports the same
 // "unknown item" error a typo would.
+// Same walk as collectItemIds, but keeps the actual item object per id
+// instead of just the id - needed wherever a check has to read a field
+// off the *target* item (see validateSameAsLevels's own level lookup),
+// not just confirm it exists.
+function collectItemsById(entry) {
+  const byId = new Map();
+  function walk(item) {
+    if (!item || typeof item !== "object") return;
+    if (typeof item.id === "string") byId.set(item.id, item);
+    for (const value of Object.values(item)) {
+      if (Array.isArray(value)) {
+        for (const child of value) walk(child);
+      }
+    }
+  }
+  for (const section of entry.sections || []) {
+    for (const item of section.items || []) walk(item);
+    for (const item of section.freeform || []) walk(item);
+  }
+  for (const trait of entry.traits || []) walk(trait);
+  return byId;
+}
+
 function collectItemIds(entry) {
   const ids = new Set();
   function walk(item) {
@@ -557,6 +631,96 @@ function collectItemIds(entry) {
   return ids;
 }
 
+// Every trait-space target a combo on this entry could legally name: a
+// bare id for a boolean trait ("loading"), or "traitId.valueId" for each
+// value of an enum trait ("size.small"). Bare enum trait ids are
+// included too (permissive on purpose - "any value of this trait" is a
+// plausible reading nothing in the schema rules out).
+function collectTraitTargets(entry) {
+  const targets = new Set();
+  for (const trait of entry.traits || []) {
+    if (!trait || typeof trait.id !== "string") continue;
+    targets.add(trait.id);
+    if (trait.kind === "enum") {
+      for (const value of trait.values || []) {
+        if (value && typeof value.id === "string") targets.add(`${trait.id}.${value.id}`);
+      }
+    }
+  }
+  return targets;
+}
+
+// DSDS-09: resolves every combo's `subject` and `items[]` on each local
+// entity. Three target spaces:
+//   1. Token space - a `{braced}` target, against every token entity in
+//      the wider pool (see resolveWiderScope - the same local/project/
+//      CLI-sibling merge validateItemRefs uses). Checked first, since a
+//      braced target can never mean anything else.
+//   2. Trait space - a bare id or `traitId.valueId` against this same
+//      entity's own `traits`. Always fully visible (an entity's own
+//      traits can't live in another file) - but a bare id is also
+//      legal as an entry id (see space 3 below), so a trait-space miss
+//      alone doesn't fail anything by itself; it just falls through.
+//   3. Entry space - a bare id that didn't match a local trait, against
+//      every entity in the wider pool (common/combo.schema.yaml's own
+//      description: "Can be a trait, token, or entry id").
+// A bare id only ends up reported once it's failed *both* 2 and 3, and
+// that combined failure follows the same warning-vs-error split
+// validateItemRefs uses, for the same reason: a search that couldn't
+// see the whole project can't assert a target is broken with full
+// confidence.
+function validateComboTargets(doc, errors, warnings, opts = {}) {
+  const localEntities = entriesIn(doc);
+  const localIds = new Set(localEntities.map((e) => e.id));
+
+  const hasAnyCombos = localEntities.some((e) => Array.isArray(e.combos) && e.combos.length);
+  if (!hasAnyCombos) return;
+
+  const { hasWiderScope, widerEntities, treatAsError, scopeNote } = resolveWiderScope(doc, localIds, opts);
+  const widerIds = hasWiderScope ? new Set(widerEntities.map((e) => e.id)) : null;
+  const widerKindById = hasWiderScope ? new Map(widerEntities.map((e) => [e.id, e.kind])) : null;
+
+  for (const entity of localEntities) {
+    if (!Array.isArray(entity.combos)) continue;
+    const traitTargets = collectTraitTargets(entity);
+
+    for (const [i, combo] of entity.combos.entries()) {
+      if (!combo || typeof combo !== "object") continue;
+      const targets = [{ value: combo.subject, at: `combos[${i}].subject` }];
+      for (const [j, item] of (combo.items || []).entries()) {
+        targets.push({ value: item, at: `combos[${i}].items[${j}]` });
+      }
+
+      for (const { value, at } of targets) {
+        if (typeof value !== "string") continue;
+        const label = `"${entity.id}" ${at} "${value}"`;
+        const braced = /^\{(.+)\}$/.exec(value);
+
+        if (braced) {
+          const tokenId = braced[1];
+          const kind = widerIds && widerIds.has(tokenId) ? widerKindById.get(tokenId) : undefined;
+          if (kind === "token") continue;
+          const msg = kind
+            ? `${label} names "${tokenId}", which exists but is a ${kind}, not a token`
+            : `${label} targets unknown token "${tokenId}"`;
+          if (treatAsError) errors.push(err(RULES.COMBO_TARGET_RESOLVES, msg));
+          else warnings.push(err(RULES.COMBO_TARGET_RESOLVES, `${msg} ${scopeNote}`));
+          continue;
+        }
+
+        if (traitTargets.has(value)) continue;
+
+        if (widerIds && widerIds.has(value)) continue;
+        if (treatAsError) {
+          errors.push(err(RULES.COMBO_TARGET_RESOLVES, `${label} matches no trait on "${entity.id}", and no known entry or shared entry`));
+        } else {
+          warnings.push(err(RULES.COMBO_TARGET_RESOLVES, `${label} matches no trait on "${entity.id}", and no known entry or shared entry ${scopeNote}`));
+        }
+      }
+    }
+  }
+}
+
 // Resolves a ref's `to` against the document's actual entries/shared
 // entries and their items - only meaningful for a base document, since a
 // standalone entry file has no other entries to point at. A `same-as` ref
@@ -573,46 +737,140 @@ function collectItemIds(entry) {
 //
 // A target found among this document's own entities is always checked -
 // that's a space this validator can fully see, whatever else is true.
-// When it isn't found here:
-//   - A self-contained document (no `rel: file` ref anywhere in its own
-//     top-level `refs`) has nowhere else the target could be. Unresolved
-//     here means genuinely broken - a hard error.
-//   - A document that declares `rel: file` is part of a larger project.
-//     loadProject() follows that link (transitively, bounded to the
-//     target file's own directory - see the limitation documented
-//     above it) and re-checks against the merged result. A target this
-//     still can't find is reported, but only as a warning: a sibling
-//     that couldn't be read (missing, unparsable, or outside that
-//     directory) makes the search incomplete, and a validator that
-//     can't see the whole project MUST NOT assert a pointer is broken
-//     with the same confidence as one it fully resolved. `--strict`
-//     promotes these to failures once a project is clean.
-function validateItemRefs(doc, errors, warnings, opts = {}) {
+// When it isn't found here, this looks wider, from two sources:
+//   - This document's own `rel: file` project, if it declares one -
+//     loadProject() follows that link transitively, bounded to the
+//     target file's own directory (see the limitation documented above
+//     it).
+//   - Every entity in every file passed to this one CLI run
+//     (opts.cliEntities - see the call site in the CLI entry point
+//     below). A standalone entry file has no field of its own like a
+//     base document's `refs` to declare "these are my siblings," so
+//     without this it could never resolve a reference to a sibling
+//     component at all - exactly the test/site-components/ shape,
+//     where the index declares rel: file to every component but no
+//     component declares anything back.
+//
+// If neither source finds it either:
+//   - No wider source was even available (no rel: file, and this file
+//     was validated alone) - nowhere else the target could be.
+//     Unresolved here means genuinely broken - a hard error.
+//   - A wider source was available but still came up empty. That's
+//     reported, but only as a warning: a `rel: file` sibling that
+//     couldn't be read (missing, unparsable, outside the root), or a
+//     CLI run that only included some of a larger project's files,
+//     makes the search incomplete, and a validator that can't see the
+//     whole project MUST NOT assert a pointer is broken with the same
+//     confidence as one it fully resolved. `--strict` promotes these to
+//     failures once a project is clean.
+// Shared by validateItemRefs (DSDS-05/08) and validateComboTargets
+// (DSDS-09): builds the "wider than this one document" resolution pool
+// both draw on, and decides whether an unresolved target there is a hard
+// error or a warning. See validateItemRefs's own comment for the full
+// reasoning; this is just the part both checks need identically.
+function resolveWiderScope(doc, localIds, opts) {
   const isSplitAcrossFiles = (doc.refs || []).some((r) => r && r.rel === "file");
+  const hasCliSiblings =
+    Array.isArray(opts.cliEntities) && opts.cliEntities.some((e) => !localIds.has(e.id));
+  const hasWiderScope = isSplitAcrossFiles || hasCliSiblings;
+
+  let widerEntities = [];
+  let foundSiblings = false;
+  if (hasWiderScope) {
+    if (hasCliSiblings) widerEntities = widerEntities.concat(opts.cliEntities);
+    if (isSplitAcrossFiles && opts.filePath) {
+      const { entities: projectEntities, siblingCount } = loadProject(path.resolve(opts.filePath));
+      widerEntities = widerEntities.concat(projectEntities);
+      foundSiblings = foundSiblings || siblingCount > 0;
+    }
+    foundSiblings = foundSiblings || hasCliSiblings;
+  }
+
+  // A base document's `entries`/`shared` arrays are an explicit, complete
+  // declaration of "this is everything" when it has no `rel: file` link
+  // out - so an unresolved target there really is broken (a hard error).
+  // A standalone entry file has no equivalent way to assert completeness
+  // - it's always potentially one piece of a larger indexed project (see
+  // test/site-components/, where the index alone declares the shape),
+  // so it can never earn that same confidence. An unresolved target on
+  // a standalone entry is always a warning, even with no wider scope to
+  // check at all - matching the report this validator's own bug was
+  // filed against: "a standalone file genuinely cannot resolve a target
+  // on its own, so an error would be wrong."
+  const treatAsError = !opts.standalone && !hasWiderScope;
+
+  // What actually got checked, honestly - claims a search only when one
+  // actually happened.
+  const scopeNote = foundSiblings
+    ? "(checked every file given to this run, and this document's own rel: file project)"
+    : "(no other file could be checked against)";
+
+  return { hasWiderScope, widerEntities, treatAsError, scopeNote };
+}
+
+// DSDS-10: a guidelines item can borrow another item's text via a
+// `rel: same-as` ref (see guidelines.schema.yaml's own $comment) while
+// still declaring its own `level` - `level` is required unconditionally,
+// same-as or not, so the borrowing site and the shared rule each carry
+// their own copy with nothing checking the two agree. Whenever the
+// same-as target actually resolves and it has its own `level`, this
+// checks they match. Doesn't touch whether the target resolves at all
+// (DSDS-05 already owns that) - only compares levels once resolution
+// already succeeded, so this is a hard error whenever it fires: a
+// mismatch found between two items the validator can both see is a
+// real, confirmed drift, not a "might exist elsewhere" scope question.
+function validateSameAsLevels(doc, errors, warnings, opts = {}) {
+  const localEntities = entriesIn(doc);
+  const localIds = new Set(localEntities.map((e) => e.id));
+  const localItemsByEntity = new Map(localEntities.map((e) => [e.id, collectItemsById(e)]));
+
+  const { hasWiderScope, widerEntities } = resolveWiderScope(doc, localIds, opts);
+  const widerItemsByEntity = hasWiderScope
+    ? new Map(widerEntities.map((e) => [e.id, collectItemsById(e)]))
+    : null;
+
+  function findItem(targetId, itemId) {
+    const local = localItemsByEntity.get(targetId);
+    if (local && local.has(itemId)) return local.get(itemId);
+    const wider = widerItemsByEntity && widerItemsByEntity.get(targetId);
+    return wider && wider.has(itemId) ? wider.get(itemId) : null;
+  }
+
+  for (const entity of localEntities) {
+    for (const section of entity.sections || []) {
+      if (section.kind !== "guidelines") continue;
+      for (const [i, item] of (section.items || []).entries()) {
+        if (!item || typeof item.level !== "string") continue;
+        for (const ref of item.refs || []) {
+          if (!ref || ref.rel !== "same-as" || typeof ref.to !== "string") continue;
+          const hashIdx = ref.to.indexOf("#");
+          if (hashIdx === -1) continue;
+          const targetItem = findItem(ref.to.slice(0, hashIdx), ref.to.slice(hashIdx + 1));
+          if (!targetItem || typeof targetItem.level !== "string") continue;
+          if (targetItem.level !== item.level) {
+            errors.push(
+              err(
+                RULES.SAME_AS_LEVEL_MATCHES,
+                `"${entity.id}" guidelines item[${i}] declares level "${item.level}" but its same-as target "${ref.to}" declares level "${targetItem.level}" - the two must agree`,
+              ),
+            );
+          }
+        }
+      }
+    }
+  }
+}
+
+function validateItemRefs(doc, errors, warnings, opts = {}) {
   const localEntities = entriesIn(doc);
   const localIds = new Set(localEntities.map((e) => e.id));
   const localItemIdsByEntity = new Map(localEntities.map((e) => [e.id, collectItemIds(e)]));
 
-  // Only touches the filesystem when this document actually declares a
-  // rel: file ref - a self-contained document never triggers project
-  // discovery at all.
-  let projectIds = null;
-  let projectItemIdsByEntity = null;
-  let foundSiblings = false;
-  if (isSplitAcrossFiles && opts.filePath) {
-    const { entities: projectEntities, siblingCount } = loadProject(path.resolve(opts.filePath));
-    projectIds = new Set(projectEntities.map((e) => e.id));
-    projectItemIdsByEntity = new Map(projectEntities.map((e) => [e.id, collectItemIds(e)]));
-    foundSiblings = siblingCount > 0;
-  }
-
-  // What actually got checked, honestly - "checked the closure" only
-  // when a sibling was actually read; a rel: file ref that pointed at
-  // nothing reachable (missing, unparsable, outside the root) doesn't
-  // get to claim a search that never happened.
-  const scopeNote = foundSiblings
-    ? "(checked this project's rel: file closure)"
-    : "(this document declares rel: file, but no sibling could be read - not checked against a wider project)";
+  const { hasWiderScope, widerEntities, treatAsError, scopeNote } = resolveWiderScope(doc, localIds, opts);
+  const widerIds = hasWiderScope ? new Set(widerEntities.map((e) => e.id)) : null;
+  const widerItemIdsByEntity = hasWiderScope
+    ? new Map(widerEntities.map((e) => [e.id, collectItemIds(e)]))
+    : null;
 
   for (const entity of localEntities) {
     const found = [];
@@ -624,9 +882,9 @@ function validateItemRefs(doc, errors, warnings, opts = {}) {
 
       if (hashIdx === -1) {
         if (!to || localIds.has(to)) continue;
-        if (!isSplitAcrossFiles) {
+        if (treatAsError) {
           errors.push(err(RULES.ENTRY_REF_RESOLVES, `${label} targets unknown entry/shared "${to}"`));
-        } else if (!projectIds || !projectIds.has(to)) {
+        } else if (!widerIds || !widerIds.has(to)) {
           warnings.push(err(RULES.ENTRY_REF_RESOLVES, `${label} targets unknown entry/shared "${to}" ${scopeNote}`));
         }
         continue;
@@ -644,15 +902,15 @@ function validateItemRefs(doc, errors, warnings, opts = {}) {
         continue;
       }
 
-      if (!isSplitAcrossFiles) {
+      if (treatAsError) {
         errors.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown entry/shared "${targetId}"`));
         continue;
       }
 
-      const projectItemIds = projectItemIdsByEntity && projectItemIdsByEntity.get(targetId);
-      if (!projectItemIds) {
+      const widerItemIds = widerItemIdsByEntity && widerItemIdsByEntity.get(targetId);
+      if (!widerItemIds) {
         warnings.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown entry/shared "${targetId}" ${scopeNote}`));
-      } else if (!projectItemIds.has(itemId)) {
+      } else if (!widerItemIds.has(itemId)) {
         warnings.push(err(RULES.ITEM_REF_RESOLVES, `${label} targets unknown item "${itemId}" on "${targetId}" ${scopeNote}`));
       }
     }
@@ -677,7 +935,7 @@ function validateDoc(doc, opts = {}) {
   if (isBase) {
     validateBase(doc, errors, warnings, opts);
   } else {
-    validateEntry(doc, errors);
+    validateEntry(doc, errors, warnings, { ...opts, standalone: true });
   }
   return { errors, warnings };
 }
@@ -685,7 +943,7 @@ function validateDoc(doc, opts = {}) {
 function validateFile(target, opts = {}) {
   const doc = loadYaml(target);
   const isBase = typeof doc.schemaVersion !== "undefined";
-  const { errors, warnings } = validateDoc(doc, { filePath: target });
+  const { errors, warnings } = validateDoc(doc, { filePath: target, cliEntities: opts.cliEntities });
 
   const rel = path.relative(rootDir, target);
   if (errors.length) {
@@ -728,9 +986,29 @@ if (require.main === module) {
   const targets = args.filter((a) => a !== "--strict");
   const resolvedTargets = targets.length ? targets : defaultTargets();
 
+  // Every entry/shared entity across every file given to this one run,
+  // gathered up front. A standalone entry file has no way to declare
+  // "here are my siblings" the way a base document's own `refs` can (see
+  // validateItemRefs) - the real-world layout it needs that for is an
+  // index file listing many standalone entries via rel: file, with none
+  // of the entries themselves pointing back (test/site-components/ is
+  // exactly this shape). Treating every file handed to one CLI
+  // invocation as one project fills that gap for the common case: run
+  // together, as `npm run check` already does, they resolve against
+  // each other; run alone, a standalone file still only sees itself.
+  const cliEntities = [];
+  for (const target of resolvedTargets) {
+    try {
+      cliEntities.push(...entriesIn(loadYaml(target)));
+    } catch (e) {
+      // Let validateFile() below report the real parse/read error for
+      // this file; it just contributes nothing to the shared pool.
+    }
+  }
+
   let ok = true;
   for (const target of resolvedTargets) {
-    if (!validateFile(target, { strict })) ok = false;
+    if (!validateFile(target, { strict, cliEntities })) ok = false;
   }
   process.exit(ok ? 0 : 1);
 }

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/entries-system">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="entries-system.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="SystemEntry — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"SystemEntry — DSDS 0.20.0","description":"A DSDS design system. System-level information and guidance for the design system as a whole.","url":"https://designsystemdocspec.org/entries-system","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-system.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"SystemEntry","url":"https://designsystemdocspec.org/entries-system#systementry"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"SystemEntry — DSDS 0.20.0","description":"A DSDS design system. System-level information and guidance for the design system as a whole.","url":"https://designsystemdocspec.org/entries-system","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/entries-system.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"SystemEntry","url":"https://designsystemdocspec.org/entries-system#systementry"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,43 +76,37 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="entries/system.schema.yaml">
-  <ds-code language="json" label="entries/system.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml&quot;,
-  &quot;title&quot;: &quot;SystemEntry&quot;,
-  &quot;description&quot;: &quot;A DSDS design system. System-level information and guidance for the design system as a whole.&quot;,
-  &quot;$comment&quot;: &quot;Does not contain entries. A system points at its own components/tokens/etc with `refs` instead. It can reference other systems the same way to state a relationship (sibling, child, parent).&quot;,
-  &quot;allOf&quot;: [
-    {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/entry.schema.yaml&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;properties&quot;: {
-        &quot;kind&quot;: {
-          &quot;const&quot;: &quot;system&quot;,
-          &quot;description&quot;: &quot;Marks this entry as a design system.&quot;
-        },
-        &quot;metadata&quot;: {
-          &quot;description&quot;: &quot;Facts about the design system as a whole.&quot;,
-          &quot;$comment&quot;: &quot;Uses the same structure as every other entry's `metadata` (entry-metadata.schema.yaml), plus fields that only make sense for a whole system: `version`, `organization`, `url`, `license`, `platforms` (system-metadata.schema.yaml).&quot;,
-          &quot;allOf&quot;: [
-            {
-              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml&quot;
-            },
-            {
-              &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata/system-metadata.schema.yaml&quot;
-            }
-          ],
-          &quot;unevaluatedProperties&quot;: false
-        }
-      }
-    }
-  ],
-  &quot;unevaluatedProperties&quot;: false
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="entries/system.schema.yaml">
+  <ds-code language="yaml" label="entries/system.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/entries/system.schema.yaml
+title: SystemEntry
+description: A DSDS design system. System-level information and guidance for the design system as a whole.
+$comment: &gt;-
+  Does not contain entries. A system points at its own
+  components/tokens/etc with `refs` instead. It can reference other
+  systems the same way to state a relationship (sibling, child,
+  parent).
+
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml
+  - type: object
+    properties:
+      kind:
+        const: system
+        description: Marks this entry as a design system.
+      metadata:
+        description: Facts about the design system as a whole.
+        $comment: &gt;-
+          Uses the same structure as every other entry's `metadata`
+          (entry-metadata.schema.yaml), plus fields that only make
+          sense for a whole system: `version`, `organization`, `url`,
+          `license`, `platforms` (system-metadata.schema.yaml).
+        allOf:
+          - $ref: https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml
+          - $ref: https://designsystemdocspec.org/v0.20.0/metadata/system-metadata.schema.yaml
+        unevaluatedProperties: false
+unevaluatedProperties: false</ds-code>
+</ds-source-view>
 <ds-def-section name="SystemEntry" anchor="systementry" description="A DSDS design system. System-level information and guidance for the design system as a whole." type="object">
 <ds-prop-table>
   <ds-prop name="id" type="string" required>This entry's unique id in the design system graph.</ds-prop>

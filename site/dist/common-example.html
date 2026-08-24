@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-example">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-example.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Example — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Example — DSDS 0.20.0","description":"A single example, illustrating something in context.","url":"https://designsystemdocspec.org/common-example","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-example.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Example","url":"https://designsystemdocspec.org/common-example#example"},{"@type":"DefinedTerm","name":"list","url":"https://designsystemdocspec.org/common-example#list"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Example — DSDS 0.20.0","description":"A single example, illustrating something in context.","url":"https://designsystemdocspec.org/common-example","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-example.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Example","url":"https://designsystemdocspec.org/common-example#example"},{"@type":"DefinedTerm","name":"list","url":"https://designsystemdocspec.org/common-example#list"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,70 +76,44 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/example.schema.yaml">
-  <ds-code language="json" label="common/example.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Example&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;description&quot;: &quot;A single example, illustrating something in context.&quot;,
-  &quot;$comment&quot;: &quot;At least one of `title`, `description`, `showcase`, or `ref` must be given.&quot;,
-  &quot;properties&quot;: {
-    &quot;title&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;A short heading for the example.&quot;,
-      &quot;example&quot;: &quot;Loading state has an accessible announcement&quot;
-    },
-    &quot;description&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;Describes the example in detail.&quot;,
-      &quot;example&quot;: &quot;Renders with aria-live=\&quot;polite\&quot; so the loading state is announced.&quot;
-    },
-    &quot;showcase&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml&quot;,
-      &quot;description&quot;: &quot;A visual sample of this example.&quot;,
-      &quot;$comment&quot;: &quot;This property is used only when a visual example exists. Sometimes the example is only code or a file reference. Use `ref` in those cases.&quot;
-    },
-    &quot;ref&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml&quot;,
-      &quot;description&quot;: &quot;Where this example lives in code.&quot;,
-      &quot;$comment&quot;: &quot;Use `rel: file` for a source file, or `rel: storybook`/`rel: external-link` for a live story.&quot;
-    }
-  },
-  &quot;anyOf&quot;: [
-    {
-      &quot;required&quot;: [
-        &quot;title&quot;
-      ]
-    },
-    {
-      &quot;required&quot;: [
-        &quot;description&quot;
-      ]
-    },
-    {
-      &quot;required&quot;: [
-        &quot;showcase&quot;
-      ]
-    },
-    {
-      &quot;required&quot;: [
-        &quot;ref&quot;
-      ]
-    }
-  ],
-  &quot;$defs&quot;: {
-    &quot;list&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;$comment&quot;: &quot;Every consumer expects an array of examples. Pulled out here so call sites don't have to redefine it.&quot;,
-      &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml&quot;
-      }
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/example.schema.yaml">
+  <ds-code language="yaml" label="common/example.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml
+title: Example
+type: object
+description: A single example, illustrating something in context.
+$comment: At least one of `title`, `description`, `showcase`, or `ref` must be given.
+
+properties:
+  title:
+    type: string
+    description: A short heading for the example.
+    example: Loading state has an accessible announcement
+  description:
+    type: string
+    description: Describes the example in detail.
+    example: Renders with aria-live=&quot;polite&quot; so the loading state is announced.
+  showcase:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml
+    description: A visual sample of this example.
+    $comment: This property is used only when a visual example exists. Sometimes the example is only code or a file reference. Use `ref` in those cases.
+  ref:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml
+    description: Where this example lives in code.
+    $comment: &quot;Use `rel: file` for a source file, or `rel: storybook`/`rel: external-link` for a live story.&quot;
+anyOf:
+  - required: [title]
+  - required: [description]
+  - required: [showcase]
+  - required: [ref]
+$defs:
+  list:
+    type: array
+    minItems: 1
+    $comment: Every consumer expects an array of examples. Pulled out here so call sites don't have to redefine it.
+    items:
+      $ref: https://designsystemdocspec.org/v0.20.0/common/example.schema.yaml</ds-code>
+</ds-source-view>
 <ds-def-index title="2 definitions">
 <!--<p><strong>2 definitions</strong> in this file:</p>-->
 <ul>

@@ -1,24 +1,24 @@
 # Extending the schema — DSDS 0.20.0
 
-DSDS ships a fixed set of well-known kinds and a fixed set of fields on each. Every real project needs more than that eventually — vendor data a tool wants to stash, a document type the spec doesn't have a name for, or a completeness bar stricter than "optional." This page covers the three ways to get there, and when to reach for each one.
+DSDS ships with a fixed set of kinds, and a fixed set of fields on each. Sooner or later, every real project needs more than that — data a specific tool wants to store, a document type the spec has no name for, or fields that should be required instead of just optional. This page covers the three ways to get there, and when to reach for each one.
 
 | Mechanism | What it's for | Who else can read it |
 |---|---|---|
-| `$extensions` | Opaque data a specific tool needs, attached to something the spec already models | Only the tool that owns the namespace — everyone else skips it, by design |
+| `$extensions` | Data a specific tool needs, attached to something the spec already models | Only the tool that owns the namespace — everyone else skips it, by design |
 | A custom kind | A document shape the spec has no name for at all | Nobody, unless you also publish the schema that defines it |
-| A profile | Making an existing kind's *optional* fields required for your own project | Everybody — the document is still fully standard DSDS |
+| A profile | Making an existing kind's *optional* fields required, for your own project | Everybody — the document is still fully standard DSDS |
 
 ## `$extensions`
 
-`$extensions` is a namespaced escape hatch for vendor or tool data. It's available at the document, entry, and section level, and — as of this page — on every section item too: a `guidelines`, `definitions`, or `steps` item, and a `freeform` entry.
+`$extensions` is a place to put vendor or tool-specific data, organized by namespace so different tools don't collide. It's available at the document, entry, and section level — and now on every section item too: a `guidelines`, `definitions`, or `steps` item, and a `freeform` entry.
 
-Every top-level key under `$extensions` MUST be a dotted namespace (`com.figma`, `com.acme`), matching the [Design Tokens Community Group's own `$extensions` convention](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/). That namespace is what keeps a tool that doesn't recognize your data from choking on it — it just skips keys it doesn't own.
+Every top-level key under `$extensions` MUST be a dotted namespace (`com.figma`, `com.acme`), matching the [Design Tokens Community Group's own `$extensions` convention](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/). That namespace is what lets a tool that doesn't recognize your data ignore it safely — it just skips any key it doesn't own.
 
 ### Why item-level `$extensions` matters
 
-A `guidelines` item's shape is closed — `statement`, `level`, `refs`, and a handful of other well-known fields, nothing else. That's deliberate: every tool that understands the `guidelines` kind keeps understanding it, with no surprise fields to trip over. But it also means there was no way to attach a rationale or a documented failure mode to *one specific rule* without either abandoning the well-known `guidelines` kind entirely (see [custom kinds](#custom-kinds) below) or waiting for the spec to add a field everyone would then be stuck with, whether they wanted it or not.
+A `guidelines` item only accepts a fixed set of fields — `statement`, `level`, `refs`, and a few others, nothing else. That's on purpose: any tool that understands the `guidelines` kind keeps understanding it, with no surprise fields to trip over. But until now, that also meant there was no way to attach a reason, or a documented failure case, to *one specific rule* — you'd either have to give up the well-known `guidelines` kind entirely (see [custom kinds](#custom-kinds) below), or wait for the spec itself to add a field that everyone else would then be stuck with too, whether they wanted it or not.
 
-`$extensions` on the item itself resolves that without opening the shape up for everyone:
+`$extensions` on the item itself solves that without opening the shape up for everyone:
 
 ```yaml
 sections:
@@ -33,13 +33,13 @@ sections:
             failureMode: A dialog ships with two primary-styled buttons (e.g. "Save" and "Save as draft"), and usability testing shows users default to the wrong one.
 ```
 
-A tool that doesn't know about `com.acme` — the reference validator, another vendor's linter, a generic DSDS reader — skips it entirely. The document is still fully standard DSDS: swap out the `$extensions` block and there's nothing left that wasn't already legal.
+A tool that doesn't know about `com.acme` — the reference validator, another vendor's linter, a plain DSDS reader — skips it entirely. The document is still fully standard DSDS: remove the `$extensions` block and everything left over was already valid on its own.
 
 See it in the repo's own [`button.yaml`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/examples/entries/button.yaml) for a real, validated example.
 
 ## Custom kinds
 
-When the generic `entry` kind isn't specific enough — you want your own recognizable name for a whole category of document — use a namespaced custom kind instead of `entry`:
+When the generic `entry` kind isn't specific enough — you want your own name for a whole category of document — use a custom kind instead of `entry`:
 
 ```yaml
 id: acme-excerpt-onboarding
@@ -48,35 +48,35 @@ name: Onboarding excerpt
 description: A short, reusable pull-quote of onboarding copy, shared across three different surfaces.
 ```
 
-A custom entry kind (`acme.excerpt` above) or a custom section kind (`acme.checklist`, say) validates against the same **open** base every generic kind does — `entry.schema.yaml` for an entry, `section.schema.yaml` for a section. Open means genuinely open: no schema file backs `acme.excerpt` in this repo, so nothing stops a typo'd field or a value of the wrong type from passing silently. If you want your custom kind to actually enforce a shape — required fields, a closed set of allowed properties — you have to write and ship that schema file yourself, in your own copy of `scripts/validate.js`'s schema directory. Nothing in DSDS itself, or in any other tool, will ever recognize a `kind: acme.excerpt` document as anything but a bag of open fields.
+A custom entry kind (`acme.excerpt` above) or a custom section kind (`acme.checklist`, say) is checked against the same **open** base every generic kind is — `entry.schema.yaml` for an entry, `section.schema.yaml` for a section. Open means genuinely open: no schema file exists for `acme.excerpt` in this repo, so nothing stops a misspelled field, or a value of the wrong type, from passing silently. If you want your custom kind to actually enforce a shape — required fields, no unexpected properties — you have to write and ship that schema file yourself, in your own copy of `scripts/validate.js`'s schema folder. Neither DSDS itself, nor any other tool, will ever recognize a `kind: acme.excerpt` document as anything more than a set of open fields.
 
-That's the tradeoff a custom kind makes: total freedom over the shape, in exchange for total unfamiliarity to every other tool. It's the right choice for a document type that's genuinely yours and nobody else's. It's the wrong choice for tightening a kind the spec already defines — for that, use a profile.
+That's the tradeoff with a custom kind: total freedom over the shape, but total unfamiliarity to every other tool. It's the right choice for a document type that's genuinely yours and nobody else's. It's the wrong choice for making a kind the spec already defines stricter — for that, use a profile instead.
 
 <ds-callout variant="warning" title="A custom kind isn't a lighter-weight profile:">
 
-Renaming `component` to `acme.component` to "add a required field" doesn't narrow the component schema — it opts out of it entirely. `traits`, `combos`, `sourceFiles` all stop being validated, because nothing at that kind name says they should be. See [Profiles](#profiles) for the mechanism that actually narrows a kind instead of replacing it.
+Renaming `component` to `acme.component` to "add a required field" doesn't make the component schema stricter — it drops it entirely. `traits`, `combos`, and `sourceFiles` all stop being checked, because nothing at that new kind name says they still apply. See [Profiles](#profiles) below for the way to actually make a kind stricter instead of replacing it.
 
 </ds-callout>
 
 ## Profiles
 
-A profile is a small, local schema file that makes some of a kind's *optional* fields required, for one project. It adds no new fields — it can only tighten a rule that already exists.
+A profile is a small, local schema file that turns some of a kind's *optional* fields into required ones, just for your own project. It never adds a new field — it can only make an existing rule stricter.
 
-That one property is what makes a profile safe to build on: **a profile may narrow. It must not extend.** A document that passes your profile is still, unconditionally, a valid DSDS document to a tool that has never heard of your profile. There's no fork, no dialect, no divergence — just a stricter bar for your own project to clear.
+That one property is what makes a profile safe to build on: **a profile may narrow. It must not extend.** A document that passes your profile is still a fully valid DSDS document to any tool that's never heard of your profile — nothing is added, nothing is different, just a stricter bar for your own project to clear.
 
 <ds-callout title="Why this is safe:">
 
-A profile is built with JSON Schema's `allOf`, and `allOf` only ever *intersects* constraints — it can never remove one. There is no way to write a profile that makes a required field optional, because the base schema's own `required` list is still one of the `allOf` branches being checked. Try to loosen a base requirement and the base requirement simply survives.
+A profile is built with JSON Schema's `allOf`, which only ever *combines* rules — it can never take one away. There's no way to write a profile that makes a required field optional, because the base schema's own list of required fields is still one of the rules being checked. Try to loosen a requirement from the base schema, and the original requirement simply stays in force.
 
 </ds-callout>
 
-This isn't a new idea. [DCAT-AP](https://www.w3.org/2016/12/staging-dcat-ap/), the EU's own metadata standard, is a published profile of the base DCAT vocabulary, narrowed for a particular community. OGC and XML Schematron use the same pattern. DSDS didn't need to invent a mechanism — `allOf` plus `required` (and, for a conditional rule, `if`/`then`) already is the standard JSON Schema idiom for a profile. What DSDS adds is a place to put one.
+This isn't a new idea — other standards use the same pattern to narrow a shared format for one group's needs (the EU's [DCAT-AP](https://www.w3.org/2016/12/staging-dcat-ap/) metadata standard is one example). DSDS didn't need to invent a mechanism for this: `allOf` plus `required` (and, for a rule that only applies sometimes, `if`/`then`) is already the standard way to write a profile in JSON Schema. What DSDS adds is a documented place to put one.
 
-### The `profiles/` directory
+### The `profiles/` folder
 
-Drop a file at `profiles/entries/<kind>.schema.yaml` or `profiles/sections/<kind>.schema.yaml`, and `scripts/validate.js` picks it up automatically — no code change, no registration step. `<kind>` can be a well-known kind (`component`, `guidelines`) or a namespaced custom one.
+Save a file at `profiles/entries/<kind>.schema.yaml` or `profiles/sections/<kind>.schema.yaml`, and `scripts/validate.js` picks it up automatically — no code change, nothing to register. `<kind>` can be a well-known kind (`component`, `guidelines`) or a custom one.
 
-A profile file needs its own `$id`, distinct from the schema it narrows — reusing the built-in schema's own `$id` crashes the validator outright, since two schemas can't be registered under the same id. It narrows by `$ref`-ing the real schema via `allOf`:
+A profile file needs its own `$id`, different from the schema it's narrowing — reusing the built-in schema's `$id` crashes the validator outright, since two schemas can't share the same id. It narrows the real schema by linking to it with `$ref`, inside `allOf`:
 
 ```yaml
 # profiles/entries/component.schema.yaml
@@ -100,19 +100,19 @@ allOf:
       required: [purpose, sourceFiles]
 ```
 
-This is the **maturity ratchet** pattern, and it's the form worth leading with: *if the status is stable, then require these fields.* It works on anything carrying a lifecycle field — a component, a token, a theme — and it converts documentation completeness from a review conversation into a build failure.
+This is the most useful form of profile: *if the status is stable, then require these fields.* It works on anything with a lifecycle field — a component, a token, a theme — and turns "is the documentation complete?" from a question someone has to remember to ask into something the build checks automatically.
 
-`profiles/` is never bundled. `scripts/bundle.js` only ever walks `schema/`, so a project's own profile — which encodes decisions specific to that project, not to the spec — can never leak into the published `dsds.bundled.schema.json`. It's read by the CLI validator only, and only for the project that placed it there.
+`profiles/` is never bundled into the published schema. `scripts/bundle.js` only ever looks inside `schema/`, so a project's own profile — which reflects decisions specific to that project, not to the spec itself — can never end up in the published `dsds.bundled.yaml`. Only the command-line validator reads it, and only for the project that added it.
 
 <ds-callout variant="tip" title="This repo doesn't ship a live profile:">
 
-`profiles/` is a per-project, opt-in mechanism — a profile encodes *your* completeness bar, not the spec's. This repo's own `npm run check` validates the spec's illustrative examples, which intentionally range from a bare minimum to fully described; requiring every one of them to be "stable-complete" would defeat the point of having minimal examples at all. The snippet above is real and tested, just not checked into this repo's own `profiles/` directory — copy it into yours to see it in action.
+`profiles/` is opt-in, per project — a profile reflects *your* completeness bar, not the spec's. This repo's own `npm run check` validates the spec's example files, which intentionally range from bare-minimum to fully filled out; requiring every one of them to be fully complete would defeat the point of having minimal examples at all. The snippet above is real and has been tested, it's just not saved in this repo's own `profiles/` folder — copy it into yours to see it work.
 
 </ds-callout>
 
 ### What a profile can't do
 
-A profile can't add a field. If your organization needs a field the spec genuinely doesn't have anywhere — not "optional-but-empty," but structurally absent — that's not a profile; it's either `$extensions` (if it's your own tool's data) or feedback for the spec itself (if it's something every DSDS consumer would benefit from).
+A profile can't add a field. If your organization needs a field the spec truly doesn't have anywhere — not "optional and currently empty," but genuinely missing — that's not a job for a profile. Use `$extensions` if it's your own tool's data, or raise it with the spec itself if it's something every DSDS user would benefit from.
 
 ## Choosing between the three
 
@@ -120,4 +120,4 @@ A profile can't add a field. If your organization needs a field the spec genuine
 - **Documenting something the spec has no shape for at all — and you're fine with no other tool understanding it?** A custom kind.
 - **Making optional fields mandatory for your own project, without leaving standard DSDS?** A profile.
 
-They compose. A custom kind can carry its own `$extensions`. A profile can require that a `$extensions` namespace be present, the same way it requires any other field. Pick the smallest one that solves the actual problem — reaching for a custom kind to solve a "we want this field required" problem gives up far more (the entire closed shape of the kind you renamed away from) than it gains.
+You can combine them. A custom kind can carry its own `$extensions`. A profile can require that an `$extensions` namespace be present, the same way it requires any other field. Pick the smallest tool that solves your actual problem — reaching for a custom kind just to make one field required gives up far more (the entire fixed shape of the kind you moved away from) than it gains.

@@ -10,7 +10,7 @@ This is a draft. It can still change. No standards body has endorsed it yet. We 
 
 ## A machine-readable format for design system documentation
 
-This standard puts design system docs in one shared format that any tool can read. A DSDS document is a [**base**](/base): a `schemaVersion`, a `name`, and a list of [**entries**](/entries-entry) — a [system](/entries-system), plus [components](/entries-component), [tokens](/entries-token), [themes](/entries-theme), and the generic `entry` kind for anything else. The goal is one source of truth that feeds your docs, trains your agents, and reaches every touchpoint.
+This standard puts design system docs in one shared format that any tool can read. A DSDS document is a [**base**](/base): a `schemaVersion`, a `name`, and a list of [**entries**](/entries-entry) — a [system](/entries-system), plus [components](/entries-component), [tokens](/entries-token), [themes](/entries-theme), and the generic `entry` kind for anything else. The goal is one source of truth that feeds your docs, trains your agents, and shows up everywhere your design system does.
 
 ---
 
@@ -18,14 +18,14 @@ This standard puts design system docs in one shared format that any tool can rea
 
 The design principles this spec is held to, and why the schema is shaped the way it is:
 
-1. **Solely focused on documentation.** This schema focuses on capturing the how, when, and why of a design system.
-2. **Don't replicate data.** If a more relevant source of truth exists, link to it. This schema is focused on the how/when/why — it's designed to reference the source of truth rather than duplicate it.
-3. **A modular and consistent profile.** Each schema element follows the same structure to make writing predictable and obvious.
-4. **Simple and approachable.** The goal is to have a light footprint and an easy onramp. The schema avoids being overly technical or specific. Additional detail can be added when needed with `$extensions`.
-5. **Everything is connectable.** Systems are all about connections. The documentation should reflect that.
-6. **Everything has an escape hatch.** The schema is opinionated, but also aware that those opinions will not work for every situation. The schema provides ways to "detach."
-7. **Action oriented.** The schema should be tuned for action — structured to help people and agents use the system in the fewest possible steps.
-8. **Everything describable in one sentence.** Every schema and property should be describable in a single, simple sentence. Anything more means it's too complicated.
+1. **Documentation only.** This schema focuses on capturing the how, when, and why of a design system — not the system itself.
+2. **Don't copy data that lives somewhere better.** If a better source of truth exists elsewhere, link to it instead of restating it. This schema focuses on the how, when, and why — pointing at other sources rather than duplicating what they already own.
+3. **The same shape, every time.** Each part of the schema follows the same structure, so writing one part teaches you how to write the rest.
+4. **Simple to start with.** The goal is to keep the barrier to entry low. The schema avoids being overly technical or specific, and you can add more detail later with `$extensions` when you actually need it.
+5. **Everything can link to everything else.** A design system is a network of connections, and the documentation should reflect that.
+6. **There's always a way out.** The schema has opinions, but it knows those opinions won't fit every situation — so there's always a way to step outside them when you need to.
+7. **Built for action.** The schema is structured to help people and agents actually use the system, in as few steps as possible.
+8. **One sentence per idea.** Every schema and every field should be explainable in a single, simple sentence. If it takes more than that, it's too complicated.
 
 ---
 
@@ -33,9 +33,9 @@ The design principles this spec is held to, and why the schema is shaped the way
 
 Design systems have different documentation needs. The schema can be as simple or as detailed as you need. DSDS has strong opinions, but it doesn't force them on you.
 
-Every entry's structured docs live in one **sections** array. Each section is a typed object with a `kind` field. The spec defines 3 section kinds — `guidelines`, `definitions`, and `steps` — plus the generic `section`. Every section, regardless of kind, can also carry `freeform`: headed, nestable prose alongside its own kind-specific `items`. A component also carries `sourceFiles`, `traits`, `combos`, and `imports` as top-level fields of its own, not sections.
+Every entry's structured docs live in one **sections** array. Each section has a `kind` field naming what kind of section it is. The spec defines 3 section kinds — `guidelines`, `definitions`, and `steps` — plus the generic `section`. Every section, whatever its kind, can also carry `freeform`: headed, nestable prose alongside its own structured `items`. A component also carries `sourceFiles`, `traits`, `combos`, and `imports` as fields of its own, not as sections.
 
-Any entry kind can use any section kind — there's no gating rule matching an entry's `kind` to which section kinds it may carry.
+Any entry kind can use any section kind — nothing restricts which section kinds go with which entry kind.
 
 ---
 
@@ -62,7 +62,7 @@ No open standard covers the whole of design-system documentation — components,
 | Design artifacts | Design tool files | A `refs` entry with `rel: design`, or `metadata.preview` |
 | Source code | The repository | A `refs` entry with `rel: source`, or a component's own `sourceFiles` |
 
-DTCG owns token *values*; DSDS owns the *meaning and usage* around them — a token entry never carries a resolved value, so nothing can fork between the two files. CEM (and similar manifests) own the code-level API surface; DSDS doesn't restate it, it points `sourceFiles` at it. Wherever a machine-readable source of truth already exists, DSDS references it and documents around it — DSDS is only ever the source of truth for the documentation itself. See `examples/interop/` in the repo for worked examples of both relationships.
+DTCG owns token *values*; DSDS owns the *meaning and usage* around them. A token entry never carries an actual value, so the two files can never disagree with each other. CEM (and similar manifests) own a component's code-level details; DSDS doesn't repeat them, it points `sourceFiles` at the real source instead. Wherever a machine-readable source of truth already exists, DSDS points at it instead of restating it — DSDS is only ever the source of truth for the documentation itself, never for the values or code it's documenting. See `examples/interop/` in the repo for worked examples of both relationships.
 
 ---
 

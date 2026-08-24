@@ -16,22 +16,15 @@ Allowed values:
 - `must-not`
 - `may`
 
-## Full schema JSON
+## Full schema source
 
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml",
-  "title": "RequirementLevel",
-  "type": "string",
-  "description": "How strict a rule is, from must to must-not.",
-  "$comment": "The values come directly from [RFC 2119](https://www.rfc-editor.org/info/rfc2119/).",
-  "enum": [
-    "must",
-    "should",
-    "should-not",
-    "must-not",
-    "may"
-  ]
-}
+```yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/requirement-level.schema.yaml
+title: RequirementLevel
+type: string
+description: How strict a rule is, from must to must-not.
+$comment: The values come directly from [RFC 2119](https://www.rfc-editor.org/info/rfc2119/).
+
+enum: [must, should, should-not, must-not, may]
 ```

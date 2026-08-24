@@ -1,76 +1,77 @@
 # Conformance — DSDS 0.20.0
 
-This page defines what it means to conform to the Design System Doc Spec {{VERSION}}, how the schema itself is put together, what's stable versus still in flux ahead of 1.0, and indexes every normative statement the spec makes.
+This page explains what it means for a document to follow the DSDS {{VERSION}} spec, how the schema itself is organized, what might still change before version 1.0, and lists every rule the spec enforces.
 
-The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** in the DSDS schemas and on this page are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) (as clarified by [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)): they are normative only when they appear in upper case.
+The words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** have a specific meaning on this page and inside the DSDS schema files, as defined by [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) (updated by [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)). They only carry that meaning when written in capital letters.
 
 ## How the schema is organized
 
-This spec is built from a small, fixed set of shapes, reused rather than reinvented per file.
+This spec is built from a small, fixed set of shapes, reused instead of reinvented per file.
 
-**An entry.** [`entry.schema.yaml`](entries-entry.html) is the open base every entry kind shares: `id`, `kind`, `name`, `description` (required), plus `purpose`, `metadata`, `refs`, `sections`, `$extensions` (optional). The 4 kinds with fields beyond that base (`system`, `component`, `token`, `theme`) each have their own `entries/<kind>.schema.yaml` file extending this base. The 5th kind, the generic `entry`, has no fields beyond it, so there's no dedicated file — an entry of that kind, or a namespaced custom kind (`acme.icon-library`), is checked against `entry.schema.yaml` directly.
+**Entries.** [`entry.schema.yaml`](entries-entry.html) defines the fields every entry shares: `id`, `kind`, `name`, `description` (required), plus `purpose`, `metadata`, `refs`, `sections`, and `$extensions` (optional). Four kinds need fields on top of that — `system`, `component`, `token`, and `theme` — so each gets its own `entries/<kind>.schema.yaml` file. The fifth kind, the generic `entry`, needs nothing extra, so there's no separate file for it. An `entry`, or a custom kind like `acme.icon-library`, is checked against `entry.schema.yaml` directly.
 
-**A section.** Every section kind is built the same way: [`sections/section.schema.yaml`](sections-section.html) supplies `kind`, `for`, `title`, `description`, `items`, `metadata`, `$extensions`, and each kind (`definitions`, `guidelines`, `steps`, or the generic `section`) extends it with its own `items` shape. A section's content always lives in `items`, never under a kind-specific key.
+**Sections.** Every section kind works the same way: [`sections/section.schema.yaml`](sections-section.html) supplies the shared fields — `kind`, `for`, `title`, `description`, `items`, `metadata`, `$extensions` — and each kind (`definitions`, `guidelines`, `steps`, or the generic `section`) adds its own shape for `items`. A section's content always lives in `items`, never under a field named after the kind.
 
-**Open-base + closing-leaf.** When a kind-specific file extends a shared base like the two above, it does so via `allOf`, closed with `unevaluatedProperties: false` rather than repeating the base's own fields. This is the one structural pattern every `entries/*` and `sections/*` file follows.
+**One shared base per kind.** A kind-specific file doesn't repeat the base's fields — it links back to the shared file (`allOf`) and adds only what's new, then closes the combined shape so no stray fields sneak in (`unevaluatedProperties: false`). Every `entries/*` and `sections/*` file follows this same pattern.
 
-**Heterogeneous items.** When one array can hold genuinely different shapes (like a component's own `traits`, which can be `kind: boolean` or `kind: enum`), the schema discriminates with `anyOf` plus a `kind` tag. When items only differ in which *optional* fields are populated — nothing that could be mistaken for another shape — one flexible object is used instead, with no tag at all (`steps` and `guidelines` both work this way).
+**Lists that mix different shapes.** Sometimes one list needs to hold genuinely different kinds of items — a component's `traits` list can hold a `kind: boolean` item or a `kind: enum` item, for example. The schema tells them apart using a `kind` field (`anyOf` plus a tag). When items only differ in which *optional* fields happen to be filled in — never enough to confuse one shape for another — the schema just uses one flexible shape with no tag at all. `steps` and `guidelines` both work this way.
 
-**One pointer type.** `common/ref.schema.yaml` is the only way anything points at anything else, internal or external: `to` (this document's own graph) or `href` (outside it), plus a `rel` naming the relationship (`depends-on`, `composes`, `same-as`, `extends`, `source`, `external-link`, and more — see the schema file for the full, open list).
+**One way to point at things.** `common/ref.schema.yaml` is the only way anything in DSDS points at anything else, whether inside the same document or outside it: `to` points inside the document, `href` points outside it, and `rel` names the relationship (`depends-on`, `composes`, `same-as`, `extends`, `source`, `external-link`, and more — see the schema file for the full list).
 
-See [Schema architecture on the repo](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/schema/) for the full annotated source — every file's own `$comment` explains the reasoning behind its shape.
+See the [schema files on GitHub](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/schema/) for the full source, with comments explaining the reasoning behind each one.
 
-## Where the normative text lives
+## Where the rules live
 
-DSDS keeps its normative language inside the schema `description` strings, next to the structures that enforce it. The schema *is* the specification. The index at the bottom of this page is generated from the schemas on every build to avoid drift. Cite statements by their location-based ID (ex: `common/ref§note.1`). An ID only changes when the schema path it points to changes. That signals a citation needs to be checked.
+DSDS keeps its rules inside the schema's own `description` text, right next to the field they apply to. The schema *is* the spec — there's no separate rulebook to keep in sync. The index at the bottom of this page is regenerated from the schema on every build, so it can't drift out of date. Each rule has an ID based on where it lives in the schema (for example, `common/ref§note.1`) — if that ID changes, it means the schema moved and the rule should be double-checked wherever it's cited.
 
 ## Conformance classes
 
-DSDS defines four conformance classes. A claim of conformance names the class it applies to.
+DSDS defines four ways something can "follow the spec" — a document, the tool that creates it, the tool that reads it, and the tool that checks it. When something claims to follow DSDS, it should say which of these four it means.
 
 ### Conforming document
 
-A document that validates against the DSDS schema for the version its `schemaVersion` declares, **and** satisfies the semantic rules that JSON Schema alone can't express — the `DSDS-01` through `DSDS-08` catalog below.
+A document that passes schema validation for the version named in its `schemaVersion` field, **and** passes the extra rules listed below (`DSDS-01` through `DSDS-10`) that a schema file alone can't check.
 
-Schema validity alone is necessary, but not enough.
+Passing schema validation isn't enough on its own.
 
 ### Conforming producer
 
-A tool or person that emits DSDS documents. A conforming producer:
+A tool or person that creates DSDS documents. A conforming producer:
 
-- MUST emit conforming documents
-- MUST NOT emit a deprecated form in new output (a deprecated form exists only for reading old documents, never for writing new ones)
-- SHOULD record how the documentation was produced, via the `metadata.origin` field
+- MUST only create documents that follow the spec
+- MUST NOT use an outdated field or shape in new documents (old shapes are kept around only so existing documents still work, never for writing new ones)
+- SHOULD note how the document was created, using the `metadata.origin` field
 
 ### Conforming consumer
 
-A tool, renderer, or agent that reads DSDS documents. A conforming consumer:
+A tool, renderer, or AI agent that reads DSDS documents. A conforming consumer:
 
-- MUST NOT fail on optional fields it doesn't recognize
-- MUST preserve `$extensions` data it doesn't understand
-- MUST treat an unresolvable `entryId#itemId` reference as a defect, not silently drop it
-- MUST respect RFC 2119 levels on guidance it acts on (a `must-not` guideline is a hard gate for an agent writing code)
-- SHOULD index a document's `refs` bidirectionally at load time (e.g. to answer "what depends on X"), rather than expect the document to store the inverse edge — DSDS never stores a derived fact a consumer can compute from the ones it does store
+- MUST NOT fail just because it sees an optional field it doesn't recognize
+- MUST keep `$extensions` data intact even if it doesn't understand it
+- MUST treat a reference that can't be resolved (an `entryId#itemId` pointing nowhere) as an error, not silently ignore it
+- MUST take MUST/SHOULD-style guidance as seriously as the spec says to — a `must-not` guideline is a hard stop for an agent writing code, not a suggestion
+- SHOULD build its own "what points to what" index when it loads a document (to answer "what depends on this?", say), rather than expect the document to store that answer directly — DSDS never stores information a reader can work out for itself from what's already there
+- MUST be able to address every section item, whether or not it was written with an `id` — when one is missing, derive it from the item's own text (lowercase, non-alphanumeric runs collapsed to a single dash) the same way every other conforming tool does, so the same content gets the same id everywhere. See [common/id](common-id.html).
 
 ### Conforming validator
 
-A tool that checks documents. A conforming validator MUST enforce both the structural layer (the schema itself, with format assertion enabled) and the semantic layer (the `DSDS-01`–`DSDS-08` rules below). The reference implementation is `scripts/validate.js`. Its negative-fixture suite in `examples/invalid/` pins every guard — `scripts/conformance-test.js` confirms each fixture trips the exact rule id it claims — and doubles as a conformance test suite for independent validators.
+A tool that checks documents. A conforming validator MUST enforce both layers: the schema itself (with format checks turned on) and the extra rules below (`DSDS-01`–`DSDS-10`). `scripts/validate.js` is the reference implementation. Its `examples/invalid/` folder holds one broken example per rule, and `scripts/conformance-test.js` confirms each one fails for the exact reason it's supposed to — together they double as a test suite anyone building their own validator can check against.
 
 ## Enforcement tiers
 
-Every normative statement is enforced at one of two tiers, or is explicitly advisory:
+Every rule is enforced in one of two ways, or is explicitly advisory (a suggestion, not something checked automatically):
 
-| Tier | Mechanism | Failure mode |
+| Tier | How it's checked | What happens if it fails |
 |---|---|---|
-| Structural | The schema itself (patterns, required, minItems, allOf/oneOf/anyOf, if/then) | Validation error — blocking |
-| Semantic | `scripts/validate.js`'s hand-written checks (`DSDS-01`–`DSDS-08`: resolution, uniqueness, platform vocabulary, cycles) | Validation error — blocking |
-| Advisory | SHOULD/MAY statements consumed by judgment | None |
+| Structural | Directly by the schema file (required fields, patterns, and similar built-in checks) | Blocks — validation fails |
+| Semantic | By `scripts/validate.js`'s own code (`DSDS-01`–`DSDS-10`: do references resolve, are ids unique, and so on) | Blocks — validation fails |
+| Advisory | Nothing automatic — SHOULD/MAY guidance is a judgment call | Nothing — it's a suggestion |
 
-`DSDS-05`/`DSDS-08` are the one exception within the semantic tier: a project-scope finding (a target unresolved even after following every `rel: file` link the validator could reach) reports as a non-blocking warning, not a validation error, unless the CLI is run with `--strict`. Everything else in the semantic tier stays a hard error unconditionally — see [Semantic rule catalog](#semantic-rule-catalog) below.
+`DSDS-05`, `DSDS-08`, and `DSDS-09` are the one exception: if a reference still can't be resolved after checking every linked file the validator could reach, that's reported as a warning, not a blocking error — unless the validator is run with `--strict`. Every other rule always blocks. See the [rule catalog](#rule-catalog) below for details.
 
-## Semantic rule catalog
+## Rule catalog
 
-The catalog of record lives in `schema/conformance-rules.yaml` — this table is kept in sync with it by hand, so it cannot drift from what `scripts/validate.js` actually enforces without `scripts/conformance-test.js` (checked on every `npm run check`) catching the mismatch first.
+The full list lives in `schema/conformance-rules.yaml`. This table is kept in sync with it by hand, but `scripts/conformance-test.js` (run on every `npm run check`) would catch it if the two ever drifted apart.
 
 | ID | Rule |
 |---|---|
@@ -82,54 +83,71 @@ The catalog of record lives in `schema/conformance-rules.yaml` — this table is
 | `DSDS-06` | A `composes` ref chain must not cycle. |
 | `DSDS-07` | A `depends-on` ref chain must not cycle. |
 | `DSDS-08` | A bare `to:` ref must resolve to a real entry or shared entry. |
+| `DSDS-09` | A `combo`'s `subject`/`items` must resolve to a real trait, token, or entry. |
+| `DSDS-10` | A `same-as` item's `level` must match its target's. |
 
-`DSDS-06` and `DSDS-07` restore a check the pre-0.20.0 spec had (relationship-graph cycle prohibition) that the schema rewrite initially dropped — added as validator-side rules rather than a schema shape change.
+`DSDS-06` and `DSDS-07` bring back a check the spec had before version 0.20.0 — nothing should point back at itself through a chain of `composes` or `depends-on` links. The 0.20.0 rewrite dropped it by accident; it's now enforced by the validator's own code instead of the schema shape.
 
-`DSDS-05` and `DSDS-08` both resolve against the whole **project**, not just the one document handed to the validator: a document that declares a `rel: file` ref (the layout the spec itself recommends for a large system) has that link followed transitively, and an unresolved target is re-checked against every entry and shared entry the closure turns up. A target found this way, in a sibling file the validator wasn't directly pointed at, is exactly as resolved as one found locally.
+`DSDS-05`, `DSDS-08`, and `DSDS-09` don't just check the one document they're given — they check the whole **project**. If a document links to another file with `rel: file` (the way the spec recommends splitting up a large system), the validator follows that link and any others it leads to, then checks references against everything it finds. Every file passed to the validator in one run counts too, even without a `rel: file` link between them — the way a standalone entry file (which has no field of its own to declare "these are my siblings") still resolves a reference to a component listed alongside it. A reference that resolves this way, in a file the validator was never directly pointed at, counts exactly the same as one that resolves locally.
 
-The search is bounded to the directory of the file being validated (and its subdirectories) — an `href` resolving outside that is never read. That boundary is deliberately narrow, not a full project search: a target that lives in a *parent* or cousin directory relative to the file that references it won't be found. A boundary derived by walking upward to the nearest `.git` or `package.json` was considered and rejected — in a monorepo, that marker commonly sits well above the actual docs project, which would widen the boundary to the whole monorepo for exactly the case this exists to protect (a CI job or hosted validator checking a document it doesn't fully trust). The directory-of-the-target boundary is strictly safer and fully deterministic, at the cost of that narrower reach; an explicit `--root` flag would be the right way to widen it for a layout that needs more, not yet implemented because nothing has needed it.
+This search only looks inside the folder that holds the file being validated (and its subfolders) — it will never read a file outside that folder. This is deliberately narrow: a linked file that lives in a *parent* folder, or a folder next to it, won't be found. We considered widening the search to the nearest `.git` folder or `package.json` file instead, but rejected it — in a large monorepo, those often sit far above the actual design-system docs, which would let the search read much more of the repo than intended. That matters most for a CI job or hosted service checking a document it doesn't fully trust. Staying inside the target file's own folder is safer and gives the same result every time, at the cost of not reaching a more spread-out file layout. If you need it to look further, that's what a future `--root` option would be for — nobody's needed one yet.
 
-A target genuinely not found within that boundary is reported — but only as a **warning**, not a hard failure, and only for the project-scope case. A validator that can't see the whole project can't assert a pointer is broken with the same confidence it has for a fully self-contained document (where an unresolved target stays a hard error, unchanged). The warning text says plainly whether a sibling was actually read or the search came up empty — it never claims to have "checked the project" when nothing was reachable. Run with `--strict` to promote these warnings to failures once a project is clean. A `combo`'s trait/token targets aren't resolved yet — that's the next piece of this same proposal.
+A reference that truly can't be found is reported — but only as a **warning**, not a failure, and only in this cross-file case. A validator that hasn't seen the whole project can't be as sure a reference is actually broken as it can for a document that's entirely self-contained, where an unresolved reference is still a hard failure, unchanged — with one exception: a standalone entry file is never held to that same certainty, even when nothing else was available to check it against, since a lone entry file can never assert "this is definitely everything" the way a base document's own `entries`/`shared` arrays can. The warning message says plainly whether it actually found and checked another file, or found nothing to check at all — it never claims to have searched when it didn't. Run with `--strict` to turn these warnings into failures once your project is clean.
 
-A `to:` target's *syntax* is checked independently of either rule, structurally: `common/ref.schema.yaml`'s `to` field has its own `pattern`, so a target that isn't even shaped like an id (a display name, a value with a space in it) fails schema validation before DSDS-05/DSDS-08 are reached at all — see [common/ref](common-ref.html).
+Whether a `to:` value even *looks like* a valid id is checked separately, directly by the schema: `common/ref.schema.yaml`'s `to` field only accepts id-shaped values, so something like a display name or a value with a space in it fails before `DSDS-05`, `DSDS-08`, or `DSDS-09` ever run. See [common/ref](common-ref.html).
+
+Two related checks remain deliberately unbuilt. A relative `href`, a component's `sourceFiles[].file`, or a token/theme's `source` — whether any of these actually point at a file that exists on disk — isn't checked at all. This is out of scope for the CLI's default run on purpose: it would mean reading files this validator has no other reason to open, which only makes sense as an explicit, opt-in step (`DSDS-11`, not yet implemented), the same way project-scope resolution is bounded to a folder rather than reading the whole filesystem. And the search boundary itself — currently fixed to the folder holding the file being validated — has no way to widen for a project that's genuinely spread across a deeper folder structure; that's what a future `--root` flag would be for, not built because nothing has needed it yet.
+
+## Open conventions
+
+The schema deliberately leaves some questions unanswered — not oversights, but places where a fixed rule would fit some teams and not others. This is the registry of those questions, the answer we recommend, and why it's a convention rather than a rule the validator enforces.
+
+- **Where does a guideline item's pointer go — `refs`, or one of the named fields?** `alternatives`, `evidence`, `related`, and `checks` each exist for one specific `rel`: `alternative-to`, an external standard, `refines`, and `test`/`lint-rule`. A pointer using any other `rel` — including `extends`, `depends-on`, `composes`, `part-of`, `replaces`, `implements`, `relates-to`, `pairs-with`, `excludes`, or `see-also` — goes in the general-purpose `refs` field instead, alongside `same-as` and `external-link`. See [sections/guidelines](sections-guidelines.html).
+- **Where does an entry's primary source file go?** `refs` with `rel: source` — covered in [common/ref](common-ref.html)'s own comments, not repeated here.
+- **What does `tags[0]` mean?** The first tag, by convention, is the entry's main category. Covered in [metadata](metadata-metadata.html)'s own description, not repeated here.
+- **How does a token's `source` point at one key inside a shared DTCG file, not just the whole file?** By convention, a token's own `id` doubles as its path in the DTCG token tree — `color.action.primary` names the same token in both places, which is why `entries/token.id` allows slash separators DSDS ids otherwise don't, to fit however a DTCG source already nests things. When a project's DTCG paths don't line up with its DSDS ids one-to-one, point `source`'s `href` at the file plus a JSON Pointer fragment instead (`./tokens.dtcg.json#/color/action/primary`) — ordinary URI syntax, no schema change needed. Either way, the validator doesn't check that the path actually resolves inside the file (see `DSDS-11`, above).
+
+## Passing isn't the same as good
+
+A document with zero errors and zero warnings can still be bad documentation — the schema checks structure, not judgment. `examples/anti-patterns/` collects a few small documents that validate cleanly and are still worth avoiding: a definition that only restates its own term, a `checkedBy: manual` claim too vague for a reviewer to actually check, and guideline prose that names a concept (a "token-group" entry) the spec doesn't have. Each file's own leading comment says what's wrong with it and why the schema can't catch it. They're deliberately not part of the default `npm run check` sweep's example corpus — they're not meant to be copied.
 
 ## Stability and the road to 1.0
 
-DSDS {{VERSION}} is a **pre-1.0 draft**. Some parts of the schema absorb new vocabulary without a spec change. Other parts are closed, load-bearing structural decisions that need a spec change. This section tells those apart.
+DSDS {{VERSION}} is a **pre-1.0 draft**. Some parts of the schema can grow to cover new cases without a spec change. Other parts are locked in — changing them would need a new spec version. This section tells you which is which.
 
 ### How schema changes get made
 
-Every schema file under `schema/` carries `$comment` fields that explain *why* a shape is the way it is. In several places, they also explain what the shape replaced and why the replacement is better. Reading those comments alongside the schema is the current source of truth for the spec's own change history — there is no separate, versioned changelog yet. See the [`CHANGELOG`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/CHANGELOG) for the field-by-field mapping from the pre-0.20.0 entity/document-block model.
+Every schema file under `schema/` has comments explaining *why* it's shaped the way it is, and in many places, what it replaced and why. Reading those comments alongside the schema is currently the best way to understand how the spec has changed over time — there's no separate changelog built into the site yet. See the [`CHANGELOG`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/CHANGELOG) file for exactly how each old field maps to its new one.
 
 ### Designed to grow without a version bump
 
-A handful of fields are open, pattern-validated strings rather than closed enums, so new values don't require a schema change. Treat these as safe to build tooling around — your validator, generator, or docs site must not hardcode the current set of values for any of them.
+A handful of fields accept any string that matches a pattern, instead of a fixed list of allowed values — so adding a new value never needs a schema change. It's safe to build tooling around these fields, but don't hardcode today's set of values as if it were the complete list.
 
-- **`entries/token.tokenType`** — A token's category (`color`, `spacing`, `typography`, ...) is validated by pattern, not an enum. A new token category is just a new string.
-- **`common/ref.rel`** — The relationship a ref expresses (`depends-on`, `same-as`, `implements`, ...) is open. New well-known values get documented in the schema's own `$comment`, not gated behind a release.
-- **`metadata.status`'s status value** — `stable`/`experimental`/`deprecated`/... is open too, for the same reason: this spec doesn't dictate a project's lifecycle vocabulary.
-- **`entry.id` and `common/id`** — A lowercase-dash-dot pattern, not a fixed list of segments — accepts whatever hierarchy your system actually has.
-- **`$extensions`** — A namespaced escape hatch for vendor or tool data at the entry or section level. A tool integration never has to wait on a spec release to add a field.
+- **`entries/token.tokenType`** — A token's category (`color`, `spacing`, `typography`, ...) is checked by pattern, not a fixed list. A new token category is just a new string.
+- **`common/ref.rel`** — The relationship a reference expresses (`depends-on`, `same-as`, `implements`, ...) is open-ended. New common values just get documented in the schema's own comments — no release needed.
+- **`metadata.status`'s status value** — `stable`, `experimental`, `deprecated`, and so on are open too, for the same reason: this spec doesn't dictate the words your team uses for a component's lifecycle.
+- **`entry.id` and `common/id`** — Ids follow a lowercase-dash-dot pattern, not a fixed list of parts, so they fit whatever hierarchy your own system actually uses.
+- **`$extensions`** — A place for vendor or tool-specific data, grouped by namespace, at the entry or section level. A tool integration can add a field of its own any time, without waiting on a spec release.
 
-### More likely to be load-bearing
+### More likely to require a spec change
 
-A few shapes are closed enums because the number of cases is a structural fact about the spec, not an open vocabulary. If you build a tool that must survive schema evolution, code defensively against this list, not the one above.
+A few fields are locked to a fixed list of values, because the number of possible cases is a fact about how the spec itself works, not an open-ended vocabulary. If you're building a tool that needs to survive future spec changes, be defensive about this list — not the one above.
 
-- **`entry.kind`** — 5 well-known values (`system`, `component`, `token`, `theme`, `entry`), 4 with their own `entries/<kind>.schema.yaml` file, plus a namespaced custom-kind escape hatch (e.g. `acme.icon-library`) for a document that wants its own recognizable name instead of the generic `entry`. Adding a well-known value changes what "kind of thing" this spec can describe at all, not just a detail within one — that bar stays high.
-- **`common/requirement-level`** — 5 values (`must`, `should`, `should-not`, `must-not`, `may`), matching RFC 2119. This is borrowed vocabulary, not this spec's to extend.
-- **`sections/*` (the 4 section kinds)** — `guidelines`, `definitions`, `steps`, `section`. Any entry kind can use any of them; there's no per-kind gating. `section` is the generic fallback, the same role `entry` plays for entries. `freeform` is not a section kind at all — it's a field every section kind can carry. This is the part of the schema most likely to still change before 1.0.
+- **`entry.kind`** — 5 well-known values (`system`, `component`, `token`, `theme`, `entry`), 4 with their own `entries/<kind>.schema.yaml` file, plus the option to use a custom, dot-separated kind name (e.g. `acme.icon-library`) for a document that wants its own recognizable name instead of the generic `entry`. Adding a well-known value changes what "kind of thing" this spec can describe at all, not just a detail within one — so that bar stays high.
+- **`common/requirement-level`** — 5 values (`must`, `should`, `should-not`, `must-not`, `may`), taken directly from RFC 2119. This vocabulary belongs to that standard, not to DSDS, so DSDS won't extend it.
+- **`sections/*` (the 4 section kinds)** — `guidelines`, `definitions`, `steps`, `section`. Any entry kind can use any of these; nothing restricts which section kinds go with which entry kinds. `section` is the generic fallback, the same role `entry` plays for entries. `freeform` is not a section kind at all — it's a field every section kind can carry. This is the part of the schema most likely to still change before 1.0.
 
 ### Criteria for declaring 1.0
 
 1.0 is declared when, at minimum:
 
-1. **The section-kind set and entry-kind set stop changing** — across at least one real consolidation pass, with no further merge or split needed.
-2. **A second independent consumer exists** — at least one tool the spec authors don't maintain reads or writes DSDS documents in earnest. This tests the spec's assumptions from outside.
-3. **The validator's semantic-rule surface is stable** — the checks pure JSON Schema can't express (`scripts/validate.js`), covered above under [Semantic rule catalog](#semantic-rule-catalog). The project doesn't add or rename them release to release.
+1. **The section-kind and entry-kind lists stop changing** — across at least one real pass of merging or splitting them, with no further changes needed.
+2. **A second independent tool exists** — at least one tool the spec authors don't maintain reads or writes DSDS documents for real. This tests the spec's assumptions from outside.
+3. **The validator's extra rules stop changing** — the checks a schema file alone can't express (`scripts/validate.js`), covered above under [Rule catalog](#rule-catalog). The project stops adding or renaming them from release to release.
 
-Until then, the closed enums above are the most stable part of the schema. Everything else can still change between minor versions, including the exact shape of any one `sections/*.schema.yaml` file.
+Until then, the fixed lists above are the most stable part of the schema. Everything else can still change between minor versions, including the exact shape of any one `sections/*.schema.yaml` file.
 
-## Normative statements index
+## Index of every rule
 
 {/* dsds:normative-index */}
 

@@ -33,6 +33,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,7 +76,8 @@
         <div class="content__inner">
 
           <ds-heading level="2" anchor="what-is-dsds">What is DSDS?</ds-heading>
-<p>DSDS (Design System Doc Spec) is a YAML/JSON format for documenting design systems. It puts every piece of docs — components, tokens, themes, and anything else — in a machine-readable shape: a graph of <strong>entries</strong>, each carrying typed <strong>sections</strong>.</p>
+<p>DSDS (Design System Doc Spec) is a YAML format for documenting design systems. It puts every piece of docs — components, tokens, themes, and anything else — in a machine-readable shape: a graph of <strong>entries</strong>, each carrying typed <strong>sections</strong>.</p>
+<p>Write your documents in YAML — every example on this site, the default <ds-code inline>npm run check</ds-code> sweep, and the tooling all assume it. The schema itself is written in <a href="https://json-schema.org/">JSON Schema</a> (that's the language the <em>rules</em> are written in, a separate thing from the format your <em>documents</em> need to be in). Since YAML is a superset of JSON, a JSON document would technically still parse — but nothing in this repo discovers or exercises that path, so don't rely on it.</p>
 <ds-callout title="Key idea:"><p>DSDS documents the <em>how and why</em> of your design system — not the token values themselves. It complements the <a href="https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/">W3C Design Tokens Format</a> which handles the <em>what</em>.</p></ds-callout>
 <ds-heading level="3" anchor="what-you-get">What you get</ds-heading>
 <ul>
@@ -155,9 +157,9 @@ refs:
 <ds-callout variant="tip" title="Tip:"><p>Use a multi-file split for large systems where a different team owns each component. Use one file with everything inlined for smaller systems. <ds-code inline>scripts/compose.js</ds-code> can concatenate many hand-authored fragment files into one document before validation — see the repo's own <ds-code inline>examples/base/starter-kit-fragments/</ds-code>.</p></ds-callout>
 <hr />
 <ds-heading level="2" anchor="entry-kinds">Entry kinds</ds-heading>
-<p>Every entry has a <ds-code inline>kind</ds-code> field. There are 5 well-known values, plus an open, namespaced escape hatch for anything else.</p>
-<ds-table><table><thead><tr><th>Kind</th><th>Description</th></tr></thead><tbody><tr><td><ds-code inline>system</ds-code></td><td>The design system as a whole — version, organization, url, license, platforms, plus system-wide documentation.</td></tr><tr><td><ds-code inline>component</ds-code></td><td>A reusable UI element — buttons, inputs, modals. Carries its own <ds-code inline>sourceFiles</ds-code>, <ds-code inline>imports</ds-code>, <ds-code inline>traits</ds-code> (variants and states), and <ds-code inline>combos</ds-code> on top of the shared envelope.</td></tr><tr><td><ds-code inline>token</ds-code></td><td>A single design token. Carries <ds-code inline>tokenType</ds-code> and a <ds-code inline>source</ds-code> pointer to the real DTCG value — never the value itself.</td></tr><tr><td><ds-code inline>theme</ds-code></td><td>A named set of token overrides — dark mode, high-contrast, a brand variant. Points at its own DTCG source file.</td></tr><tr><td><ds-code inline>entry</ds-code></td><td>The generic, open kind for anything else — a foundation, a pattern, a guide. Has no fields beyond the shared envelope.</td></tr><tr><td><em>(namespaced)</em></td><td>A custom kind like <ds-code inline>acme.icon-library</ds-code>, for a document that wants its own recognizable name instead of the generic <ds-code inline>entry</ds-code>.</td></tr></tbody></table></ds-table>
-<ds-heading level="3" anchor="the-shared-envelope">The shared envelope</ds-heading>
+<p>Every entry has a <ds-code inline>kind</ds-code> field. There are 5 well-known values, plus an open option for anything else.</p>
+<ds-table><table><thead><tr><th>Kind</th><th>Description</th></tr></thead><tbody><tr><td><ds-code inline>system</ds-code></td><td>The design system as a whole — version, organization, url, license, platforms, plus system-wide documentation.</td></tr><tr><td><ds-code inline>component</ds-code></td><td>A reusable UI element — buttons, inputs, modals. Carries its own <ds-code inline>sourceFiles</ds-code>, <ds-code inline>imports</ds-code>, <ds-code inline>traits</ds-code> (variants and states), and <ds-code inline>combos</ds-code>, on top of the fields every entry shares.</td></tr><tr><td><ds-code inline>token</ds-code></td><td>A single design token. Carries <ds-code inline>tokenType</ds-code> and a <ds-code inline>source</ds-code> pointer to the real DTCG value — never the value itself.</td></tr><tr><td><ds-code inline>theme</ds-code></td><td>A named set of token overrides — dark mode, high-contrast, a brand variant. Points at its own DTCG source file.</td></tr><tr><td><ds-code inline>entry</ds-code></td><td>The generic, open kind for anything else — a foundation, a pattern, a guide. Has no fields beyond what every entry shares.</td></tr><tr><td><em>(custom)</em></td><td>A custom kind like <ds-code inline>acme.icon-library</ds-code>, for a document that wants its own recognizable name instead of the generic <ds-code inline>entry</ds-code>.</td></tr></tbody></table></ds-table>
+<ds-heading level="3" anchor="fields-every-entry-shares">Fields every entry shares</ds-heading>
 <p>Every entry kind shares one open base: <ds-code inline>id</ds-code>, <ds-code inline>kind</ds-code>, <ds-code inline>name</ds-code>, <ds-code inline>description</ds-code> (required), plus <ds-code inline>purpose</ds-code>, <ds-code inline>metadata</ds-code>, <ds-code inline>related</ds-code>, <ds-code inline>extends</ds-code>, <ds-code inline>refs</ds-code>, <ds-code inline>sections</ds-code>, <ds-code inline>$extensions</ds-code> (optional). See <a href="conformance.html#how-the-schema-is-organized">Conformance</a> for how the schema itself is put together.</p>
 <ds-heading level="3" anchor="status">Status</ds-heading>
 <p>Status lives in <ds-code inline>metadata.status</ds-code>, always as an object — there's no bare-string shorthand:</p>
@@ -173,7 +175,7 @@ refs:
 </ds-code>
 <hr />
 <ds-heading level="2" anchor="the-section-system">The section system</ds-heading>
-<p>Structured docs live in the <ds-code inline>sections</ds-code> array on each entry. Each section is typed by its <ds-code inline>kind</ds-code> field — <ds-code inline>definitions</ds-code>, <ds-code inline>guidelines</ds-code>, <ds-code inline>steps</ds-code>, or the generic <ds-code inline>section</ds-code>. Any entry kind can use any section kind; there's no placement gate matching an entry's <ds-code inline>kind</ds-code> to which section kinds it may carry.</p>
+<p>Structured docs live in the <ds-code inline>sections</ds-code> array on each entry. Each section has a <ds-code inline>kind</ds-code> field naming its type — <ds-code inline>definitions</ds-code>, <ds-code inline>guidelines</ds-code>, <ds-code inline>steps</ds-code>, or the generic <ds-code inline>section</ds-code>. Any entry kind can use any section kind; nothing restricts which section kinds go with which entry kind.</p>
 <p>Every section also carries a <ds-code inline>for</ds-code> field (<ds-code inline>human</ds-code>, <ds-code inline>agent</ds-code>, or <ds-code inline>all</ds-code>) naming its audience — see <a href="index.html#humans-and-agents">Humans and agents on the Overview page</a>.</p>
 <ds-heading level="3" anchor="guidelines-rules-paired-with-why-they-exist">Guidelines: rules paired with why they exist</ds-heading>
 <p>Each guideline item pairs a <ds-code inline>statement</ds-code> with a <ds-code inline>level</ds-code> (an RFC 2119 requirement level) and, optionally, <ds-code inline>alternatives</ds-code>, <ds-code inline>evidence</ds-code>, or a <ds-code inline>checkedBy</ds-code>/<ds-code inline>checks</ds-code> verification pair:</p>
@@ -195,13 +197,14 @@ sections:
         level: should
 </ds-code>
 <p>The <ds-code inline>level</ds-code> field's values are lowercase kebab-case, like every DSDS vocabulary: <ds-code inline>must</ds-code>, <ds-code inline>should</ds-code>, <ds-code inline>should-not</ds-code>, <ds-code inline>must-not</ds-code>, <ds-code inline>may</ds-code>. Tools display them as badges: <ds-badge>MUST</ds-badge>, <ds-badge>SHOULD</ds-badge>, <ds-badge>SHOULD NOT</ds-badge>, <ds-badge>MUST NOT</ds-badge>. Agents treat <ds-code inline>must</ds-code>/<ds-code inline>must-not</ds-code> items as hard limits.</p>
-<p>A <ds-code inline>guidelines</ds-code> section also carries <ds-code inline>context</ds-code>: <ds-code inline>when-to-use</ds-code> for a fit judgment (is this entry the right choice at all), or <ds-code inline>how-to-use</ds-code> (the default) for an implementation rule once it's chosen.</p>
+<p>A <ds-code inline>guidelines</ds-code> section also carries <ds-code inline>framing</ds-code>: <ds-code inline>when-to-use</ds-code> for a fit judgment (is this entry the right choice at all), or <ds-code inline>how-to-use</ds-code> (the default) for an implementation rule once it's chosen.</p>
 <ds-heading level="3" anchor="definitions-a-glossary-anatomy-or-prop-list">Definitions: a glossary, anatomy, or prop list</ds-heading>
-<p>A <ds-code inline>definitions</ds-code> section pairs a <ds-code inline>term</ds-code> with its <ds-code inline>definition</ds-code> — use it for anatomy parts, naming conventions, or a component's own prop/event list when there's no real source file to extract from:</p>
+<p>A <ds-code inline>definitions</ds-code> section pairs a <ds-code inline>term</ds-code> with its <ds-code inline>definition</ds-code> — use it for anatomy parts, naming conventions, or a component's own prop/event list when there's no real source file to extract from. <ds-code inline>context</ds-code> (a field every section kind can carry, not just <ds-code inline>definitions</ds-code> — see <a href="sections-section.html">sections/section</a>) names which of those jobs it's doing (<ds-code inline>anatomy</ds-code>, <ds-code inline>terms</ds-code>, <ds-code inline>keyboard</ds-code>, <ds-code inline>events</ds-code>, or a namespaced custom value) — optional, but it's what lets a tool find "the anatomy table" without matching on the human-facing <ds-code inline>title</ds-code>:</p>
 <ds-code language="yaml">sections:
   - kind: definitions
     for: all
     title: Anatomy
+    context: anatomy
     items:
       - term: Container
         definition: The interactive root element. Receives background, border, radius, and padding.
@@ -237,7 +240,7 @@ sections:
 <ul>
 <li><strong><ds-code inline>sourceFiles</ds-code></strong> — one entry per platform, pointing at the real source file a tool can extract the component's API from. Replaces hand-typed prop tables.</li>
 <li><strong><ds-code inline>imports</ds-code></strong> — one entry per platform, with the install package and the exact import statement.</li>
-<li><strong><ds-code inline>traits</ds-code></strong> — every variant (an enum, like <ds-code inline>size: sm | md | lg</ds-code>) and state (a boolean, like <ds-code inline>hover</ds-code> or <ds-code inline>disabled</ds-code>) the component can be in.</li>
+<li><strong><ds-code inline>traits</ds-code></strong> — every way the component can vary: a <ds-code inline>kind: enum</ds-code> dimension (like <ds-code inline>size: sm | md | lg</ds-code>) or a <ds-code inline>kind: boolean</ds-code> toggle (like <ds-code inline>hover</ds-code> or <ds-code inline>loading</ds-code>). A trait's own optional <ds-code inline>setBy</ds-code> (<ds-code inline>consumer</ds-code> or <ds-code inline>component</ds-code>) says whether it's a value the consumer sets, or a condition the component sets on its own — <ds-code inline>kind</ds-code> alone doesn't tell you that, since a boolean trait can be either (<ds-code inline>disabled</ds-code> is usually a prop the consumer passes in; <ds-code inline>hover</ds-code> never is).</li>
 <li><strong><ds-code inline>combos</ds-code></strong> — pairing rules between traits, tokens, or entries (e.g. "loading and disabled must not both be set").</li>
 </ul>
 <ds-code language="yaml">sourceFiles:
@@ -248,6 +251,7 @@ traits:
   - id: tone
     kind: enum
     name: Tone
+    setBy: consumer
     values:
       - id: default
         description: Neutral. General-purpose actions.
@@ -257,6 +261,12 @@ traits:
     kind: boolean
     name: Loading
     description: An async operation triggered by the button is in progress.
+    setBy: consumer
+  - id: hover
+    kind: boolean
+    name: Hover
+    description: Background darkens slightly when the pointer is over the button.
+    setBy: component
 
 combos:
   - subject: loading
@@ -265,9 +275,9 @@ combos:
     note: Loading already makes the button non-interactive.
 </ds-code>
 <hr />
-<ds-heading level="2" anchor="escape-hatches">Escape hatches</ds-heading>
+<ds-heading level="2" anchor="going-beyond-the-basics">Going beyond the basics</ds-heading>
 <ds-heading level="3" anchor="extensions">$extensions</ds-heading>
-<p><ds-code inline>$extensions</ds-code> is a namespaced escape hatch for vendor or tool data, at the document, entry, or section level. Keys MUST be namespaced (e.g. <ds-code inline>com.figma</ds-code>) so a tool integration never collides with a future core field:</p>
+<p><ds-code inline>$extensions</ds-code> is a place for vendor or tool-specific data, at the document, entry, or section level. Keys MUST use a namespace (e.g. <ds-code inline>com.figma</ds-code>) so a tool integration never collides with a future field the spec adds:</p>
 <ds-code language="yaml">id: button
 kind: component
 name: Button
@@ -279,12 +289,13 @@ $extensions:
     nodeId: "12:4045"
 </ds-code>
 <ds-heading level="3" anchor="custom-kinds">Custom kinds</ds-heading>
-<p>When the generic <ds-code inline>entry</ds-code> kind isn't specific enough, use a namespaced custom kind instead — it validates against the same open <ds-code inline>entry.schema.yaml</ds-code> base the generic kind does:</p>
+<p>When the generic <ds-code inline>entry</ds-code> kind isn't specific enough, use a custom kind instead — it's checked against the same open <ds-code inline>entry.schema.yaml</ds-code> base the generic kind is:</p>
 <ds-code language="yaml">id: material-icons
 kind: acme.icon-library
 name: Material Icons
 description: The icon set Acme's products ship with.
 </ds-code>
+<p>See <a href="extending.html">Extending the schema</a> for a third option too — profiles, for making an existing kind's optional fields required on your own project — and for more on when to reach for each of the three.</p>
 <hr />
 <ds-heading level="2" anchor="minimal-examples">Minimal examples</ds-heading>
 <p>These are close to the smallest valid entry for each kind. Copy one, fill in your content, and add <ds-code inline>sections</ds-code> as your docs grow.</p>
@@ -331,13 +342,13 @@ purpose: Tells the user why an area is empty and what to do next, instead of lea
 sections:
   - kind: guidelines
     for: all
-    context: when-to-use
+    framing: when-to-use
     items:
       - statement: Use an empty state the first time a user visits a list or grid that has no content yet.
         level: should
 </ds-code>
 <ds-heading level="3" anchor="shared-content">Shared content</ds-heading>
-<p>Content that isn't itself a design-system artifact — a cross-cutting accessibility rule stated once and pointed at from every entry it applies to — lives in the base document's <ds-code inline>shared</ds-code> array, addressed via <ds-code inline>entryId#itemId</ds-code> and <ds-code inline>rel: same-as</ds-code>:</p>
+<p>Content that isn't itself a design-system artifact — an accessibility rule that applies to more than one entry, stated once and pointed at from everywhere it applies — lives in the base document's <ds-code inline>shared</ds-code> array, addressed via <ds-code inline>entryId#itemId</ds-code> and <ds-code inline>rel: same-as</ds-code>:</p>
 <ds-code language="yaml">schemaVersion: "0.20.0"
 
 name: Pizza Party Design System
@@ -374,7 +385,7 @@ shared:
 <ds-heading level="2" anchor="validate-your-document">Validate your document</ds-heading>
 <ds-heading level="3" anchor="using-the-bundled-schema">Using the bundled schema</ds-heading>
 <p>Add <ds-code inline>$schema</ds-code> to get editor autocompletion and inline validation:</p>
-<ds-code language="yaml">$schema: https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json
+<ds-code language="yaml">$schema: https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml
 id: my-component
 kind: component
 name: My Component

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/metadata-entry-metadata">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="metadata-entry-metadata.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="EntryMetadata — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"EntryMetadata — DSDS 0.20.0","description":"Information about a single entry, on top of the fields every metadata object shares.","url":"https://designsystemdocspec.org/metadata-entry-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-entry-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"EntryMetadata","url":"https://designsystemdocspec.org/metadata-entry-metadata#entrymetadata"},{"@type":"DefinedTerm","name":"statusValue","url":"https://designsystemdocspec.org/metadata-entry-metadata#statusvalue"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"EntryMetadata — DSDS 0.20.0","description":"Information about a single entry, on top of the fields every metadata object shares.","url":"https://designsystemdocspec.org/metadata-entry-metadata","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/metadata-entry-metadata.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"EntryMetadata","url":"https://designsystemdocspec.org/metadata-entry-metadata#entrymetadata"},{"@type":"DefinedTerm","name":"statusValue","url":"https://designsystemdocspec.org/metadata-entry-metadata#statusvalue"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,121 +76,89 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="metadata/entry-metadata.schema.yaml">
-  <ds-code language="json" label="metadata/entry-metadata.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml&quot;,
-  &quot;title&quot;: &quot;EntryMetadata&quot;,
-  &quot;description&quot;: &quot;Information about a single entry, on top of the fields every metadata object shares.&quot;,
-  &quot;$comment&quot;: &quot;Adds fields that only make sense per-entry: `status`, `since`, `group`, `aliases`, `preview`. A system's own metadata adds a different set instead - see metadata/system-metadata.schema.yaml.\nDeliberately left open (no `unevaluatedProperties`) - a system entry needs this schema's fields AND system-metadata.schema.yaml's own fields to both apply to the same `metadata` object at once, so only the combined usage (entries/system.schema.yaml's own `metadata` property) can correctly close the union. Every other kind file (component/token/theme) closes its own `metadata` property locally instead, since only this schema applies there.&quot;,
-  &quot;allOf&quot;: [
-    {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml&quot;
-    },
-    {
-      &quot;type&quot;: &quot;object&quot;,
-      &quot;properties&quot;: {
-        &quot;status&quot;: {
-          &quot;description&quot;: &quot;A lifecycle status, optionally scoped to one platform.&quot;,
-          &quot;allOf&quot;: [
-            {
-              &quot;type&quot;: &quot;object&quot;,
-              &quot;required&quot;: [
-                &quot;status&quot;
-              ],
-              &quot;properties&quot;: {
-                &quot;platform&quot;: {
-                  &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;,
-                  &quot;description&quot;: &quot;Which platform this status applies to.&quot;,
-                  &quot;$comment&quot;: &quot;This field isn't necessary if only one platform exists.&quot;,
-                  &quot;example&quot;: &quot;react&quot;
-                },
-                &quot;status&quot;: {
-                  &quot;$ref&quot;: &quot;#/$defs/statusValue&quot;
-                },
-                &quot;since&quot;: {
-                  &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml&quot;,
-                  &quot;description&quot;: &quot;The version this platform (or the system overall) reached this status.&quot;
-                },
-                &quot;deprecationNotice&quot;: {
-                  &quot;type&quot;: &quot;string&quot;,
-                  &quot;description&quot;: &quot;What to use instead, and why.&quot;,
-                  &quot;$comment&quot;: &quot;Required when `status` is deprecated.&quot;,
-                  &quot;example&quot;: &quot;Use `icon-button` instead - this variant never got contrast-tested and is being removed in 2.0.&quot;
-                },
-                &quot;note&quot;: {
-                  &quot;type&quot;: &quot;string&quot;,
-                  &quot;description&quot;: &quot;Free-text context.&quot;,
-                  &quot;example&quot;: &quot;Still supported for legacy integrations only.&quot;
-                }
-              },
-              &quot;additionalProperties&quot;: false
-            },
-            {
-              &quot;if&quot;: {
-                &quot;required&quot;: [
-                  &quot;status&quot;
-                ],
-                &quot;properties&quot;: {
-                  &quot;status&quot;: {
-                    &quot;const&quot;: &quot;deprecated&quot;
-                  }
-                }
-              },
-              &quot;then&quot;: {
-                &quot;required&quot;: [
-                  &quot;deprecationNotice&quot;
-                ]
-              }
-            }
-          ]
-        },
-        &quot;since&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml&quot;,
-          &quot;description&quot;: &quot;The version this entry was first introduced.&quot;
-        },
-        &quot;group&quot;: {
-          &quot;type&quot;: &quot;string&quot;,
-          &quot;description&quot;: &quot;A group name this entry belongs to, for example \&quot;color.action\&quot; on a set of related tokens.&quot;,
-          &quot;$comment&quot;: &quot;The recommended way to group tokens - there is no separate token-group entry kind. A group is a fact about its members, not a second artifact wrapping them, so it lives here rather than as an entry other tokens point at.&quot;,
-          &quot;example&quot;: &quot;color.action&quot;
-        },
-        &quot;aliases&quot;: {
-          &quot;type&quot;: &quot;array&quot;,
-          &quot;items&quot;: {
-            &quot;type&quot;: &quot;string&quot;
-          },
-          &quot;uniqueItems&quot;: true,
-          &quot;description&quot;: &quot;Other names this entry is also known or searched by, like a past name or a common misspelling.&quot;,
-          &quot;example&quot;: [
-            &quot;btn&quot;
-          ]
-        },
-        &quot;preview&quot;: {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml&quot;,
-          &quot;description&quot;: &quot;A visual sample of this entry, either a media file or a link.&quot;,
-          &quot;$comment&quot;: &quot;For a code sample, use a section's own examples instead, which can point at a real file or story.&quot;
-        }
-      }
-    }
-  ],
-  &quot;$defs&quot;: {
-    &quot;statusValue&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;pattern&quot;: &quot;^[a-z0-9]+(-[a-z0-9]+)*$&quot;,
-      &quot;examples&quot;: [
-        &quot;experimental&quot;,
-        &quot;stable&quot;,
-        &quot;deprecated&quot;,
-        &quot;beta&quot;,
-        &quot;planned&quot;
-      ],
-      &quot;description&quot;: &quot;A lowercase, dash-separated lifecycle word, for example \&quot;stable\&quot; or \&quot;deprecated\&quot;.&quot;,
-      &quot;$comment&quot;: &quot;This enum isn't closed. Any term is allowed.&quot;
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="metadata/entry-metadata.schema.yaml">
+  <ds-code language="yaml" label="metadata/entry-metadata.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/metadata/entry-metadata.schema.yaml
+title: EntryMetadata
+description: Information about a single entry, on top of the fields every metadata object shares.
+$comment: &gt;-
+  Adds fields that only make sense per-entry: `status`, `since`,
+  `group`, `aliases`, `preview`. A system's own metadata adds a
+  different set instead - see metadata/system-metadata.schema.yaml.
+
+  Deliberately left open (no `unevaluatedProperties`) - a system entry
+  needs this schema's fields AND system-metadata.schema.yaml's own
+  fields to both apply to the same `metadata` object at once, so only
+  the combined usage (entries/system.schema.yaml's own `metadata`
+  property) can correctly close the union. Every other kind file
+  (component/token/theme) closes its own `metadata` property locally
+  instead, since only this schema applies there.
+
+allOf:
+  - $ref: https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml
+  - type: object
+    properties:
+      status:
+        description: A lifecycle status, optionally scoped to one platform.
+        allOf:
+          - type: object
+            required: [status]
+            properties:
+              platform:
+                $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+                description: Which platform this status applies to.
+                $comment: This field isn't necessary if only one platform exists.
+                example: react
+              status:
+                $ref: &quot;#/$defs/statusValue&quot;
+              since:
+                $ref: https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml
+                description: The version this platform (or the system overall) reached this status.
+              deprecationNotice:
+                type: string
+                description: What to use instead, and why.
+                $comment: Required when `status` is deprecated.
+                example: Use `icon-button` instead - this variant never got contrast-tested and is being removed in 2.0.
+              note:
+                type: string
+                description: Free-text context.
+                example: Still supported for legacy integrations only.
+            additionalProperties: false
+          - if:
+              required: [status]
+              properties: { status: { const: deprecated } }
+            then:
+              required: [deprecationNotice]
+      since:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/since.schema.yaml
+        description: The version this entry was first introduced.
+      group:
+        type: string
+        description: A group name this entry belongs to, for example &quot;color.action&quot; on a set of related tokens, or &quot;action&quot; on a family of related components.
+        $comment: &gt;-
+          Any entry can be grouped. Components, tokens, themes, etc. This
+          property is used for simple organization and categorization.
+        example: color.action
+      aliases:
+        type: array
+        items:
+          type: string
+        uniqueItems: true
+        description: Other names this entry is also known or searched by, like a past name or a common misspelling.
+        example: [btn]
+      preview:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/showcase.schema.yaml
+        description: A visual sample of this entry, either a media file or a link.
+        $comment: For a code sample, use a section's own examples instead, which can point at a real file or story.
+
+$defs:
+  statusValue:
+    type: string
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    examples: [experimental, stable, deprecated, beta, planned]
+    description: A lowercase, dash-separated lifecycle word, for example &quot;stable&quot; or &quot;deprecated&quot;.
+    $comment: This enum isn't closed. Any term is allowed.</ds-code>
+</ds-source-view>
 <ds-def-index title="2 definitions">
 <!--<p><strong>2 definitions</strong> in this file:</p>-->
 <ul>
@@ -199,7 +168,7 @@
 </ds-def-index>
 <ds-def-section name="EntryMetadata" anchor="entrymetadata" description="Information about a single entry, on top of the fields every metadata object shares." type="object">
 <ds-prop-table>
-  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering. By convention, the first tag, if any, is the main category.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="owner" type="string">The owning team, role, or group.</ds-prop>
   <ds-prop name="reviewed" type="object {date, by, note}[]">Independent reviews confirming this item's documentation, each recording who confirmed it and when.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="context" type="string">Why this entry was created, and how and why to use it.</ds-prop>
@@ -208,7 +177,7 @@
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;common-extensions.html#extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.</ds-prop>
   <ds-prop name="status" type="object">A lifecycle status, optionally scoped to one platform.</ds-prop>
   <ds-prop name="since" type="&lt;ds-type-ref href=&quot;common-since.html#since&quot;&gt;Since&lt;/ds-type-ref&gt;">The version this entry was first introduced.</ds-prop>
-  <ds-prop name="group" type="string">A group name this entry belongs to, for example &quot;color.action&quot; on a set of related tokens.</ds-prop>
+  <ds-prop name="group" type="string">A group name this entry belongs to, for example &quot;color.action&quot; on a set of related tokens, or &quot;action&quot; on a family of related components.</ds-prop>
   <ds-prop name="aliases" type="string[]">Other names this entry is also known or searched by, like a past name or a common misspelling.</ds-prop>
   <ds-prop name="preview" type="&lt;ds-type-ref href=&quot;common-showcase.html#showcase&quot;&gt;Showcase&lt;/ds-type-ref&gt;">A visual sample of this entry, either a media file or a link.</ds-prop>
 </ds-prop-table>

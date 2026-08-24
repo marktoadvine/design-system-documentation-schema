@@ -38,9 +38,11 @@ traits:
     id: loading
     description: Shows a spinner in place of the label and blocks interaction while active.
     purpose: Prevents duplicate submissions while an action is in flight.
+    setBy: consumer
   - kind: enum
     id: size
     description: Controls the button's overall scale.
+    setBy: consumer
     values:
       - id: small
         description: Compact size for dense layouts (e.g. toolbars).
@@ -51,6 +53,7 @@ traits:
   - kind: enum
     id: variant
     description: Which visual style to render.
+    setBy: consumer
     values:
       - id: primary
         description: The default, high-emphasis style for the main action on a surface.
@@ -58,12 +61,17 @@ traits:
         description: Lower-emphasis alternative for secondary actions alongside a primary button.
       - id: danger
         description: Destructive actions only (delete, revoke access, etc.).
+  # hover is setBy: component, not consumer - unlike loading/disabled below,
+  # it isn't a prop the consumer passes in; it happens on its own whenever
+  # the pointer is over the button.
   - kind: boolean
     id: hover
     description: Background darkens slightly when the pointer is over the button.
+    setBy: component
   - kind: boolean
     id: disabled
     description: Dimmed and non-interactive; triggered by the `disabled` prop.
+    setBy: consumer
 combos:
   - subject: loading
     level: must-not
@@ -84,6 +92,7 @@ sourceFiles:
 sections:
   - kind: definitions
     for: all
+    context: terms
     items:
       - term: OK
         definition: To confirm an action.
@@ -126,7 +135,7 @@ sections:
 
   - kind: guidelines
     for: agent
-    context: when-to-use
+    framing: when-to-use
     items:
       - statement: Do not use button when the action navigates to a new URL; use the link entry instead.
         level: must-not

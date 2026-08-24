@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/shared">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="shared.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Shared — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Shared — DSDS 0.20.0","description":"Reusable content other entries point at instead of restating. Not a design-system artifact in its own right.","url":"https://designsystemdocspec.org/shared","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/shared.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Shared","url":"https://designsystemdocspec.org/shared#shared"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Shared — DSDS 0.20.0","description":"Reusable content other entries point at instead of restating. Not a design-system artifact in its own right.","url":"https://designsystemdocspec.org/shared","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/shared.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Shared","url":"https://designsystemdocspec.org/shared#shared"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,71 +76,55 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="shared.schema.yaml">
-  <ds-code language="json" label="shared.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/shared.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Shared&quot;,
-  &quot;description&quot;: &quot;Reusable content other entries point at instead of restating. Not a design-system artifact in its own right.&quot;,
-  &quot;$comment&quot;: &quot;Declares its own structure rather than extending `entry.schema.yaml` via `allOf`, even though the fields look similar. A shared item deliberately has no `kind`, `purpose`, `extends`, or `related`.&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;required&quot;: [
-    &quot;id&quot;,
-    &quot;name&quot;,
-    &quot;description&quot;
-  ],
-  &quot;properties&quot;: {
-    &quot;id&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml&quot;,
-      &quot;description&quot;: &quot;This entry's unique id.&quot;,
-      &quot;$comment&quot;: &quot;A ref addresses it by this id, either directly or as the entryId half of an entryId#itemId address.&quot;,
-      &quot;example&quot;: &quot;shared-a11y&quot;
-    },
-    &quot;name&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;The human-readable display name.&quot;,
-      &quot;$comment&quot;: &quot;Kept separate from `id`, which is machine-readable.&quot;,
-      &quot;example&quot;: &quot;Shared accessibility rules&quot;
-    },
-    &quot;description&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;description&quot;: &quot;A one-line statement of what this shared entry is for.&quot;,
-      &quot;example&quot;: &quot;Accessibility rules that apply broadly across components.&quot;
-    },
-    &quot;metadata&quot;: {
-      &quot;allOf&quot;: [
-        {
-          &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml&quot;
-        }
-      ],
-      &quot;unevaluatedProperties&quot;: false
-    },
-    &quot;refs&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list&quot;,
-      &quot;description&quot;: &quot;Pointers from this entry to other things.&quot;,
-      &quot;example&quot;: [
-        {
-          &quot;href&quot;: &quot;https://www.w3.org/WAI/WCAG21/quickref/&quot;,
-          &quot;rel&quot;: &quot;external-link&quot;
-        }
-      ]
-    },
-    &quot;sections&quot;: {
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;minItems&quot;: 1,
-      &quot;description&quot;: &quot;The reusable content itself, in the same section structure an entry uses.&quot;,
-      &quot;items&quot;: {
-        &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch&quot;
-      }
-    },
-    &quot;$extensions&quot;: {
-      &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-      &quot;description&quot;: &quot;Escape hatch for tool data or an outside id, the same structure as an entry's own $extensions.&quot;
-    }
-  },
-  &quot;additionalProperties&quot;: false
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="shared.schema.yaml">
+  <ds-code language="yaml" label="shared.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/shared.schema.yaml
+title: Shared
+description: &gt;-
+  Reusable content other entries point at instead of restating. Not a
+  design-system artifact in its own right.
+$comment: &gt;-
+  Declares its own structure rather than extending `entry.schema.yaml` via
+  `allOf`, even though the fields look similar. A shared item
+  deliberately has no `kind`, `purpose`, `extends`, or `related`.
+type: object
+required: [id, name, description]
+properties:
+  id:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml
+    description: This entry's unique id.
+    $comment: A ref addresses it by this id, either directly or as the entryId half of an entryId#itemId address.
+    example: shared-a11y
+  name:
+    type: string
+    description: The human-readable display name.
+    $comment: Kept separate from `id`, which is machine-readable.
+    example: Shared accessibility rules
+  description:
+    type: string
+    description: A one-line statement of what this shared entry is for.
+    example: Accessibility rules that apply broadly across components.
+  metadata:
+    allOf:
+      - $ref: https://designsystemdocspec.org/v0.20.0/metadata.schema.yaml
+    unevaluatedProperties: false
+  refs:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+    description: Pointers from this entry to other things.
+    example:
+      - href: https://www.w3.org/WAI/WCAG21/quickref/
+        rel: external-link
+  sections:
+    type: array
+    minItems: 1
+    description: The reusable content itself, in the same section structure an entry uses.
+    items:
+      $ref: https://designsystemdocspec.org/v0.20.0/section.schema.yaml#/$defs/dispatch
+  $extensions:
+    $ref: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+    description: Escape hatch for tool data or an outside id, the same structure as an entry's own $extensions.
+additionalProperties: false</ds-code>
+</ds-source-view>
 <ds-def-section name="Shared" anchor="shared" description="Reusable content other entries point at instead of restating. Not a design-system artifact in its own right." type="object">
 <ds-prop-table>
   <ds-prop name="id" type="&lt;ds-type-ref href=&quot;common-id.html#id&quot;&gt;Id&lt;/ds-type-ref&gt;" required>This entry's unique id.</ds-prop>

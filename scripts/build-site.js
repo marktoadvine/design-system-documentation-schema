@@ -494,13 +494,16 @@ function renderSchemaPage(page) {
     badge: "",
   });
 
-  // The JSON view is a fixed-position toggle (see json-view.js), so its
+  // The source view is a fixed-position toggle (see source-view.js), so its
   // place in the content flow doesn't affect where it renders — pushed
   // first just so it isn't lost if an early return below skips the rest.
+  // Reads the real file text, not a re-serialized page.raw - that's the
+  // actual schema/*.schema.yaml source, comments included, not a lossy
+  // JSON re-encoding of it (see the CHANGELOG entry this replaced).
   parts.push(
-    renderSub("json-view", {
+    renderSub("source-view", {
       label: esc(relPath),
-      json: esc(JSON.stringify(page.raw, null, 2)),
+      source: esc(fs.readFileSync(page.filePath, "utf-8").trimEnd()),
     }),
   );
 
@@ -696,8 +699,8 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
 /**
  * Markdown counterpart of renderSchemaPage() for a whole schema file —
  * title, description, root properties (if any), each $def in reference
- * order, and a trailing fenced JSON block with the full source (parity with
- * the inline <ds-json-view> the HTML page carries).
+ * order, and a trailing fenced YAML block with the full source (parity with
+ * the inline <ds-source-view> the HTML page carries).
  */
 function buildSchemaMarkdown(page) {
   const defs = page.data.$defs || {};
@@ -740,10 +743,10 @@ function buildSchemaMarkdown(page) {
   }
 
   lines.push(
-    "## Full schema JSON",
+    "## Full schema source",
     "",
-    "```json",
-    JSON.stringify(page.raw, null, 2),
+    "```yaml",
+    fs.readFileSync(page.filePath, "utf-8").trimEnd(),
     "```",
     "",
   );
@@ -754,7 +757,7 @@ function buildSchemaMarkdown(page) {
 // ---------------------------------------------------------------------------
 // <link rel="alternate"> + JSON-LD — standards-based affordances that let a
 // generic crawler/agent discover the machine-readable forms of a page (its
-// .md mirror, and for schema pages the bundled JSON) and get structured
+// .md mirror, and for schema pages the bundled schema) and get structured
 // name/description/version metadata without parsing the visible HTML at all.
 // ---------------------------------------------------------------------------
 
@@ -764,7 +767,7 @@ function buildAlternateLinks(activeSlug, pageType, version) {
   ];
   if (pageType === "schema") {
     links.push(
-      `  <link rel="alternate" type="application/schema+json" href="${SITE_URL}/v${esc(version)}/dsds.bundled.schema.json">`,
+      `  <link rel="alternate" type="application/schema+yaml" href="${SITE_URL}/v${esc(version)}/dsds.bundled.yaml">`,
     );
   }
   return links.join("\n");
@@ -792,7 +795,7 @@ function buildJsonLd({ name, description, url, version, pageType, activeSlug, de
   // Schema pages are generated straight from one $defs entry (or more) in
   // the bundled schema — subjectOf points at that source data.
   if (pageType === "schema") {
-    data.subjectOf = `${SITE_URL}/v${version}/dsds.bundled.schema.json`;
+    data.subjectOf = `${SITE_URL}/v${version}/dsds.bundled.yaml`;
   }
   // hasPart — the page's own definition sections, so a consumer that only
   // reads JSON-LD still sees the page isn't a single flat document (mirrors
@@ -967,7 +970,7 @@ function buildLlmsTxt(entries, version) {
     `- [manifest.json](${SITE_URL}/manifest.json): the typed machine index — every entity kind, the block kinds it accepts, and links to its page/markdown/schema/example. Start here.`,
   );
   lines.push(
-    `- [Bundled schema, v${version}](${SITE_URL}/v${version}/dsds.bundled.schema.json): every definition in one JSON file`,
+    `- [Bundled schema, v${version}](${SITE_URL}/v${version}/dsds.bundled.yaml): every definition in one file`,
   );
   lines.push(
     `- [llms-full.txt](${SITE_URL}/llms-full.txt): every guide's full text plus the bundled schema, in one file for one-request ingestion`,
@@ -1063,7 +1066,7 @@ function buildManifest(pages, version) {
     kind: page.filename.replace(/\.schema\.yaml$/, ""),
     page: `${SITE_URL}/${page.slug}`,
     markdown: `${SITE_URL}/${page.slug}.md`,
-    schema: `${SITE_URL}/v${version}/dsds.bundled.schema.json`,
+    schema: `${SITE_URL}/v${version}/dsds.bundled.yaml`,
   }));
   entries.sort((a, b) => a.kind.localeCompare(b.kind));
 
@@ -1073,7 +1076,7 @@ function buildManifest(pages, version) {
 
   const manifest = {
     schemaVersion: version,
-    bundledSchema: `${SITE_URL}/v${version}/dsds.bundled.schema.json`,
+    bundledSchema: `${SITE_URL}/v${version}/dsds.bundled.yaml`,
     mcp: "https://www.npmjs.com/package/dsds-mcp",
     indexes: {
       llms: `${SITE_URL}/llms.txt`,
@@ -1332,6 +1335,12 @@ async function build() {
   // Versioned dist directories (site/dist/v<n>/) hold the bundled schema
   // at the URL it's published at — e.g., site/dist/v0.1/dsds.bundled.schema.json
   // is served at https://designsystemdocspec.org/v0.1/dsds.bundled.schema.json.
+  // Older versions published JSON and stay JSON, frozen, under their own
+  // v<n>/ directory forever - the bundle is YAML starting with this version
+  // (see scripts/bundle.js's own comment for why). This block doesn't
+  // hardcode either extension: it copies whatever file scripts/bundle.js
+  // actually wrote, under its own real name, so it never needs to change
+  // again the next time the bundle's format does.
   //
   // The versioned bundle is the working artifact for the CURRENT version.
   // The build ALWAYS refreshes it so a rebuild is atomic — the published
@@ -1341,13 +1350,14 @@ async function build() {
   // clean step preserves every v*/ directory. Immutability of a *released*
   // version is enforced at release/deploy time (git tag + atomic deploy),
   // not by skipping the write — skipping is what let the site go stale.
-  const bundledSchemaPath = path.join(SCHEMA_DIR, "dsds.bundled.schema.json");
+  const BUNDLE_FILENAME = "dsds.bundled.yaml";
+  const bundledSchemaPath = path.join(SCHEMA_DIR, BUNDLE_FILENAME);
   if (fs.existsSync(bundledSchemaPath)) {
     const version = readSpecVersion();
     if (version) {
       const versionDir = path.join(DIST_DIR, `v${version}`);
-      const versionedBundle = path.join(versionDir, "dsds.bundled.schema.json");
-      const relTarget = `site/dist/v${version}/dsds.bundled.schema.json`;
+      const versionedBundle = path.join(versionDir, BUNDLE_FILENAME);
+      const relTarget = `site/dist/v${version}/${BUNDLE_FILENAME}`;
       const changed =
         !fs.existsSync(versionedBundle) ||
         fs.readFileSync(versionedBundle, "utf-8") !==
@@ -1355,7 +1365,7 @@ async function build() {
       fs.mkdirSync(versionDir, { recursive: true });
       fs.copyFileSync(bundledSchemaPath, versionedBundle);
       console.log(
-        `  ✓  ${relTarget}  ← schema/dsds.bundled.schema.json${changed ? " (refreshed)" : ""}\n`,
+        `  ✓  ${relTarget}  ← schema/${BUNDLE_FILENAME}${changed ? " (refreshed)" : ""}\n`,
       );
 
       // ── Versioned split schema files ────────────────────────────────
@@ -1402,7 +1412,7 @@ async function build() {
   );
 
   const bundledSchemaForFullTxt = fs.existsSync(bundledSchemaPath)
-    ? JSON.parse(fs.readFileSync(bundledSchemaPath, "utf-8"))
+    ? loadSchemaYaml(bundledSchemaPath)
     : {};
   fs.writeFileSync(
     path.join(DIST_DIR, "llms-full.txt"),

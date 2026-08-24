@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://designsystemdocspec.org/common-extensions">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="alternate" type="text/markdown" href="common-extensions.md">
-  <link rel="alternate" type="application/schema+json" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json">
+  <link rel="alternate" type="application/schema+yaml" href="https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Design System Doc Spec">
   <meta property="og:title" content="Extensions — DSDS 0.20.0">
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://designsystemdocspec.org/assets/og-image.png">
   <meta name="dsds-version" content="0.20.0">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Extensions — DSDS 0.20.0","description":"Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.","url":"https://designsystemdocspec.org/common-extensions","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-extensions.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.schema.json","hasPart":[{"@type":"DefinedTerm","name":"Extensions","url":"https://designsystemdocspec.org/common-extensions#extensions"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"APIReference","name":"Extensions — DSDS 0.20.0","description":"Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.","url":"https://designsystemdocspec.org/common-extensions","version":"0.20.0","isPartOf":{"@type":"WebSite","name":"Design System Doc Spec","url":"https://designsystemdocspec.org/"},"sameAs":"https://designsystemdocspec.org/common-extensions.md","subjectOf":"https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml","hasPart":[{"@type":"DefinedTerm","name":"Extensions","url":"https://designsystemdocspec.org/common-extensions#extensions"}]}</script>
 
   <link rel="stylesheet" href="tokens.css?v=0.20.0">
   <link rel="stylesheet" href="style.css?v=0.20.0">
@@ -34,6 +34,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
+    <a href="gaps.html" slug="gaps">What's not here</a>
     <a href="conformance.html" slug="conformance">Conformance</a>
     <ds-nav-group label="Base">
       <a href="base.html" slug="base">base</a>
@@ -75,30 +76,32 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-json-view label="common/extensions.schema.yaml">
-  <ds-code language="json" label="common/extensions.schema.yaml" wrap>{
-  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,
-  &quot;$id&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml&quot;,
-  &quot;title&quot;: &quot;Extensions&quot;,
-  &quot;type&quot;: &quot;object&quot;,
-  &quot;description&quot;: &quot;Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.&quot;,
-  &quot;$comment&quot;: &quot;By convention, an outside id goes under `$extensions.&lt;namespace&gt;.displayName`. Worth noting: nothing enforces that specific key. Each top-level key MUST be a dotted namespace, like `com.acme`, matching the Design Tokens Community Group's own `$extensions` convention. This helps tools avoid unfamiliar data.\nRecommended: add a `context` key under each namespace explaining what the extension is for and how a tool should use it.&quot;,
-  &quot;propertyNames&quot;: {
-    &quot;$ref&quot;: &quot;https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced&quot;
-  },
-  &quot;additionalProperties&quot;: {
-    &quot;type&quot;: &quot;object&quot;,
-    &quot;additionalProperties&quot;: true
-  },
-  &quot;example&quot;: {
-    &quot;com.figma&quot;: {
-      &quot;context&quot;: &quot;Links this entry to its source Figma component for design-file lookups.&quot;,
-      &quot;displayName&quot;: &quot;Button/Primary&quot;,
-      &quot;nodeId&quot;: &quot;12:4045&quot;
-    }
-  }
-}</ds-code>
-</ds-json-view>
+          <ds-source-view label="common/extensions.schema.yaml">
+  <ds-code language="yaml" label="common/extensions.schema.yaml" wrap>$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://designsystemdocspec.org/v0.20.0/common/extensions.schema.yaml
+title: Extensions
+type: object
+description: Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.
+$comment: &gt;-
+  By convention, an outside id goes under
+  `$extensions.&lt;namespace&gt;.displayName`. Worth noting: nothing enforces that
+  specific key. Each top-level key MUST be a dotted namespace, like
+  `com.acme`, matching the Design Tokens Community Group's own
+  `$extensions` convention. This helps tools avoid unfamiliar data.
+
+  Recommended: add a `context` key under each namespace explaining what
+  the extension is for and how a tool should use it.
+propertyNames:
+  $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced
+additionalProperties:
+  type: object
+  additionalProperties: true
+example:
+  com.figma:
+    context: Links this entry to its source Figma component for design-file lookups.
+    displayName: &quot;Button/Primary&quot;
+    nodeId: &quot;12:4045&quot;</ds-code>
+</ds-source-view>
 <ds-def-section name="Extensions" anchor="extensions" description="Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern." type="object">
 <p><strong>Open map:</strong> keys are strings, values are <ds-code inline>object</ds-code></p>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="common-id.html#namespaced">namespaced</ds-type-ref></ds-cross-refs>

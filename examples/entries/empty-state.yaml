@@ -22,7 +22,7 @@ sections:
   # pointer (rel: alternative-to).
   - kind: guidelines
     for: all
-    context: when-to-use
+    framing: when-to-use
     title: When to use
     items:
       - statement: A list or table has zero results after filtering.
