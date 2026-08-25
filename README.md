@@ -41,13 +41,12 @@ The W3C Design Tokens Community Group defines a format for trading token **value
 
 The authoritative reference for every schema and field is the **documentation site at [designsystemdocspec.org](https://designsystemdocspec.org/)**. Property tables there come straight from the schema files, so they cannot drift from the code.
 
-- **[Overview](https://designsystemdocspec.org/)** — What DSDS is, the entry/section model, design principles, humans & agents, and interoperability with DTCG/CEM/Storybook.
+- **[Overview](https://designsystemdocspec.org/)** — What DSDS is, the entry/section model, design principles, humans & agents, interoperability with DTCG/CEM/Storybook, conformance (how the schema is put together, the `DSDS-01`–`DSDS-10` semantic rule catalog, stability guarantees and the criteria for declaring 1.0, the generated index of every normative statement in the schemas), and what DSDS deliberately doesn't have.
 - **[Quick Start](https://designsystemdocspec.org/quickstart.html)** — Document structure, entry kinds, the section system, and minimal examples for every entry kind.
 - **[Extending the schema](https://designsystemdocspec.org/extending.html)** — `$extensions`, custom kinds, and profiles: the three ways to go beyond what the spec ships with, and when to reach for each.
-- **[What's not here](https://designsystemdocspec.org/gaps.html)** — Prop tables, anatomy diagrams, typed accessibility fields, and other things DSDS deliberately doesn't have, each with what to use instead.
-- **[Conformance](https://designsystemdocspec.org/conformance.html)** — How the schema itself is put together, the `DSDS-01`–`DSDS-07` semantic rule catalog, stability guarantees and the criteria for declaring 1.0, and the generated index of every normative statement in the schemas.
+- **[Schema](https://designsystemdocspec.org/schema.html)** — Every schema definition, on one page, each with a real example next to it.
 
-Per-schema reference pages sit next to the narrative pages — e.g. [entries/component](https://designsystemdocspec.org/entries-component.html), [sections/guidelines](https://designsystemdocspec.org/sections-guidelines.html), [common/ref](https://designsystemdocspec.org/common-ref.html). You can also build the site locally with `npm run build` and open `site/dist/index.html`.
+You can also build the site locally with `npm run build` and open `site/dist/index.html`.
 
 This README leaves out schema field listings and example payloads on purpose — those live on the documentation site as a single source of truth.
 
@@ -77,7 +76,7 @@ If your system is split across files via `rel: file`, cross-file `to:` refs are 
 
 Reference `https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml` from your DSDS files via the `$schema` keyword for editor autocompletion and inline validation.
 
-For document structure, composing hand-split fragments (`scripts/compose.js`), and authoring narrative pages with schema-driven property tables, see the **[Quick Start docs page](https://designsystemdocspec.org/quickstart.html)** and [Conformance](https://designsystemdocspec.org/conformance.html#how-the-schema-is-organized).
+For document structure, composing hand-split fragments (`scripts/compose.js`), and authoring narrative pages with schema-driven property tables, see the **[Quick Start docs page](https://designsystemdocspec.org/quickstart.html)** and [Conformance](https://designsystemdocspec.org/index.html#how-the-schema-is-organized).
 
 ## Cutting a release
 

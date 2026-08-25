@@ -17,13 +17,7 @@ import { createShadow, esc, escWithCode, BASE_RESET, FONT } from "./_shared.js";
 
 const HEADER_CSS = `
   ${BASE_RESET}
-  :host { display: flex; flex-direction: column; margin-bottom: var(--ds-space-8); min-height: 100vh; background: var(--ds-color-bg-accent); justify-content: end; padding-inline-start: var(--ds-width-nav); }
-
-  @media (max-width: 900px) {
-    :host {
-      padding-inline-start: 0;
-    }
-  }
+  :host { display: flex; flex-direction: column; margin-bottom: var(--ds-space-8); min-height: 100vh; background: var(--ds-color-bg-accent); justify-content: end; padding-block-start: var(--ds-height-nav, 64px); }
 
   h1 {
     font-size: clamp(2em, 4vw, 4em);

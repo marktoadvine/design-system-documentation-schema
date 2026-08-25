@@ -2,7 +2,7 @@
 
 > A machine-readable format for design system documentation. DSDS structures a design system as a graph of entries (systems, components, tokens, themes, and custom kinds) and sections (definitions, guidelines, steps, and freeform content) for humans, parsers, and agents.
 
-This site documents DSDS, a versioned JSON Schema. Every page below has an HTML version (for people) and a plain-markdown mirror at the same path with a `.md` extension (e.g. `/quickstart.md`, `/common-criterion.md`) — the full content as text, no HTML/JS to parse. Schema pages' markdown includes every field name, type, and requiredness plus the full schema JSON; the bundled schema below is the single-file version of the same data.
+This site documents DSDS, a versioned JSON Schema. Every page below has an HTML version (for people) and a plain-markdown mirror at the same path with a `.md` extension (e.g. `/quickstart.md`, `/schema.md`) — the full content as text, no HTML/JS to parse. The Schema page's markdown includes every definition's field names, types, and requiredness; the bundled schema below is the single-file version of the same data.
 
 ## Machine-readable schema
 
@@ -14,41 +14,7 @@ This site documents DSDS, a versioned JSON Schema. Every page below has an HTML 
 
 ## Guides
 
-- [Design system doc spec 0.20.0](https://designsystemdocspec.org/): A machine-readable format for design system documentation. DSDS structures a design system as a graph of entries (systems, components, tokens, themes, and custom kinds) and sections (definitions, guidelines, steps, and freeform content) for humans, parsers, and agents. ([markdown](https://designsystemdocspec.org/index.md))
+- [Design system doc spec 0.20.0](https://designsystemdocspec.org/): A machine-readable format for design system documentation, what it means for a document to conform to the spec, every rule the spec enforces, and what the schema deliberately doesn't have. ([markdown](https://designsystemdocspec.org/index.md))
 - [DSDS quick start guide](https://designsystemdocspec.org/quickstart): Get started with DSDS — document structure, entry kinds, the section system, and minimal examples you can copy. ([markdown](https://designsystemdocspec.org/quickstart.md))
 - [Extending the schema — DSDS 0.20.0](https://designsystemdocspec.org/extending): Three ways to go beyond what the spec ships with — $extensions for tool-specific data, custom kinds for a document shape the spec doesn't have, and profiles for making an existing kind's optional fields required. ([markdown](https://designsystemdocspec.org/extending.md))
-- [What the schema doesn't have — DSDS 0.20.0](https://designsystemdocspec.org/gaps): A list of things people expect a design system spec to have that DSDS deliberately doesn't — prop tables, anatomy diagrams, typed accessibility facts, token groups — and what to use instead of each. ([markdown](https://designsystemdocspec.org/gaps.md))
-- [Conformance — DSDS 0.20.0](https://designsystemdocspec.org/conformance): What it means for a document to follow the DSDS 0.20.0 spec, how the schema is organized, what's stable ahead of version 1.0, and every rule the spec enforces. ([markdown](https://designsystemdocspec.org/conformance.md))
-
-## Common
-
-- [Combo](https://designsystemdocspec.org/common-combo): Defines what an element can or cannot be paired with. Relates to traits, tokens, and entries. ([markdown](https://designsystemdocspec.org/common-combo.md))
-- [Example](https://designsystemdocspec.org/common-example): A single example, illustrating something in context. ([markdown](https://designsystemdocspec.org/common-example.md))
-- [Extensions](https://designsystemdocspec.org/common-extensions): Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. ([markdown](https://designsystemdocspec.org/common-extensions.md))
-- [Id](https://designsystemdocspec.org/common-id): Lowercase, dash-separated segments, optionally chained with dots. ([markdown](https://designsystemdocspec.org/common-id.md))
-- [Markdown](https://designsystemdocspec.org/common-markdown): Markdown content, including headings, tables, code fences, etc. ([markdown](https://designsystemdocspec.org/common-markdown.md))
-- [Ref](https://designsystemdocspec.org/common-ref): The one pointer type. "A points to B, and this is what kind of pointer it is." ([markdown](https://designsystemdocspec.org/common-ref.md))
-- [RequirementLevel](https://designsystemdocspec.org/common-requirement-level): How strict a rule is, from must to must-not. ([markdown](https://designsystemdocspec.org/common-requirement-level.md))
-- [Showcase](https://designsystemdocspec.org/common-showcase): A visual sample of something. Can be a media file (image or video) or a link to a live page. ([markdown](https://designsystemdocspec.org/common-showcase.md))
-- [Since](https://designsystemdocspec.org/common-since): The version something was introduced in. ([markdown](https://designsystemdocspec.org/common-since.md))
-
-## Metadata
-
-- [Metadata](https://designsystemdocspec.org/metadata-metadata): Optional information about an element. ([markdown](https://designsystemdocspec.org/metadata-metadata.md))
-- [EntryMetadata](https://designsystemdocspec.org/metadata-entry-metadata): Information about a single entry, on top of the fields every metadata object shares. ([markdown](https://designsystemdocspec.org/metadata-entry-metadata.md))
-- [SystemMetadata](https://designsystemdocspec.org/metadata-system-metadata): Information about the design system as a whole, on top of the fields every metadata object shares. ([markdown](https://designsystemdocspec.org/metadata-system-metadata.md))
-
-## Entries
-
-- [Entry](https://designsystemdocspec.org/entries-entry): The structure every entry kind shares. This schema doubles as a general-use entry that isn't explicitly defined in the schema (ex: pattern, foundation, guideline). See schema/entries/ for each kind's own closing file. ([markdown](https://designsystemdocspec.org/entries-entry.md))
-- [ComponentEntry](https://designsystemdocspec.org/entries-component): A reusable UI element, like a button or a dialog. ([markdown](https://designsystemdocspec.org/entries-component.md))
-- [SystemEntry](https://designsystemdocspec.org/entries-system): A DSDS design system. System-level information and guidance for the design system as a whole. ([markdown](https://designsystemdocspec.org/entries-system.md))
-- [ThemeEntry](https://designsystemdocspec.org/entries-theme): A defined system theme. ([markdown](https://designsystemdocspec.org/entries-theme.md))
-- [TokenEntry](https://designsystemdocspec.org/entries-token): A single design token, from the Design Tokens Community Group (DTCG) format. ([markdown](https://designsystemdocspec.org/entries-token.md))
-
-## Sections
-
-- [Section](https://designsystemdocspec.org/sections-section): A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/<kind>.schema.yaml file adds its own `kind` value and its own structure for `items`. ([markdown](https://designsystemdocspec.org/sections-section.md))
-- [DefinitionsSection](https://designsystemdocspec.org/sections-definitions): Term definitions. Can describe content labels within components or patterns, define naming conventions, act as a glossary, or be a simple way to outline component props/APIs. ([markdown](https://designsystemdocspec.org/sections-definitions.md))
-- [GuidelinesSection](https://designsystemdocspec.org/sections-guidelines): Rules for an entry. How to use it and when it is the right choice. Each item pairs a rule with why it exists. ([markdown](https://designsystemdocspec.org/sections-guidelines.md))
-- [StepsSection](https://designsystemdocspec.org/sections-steps): A series of actions/steps/tasks, like a tutorial, a migration, a pattern's interaction flow, or checklist of things to verify. ([markdown](https://designsystemdocspec.org/sections-steps.md))
+- [Schema](https://designsystemdocspec.org/schema): Every DSDS schema definition, on one page, each with a real example next to it. ([markdown](https://designsystemdocspec.org/schema.md))

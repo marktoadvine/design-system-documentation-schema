@@ -12,7 +12,8 @@
  * This script derives that place instead of duplicating it: it walks every
  * split schema, extracts each sentence carrying an RFC 2119 keyword, assigns
  * it a stable location-based ID, and writes the index into
- * site/content/conformance.mdx between marker comments — the same
+ * site/content/overview.mdx (in its Conformance section) between marker
+ * comments — the same
  * generate-into-markers pattern sync-examples.js uses. The schemas stay the
  * single source of truth; the index cannot drift because it is regenerated
  * on every build and guarded by --check in postvalidate.
@@ -38,7 +39,7 @@ const yaml = require("js-yaml");
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const SCHEMA_DIR = path.join(ROOT, "schema");
-const PAGE = path.join(ROOT, "site", "content", "conformance.mdx");
+const PAGE = path.join(ROOT, "site", "content", "overview.mdx");
 
 const BEGIN = "{/* dsds:normative-index */}";
 const END = "{/* /dsds:normative-index */}";

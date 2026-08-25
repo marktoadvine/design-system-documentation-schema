@@ -4,7 +4,7 @@
   "@type": "APIReference",
   "identifier": "component",
   "name": "Component",
-  "page": "https://designsystemdocspec.org/entries-component",
-  "markdown": "https://designsystemdocspec.org/entries-component.md",
+  "page": "https://designsystemdocspec.org/schema#entries-component",
+  "markdown": "https://designsystemdocspec.org/schema.md#entries-component",
   "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
 }

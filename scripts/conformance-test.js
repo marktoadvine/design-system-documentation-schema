@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Layer 3 of the conformance model (see conformance.mdx): a fixture per
+// Layer 3 of the conformance model (see overview.mdx's Conformance section): a fixture per
 // semantic rule id (examples/invalid/DSDS-XX-*.yaml), each carrying
 // a leading `# expect: DSDS-XXX` comment, run through the exact same
 // validateDoc() tools/validate.js's own CLI uses - not a second copy of

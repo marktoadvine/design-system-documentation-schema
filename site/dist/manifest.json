@@ -24,32 +24,32 @@
   "entries": [
     {
       "kind": "component",
-      "page": "https://designsystemdocspec.org/entries-component",
-      "markdown": "https://designsystemdocspec.org/entries-component.md",
+      "page": "https://designsystemdocspec.org/schema#entries-component",
+      "markdown": "https://designsystemdocspec.org/schema.md#entries-component",
       "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "entry",
-      "page": "https://designsystemdocspec.org/entries-entry",
-      "markdown": "https://designsystemdocspec.org/entries-entry.md",
+      "page": "https://designsystemdocspec.org/schema#entries-entry",
+      "markdown": "https://designsystemdocspec.org/schema.md#entries-entry",
       "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "system",
-      "page": "https://designsystemdocspec.org/entries-system",
-      "markdown": "https://designsystemdocspec.org/entries-system.md",
+      "page": "https://designsystemdocspec.org/schema#entries-system",
+      "markdown": "https://designsystemdocspec.org/schema.md#entries-system",
       "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "theme",
-      "page": "https://designsystemdocspec.org/entries-theme",
-      "markdown": "https://designsystemdocspec.org/entries-theme.md",
+      "page": "https://designsystemdocspec.org/schema#entries-theme",
+      "markdown": "https://designsystemdocspec.org/schema.md#entries-theme",
       "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     },
     {
       "kind": "token",
-      "page": "https://designsystemdocspec.org/entries-token",
-      "markdown": "https://designsystemdocspec.org/entries-token.md",
+      "page": "https://designsystemdocspec.org/schema#entries-token",
+      "markdown": "https://designsystemdocspec.org/schema.md#entries-token",
       "schema": "https://designsystemdocspec.org/v0.20.0/dsds.bundled.yaml"
     }
   ]

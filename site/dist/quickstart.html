@@ -33,41 +33,7 @@
     <a href="index.html" slug="index">Overview</a>
     <a href="quickstart.html" slug="quickstart">Quick start</a>
     <a href="extending.html" slug="extending">Extending the schema</a>
-    <a href="gaps.html" slug="gaps">What's not here</a>
-    <a href="conformance.html" slug="conformance">Conformance</a>
-    <ds-nav-group label="Base">
-      <a href="base.html" slug="base">base</a>
-      <a href="shared.html" slug="shared">shared</a>
-    </ds-nav-group>
-    <ds-nav-group label="Common">
-      <a href="common-combo.html" slug="common-combo">combo</a>
-      <a href="common-example.html" slug="common-example">example</a>
-      <a href="common-extensions.html" slug="common-extensions">extensions</a>
-      <a href="common-id.html" slug="common-id">id</a>
-      <a href="common-markdown.html" slug="common-markdown">markdown</a>
-      <a href="common-ref.html" slug="common-ref">ref</a>
-      <a href="common-requirement-level.html" slug="common-requirement-level">requirement-level</a>
-      <a href="common-showcase.html" slug="common-showcase">showcase</a>
-      <a href="common-since.html" slug="common-since">since</a>
-    </ds-nav-group>
-    <ds-nav-group label="Metadata">
-      <a href="metadata-metadata.html" slug="metadata-metadata">metadata</a>
-      <a href="metadata-entry-metadata.html" slug="metadata-entry-metadata">entry-metadata</a>
-      <a href="metadata-system-metadata.html" slug="metadata-system-metadata">system-metadata</a>
-    </ds-nav-group>
-    <ds-nav-group label="Entries">
-      <a href="entries-entry.html" slug="entries-entry">entry</a>
-      <a href="entries-component.html" slug="entries-component">component</a>
-      <a href="entries-system.html" slug="entries-system">system</a>
-      <a href="entries-theme.html" slug="entries-theme">theme</a>
-      <a href="entries-token.html" slug="entries-token">token</a>
-    </ds-nav-group>
-    <ds-nav-group label="Sections">
-      <a href="sections-section.html" slug="sections-section">section</a>
-      <a href="sections-definitions.html" slug="sections-definitions">definitions</a>
-      <a href="sections-guidelines.html" slug="sections-guidelines">guidelines</a>
-      <a href="sections-steps.html" slug="sections-steps">steps</a>
-    </ds-nav-group>
+    <a href="schema.html" slug="schema">Schema</a>
   </ds-spec-nav>
   <div class="content">
     <main class="content__main" id="main-content" role="main">
@@ -160,7 +126,7 @@ refs:
 <p>Every entry has a <ds-code inline>kind</ds-code> field. There are 5 well-known values, plus an open option for anything else.</p>
 <ds-table><table><thead><tr><th>Kind</th><th>Description</th></tr></thead><tbody><tr><td><ds-code inline>system</ds-code></td><td>The design system as a whole — version, organization, url, license, platforms, plus system-wide documentation.</td></tr><tr><td><ds-code inline>component</ds-code></td><td>A reusable UI element — buttons, inputs, modals. Carries its own <ds-code inline>sourceFiles</ds-code>, <ds-code inline>imports</ds-code>, <ds-code inline>traits</ds-code> (variants and states), and <ds-code inline>combos</ds-code>, on top of the fields every entry shares.</td></tr><tr><td><ds-code inline>token</ds-code></td><td>A single design token. Carries <ds-code inline>tokenType</ds-code> and a <ds-code inline>source</ds-code> pointer to the real DTCG value — never the value itself.</td></tr><tr><td><ds-code inline>theme</ds-code></td><td>A named set of token overrides — dark mode, high-contrast, a brand variant. Points at its own DTCG source file.</td></tr><tr><td><ds-code inline>entry</ds-code></td><td>The generic, open kind for anything else — a foundation, a pattern, a guide. Has no fields beyond what every entry shares.</td></tr><tr><td><em>(custom)</em></td><td>A custom kind like <ds-code inline>acme.icon-library</ds-code>, for a document that wants its own recognizable name instead of the generic <ds-code inline>entry</ds-code>.</td></tr></tbody></table></ds-table>
 <ds-heading level="3" anchor="fields-every-entry-shares">Fields every entry shares</ds-heading>
-<p>Every entry kind shares one open base: <ds-code inline>id</ds-code>, <ds-code inline>kind</ds-code>, <ds-code inline>name</ds-code>, <ds-code inline>description</ds-code> (required), plus <ds-code inline>purpose</ds-code>, <ds-code inline>metadata</ds-code>, <ds-code inline>related</ds-code>, <ds-code inline>extends</ds-code>, <ds-code inline>refs</ds-code>, <ds-code inline>sections</ds-code>, <ds-code inline>$extensions</ds-code> (optional). See <a href="conformance.html#how-the-schema-is-organized">Conformance</a> for how the schema itself is put together.</p>
+<p>Every entry kind shares one open base: <ds-code inline>id</ds-code>, <ds-code inline>kind</ds-code>, <ds-code inline>name</ds-code>, <ds-code inline>description</ds-code> (required), plus <ds-code inline>purpose</ds-code>, <ds-code inline>metadata</ds-code>, <ds-code inline>related</ds-code>, <ds-code inline>extends</ds-code>, <ds-code inline>refs</ds-code>, <ds-code inline>sections</ds-code>, <ds-code inline>$extensions</ds-code> (optional). See <a href="index.html#how-the-schema-is-organized">Conformance</a> for how the schema itself is put together.</p>
 <ds-heading level="3" anchor="status">Status</ds-heading>
 <p>Status lives in <ds-code inline>metadata.status</ds-code>, always as an object — there's no bare-string shorthand:</p>
 <ds-code language="yaml">metadata:

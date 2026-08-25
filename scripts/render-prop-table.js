@@ -243,20 +243,27 @@ function buildDefIndex({ schemaDir = SCHEMA_DIR, groups = DEFAULT_SCHEMA_GROUPS 
     schemaById.set(data.$id, data);
 
     const baseName = f.filename.replace(/\.schema\.yaml$/, "");
-    const pageSlug = f.group === "root" ? baseName : `${f.group}-${baseName}`;
+    const baseSlug = f.group === "root" ? baseName : `${f.group}-${baseName}`;
     const title = data.title || baseName;
 
+    // pageSlug is the constant "schema" now - every definition lives on
+    // the one Schema page, not its own. Anchors have to do the work
+    // pageSlug used to: `anchor: slug(defName)` alone was only ever
+    // unique *within* one file's own page; on one combined page it needs
+    // the file's own baseSlug prefixed, or two files' identically-named
+    // local $defs (or a local $def that happens to share a name with
+    // another file's own root title) would collide.
     index[data.$id] = {
-      pageSlug,
-      anchor: slug(title),
+      pageSlug: "schema",
+      anchor: baseSlug,
       title,
       description: data.description || "",
     };
 
     for (const [defName, def] of Object.entries(data.$defs || {})) {
       index[`${data.$id}#/$defs/${defName}`] = {
-        pageSlug,
-        anchor: slug(defName),
+        pageSlug: "schema",
+        anchor: `${baseSlug}-${slug(defName)}`,
         title: defName,
         description: def.description || "",
       };

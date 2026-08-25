@@ -1,38 +1,36 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // <ds-spec-nav>
 //
-// The specification site's left sidebar navigation. Reads its structure
-// from declarative light-DOM children instead of a JSON attribute.
+// The specification site's top bar navigation. Reads its structure from
+// declarative light-DOM children instead of a JSON attribute.
+//
+// A flat top bar, not a sidebar: with every schema definition living on one
+// Schema page instead of its own, there's nothing left to group into
+// collapsible sections — just a handful of top-level pages, so a horizontal
+// bar fits, and frees the sidebar's reserved column width for pages (like
+// Schema) that want the full viewport width.
 //
 // Attributes:
-//   title       — title text shown at the top (e.g. "DSDS 0.1")
+//   title       — title text shown at the left of the bar (e.g. "DSDS 0.1")
 //   title-href  — link for the title (default: "index.html")
 //   active      — slug of the currently active page
-//   open        — boolean, whether the mobile links section is expanded
+//   open        — boolean, whether the mobile links dropdown is expanded
 //
 // Content model (light DOM):
-//   Top-level <a> elements become nav links.
-//   <ds-nav-group label="…"> elements become collapsible groups.
-//   Inside a group, <a> elements become child links.
-//
-//   Every <a> may carry a `slug` attribute used to match against the
-//   `active` attribute for highlighting.
+//   <a> elements become nav links. Every <a> may carry a `slug` attribute
+//   used to match against the `active` attribute for highlighting.
 //
 // Mobile behavior:
-//   The nav itself never hides — at ≤900px the links section (.nav__items)
-//   collapses to 0 height by default, and the logo in the title bar is
+//   The bar itself never hides — at ≤900px the links row (.nav__items)
+//   collapses to 0 height by default, and the logo in the title area is
 //   replaced by a menu button in the same spot. Clicking it (or setting the
-//   `open` attribute) expands the links section back to its normal,
-//   desktop-style height.
+//   `open` attribute) drops the links down as a full-width panel below the
+//   title row.
 //
 // Usage:
 //   <ds-spec-nav title="DSDS 0.1" title-href="index.html" active="index">
 //     <a href="index.html" slug="index">Overview</a>
-//     <a href="quickstart.html" slug="quickstart">Quick Start</a>
-//     <ds-nav-group label="Entities">
-//       <a href="entities-component.html" slug="entities-component">component</a>
-//       <a href="entities-pattern.html" slug="entities-pattern">pattern</a>
-//     </ds-nav-group>
+//     <a href="quickstart.html" slug="quickstart">Quick start</a>
 //   </ds-spec-nav>
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -43,28 +41,22 @@ const SPEC_NAV_CSS = `
   :host {
     display: block;
     position: fixed;
-    /*
     inset-block-start: 0;
-    inset-inline-start: 0;
-    inset-block-end: 0;
-    */
+    inset-inline: 0;
     z-index: var(--ds-z-nav, 100);
   }
 
   .nav {
-    position: relative;
-    inset: 1em;
-    color: var(--ds-color-text);
-    padding: 0;
-    font-family: var(--ds-font-body);
     display: flex;
-    width: 224px;
-    flex-direction: column;
-    outline: 4px solid transparent;
-    max-height: calc(100vh - 2em);
-    overflow: hidden;
-    transition: outline var(--ds-duration-base) var(--ds-ease-standard), max-height var(--ds-duration-base) var(--ds-ease-standard);
-    padding-top: 64px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--ds-color-text);
+    background: var(--ds-color-bg-inverse);
+    font-family: var(--ds-font-body);
+    width: 100%;
+    min-height: var(--ds-height-nav, 64px);
+    padding-inline: var(--ds-space-4);
   }
 
   /* ── Title ──────────────────────────────────────────── */
@@ -76,12 +68,7 @@ const SPEC_NAV_CSS = `
     font-weight: var(--ds-font-weight-bold);
     letter-spacing: 0;
     text-transform: none;
-    background: var(--ds-color-text);
-    color: var(--ds-color-bg-inverse);
-    padding: var(--ds-space-4);
-    position: fixed;
-    width: 224px;
-    top: 1rem;
+    flex-shrink: 0;
   }
 
   .nav__title a {
@@ -89,7 +76,6 @@ const SPEC_NAV_CSS = `
     align-items: center;
     gap: 12px;
     min-width: 0;
-    flex: 1;
     color: inherit;
     text-decoration: none;
     line-height: 1.2;
@@ -125,31 +111,26 @@ const SPEC_NAV_CSS = `
     display: block;
   }
 
-  /* ── Items container ────────────────────────────────── */
+  /* ── Links row ──────────────────────────────────────── */
   .nav__items {
-    padding: var(--ds-space-4) 0;
-    overflow-y: auto;
-    max-height: 100%;
-    background: var(--ds-color-bg-inverse);
-    transition: max-height var(--ds-duration-base) var(--ds-ease-standard);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
   }
 
-  /* ── Top-level links ────────────────────────────────── */
   .nav__link {
     display: block;
-    margin: 0 4px;
     padding: 6px calc(var(--ds-space-4) - 4px);
     color: var(--ds-color-text);
     text-decoration: none;
     font-size: var(--ds-font-size-base);
     font-weight: 500;
     line-height: var(--ds-line-height-normal);
-    border-inline-start: var(--ds-border-width) solid transparent;
+    border-block-end: var(--ds-border-width) solid transparent;
     transition: background-color var(--ds-duration-base) var(--ds-ease-standard),
-      color var(--ds-duration-base) var(--ds-ease-standard);
-    /* Breathing room for scrollIntoView() (see _scrollActiveIntoView) —
-       the browser adds this margin when deciding a link is "in view". */
-    scroll-margin-block: var(--ds-space-4);
+      color var(--ds-duration-base) var(--ds-ease-standard),
+      border-color var(--ds-duration-base) var(--ds-ease-standard);
   }
 
   .nav__link:hover {
@@ -160,47 +141,10 @@ const SPEC_NAV_CSS = `
   .nav__link--active {
     background: #1a1a1a;
     color: #fff;
+    border-block-end-color: var(--ds-color-accent);
   }
 
-  /* ── Group toggle ───────────────────────────────────── */
-  .nav__group {
-    margin-top: var(--ds-space-4);
-  }
-
-  .nav__group-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 6px var(--ds-space-4);
-    background: none;
-    border: none;
-    border-inline-start: var(--ds-border-width) solid transparent;
-    color: var(--ds-color-text);
-    font-family: ${FONT.body};
-    font-size: var(--ds-font-size-xs);
-    font-weight: var(--ds-font-weight-bold);
-    letter-spacing: 0;
-    text-transform: none;
-    cursor: default;
-    text-align: start;
-  }
-
-  .nav__group-arrow {
-    display: none;
-  }
-
-  /* ── Group children — always visible ────────────────── */
-  .nav__group-children {
-    display: block;
-    padding-bottom: var(--ds-space-1);
-  }
-
-  .nav__link--child {
-    font-size: var(--ds-font-size-base);
-  }
-
-  /* ── Mobile: nav stays put; only the links section collapses ───────── */
+  /* ── Mobile: bar stays put; only the links row collapses ────────────── */
   @media (max-width: 900px) {
 
     .nav__menu-btn {
@@ -212,17 +156,33 @@ const SPEC_NAV_CSS = `
     }
 
     .nav {
-      max-height: 64px;
+      min-height: 64px;
     }
 
-    :host([open]) .nav {
-      outline: 4px solid color-mix(#1a1a1a 30%, transparent);
-      max-height: calc(80vh);
+    .nav__items {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0;
+      transition: max-height var(--ds-duration-base) var(--ds-ease-standard);
     }
 
     :host([open]) .nav__items {
+      max-height: 60vh;
+      overflow-y: auto;
       padding: var(--ds-space-4) 0;
-      pointer-events: auto;
+    }
+
+    .nav__link {
+      border-block-end: none;
+      border-inline-start: var(--ds-border-width) solid transparent;
+    }
+
+    .nav__link--active {
+      border-block-end-color: transparent;
+      border-inline-start-color: var(--ds-color-accent);
     }
   }
 
@@ -248,13 +208,13 @@ export class DsSpecNav extends HTMLElement {
   connectedCallback() {
     document.addEventListener("keydown", this._onKeydown);
 
-    // Light-DOM children (<a>, <ds-nav-group>) may not be parsed yet when
-    // a blocking <script> in <head> registers the element — the parser
-    // upgrades the element the instant it sees the opening tag, before it
-    // has parsed any children.
+    // Light-DOM children (<a>) may not be parsed yet when a blocking
+    // <script> in <head> registers the element — the parser upgrades the
+    // element the instant it sees the opening tag, before it has parsed any
+    // children.
     //
     // We must wait for DOMContentLoaded to guarantee ALL children have
-    // been parsed.  A MutationObserver fires too early (after the first
+    // been parsed. A MutationObserver fires too early (after the first
     // child, before the rest are added).
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () => this._render(), {
@@ -273,21 +233,6 @@ export class DsSpecNav extends HTMLElement {
   attributeChangedCallback(name) {
     if (name === "open") {
       this._syncMenuButton();
-      // On mobile the items list is 0-height (clipped) while closed, so the
-      // initial _scrollActiveIntoView() call ran against a collapsed
-      // container and couldn't measure real positions. Recompute once the
-      // max-height transition finishes and it's actually measurable —
-      // measuring immediately would just read the pre-transition rect.
-      if (this.open) {
-        const container = this._shadow.querySelector(".nav__items");
-        if (container) {
-          container.addEventListener(
-            "transitionend",
-            () => this._scrollActiveIntoView(),
-            { once: true },
-          );
-        }
-      }
       return;
     }
     // Only re-render after the initial render has happened.
@@ -346,23 +291,6 @@ export class DsSpecNav extends HTMLElement {
     }
 
     this._updateMenuIcon(isOpen);
-    this._scrollActiveIntoView();
-  }
-
-  /**
-   * .nav__items is its own scroll container (independent of the page), so it
-   * always loads at scrollTop 0 — on a long nav, the active link (e.g. deep
-   * in "Metadata") can load scrolled out of view with nothing on screen
-   * indicating where the current page sits. scrollIntoView({ block: "nearest" })
-   * only scrolls .nav__items (the nearest scrollable ancestor) — it's a
-   * no-op if the link is already visible, and the --ds-space-4
-   * scroll-margin-block set on .nav__link gives it breathing room from the
-   * edge otherwise. Runs synchronously before first paint, so there's no
-   * visible scroll animation on load.
-   */
-  _scrollActiveIntoView() {
-    const activeEl = this._shadow.querySelector(".nav__link--active");
-    if (activeEl) activeEl.scrollIntoView({ block: "nearest" });
   }
 
   _syncMenuButton() {
@@ -391,76 +319,28 @@ export class DsSpecNav extends HTMLElement {
    * Walk the light-DOM children and build shadow-DOM navigation HTML.
    *
    * Recognised children:
-   *   <a href="…" slug="…">Label</a>           → top-level link
-   *   <ds-nav-group label="…">                  → collapsible group
-   *     <a href="…" slug="…">Label</a>          → child link
-   *   </ds-nav-group>
+   *   <a href="…" slug="…">Label</a> → a nav link
    */
   _buildFromChildren(active) {
     const parts = [];
 
     for (const child of this.children) {
-      const tag = child.tagName.toLowerCase();
-
-      if (tag === "a") {
-        const slug = child.getAttribute("slug") || "";
-        const href = child.getAttribute("href") || "#";
-        const label = child.textContent.trim();
-        const activeCls = slug && slug === active ? " nav__link--active" : "";
-        parts.push(
-          '<a class="nav__link' +
-            activeCls +
-            '" href="' +
-            esc(href) +
-            '">' +
-            esc(label) +
-            "</a>",
-        );
-      } else if (tag === "ds-nav-group") {
-        parts.push(this._buildGroup(child, active));
-      }
-      // Silently skip unrecognised elements
-    }
-
-    return parts.join("\n");
-  }
-
-  /**
-   * Build shadow HTML for a single <ds-nav-group>.
-   */
-  _buildGroup(groupEl, active) {
-    const label = groupEl.getAttribute("label") || "";
-    const childLinks = groupEl.querySelectorAll(":scope > a");
-
-    const childHtml = Array.from(childLinks)
-      .map(function (a) {
-        const slug = a.getAttribute("slug") || "";
-        const href = a.getAttribute("href") || "#";
-        const text = a.textContent.trim();
-        const activeCls = slug && slug === active ? " nav__link--active" : "";
-        return (
-          '<a class="nav__link nav__link--child' +
+      if (child.tagName.toLowerCase() !== "a") continue; // silently skip unrecognised elements
+      const slug = child.getAttribute("slug") || "";
+      const href = child.getAttribute("href") || "#";
+      const label = child.textContent.trim();
+      const activeCls = slug && slug === active ? " nav__link--active" : "";
+      parts.push(
+        '<a class="nav__link' +
           activeCls +
           '" href="' +
           esc(href) +
           '">' +
-          esc(text) +
-          "</a>"
-        );
-      })
-      .join("\n");
+          esc(label) +
+          "</a>",
+      );
+    }
 
-    return (
-      '<div class="nav__group">' +
-      '<div class="nav__group-toggle">' +
-      "<span>" +
-      esc(label) +
-      "</span>" +
-      "</div>" +
-      '<div class="nav__group-children">' +
-      childHtml +
-      "</div>" +
-      "</div>"
-    );
+    return parts.join("\n");
   }
 }

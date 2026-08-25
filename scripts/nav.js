@@ -1,8 +1,11 @@
 /**
  * Shared navigation builder for the DSDS spec site.
  *
- * Discovers schema pages from schema/ and produces the light-DOM
- * children markup expected by <ds-spec-nav>.
+ * Produces the light-DOM children markup expected by <ds-spec-nav> — now a
+ * flat top bar over 4 pages (Overview, Quick start, Extending, Schema), not
+ * a grouped sidebar over 23+ schema-reference pages the way it used to be:
+ * every schema definition now lives on the one Schema page instead of its
+ * own page, so there's nothing left to group.
  *
  * Usage:
  *   const { buildSpecNav } = require("./nav");
@@ -16,15 +19,18 @@ const ROOT = path.resolve(__dirname, "..");
 const SCHEMA_DIR = path.join(ROOT, "schema");
 
 // Root-level schema files (schema/base.schema.yaml, schema/shared.schema.yaml)
-// that aren't inside one of DIR_GROUPS's subdirectories — they get their own
-// "Base" nav group, the same role `documentation`/dsds.schema.json played
-// for the old spec/schema/'s root file.
+// that aren't inside one of DIR_GROUPS's subdirectories. Still used by
+// build-site.js's own discoverPages()/versioned-mirror logic - unrelated to
+// the nav now, but this constant name predates the nav simplification and
+// other code still imports it from here.
 const ROOT_FILES = ["base.schema.yaml", "shared.schema.yaml"];
 
-// Subdirectories of schema/ that become nav groups. `primary`, when set, is
-// the group's own open-base file (e.g. entry.schema.yaml, the base every
-// kind in entries/ extends) — pinned first in that group's nav list ahead
-// of the rest, which stay alphabetical.
+// Subdirectories of schema/ that build-site.js walks to discover schema
+// files and mirror them into site/dist/v<n>/ for $ref resolution. `primary`,
+// when set, is the group's own open-base file (e.g. entry.schema.yaml, the
+// base every kind in entries/ extends) — pinned first in that group's
+// def-section order on the Schema page, ahead of the rest, which stay
+// alphabetical.
 const DIR_GROUPS = [
   { dir: "common", label: "Common" },
   { dir: "metadata", label: "Metadata", primary: "metadata" },
@@ -32,13 +38,13 @@ const DIR_GROUPS = [
   { dir: "sections", label: "Sections", primary: "section" },
 ];
 
-// Top-level (non-schema-driven) links that always appear first.
+// The site's entire nav, now that every schema definition lives on one
+// Schema page instead of its own.
 const TOP_LINKS = [
   { label: "Overview", href: "index.html", slug: "index" },
   { label: "Quick start", href: "quickstart.html", slug: "quickstart" },
   { label: "Extending the schema", href: "extending.html", slug: "extending" },
-  { label: "What's not here", href: "gaps.html", slug: "gaps" },
-  { label: "Conformance", href: "conformance.html", slug: "conformance" },
+  { label: "Schema", href: "schema.html", slug: "schema" },
 ];
 
 function esc(text) {
@@ -51,97 +57,16 @@ function esc(text) {
 }
 
 /**
- * Scan schema/ and return a lightweight list of page descriptors
- * sufficient for building the nav: { slug, group, groupLabel, filename }.
- */
-function discoverNavPages() {
-  const pages = [];
-
-  // Root-level files (base, shared) go into the "Base" group.
-  for (const filename of ROOT_FILES) {
-    const filePath = path.join(SCHEMA_DIR, filename);
-    if (!fs.existsSync(filePath)) continue;
-    const baseName = filename.replace(".schema.yaml", "");
-    pages.push({
-      slug: baseName,
-      group: "root",
-      groupLabel: "Base",
-      filename,
-    });
-  }
-
-  for (const group of DIR_GROUPS) {
-    const dirPath = path.join(SCHEMA_DIR, group.dir);
-    if (!fs.existsSync(dirPath)) continue;
-
-    const files = fs
-      .readdirSync(dirPath)
-      .filter((f) => f.endsWith(".schema.yaml"))
-      .sort();
-
-    if (group.primary) {
-      const primaryFile = `${group.primary}.schema.yaml`;
-      const idx = files.indexOf(primaryFile);
-      if (idx > 0) {
-        files.splice(idx, 1);
-        files.unshift(primaryFile);
-      }
-    }
-
-    for (const filename of files) {
-      const baseName = filename.replace(".schema.yaml", "");
-      pages.push({
-        slug: `${group.dir}-${baseName}`,
-        group: group.dir,
-        groupLabel: group.label,
-        filename,
-      });
-    }
-  }
-
-  return pages;
-}
-
-/**
- * Build the light-DOM children for <ds-spec-nav>.
+ * Build the light-DOM children for <ds-spec-nav> — just the 4 top links now.
  *
  * @param {string} activeSlug  — slug of the current page (for active highlight)
- * @param {Array}  [pages]     — page descriptors; auto-discovered when omitted
- * @returns {string} HTML string of <a> and <ds-nav-group> elements
+ * @returns {string} HTML string of <a> elements
  */
-function buildNavChildren(activeSlug, pages) {
-  if (!pages) pages = discoverNavPages();
-
-  const lines = [];
-
-  for (const link of TOP_LINKS) {
-    lines.push(
+function buildNavChildren(activeSlug) {
+  return TOP_LINKS.map(
+    (link) =>
       `    <a href="${esc(link.href)}" slug="${esc(link.slug)}">${esc(link.label)}</a>`,
-    );
-  }
-
-  // Group pages by directory
-  const groups = new Map();
-  for (const page of pages) {
-    if (!page.group) continue;
-    if (!groups.has(page.group)) {
-      groups.set(page.group, { label: page.groupLabel, pages: [] });
-    }
-    groups.get(page.group).pages.push(page);
-  }
-
-  for (const [, group] of groups) {
-    lines.push(`    <ds-nav-group label="${esc(group.label)}">`);
-    for (const page of group.pages) {
-      const label = page.navLabel || page.filename.replace(".schema.yaml", "");
-      lines.push(
-        `      <a href="${esc(page.slug)}.html" slug="${esc(page.slug)}">${esc(label)}</a>`,
-      );
-    }
-    lines.push(`    </ds-nav-group>`);
-  }
-
-  return lines.join("\n");
+  ).join("\n");
 }
 
 /**
@@ -170,13 +95,14 @@ function readSpecVersion() {
  * separate element.
  *
  * @param {string} activeSlug
- * @param {Array}  [pages]
+ * @param {Array}  [pages]     Unused now (kept for call-site compatibility;
+ *                              the nav no longer varies by page list).
  * @param {string} [version]  Override the spec version. When omitted,
  *                            derived from dsds.schema.json.
  * @returns {string}
  */
 function buildSpecNav(activeSlug, pages, version) {
-  const children = buildNavChildren(activeSlug, pages);
+  const children = buildNavChildren(activeSlug);
   const v = version || readSpecVersion() || "";
   const navTitle = v
     ? `Design System Doc Spec ${v}`
@@ -190,10 +116,10 @@ function buildSpecNav(activeSlug, pages, version) {
 }
 
 module.exports = {
-  discoverNavPages,
   buildNavChildren,
   buildSpecNav,
   readSpecVersion,
   TOP_LINKS,
   DIR_GROUPS,
+  ROOT_FILES,
 };
