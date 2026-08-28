@@ -114,6 +114,12 @@ sections:
     items:
       - statement: Limit each surface to one primary button.
         level: should
+        example:
+          title: One primary action per surface
+          showcase:
+            kind: image
+            url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
+            alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.
         # A guideline item's own shape is closed - not extensible the way
         # an entry or a section is - so $extensions is the one way to
         # attach org-specific data (here, a rationale and a failure mode)

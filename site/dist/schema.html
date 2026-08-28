@@ -161,7 +161,7 @@ entries:
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id">Id</ds-type-ref></ds-cross-refs>
 
 </ds-def-section>
-<ds-def-section name="Example" anchor="common-example" description="A single example, illustrating something in context." type="object" source="common/example.schema.yaml">
+<ds-def-section name="Example" anchor="common-example" description="A single example, illustrating something in context." type="object" source="common/example.schema.yaml" layout="split">
 <ds-prop-table>
   <ds-prop name="title" type="string" conditional>A short heading for the example.</ds-prop>
   <ds-prop name="description" type="string" conditional>Describes the example in detail.</ds-prop>
@@ -170,7 +170,12 @@ entries:
 </ds-prop-table>
 <ds-callout variant="warning" title="Constraint:">At least one of <ds-code inline>title</ds-code>, <ds-code inline>description</ds-code>, <ds-code inline>showcase</ds-code>, <ds-code inline>ref</ds-code> must be present.</ds-callout>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-showcase">Showcase</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#common-example">Example</ds-type-ref></ds-cross-refs>
-
+<ds-code language="yaml" label="example" slot="example" wrap>example:
+  title: One primary action per surface
+  showcase:
+    kind: image
+    url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
+    alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.</ds-code>
 </ds-def-section>
 <ds-def-section name="list" anchor="common-example-list" type="array" source="common/example.schema.yaml">
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-example">Example</ds-type-ref></ds-cross-refs>
@@ -236,14 +241,17 @@ entries:
 - statement: Use buttons only for in-page actions, never navigation.
   level: must</ds-code>
 </ds-def-section>
-<ds-def-section name="Showcase" anchor="common-showcase" description="A visual sample of something. Can be a media file (image or video) or a link to a live page." source="common/showcase.schema.yaml">
+<ds-def-section name="Showcase" anchor="common-showcase" description="A visual sample of something. Can be a media file (image or video) or a link to a live page." source="common/showcase.schema.yaml" layout="split">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;image&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;video&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;sound&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;html&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;code&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;other&quot;&lt;/ds-code&gt;" required>What kind of media this showcase is.</ds-prop>
   <ds-prop name="url" type="string (uri-reference)" required>Where the showcase lives.</ds-prop>
   <ds-prop name="alt" type="string">Alt text describing the image or video, for accessibility</ds-prop>
   <ds-prop name="note" type="string">Provides additional detail about the showcase if needed.</ds-prop>
 </ds-prop-table>
-
+<ds-code language="yaml" label="example" slot="example" wrap>showcase:
+  kind: image
+  url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
+  alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.</ds-code>
 </ds-def-section>
 <ds-def-section name="Since" anchor="common-since" description="The version something was introduced in." type="string" source="common/since.schema.yaml" layout="split">
 
@@ -252,7 +260,7 @@ entries:
   since: 1.0.0</ds-code>
 </ds-def-section>
 <ds-heading level="2" anchor="schema-group-metadata">Metadata</ds-heading>
-<ds-def-section name="Metadata" anchor="metadata-metadata" description="Optional information about an element." type="object" source="metadata/metadata.schema.yaml">
+<ds-def-section name="Metadata" anchor="metadata-metadata" description="Optional information about an element." type="object" source="metadata/metadata.schema.yaml" layout="split">
 <ds-prop-table>
   <ds-prop name="tags" type="string[]">Keywords for grouping, search, and filtering. By convention, the first tag, if any, is the main category.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="owner" type="string">The owning team, role, or group.</ds-prop>
@@ -263,7 +271,11 @@ entries:
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-code inline>#/$defs/isoDate</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-
+<ds-code language="yaml" label="example" slot="example" wrap>metadata:
+  origin:
+    method: generated
+    author: machine-generated
+    note: Generated from custom-elements.json (CEM schemaVersion 2.1.0) by cem-to-dsds. Usage guidance has not been authored yet.</ds-code>
 </ds-def-section>
 <ds-def-section name="note" anchor="metadata-metadata-note" description="A plain-text note. MUST NOT contain markup." type="string" source="metadata/metadata.schema.yaml">
 
@@ -481,7 +493,7 @@ tokenType: spacing
 source: ./tokens.dtcg.json</ds-code>
 </ds-def-section>
 <ds-heading level="2" anchor="schema-group-sections">Sections</ds-heading>
-<ds-def-section name="Section" anchor="sections-section" description="A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`." type="object" source="sections/section.schema.yaml">
+<ds-def-section name="Section" anchor="sections-section" description="A logical documentation section. Every section uses the same structure (`items`), no matter its kind, and is tagged with who it is for (human, agent, or all). Each sections/&lt;kind&gt;.schema.yaml file adds its own `kind` value and its own structure for `items`." type="object" source="sections/section.schema.yaml" layout="split">
 <ds-prop-table>
   <ds-prop name="kind" type="&lt;ds-code inline&gt;&quot;definitions&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;guidelines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;steps&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;section&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;schema.html#common-id-namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of content section this is.</ds-prop>
   <ds-prop name="for" type="&lt;ds-code inline&gt;&quot;human&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;agent&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;all&quot;&lt;/ds-code&gt;" required>Who or what this section is written for.<br><small>Default: <ds-code inline>"all"</ds-code></small></ds-prop>
@@ -495,7 +507,12 @@ source: ./tokens.dtcg.json</ds-code>
 </ds-prop-table>
 <ds-callout variant="warning" title="Constraint:">At least one of <ds-code inline>items</ds-code>, <ds-code inline>freeform</ds-code> must be present.</ds-callout>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#sections-definitions">DefinitionsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-guidelines">GuidelinesSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-steps">StepsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-example-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref></ds-cross-refs>
-
+<ds-code language="yaml" label="example" slot="example" wrap>- kind: section
+  for: all
+  title: Troubleshooting
+  freeform:
+    - title: Styles don't apply
+      body: Confirm the base theme is imported before any component renders - a component's own CSS assumes the theme's custom properties already exist.</ds-code>
 </ds-def-section>
 <ds-def-section name="dispatch" anchor="sections-section-dispatch" source="sections/section.schema.yaml">
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#sections-definitions">DefinitionsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-guidelines">GuidelinesSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-steps">StepsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref></ds-cross-refs>

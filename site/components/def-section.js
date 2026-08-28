@@ -9,12 +9,27 @@ const DEF_SECTION_CSS = `
   :host(:first-of-type) {
     margin-top: 0;
   }
+  /* Sticks to the top of the viewport (just under the fixed nav bar)
+     while you scroll through this section's own content - property
+     tables can run long, so the title stays in view instead of
+     scrolling away with the first few lines. Works the same whether
+     this is a layout="split" section or not: the containing block is
+     always this section's own :host, so the title releases once this
+     section's content has fully scrolled past, same as any sticky
+     header. A solid background keeps scrolled-past text from showing
+     through while it's stuck; z-index just needs to clear ordinary
+     content, not the nav bar itself (--ds-z-nav, higher). */
   h2 {
+    position: sticky;
+    top: var(--ds-height-nav, 64px);
+    z-index: 1;
+    background: var(--ds-color-bg);
     font-family: ${FONT.mono};
     font-size: var(--ds-font-size-lg);
     font-weight: var(--ds-font-weight-bold);
     color: var(--ds-color-text);
     margin: 0 0 var(--ds-space-2);
+    padding-block: var(--ds-space-2);
   }
   .desc {
     color: var(--ds-color-text);
@@ -28,40 +43,42 @@ const DEF_SECTION_CSS = `
   /* ── layout="split": def content and its worked example side by side ──
      Only the Schema page uses this (one page, every definition, each with
      a real example next to it - see build-site.js's renderDefinition()).
-     .start stays sticky while .end (usually the taller of the two, a full
-     example document) scrolls past it - align-items stays at .cols's
-     default (stretch) so .start is exactly as tall as .end, giving
-     position: sticky room to stick within. */
+     .end (the example) is the one that stays sticky, not .start (the
+     name/description/props) - .start is usually the taller, more-you-
+     scroll-the-more-there-is column (a long property table), so pinning
+     the shorter example lets it stay in view while you read past it,
+     instead of the other way around. align-self: start (not the grid's
+     default stretch) keeps .end sized to its own content - height: auto,
+     not stretched to match .start's height, which is what sticky
+     positioning needs room to stick within in the first place. */
   :host([layout="split"]) .cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--ds-space-8);
+    align-items: start;
   }
   :host([layout="split"]) .cols .start,
   :host([layout="split"]) .cols .end {
     min-width: 0;
   }
-  :host([layout="split"]) .start {
+  :host([layout="split"]) .end {
     position: sticky;
     top: calc(var(--ds-height-nav, 64px) + var(--ds-space-4));
-    align-self: start;
-  }
-  :host([layout="split"]) .end {
+    height: auto;
     background: var(--ds-color-bg-raised);
     padding: var(--ds-space-4);
   }
   :host([layout="split"]) ::slotted(ds-code[slot="example"]) {
     display: block;
+    height: auto;
   }
 
   @media (max-width: 900px) {
     :host([layout="split"]) .cols {
       grid-template-columns: 1fr;
     }
-    :host([layout="split"]) .start {
-      position: static;
-    }
     :host([layout="split"]) .end {
+      position: static;
       margin-top: var(--ds-space-4);
     }
   }

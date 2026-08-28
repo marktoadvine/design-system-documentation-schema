@@ -295,6 +295,30 @@ entries:
   status: {status: stable}
   since: 1.0.0`,
   },
+  "common-example": {
+    file: "examples/entries/button.yaml",
+    yaml: `example:
+  title: One primary action per surface
+  showcase:
+    kind: image
+    url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
+    alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.`,
+  },
+  "common-showcase": {
+    file: "examples/entries/button.yaml",
+    yaml: `showcase:
+  kind: image
+  url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
+  alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.`,
+  },
+  "metadata-metadata": {
+    file: "examples/interop/my-element.dsds.yaml",
+    yaml: `metadata:
+  origin:
+    method: generated
+    author: machine-generated
+    note: Generated from custom-elements.json (CEM schemaVersion 2.1.0) by cem-to-dsds. Usage guidance has not been authored yet.`,
+  },
   "metadata-entry-metadata": {
     file: "examples/entries/button.yaml",
     yaml: `metadata:
@@ -405,6 +429,15 @@ source: ./tokens.dtcg.json`,
     - title: Loading state announces to screen readers.
     - title: Works with a custom icon in the leading-icon slot.
       optional: true`,
+  },
+  "sections-section": {
+    file: "examples/entries/getting-started.yaml",
+    yaml: `- kind: section
+  for: all
+  title: Troubleshooting
+  freeform:
+    - title: Styles don't apply
+      body: Confirm the base theme is imported before any component renders - a component's own CSS assumes the theme's custom properties already exist.`,
   },
 };
 
