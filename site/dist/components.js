@@ -804,12 +804,12 @@
       letter-spacing: -0.0125em;
     }
 
-    .heading--1 { font-size: var(--ds-font-size-xl); font-weight: var(--ds-font-weight-bold); margin: 0 0 var(--ds-space-4); }
-    .heading--2 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-8) 0 var(--ds-space-2); }
+    .heading--1 { font-size: var(--ds-font-size-2xl); font-weight: var(--ds-font-weight-bold); margin: 0 0 var(--ds-space-4); }
+    .heading--2 { font-size: var(--ds-font-size-xl); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-8) 0 var(--ds-space-2); }
     .heading--3 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-8) 0 var(--ds-space-2); }
-    .heading--4 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
+    .heading--4 { font-size: var(--ds-font-size-md); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
     .heading--5 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
-    .heading--6 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-2) 0 var(--ds-space-2); color: var(--ds-color-text); }
+    .heading--6 { font-size: var(--ds-font-size-sm); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-2) 0 var(--ds-space-2); }
 
     .anchor-link {
       display: inline;
@@ -1019,7 +1019,7 @@
        non-split sections, which have no such inner wrapper of their own). */
     :host {
       display: block;
-      padding-block: 64px;
+      padding-block: 96px;
     }
     :host(:first-of-type) {
       padding-block-start: 0;
@@ -1114,7 +1114,7 @@
       height: 100%;
     }
     :host([layout="split"]) .start {
-      padding-block: var(--ds-space-8);
+      padding-block: var(--ds-space-16);
     }
     /* Adjacent .end panels sit flush against each other (:host's own
        margin is zeroed above) - each one's background paints all the way
@@ -1131,7 +1131,7 @@
        containing block being as tall as .end, not from .end itself. */
     :host([layout="split"]) .end {
       background: var(--ds-color-bg-inverse);
-      padding: var(--ds-space-8) var(--ds-space-4);
+      padding: var(--ds-space-16) var(--ds-space-4);
     }
     :host([layout="split"]) ::slotted(ds-code[slot="example"]) {
       display: block;
@@ -1143,7 +1143,7 @@
         grid-template-columns: 1fr;
       }
       :host([layout="split"]) {
-        padding-block: 64px;
+        padding-block: 96px;
       }
       :host([layout="split"]) .end {
         margin-top: var(--ds-space-4);
@@ -1937,7 +1937,7 @@
           '"><span class="nav__menu-icon" aria-hidden="true"></span></button>' +
           '<a href="' +
           esc(titleHref) +
-          '"><ds-logo class="nav__logo" size="2rem" fill="#fff" aria-hidden="true"></ds-logo><span>' +
+          '"><ds-logo class="nav__logo" size="2rem" fill="#000" aria-hidden="true"></ds-logo><span>' +
           esc(title) +
           "</span></a>" +
           "</div>"

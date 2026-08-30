@@ -267,7 +267,7 @@ export class DsSpecNav extends HTMLElement {
         '"><span class="nav__menu-icon" aria-hidden="true"></span></button>' +
         '<a href="' +
         esc(titleHref) +
-        '"><ds-logo class="nav__logo" size="2rem" fill="#fff" aria-hidden="true"></ds-logo><span>' +
+        '"><ds-logo class="nav__logo" size="2rem" fill="#000" aria-hidden="true"></ds-logo><span>' +
         esc(title) +
         "</span></a>" +
         "</div>"

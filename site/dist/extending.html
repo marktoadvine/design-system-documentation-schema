@@ -105,6 +105,21 @@ allOf:
 <ds-callout variant="tip" title="This repo doesn't ship a live profile:"><p><ds-code inline>profiles/</ds-code> is opt-in, per project — a profile reflects <em>your</em> completeness bar, not the spec's. This repo's own <ds-code inline>npm run check</ds-code> validates the spec's example files, which intentionally range from bare-minimum to fully filled out; requiring every one of them to be fully complete would defeat the point of having minimal examples at all. The snippet above is real and has been tested, it's just not saved in this repo's own <ds-code inline>profiles/</ds-code> folder — copy it into yours to see it work.</p></ds-callout>
 <ds-heading level="3" anchor="what-a-profile-cant-do">What a profile can't do</ds-heading>
 <p>A profile can't add a field. If your organization needs a field the spec truly doesn't have anywhere — not "optional and currently empty," but genuinely missing — that's not a job for a profile. Use <ds-code inline>$extensions</ds-code> if it's your own tool's data, or raise it with the spec itself if it's something every DSDS user would benefit from.</p>
+<ds-heading level="2" anchor="things-people-often-want-to-add">Things people often want to add</ds-heading>
+<p>Before reaching for <ds-code inline>$extensions</ds-code>, a custom kind, or a profile, check this list — a few common requests already have a home, no extension needed:</p>
+<ul>
+<li><strong>A prop table.</strong> Point a tool at the real source instead — a component's <ds-code inline>sourceFiles</ds-code> (or, for an already-generated manifest, <ds-code inline>specs</ds-code>).</li>
+<li><strong>An anatomy diagram.</strong> Anatomy is prose about parts, the same job <ds-code inline>definitions</ds-code> already does. Use a <ds-code inline>definitions</ds-code> section with <ds-code inline>context: anatomy</ds-code>.</li>
+<li><strong>A <ds-code inline>token-group</ds-code> kind.</strong> A group is a fact about its members, not a fourth kind. Set <ds-code inline>metadata.group</ds-code> on each token instead.</li>
+<li><strong>Typed accessibility fields</strong> (<ds-code inline>wcagLevel</ds-code>, ARIA facts). Treat accessibility guidance as ordinary guidance: a <ds-code inline>guidelines</ds-code> item with <ds-code inline>evidence</ds-code> pointing at the WCAG criterion, and <ds-code inline>checks</ds-code> pointing at the test that verifies it.</li>
+<li><strong>Separate relationship/link/reference types.</strong> One shape already covers it — <ds-code inline>common/ref</ds-code>: <ds-code inline>to</ds-code>/<ds-code inline>href</ds-code> plus <ds-code inline>rel</ds-code>.</li>
+<li><strong>A migration guide.</strong> Each schema file's own <ds-code inline>$comment</ds-code> carries the reasoning; the <a href="https://github.com/somerandomdude/design-system-documentation-schema/blob/main/CHANGELOG"><ds-code inline>CHANGELOG</ds-code></a> has the field-by-field mapping.</li>
+</ul>
+<p>Still missing something after checking this list? That's what the rest of this page is for:</p>
+<ul>
+<li><strong>A rationale or failure-mode field on a guideline item</strong> — this is exactly what item-level <a href="#extensions"><ds-code inline>$extensions</ds-code></a> is for.</li>
+<li><strong>Anything else genuinely absent</strong> — a custom kind, or a profile, depending on whether you're naming a new document shape or tightening an existing one.</li>
+</ul>
 <ds-heading level="2" anchor="choosing-between-the-three">Choosing between the three</ds-heading>
 <ul>
 <li><strong>Attaching data a specific tool needs, to something the spec already models?</strong> <ds-code inline>$extensions</ds-code>.</li>

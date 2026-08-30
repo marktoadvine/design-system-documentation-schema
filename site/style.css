@@ -138,7 +138,7 @@ em {
 
 hr {
     border: none;
-    margin: var(--ds-space-8) 0;
+    margin: var(--ds-space-16) 0;
     height: 0;
 }
 
@@ -204,17 +204,6 @@ blockquote p:last-child {
         overflow-wrap: break-word;
     }
 }
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--ds-font-mono);
-}
-
-h1 { font-size: var(--ds-font-size-xl); font-weight: var(--ds-font-weight-bold); margin: 0 0 var(--ds-space-4); }
-h2 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-8) 0 var(--ds-space-2); }
-h3 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-8) 0 var(--ds-space-2); }
-h4 { font-size: var(--ds-font-size-lg); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
-h5 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-4) 0 var(--ds-space-2); }
-h6 { font-size: var(--ds-font-size-base); font-weight: var(--ds-font-weight-bold); margin: var(--ds-space-2) 0 var(--ds-space-2); color: var(--ds-color-text); }
 
 /* ── Page transitions ─────────────────────────────────────────────────
    Opts every same-origin navigation into the browser's native

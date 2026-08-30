@@ -114,6 +114,22 @@ This is the most useful form of profile: *if the status is stable, then require 
 
 A profile can't add a field. If your organization needs a field the spec truly doesn't have anywhere — not "optional and currently empty," but genuinely missing — that's not a job for a profile. Use `$extensions` if it's your own tool's data, or raise it with the spec itself if it's something every DSDS user would benefit from.
 
+## Things people often want to add
+
+Before reaching for `$extensions`, a custom kind, or a profile, check this list — a few common requests already have a home, no extension needed:
+
+- **A prop table.** Point a tool at the real source instead — a component's `sourceFiles` (or, for an already-generated manifest, `specs`).
+- **An anatomy diagram.** Anatomy is prose about parts, the same job `definitions` already does. Use a `definitions` section with `context: anatomy`.
+- **A `token-group` kind.** A group is a fact about its members, not a fourth kind. Set `metadata.group` on each token instead.
+- **Typed accessibility fields** (`wcagLevel`, ARIA facts). Treat accessibility guidance as ordinary guidance: a `guidelines` item with `evidence` pointing at the WCAG criterion, and `checks` pointing at the test that verifies it.
+- **Separate relationship/link/reference types.** One shape already covers it — `common/ref`: `to`/`href` plus `rel`.
+- **A migration guide.** Each schema file's own `$comment` carries the reasoning; the [`CHANGELOG`](https://github.com/somerandomdude/design-system-documentation-schema/blob/main/CHANGELOG) has the field-by-field mapping.
+
+Still missing something after checking this list? That's what the rest of this page is for:
+
+- **A rationale or failure-mode field on a guideline item** — this is exactly what item-level [`$extensions`](#extensions) is for.
+- **Anything else genuinely absent** — a custom kind, or a profile, depending on whether you're naming a new document shape or tightening an existing one.
+
 ## Choosing between the three
 
 - **Attaching data a specific tool needs, to something the spec already models?** `$extensions`.

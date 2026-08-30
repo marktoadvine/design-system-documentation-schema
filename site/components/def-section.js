@@ -10,7 +10,7 @@ const DEF_SECTION_CSS = `
      non-split sections, which have no such inner wrapper of their own). */
   :host {
     display: block;
-    padding-block: 64px;
+    padding-block: 96px;
   }
   :host(:first-of-type) {
     padding-block-start: 0;
@@ -105,7 +105,7 @@ const DEF_SECTION_CSS = `
     height: 100%;
   }
   :host([layout="split"]) .start {
-    padding-block: var(--ds-space-8);
+    padding-block: var(--ds-space-16);
   }
   /* Adjacent .end panels sit flush against each other (:host's own
      margin is zeroed above) - each one's background paints all the way
@@ -122,7 +122,7 @@ const DEF_SECTION_CSS = `
      containing block being as tall as .end, not from .end itself. */
   :host([layout="split"]) .end {
     background: var(--ds-color-bg-inverse);
-    padding: var(--ds-space-8) var(--ds-space-4);
+    padding: var(--ds-space-16) var(--ds-space-4);
   }
   :host([layout="split"]) ::slotted(ds-code[slot="example"]) {
     display: block;
@@ -134,7 +134,7 @@ const DEF_SECTION_CSS = `
       grid-template-columns: 1fr;
     }
     :host([layout="split"]) {
-      padding-block: 64px;
+      padding-block: 96px;
     }
     :host([layout="split"]) .end {
       margin-top: var(--ds-space-4);
