@@ -89,6 +89,11 @@ sourceFiles:
   - platform: react
     file: ./src/Button.tsx
 
+specs:
+  - rel: contract
+    href: ./contracts/button.contract.json
+    role: DS Contracts
+
 sections:
   - kind: definitions
     for: all

@@ -451,7 +451,7 @@ One of:
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
-| `rel` | `"depends-on"` \| `"composes"` \| `"part-of"` \| `"alternative-to"` \| `"replaces"` \| `"extends"` \| `"implements"` \| `"relates-to"` \| `"same-as"` \| `"refines"` \| `"lint-rule"` \| `"test"` \| `"file"` \| `"source"` \| `"design"` \| `"storybook"` \| `"package"` \| `"external-link"` \| `"pairs-with"` \| `"excludes"` \| `"see-also"` \| [namespaced](schema.md#common-id-namespaced) | ✓ | What kind of pointer this is, or a namespaced custom value. |
+| `rel` | `"depends-on"` \| `"composes"` \| `"part-of"` \| `"alternative-to"` \| `"replaces"` \| `"extends"` \| `"implements"` \| `"relates-to"` \| `"same-as"` \| `"refines"` \| `"lint-rule"` \| `"test"` \| `"file"` \| `"source"` \| `"design"` \| `"storybook"` \| `"package"` \| `"external-link"` \| `"contract"` \| `"pairs-with"` \| `"excludes"` \| `"see-also"` \| [namespaced](schema.md#common-id-namespaced) | ✓ | What kind of pointer this is, or a namespaced custom value. |
 | `to` | string |  | What this points at, inside this document's own graph. (Pattern: `^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*)?$`) |
 | `href` | string (uri-reference) |  | What this points at, outside this document. Such as a file, URL, or package. |
 | `role` | string |  | What the thing being pointed at does in this context. |
@@ -501,7 +501,7 @@ oneOf:
       rel:
         oneOf:
           - type: string
-            enum: [depends-on, composes, part-of, alternative-to, replaces, extends, implements, relates-to, same-as, refines, lint-rule, test, file, source, design, storybook, package, external-link, pairs-with, excludes, see-also]
+            enum: [depends-on, composes, part-of, alternative-to, replaces, extends, implements, relates-to, same-as, refines, lint-rule, test, file, source, design, storybook, package, external-link, contract, pairs-with, excludes, see-also]
           - $ref: https://designsystemdocspec.org/v0.20.0/common/id.schema.yaml#/$defs/namespaced
         description: What kind of pointer this is, or a namespaced custom value.
         $comment: >-
@@ -510,10 +510,10 @@ oneOf:
           `relates-to` describe how things connect. `same-as` and `refines`
           describe how content is written. `lint-rule` and `test` describe
           how a rule is checked. `file`, `source`, `design`, `storybook`,
-          `package`, and `external-link` point outside this spec.
-          `pairs-with` and `excludes` are a light note about two things
-          combining. `see-also` is a generic "worth reading too" for when
-          nothing more specific fits.
+          `package`, `external-link`, and `contract` point outside this
+          spec. `pairs-with` and `excludes` are a light note about two
+          things combining. `see-also` is a generic "worth reading too"
+          for when nothing more specific fits.
 
           `implements` is a real, working version of something more
           general. Such as a component implementing a pattern, or a
@@ -545,6 +545,14 @@ oneOf:
           platform) and what tooling already extracts an API from.
           `metadata.preview` and `examples[].ref` are for a sample, not
           the real source.
+
+          `contract` points at an already-generated, machine-readable
+          API contract document (props, slots, events, etc. in some
+          standard, tool-readable shape) - not the source `sourceFiles`
+          extracts from, and not any one specific format: DSDS doesn't
+          parse or validate the target's contents, only points at it.
+          A component uses its own `specs` for this rather than `refs`,
+          the same way it uses `sourceFiles` instead of `rel: source`.
 
           Namespaced custom values (ex: "acme.supersedes") are allowed
           too.
@@ -1216,11 +1224,12 @@ A reusable UI element, like a button or a dialog.
 | `sections` | [dispatch](schema.md#sections-section-dispatch)[] |  | Every documentation section for this entry. (Min items: 1) |
 | `$extensions` | [Extensions](schema.md#common-extensions) |  | Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern. |
 | `sourceFiles` | object {platform, file}[] |  | One entry per platform's source file. (Min items: 1) |
+| `specs` | [list](schema.md#common-ref-list) |  | Machine-readable API contract(s) for this component - props, slots, events, etc. in a standard, tool-readable shape. |
 | `imports` | object {platform, code, package}[] |  | One entry per platform. (Min items: 1) |
 | `traits` | object \| object[] |  | The component's variants and states. (Min items: 1) |
 | `combos` | [Combo](schema.md#common-combo)[] |  | Define which of this component's own boolean traits or enum values can or cannot be paired with each other. (Min items: 1) |
 
-**References:** [Entry](schema.md#entries-entry), [EntryMetadata](schema.md#metadata-entry-metadata), [Id](schema.md#common-id), [Ref](schema.md#common-ref), [traitValue](schema.md#entries-component-traitvalue), [traitSetBy](schema.md#entries-component-traitsetby), [list](schema.md#common-ref-list), [Combo](schema.md#common-combo), [Markdown](schema.md#common-markdown), [list](schema.md#common-example-list), [Since](schema.md#common-since), [dispatch](schema.md#sections-section-dispatch), [Extensions](schema.md#common-extensions)
+**References:** [Entry](schema.md#entries-entry), [EntryMetadata](schema.md#metadata-entry-metadata), [Id](schema.md#common-id), [Ref](schema.md#common-ref), [list](schema.md#common-ref-list), [traitValue](schema.md#entries-component-traitvalue), [traitSetBy](schema.md#entries-component-traitsetby), [Combo](schema.md#common-combo), [Markdown](schema.md#common-markdown), [list](schema.md#common-example-list), [Since](schema.md#common-since), [dispatch](schema.md#sections-section-dispatch), [Extensions](schema.md#common-extensions)
 
 ## traitSetBy {#traitsetby}
 
@@ -1252,9 +1261,9 @@ $id: https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml
 title: ComponentEntry
 description: A reusable UI element, like a button or a dialog.
 $comment: >-
-  `traits`, `combos`, `imports`, and `sourceFiles` live directly here
-  rather than in a section, since they're facts about the component as
-  a build artifact, not documentation content.
+  `traits`, `combos`, `imports`, `sourceFiles`, and `specs` live
+  directly here rather than in a section, since they're facts about the
+  component as a build artifact, not documentation content.
 allOf:
   - $ref: https://designsystemdocspec.org/v0.20.0/entry.schema.yaml
   - type: object
@@ -1270,7 +1279,15 @@ allOf:
         type: array
         minItems: 1
         description: One entry per platform's source file.
-        $comment: Defining the source file in the schema enables a tool to extract the component's full API (properties, events, slots, CSS hooks) straight from the code. This avoids drift between docs and code.
+        $comment: >-
+          Defining the source file in the schema enables a tool to
+          extract the component's full API (properties, events, slots,
+          CSS hooks) straight from the code. This avoids drift between
+          docs and code. Points at raw source (e.g. `Button.tsx`) - a
+          project whose tooling already generates a manifest *from* that
+          source (a Custom Elements Manifest, or similar) points `specs`
+          at the generated document itself instead of repeating the
+          extraction here.
         items:
           type: object
           required: [platform, file]
@@ -1286,6 +1303,25 @@ allOf:
               $comment: A bare string is a plain file path (shorthand for href). Use the full ref object when role or note matters.
               example: ./src/Button.tsx
           additionalProperties: false
+
+      specs:
+        $ref: https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list
+        description: Machine-readable API contract(s) for this component - props, slots, events, etc. in a standard, tool-readable shape.
+        $comment: >-
+          Different from `sourceFiles`: that points at the source a tool
+          extracts an API *from*; this points at an already-extracted
+          contract document, in whatever standard format your tooling
+          produces and consumes - for example a DS Contracts document
+          (https://github.com/southleft/ds-contracts-poc) or a W3C
+          Custom Elements Manifest. DSDS doesn't parse or validate the
+          target's contents, only points at it, so any standard format
+          works here. One entry per platform or format, if more than
+          one exists; use `role` to name the format when it isn't
+          obvious from the file extension.
+        example:
+          - rel: contract
+            href: ./contracts/button.contract.json
+            role: DS Contracts
 
       imports:
         type: array

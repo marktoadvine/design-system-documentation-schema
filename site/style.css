@@ -83,9 +83,31 @@ body {
 /* The Schema page's own layout: full viewport width, not the shared
    reading-width cap, so its side-by-side def/example columns have real
    room. Set via renderMainSchema()'s content_class, not by page type name -
-   any page could ask for it in principle. */
+   any page could ask for it in principle.
+
+   The right-hand column's white background is painted here, once, as
+   content__inner's own background - not per-<ds-def-section>, and not as
+   an absolutely-positioned pseudo-element behind everything either (tried
+   that first: a position:absolute, z-index:-1 ::before is still a
+   *descendant*, and its stacking position depends on content__inner
+   forming its own stacking context, which position:relative alone does
+   not guarantee - it silently painted behind other content in testing).
+   An element's own background always paints beneath all of its
+   descendants, full stop, with no stacking-context caveats - so a hard-
+   stop gradient here is the one paint layer every <ds-def-section>
+   (split or not, with or without an example) and every group heading
+   renders on top of, for the page's entire height, automatically. Split
+   at the same x position <ds-def-section>'s own .cols grid uses (50% +
+   half the column gap, since the container's own padding cancels out of
+   that math - see the DEF_SECTION_CSS comment on .end for the matching
+   per-section version). */
 .content--full .content__inner {
     max-width: none;
+    background: linear-gradient(
+        to right,
+        transparent calc(50% + var(--ds-space-8) / 2),
+        var(--ds-color-bg-inverse) 0
+    );
 }
 
 /* Typography */

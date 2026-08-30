@@ -42,47 +42,6 @@
     <div class="content__container">
         <div class="content__inner">
 
-          <ds-def-index title="36 definitions">
-<!--<p><strong>36 definitions</strong> in this file:</p>-->
-<ul>
-<li><a href="#base"><ds-code inline>Base</ds-code></a></li>
-<li><a href="#shared"><ds-code inline>Shared</ds-code></a></li>
-<li><a href="#common-combo"><ds-code inline>Combo</ds-code></a></li>
-<li><a href="#common-combo-target"><ds-code inline>target</ds-code></a></li>
-<li><a href="#common-example"><ds-code inline>Example</ds-code></a></li>
-<li><a href="#common-example-list"><ds-code inline>list</ds-code></a></li>
-<li><a href="#common-extensions"><ds-code inline>Extensions</ds-code></a></li>
-<li><a href="#common-id"><ds-code inline>Id</ds-code></a></li>
-<li><a href="#common-id-tokenid"><ds-code inline>tokenId</ds-code></a></li>
-<li><a href="#common-id-namespaced"><ds-code inline>namespaced</ds-code></a></li>
-<li><a href="#common-markdown"><ds-code inline>Markdown</ds-code></a></li>
-<li><a href="#common-ref"><ds-code inline>Ref</ds-code></a></li>
-<li><a href="#common-ref-list"><ds-code inline>list</ds-code></a></li>
-<li><a href="#common-requirement-level"><ds-code inline>RequirementLevel</ds-code></a></li>
-<li><a href="#common-showcase"><ds-code inline>Showcase</ds-code></a></li>
-<li><a href="#common-since"><ds-code inline>Since</ds-code></a></li>
-<li><a href="#metadata-metadata"><ds-code inline>Metadata</ds-code></a></li>
-<li><a href="#metadata-metadata-note"><ds-code inline>note</ds-code></a></li>
-<li><a href="#metadata-metadata-isodate"><ds-code inline>isoDate</ds-code></a></li>
-<li><a href="#metadata-entry-metadata"><ds-code inline>EntryMetadata</ds-code></a></li>
-<li><a href="#metadata-entry-metadata-statusvalue"><ds-code inline>statusValue</ds-code></a></li>
-<li><a href="#metadata-system-metadata"><ds-code inline>SystemMetadata</ds-code></a></li>
-<li><a href="#entries-entry"><ds-code inline>Entry</ds-code></a></li>
-<li><a href="#entries-entry-dispatch"><ds-code inline>dispatch</ds-code></a></li>
-<li><a href="#entries-component"><ds-code inline>ComponentEntry</ds-code></a></li>
-<li><a href="#entries-component-traitsetby"><ds-code inline>traitSetBy</ds-code></a></li>
-<li><a href="#entries-component-traitvalue"><ds-code inline>traitValue</ds-code></a></li>
-<li><a href="#entries-system"><ds-code inline>SystemEntry</ds-code></a></li>
-<li><a href="#entries-theme"><ds-code inline>ThemeEntry</ds-code></a></li>
-<li><a href="#entries-token"><ds-code inline>TokenEntry</ds-code></a></li>
-<li><a href="#sections-section"><ds-code inline>Section</ds-code></a></li>
-<li><a href="#sections-section-dispatch"><ds-code inline>dispatch</ds-code></a></li>
-<li><a href="#sections-section-freeformentry"><ds-code inline>freeformEntry</ds-code></a></li>
-<li><a href="#sections-definitions"><ds-code inline>DefinitionsSection</ds-code></a></li>
-<li><a href="#sections-guidelines"><ds-code inline>GuidelinesSection</ds-code></a></li>
-<li><a href="#sections-steps"><ds-code inline>StepsSection</ds-code></a></li>
-</ul>
-</ds-def-index>
           <ds-heading level="2" anchor="schema-group-root">Base</ds-heading>
 <ds-def-section name="Base" anchor="base" description="A DSDS document. Acts as the container for all content. Can be optionally extended or split across other DSDS documents." type="object" source="base.schema.yaml" layout="split">
 <ds-prop-table>
@@ -95,7 +54,7 @@
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool-specific document-level data, keyed by namespace.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#shared">Shared</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>schemaVersion: &quot;0.20.0&quot;
+<ds-code language="yaml" label="" slot="example" wrap>schemaVersion: &quot;0.20.0&quot;
 
 name: Acme Design System
 
@@ -126,7 +85,7 @@ entries:
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data or an outside id, the same structure as an entry's own $extensions.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>shared:
+<ds-code language="yaml" label="" slot="example" wrap>shared:
   - id: shared-a11y
     name: Shared Accessibility Rules
     description: Cross-cutting accessibility rules, stated once and referenced from every entry they apply to.
@@ -147,7 +106,7 @@ entries:
   <ds-prop name="note" type="string">Why this rule holds.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-code inline>#/$defs/target</ds-code>, <ds-type-ref href="schema.html#common-requirement-level">RequirementLevel</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>combos:
+<ds-code language="yaml" label="" slot="example" wrap>combos:
   - subject: &quot;{color.action.primary}&quot;
     level: must
     items: [&quot;{color.surface.default}&quot;, &quot;{color.surface.raised}&quot;]
@@ -170,7 +129,7 @@ entries:
 </ds-prop-table>
 <ds-callout variant="warning" title="Constraint:">At least one of <ds-code inline>title</ds-code>, <ds-code inline>description</ds-code>, <ds-code inline>showcase</ds-code>, <ds-code inline>ref</ds-code> must be present.</ds-callout>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-showcase">Showcase</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#common-example">Example</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>example:
+<ds-code language="yaml" label="" slot="example" wrap>example:
   title: One primary action per surface
   showcase:
     kind: image
@@ -184,14 +143,14 @@ entries:
 <ds-def-section name="Extensions" anchor="common-extensions" description="Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern." type="object" source="common/extensions.schema.yaml" layout="split">
 <p><strong>Open map:</strong> keys are strings, values are <ds-code inline>object</ds-code></p>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>$extensions:
+<ds-code language="yaml" label="" slot="example" wrap>$extensions:
   com.acme:
     rationale: Multiple primary buttons compete for attention and force the user to guess which action is actually the recommended one.
     failureMode: A dialog ships with two primary-styled buttons (e.g. &quot;Save&quot; and &quot;Save as draft&quot;), and usability testing shows users default to the wrong one.</ds-code>
 </ds-def-section>
 <ds-def-section name="Id" anchor="common-id" description="Lowercase, dash-separated segments, optionally chained with dots." type="string" source="common/id.schema.yaml" layout="split">
 <ds-callout variant="warning" title="Pattern:">Values must match <ds-code inline>^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$</ds-code>.</ds-callout>
-<ds-code language="yaml" label="example" slot="example" wrap>id: color.action.primary</ds-code>
+<ds-code language="yaml" label="" slot="example" wrap>id: color.action.primary</ds-code>
 </ds-def-section>
 <ds-def-section name="tokenId" anchor="common-id-tokenid" description="The same as the base id format, but a segment can also be separated by a slash." type="string" source="common/id.schema.yaml">
 <ds-callout variant="warning" title="Pattern:">Values must match <ds-code inline>^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*$</ds-code>.</ds-callout>
@@ -203,14 +162,14 @@ entries:
 </ds-def-section>
 <ds-def-section name="Markdown" anchor="common-markdown" description="Markdown content, including headings, tables, code fences, etc." type="string" source="common/markdown.schema.yaml" layout="split">
 
-<ds-code language="yaml" label="example" slot="example" wrap>statement: Do not use button when the action navigates to a new URL; use the link entry instead.</ds-code>
+<ds-code language="yaml" label="" slot="example" wrap>statement: Do not use button when the action navigates to a new URL; use the link entry instead.</ds-code>
 </ds-def-section>
 <ds-def-section name="Ref" anchor="common-ref" description="The one pointer type. &quot;A points to B, and this is what kind of pointer it is.&quot;" source="common/ref.schema.yaml" layout="split">
 <p><strong>Accepts one of:</strong></p>
 <ul>
 <li><strong>string</strong> — Shorthand for an external link that doesn't need added definition. Equivalent to `{href: &lt;string&gt;}`.</li>
 <li><strong>object</strong><ds-prop-table>
-  <ds-prop name="rel" type="&lt;ds-code inline&gt;&quot;depends-on&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;composes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;part-of&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;alternative-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;replaces&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;extends&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;implements&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;relates-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;same-as&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;refines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;lint-rule&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;test&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;source&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;design&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;storybook&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;package&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;external-link&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;pairs-with&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;excludes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;see-also&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;schema.html#common-id-namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of pointer this is, or a namespaced custom value.</ds-prop>
+  <ds-prop name="rel" type="&lt;ds-code inline&gt;&quot;depends-on&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;composes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;part-of&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;alternative-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;replaces&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;extends&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;implements&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;relates-to&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;same-as&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;refines&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;lint-rule&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;test&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;file&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;source&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;design&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;storybook&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;package&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;external-link&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;contract&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;pairs-with&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;excludes&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;see-also&quot;&lt;/ds-code&gt; | &lt;ds-type-ref href=&quot;schema.html#common-id-namespaced&quot;&gt;namespaced&lt;/ds-type-ref&gt;" required>What kind of pointer this is, or a namespaced custom value.</ds-prop>
   <ds-prop name="to" type="string">What this points at, inside this document's own graph.<br><small>Pattern: <ds-code inline>^[a-z0-9]+(-[a-z0-9]+)*([./][a-z0-9]+(-[a-z0-9]+)*)*(#[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*)?$</ds-code></small></ds-prop>
   <ds-prop name="href" type="string (uri-reference)">What this points at, outside this document. Such as a file, URL, or package.</ds-prop>
   <ds-prop name="role" type="string">What the thing being pointed at does in this context.</ds-prop>
@@ -218,7 +177,7 @@ entries:
 </ds-prop-table></li>
 </ul>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>- level: must
+<ds-code language="yaml" label="" slot="example" wrap>- level: must
   refs:
     - href: https://example.atlassian.net/browse/DS-482
       rel: external-link</ds-code>
@@ -236,7 +195,7 @@ entries:
 <li><ds-code inline>must-not</ds-code></li>
 <li><ds-code inline>may</ds-code></li>
 </ul>
-<ds-code language="yaml" label="example" slot="example" wrap>- statement: Limit each surface to one primary button.
+<ds-code language="yaml" label="" slot="example" wrap>- statement: Limit each surface to one primary button.
   level: should
 - statement: Use buttons only for in-page actions, never navigation.
   level: must</ds-code>
@@ -248,14 +207,14 @@ entries:
   <ds-prop name="alt" type="string">Alt text describing the image or video, for accessibility</ds-prop>
   <ds-prop name="note" type="string">Provides additional detail about the showcase if needed.</ds-prop>
 </ds-prop-table>
-<ds-code language="yaml" label="example" slot="example" wrap>showcase:
+<ds-code language="yaml" label="" slot="example" wrap>showcase:
   kind: image
   url: https://cdn.acme.example/ds/showcase/button-primary-surface.png
   alt: A toolbar with one filled primary button and two lower-emphasis secondary buttons.</ds-code>
 </ds-def-section>
 <ds-def-section name="Since" anchor="common-since" description="The version something was introduced in." type="string" source="common/since.schema.yaml" layout="split">
 
-<ds-code language="yaml" label="example" slot="example" wrap>metadata:
+<ds-code language="yaml" label="" slot="example" wrap>metadata:
   status: {status: stable}
   since: 1.0.0</ds-code>
 </ds-def-section>
@@ -271,7 +230,7 @@ entries:
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this entry's metadata, keyed by namespace.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-code inline>#/$defs/isoDate</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>metadata:
+<ds-code language="yaml" label="" slot="example" wrap>metadata:
   origin:
     method: generated
     author: machine-generated
@@ -301,7 +260,7 @@ entries:
   <ds-prop name="preview" type="&lt;ds-type-ref href=&quot;schema.html#common-showcase&quot;&gt;Showcase&lt;/ds-type-ref&gt;">A visual sample of this entry, either a media file or a link.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-code inline>#/$defs/statusValue</ds-code>, <ds-type-ref href="schema.html#common-since">Since</ds-type-ref>, <ds-type-ref href="schema.html#common-showcase">Showcase</ds-type-ref>, <ds-code inline>#/$defs/isoDate</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>metadata:
+<ds-code language="yaml" label="" slot="example" wrap>metadata:
   status: {status: stable}
   since: 1.4.0
   updated: {date: 2026-06-02}
@@ -328,7 +287,7 @@ entries:
   <ds-prop name="platforms" type="&lt;ds-type-ref href=&quot;schema.html#common-id&quot;&gt;Id&lt;/ds-type-ref&gt;[]">The platforms this system ships on, for example &quot;react&quot; or &quot;web-component&quot;.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-type-ref href="schema.html#common-since">Since</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-code inline>#/$defs/isoDate</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>metadata:
+<ds-code language="yaml" label="" slot="example" wrap>metadata:
   version: 1.4.0
   organization: Acme Corp
   url: https://design.acme.example
@@ -352,7 +311,7 @@ entries:
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#entries-component">ComponentEntry</ds-type-ref>, <ds-type-ref href="schema.html#entries-token">TokenEntry</ds-type-ref>, <ds-type-ref href="schema.html#entries-theme">ThemeEntry</ds-type-ref>, <ds-type-ref href="schema.html#entries-system">SystemEntry</ds-type-ref>, <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>id: empty-state
+<ds-code language="yaml" label="" slot="example" wrap>id: empty-state
 kind: entry
 name: Empty State
 description: Composition of components shown when a view has no content to display yet.</ds-code>
@@ -375,12 +334,13 @@ description: Composition of components shown when a view has no content to displ
   <ds-prop name="sections" type="&lt;ds-type-ref href=&quot;schema.html#sections-section-dispatch&quot;&gt;dispatch&lt;/ds-type-ref&gt;[]">Every documentation section for this entry.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</ds-prop>
   <ds-prop name="sourceFiles" type="object {platform, file}[]">One entry per platform's source file.<br><small>Min items: 1</small></ds-prop>
+  <ds-prop name="specs" type="&lt;ds-type-ref href=&quot;schema.html#common-ref-list&quot;&gt;list&lt;/ds-type-ref&gt;">Machine-readable API contract(s) for this component - props, slots, events, etc. in a standard, tool-readable shape.</ds-prop>
   <ds-prop name="imports" type="object {platform, code, package}[]">One entry per platform.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="traits" type="object | object[]">The component's variants and states.<br><small>Min items: 1</small></ds-prop>
   <ds-prop name="combos" type="&lt;ds-type-ref href=&quot;schema.html#common-combo&quot;&gt;Combo&lt;/ds-type-ref&gt;[]">Define which of this component's own boolean traits or enum values can or cannot be paired with each other.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
-<ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#entries-component-traitvalue">traitValue</ds-type-ref>, <ds-type-ref href="schema.html#entries-component-traitsetby">traitSetBy</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-combo">Combo</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-example-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-since">Since</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>traits:
+<ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#entries-component-traitvalue">traitValue</ds-type-ref>, <ds-type-ref href="schema.html#entries-component-traitsetby">traitSetBy</ds-type-ref>, <ds-type-ref href="schema.html#common-combo">Combo</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-example-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-since">Since</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
+<ds-code language="yaml" label="" slot="example" wrap>traits:
   - kind: boolean
     id: loading
     description: Shows a spinner in place of the label and blocks interaction while active.
@@ -392,7 +352,11 @@ combos:
     note: A control can't be simultaneously loading and disabled...
 sourceFiles:
   - platform: react
-    file: ./src/Button.tsx</ds-code>
+    file: ./src/Button.tsx
+specs:
+  - rel: contract
+    href: ./contracts/button.contract.json
+    role: DS Contracts</ds-code>
 </ds-def-section>
 <ds-def-section name="traitSetBy" anchor="entries-component-traitsetby" description="Whether this trait's value is passed in by the consumer, or set by the component itself." type="string" source="entries/component.schema.yaml">
 <p><strong>Allowed values:</strong></p>
@@ -429,7 +393,7 @@ sourceFiles:
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data, or for an outside id that doesn't fit this schema's own id pattern.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#metadata-system-metadata">SystemMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>id: acme-design-system
+<ds-code language="yaml" label="" slot="example" wrap>id: acme-design-system
 kind: system
 name: Acme Design System
 description: Acme's cross-platform design system.
@@ -458,7 +422,7 @@ metadata:
   <ds-prop name="colorScheme" type="&lt;ds-code inline&gt;&quot;light&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;dark&quot;&lt;/ds-code&gt;">Which native color-scheme setting this theme matches.<br><small>Default: <ds-code inline>"light"</ds-code></small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>id: dark
+<ds-code language="yaml" label="" slot="example" wrap>id: dark
 kind: theme
 name: Dark
 description: Inverted-luminance theme for low-light surfaces and user preference.
@@ -485,7 +449,7 @@ refs:
   <ds-prop name="combos" type="&lt;ds-type-ref href=&quot;schema.html#common-combo&quot;&gt;Combo&lt;/ds-type-ref&gt;[]">Rules about which other tokens this one must or must never be paired with.<br><small>Min items: 1</small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#entries-entry">Entry</ds-type-ref>, <ds-type-ref href="schema.html#metadata-entry-metadata">EntryMetadata</ds-type-ref>, <ds-type-ref href="schema.html#common-id-tokenid">tokenId</ds-type-ref>, <ds-type-ref href="schema.html#common-ref">Ref</ds-type-ref>, <ds-type-ref href="schema.html#common-combo">Combo</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#sections-section-dispatch">dispatch</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>id: space-4
+<ds-code language="yaml" label="" slot="example" wrap>id: space-4
 kind: token
 name: Space 4
 description: A single step on the base spacing scale - 4 times the 4px base unit.
@@ -507,7 +471,7 @@ source: ./tokens.dtcg.json</ds-code>
 </ds-prop-table>
 <ds-callout variant="warning" title="Constraint:">At least one of <ds-code inline>items</ds-code>, <ds-code inline>freeform</ds-code> must be present.</ds-callout>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#sections-definitions">DefinitionsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-guidelines">GuidelinesSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-steps">StepsSection</ds-type-ref>, <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-example-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>- kind: section
+<ds-code language="yaml" label="" slot="example" wrap>- kind: section
   for: all
   title: Troubleshooting
   freeform:
@@ -544,7 +508,7 @@ source: ./tokens.dtcg.json</ds-code>
   <ds-prop name="$extensions" type="&lt;ds-type-ref href=&quot;schema.html#common-extensions&quot;&gt;Extensions&lt;/ds-type-ref&gt;">Escape hatch for tool data scoped to just this one section, keyed by namespace.</ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>- kind: definitions
+<ds-code language="yaml" label="" slot="example" wrap>- kind: definitions
   for: all
   context: terms
   items:
@@ -567,7 +531,7 @@ source: ./tokens.dtcg.json</ds-code>
   <ds-prop name="framing" type="&lt;ds-code inline&gt;&quot;when-to-use&quot;&lt;/ds-code&gt; | &lt;ds-code inline&gt;&quot;how-to-use&quot;&lt;/ds-code&gt;">Which kind of guidance this section holds.<br><small>Default: <ds-code inline>"how-to-use"</ds-code></small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-requirement-level">RequirementLevel</ds-type-ref>, <ds-type-ref href="schema.html#common-example">Example</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>- kind: guidelines
+<ds-code language="yaml" label="" slot="example" wrap>- kind: guidelines
   for: agent
   framing: when-to-use
   items:
@@ -591,7 +555,7 @@ source: ./tokens.dtcg.json</ds-code>
   <ds-prop name="ordered" type="boolean">Whether entries must be done in order. Set to false for an unordered checklist.<br><small>Default: <ds-code inline>true</ds-code></small></ds-prop>
 </ds-prop-table>
 <ds-cross-refs><strong>References:</strong> <ds-type-ref href="schema.html#sections-section">Section</ds-type-ref>, <ds-type-ref href="schema.html#common-id">Id</ds-type-ref>, <ds-type-ref href="schema.html#common-markdown">Markdown</ds-type-ref>, <ds-type-ref href="schema.html#common-ref-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-example-list">list</ds-type-ref>, <ds-type-ref href="schema.html#common-extensions">Extensions</ds-type-ref>, <ds-type-ref href="schema.html#common-id-namespaced">namespaced</ds-type-ref>, <ds-type-ref href="schema.html#metadata-metadata">Metadata</ds-type-ref>, <ds-code inline>#/$defs/freeformEntry</ds-code></ds-cross-refs>
-<ds-code language="yaml" label="example" slot="example" wrap>- kind: steps
+<ds-code language="yaml" label="" slot="example" wrap>- kind: steps
   for: agent
   ordered: false
   title: Pre-release checklist

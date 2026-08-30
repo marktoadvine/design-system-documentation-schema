@@ -189,12 +189,13 @@ No open standard covers the whole of design-system documentation — components,
 | Concern | Source of truth | How DSDS points at it |
 |---|---|---|
 | Token values and platform mappings | [W3C Design Tokens](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) (DTCG) files | A token or theme entry's `source` |
-| Component code API facts | [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM), a source file, or framework typings | A component's `sourceFiles` — pointing a tool at the real file to extract from, instead of hand-typing an interface |
+| Component source code, per platform | A source file or framework typings | A component's `sourceFiles` — pointing a tool at the real file to extract from, instead of hand-typing an interface |
+| Component API contract, already generated | [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM), or another standard contract format | A component's `specs` — pointing at the generated document itself, not re-deriving it from source |
 | Live component demos | Storybook or equivalent | A `refs`/`examples` entry with `rel: storybook` |
 | Design artifacts | Design tool files | A `refs` entry with `rel: design`, or `metadata.preview` |
 | Source code | The repository | A `refs` entry with `rel: source`, or a component's own `sourceFiles` |
 
-DTCG owns token *values*; DSDS owns the *meaning and usage* around them. A token entry never carries an actual value, so the two files can never disagree with each other. CEM (and similar manifests) own a component's code-level details; DSDS doesn't repeat them, it points `sourceFiles` at the real source instead. Wherever a machine-readable source of truth already exists, DSDS points at it instead of restating it — DSDS is only ever the source of truth for the documentation itself, never for the values or code it's documenting. See `examples/interop/` in the repo for worked examples of both relationships.
+DTCG owns token *values*; DSDS owns the *meaning and usage* around them. A token entry never carries an actual value, so the two files can never disagree with each other. CEM (and similar manifests) own a component's generated code-level details; DSDS doesn't repeat them, it points `specs` at the generated manifest instead — `sourceFiles` is for the raw source a manifest-generating tool reads *from*, one step earlier in the same pipeline; a component can point at either, both, or neither, depending on what a project's own tooling already produces. Wherever a machine-readable source of truth already exists, DSDS points at it instead of restating it — DSDS is only ever the source of truth for the documentation itself, never for the values or code it's documenting. See `examples/interop/` in the repo for worked examples of both relationships.
 
 ---
 
@@ -1017,6 +1018,7 @@ You've seen the basics. Here's where to go deeper.
                     "storybook",
                     "package",
                     "external-link",
+                    "contract",
                     "pairs-with",
                     "excludes",
                     "see-also"
@@ -1027,7 +1029,7 @@ You've seen the basics. Here's where to go deeper.
                 }
               ],
               "description": "What kind of pointer this is, or a namespaced custom value.",
-              "$comment": "Grouped by purpose: `depends-on`, `composes`, `part-of`, `alternative-to`, `replaces`, `extends`, `implements`, and `relates-to` describe how things connect. `same-as` and `refines` describe how content is written. `lint-rule` and `test` describe how a rule is checked. `file`, `source`, `design`, `storybook`, `package`, and `external-link` point outside this spec. `pairs-with` and `excludes` are a light note about two things combining. `see-also` is a generic \"worth reading too\" for when nothing more specific fits.\n`implements` is a real, working version of something more general. Such as a component implementing a pattern, or a platform build implementing a cross-platform one. Different from `composes` (\"built from these parts\"), and from `design`/`storybook` (which say what kind of thing this is, not why it's linked).\n`same-as` means this item repeats content declared once elsewhere, instead of restating it. Point `to` at \"<shared-id>#<item-id>\" and skip the item's own `statement`. Different from `refines` (a genuine restatement for a different reader) and `alternative-to` (one thing standing in for another, not the same thing).\n`refines` is an agent-only rule that sharpens a human-facing one; `to` names that rule's id. `lint-rule` and `test` point a rule at whatever actually checks it, usually a test file via `href`. For a stricter combination rule than `pairs-with`/`excludes` gives you, use a combo instead. `file` is also how a theme entry points at its real source file, instead of listing every token it changes.\nUse `refs` with `rel: source` for an entry's primary source file (see button.yaml's GitHub link) - every tool reading `common/ref` already understands it, unlike a custom field or `$extensions`. Exception: a component uses its own `sourceFiles` instead, since it's structured (one entry per platform) and what tooling already extracts an API from. `metadata.preview` and `examples[].ref` are for a sample, not the real source.\nNamespaced custom values (ex: \"acme.supersedes\") are allowed too.",
+              "$comment": "Grouped by purpose: `depends-on`, `composes`, `part-of`, `alternative-to`, `replaces`, `extends`, `implements`, and `relates-to` describe how things connect. `same-as` and `refines` describe how content is written. `lint-rule` and `test` describe how a rule is checked. `file`, `source`, `design`, `storybook`, `package`, `external-link`, and `contract` point outside this spec. `pairs-with` and `excludes` are a light note about two things combining. `see-also` is a generic \"worth reading too\" for when nothing more specific fits.\n`implements` is a real, working version of something more general. Such as a component implementing a pattern, or a platform build implementing a cross-platform one. Different from `composes` (\"built from these parts\"), and from `design`/`storybook` (which say what kind of thing this is, not why it's linked).\n`same-as` means this item repeats content declared once elsewhere, instead of restating it. Point `to` at \"<shared-id>#<item-id>\" and skip the item's own `statement`. Different from `refines` (a genuine restatement for a different reader) and `alternative-to` (one thing standing in for another, not the same thing).\n`refines` is an agent-only rule that sharpens a human-facing one; `to` names that rule's id. `lint-rule` and `test` point a rule at whatever actually checks it, usually a test file via `href`. For a stricter combination rule than `pairs-with`/`excludes` gives you, use a combo instead. `file` is also how a theme entry points at its real source file, instead of listing every token it changes.\nUse `refs` with `rel: source` for an entry's primary source file (see button.yaml's GitHub link) - every tool reading `common/ref` already understands it, unlike a custom field or `$extensions`. Exception: a component uses its own `sourceFiles` instead, since it's structured (one entry per platform) and what tooling already extracts an API from. `metadata.preview` and `examples[].ref` are for a sample, not the real source.\n`contract` points at an already-generated, machine-readable API contract document (props, slots, events, etc. in some standard, tool-readable shape) - not the source `sourceFiles` extracts from, and not any one specific format: DSDS doesn't parse or validate the target's contents, only points at it. A component uses its own `specs` for this rather than `refs`, the same way it uses `sourceFiles` instead of `rel: source`.\nNamespaced custom values (ex: \"acme.supersedes\") are allowed too.",
               "example": "depends-on"
             },
             "to": {
@@ -1141,7 +1143,7 @@ You've seen the basics. Here's where to go deeper.
       "$id": "https://designsystemdocspec.org/v0.20.0/entries/component.schema.yaml",
       "title": "ComponentEntry",
       "description": "A reusable UI element, like a button or a dialog.",
-      "$comment": "`traits`, `combos`, `imports`, and `sourceFiles` live directly here rather than in a section, since they're facts about the component as a build artifact, not documentation content.",
+      "$comment": "`traits`, `combos`, `imports`, `sourceFiles`, and `specs` live directly here rather than in a section, since they're facts about the component as a build artifact, not documentation content.",
       "allOf": [
         {
           "$ref": "https://designsystemdocspec.org/v0.20.0/entry.schema.yaml"
@@ -1165,7 +1167,7 @@ You've seen the basics. Here's where to go deeper.
               "type": "array",
               "minItems": 1,
               "description": "One entry per platform's source file.",
-              "$comment": "Defining the source file in the schema enables a tool to extract the component's full API (properties, events, slots, CSS hooks) straight from the code. This avoids drift between docs and code.",
+              "$comment": "Defining the source file in the schema enables a tool to extract the component's full API (properties, events, slots, CSS hooks) straight from the code. This avoids drift between docs and code. Points at raw source (e.g. `Button.tsx`) - a project whose tooling already generates a manifest *from* that source (a Custom Elements Manifest, or similar) points `specs` at the generated document itself instead of repeating the extraction here.",
               "items": {
                 "type": "object",
                 "required": [
@@ -1188,6 +1190,18 @@ You've seen the basics. Here's where to go deeper.
                 },
                 "additionalProperties": false
               }
+            },
+            "specs": {
+              "$ref": "https://designsystemdocspec.org/v0.20.0/common/ref.schema.yaml#/$defs/list",
+              "description": "Machine-readable API contract(s) for this component - props, slots, events, etc. in a standard, tool-readable shape.",
+              "$comment": "Different from `sourceFiles`: that points at the source a tool extracts an API *from*; this points at an already-extracted contract document, in whatever standard format your tooling produces and consumes - for example a DS Contracts document (https://github.com/southleft/ds-contracts-poc) or a W3C Custom Elements Manifest. DSDS doesn't parse or validate the target's contents, only points at it, so any standard format works here. One entry per platform or format, if more than one exists; use `role` to name the format when it isn't obvious from the file extension.",
+              "example": [
+                {
+                  "rel": "contract",
+                  "href": "./contracts/button.contract.json",
+                  "role": "DS Contracts"
+                }
+              ]
             },
             "imports": {
               "type": "array",

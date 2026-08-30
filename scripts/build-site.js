@@ -352,7 +352,11 @@ combos:
     note: A control can't be simultaneously loading and disabled...
 sourceFiles:
   - platform: react
-    file: ./src/Button.tsx`,
+    file: ./src/Button.tsx
+specs:
+  - rel: contract
+    href: ./contracts/button.contract.json
+    role: DS Contracts`,
   },
   "entries-entry": {
     file: "examples/entries/empty-state.yaml",
@@ -460,7 +464,7 @@ function renderDefinition(defName, defSchema, { anchor, source, exampleYaml }) {
   const sourceAttr = source ? ` source="${esc(source)}"` : "";
   const layoutAttr = exampleYaml ? ` layout="split"` : "";
   const example = exampleYaml
-    ? `<ds-code language="yaml" label="example" slot="example" wrap>${esc(exampleYaml)}</ds-code>`
+    ? `<ds-code language="yaml" label="" slot="example" wrap>${esc(exampleYaml)}</ds-code>`
     : "";
   const content = [];
 
@@ -1137,18 +1141,17 @@ function renderMainGuide({ header, content, layout }) {
 }
 
 // The schema-docs page type (site/templates/subtemplates/
-// main-schema.template.html) - a header, an optional definition index,
-// then the definitions themselves (each carrying its own source file
-// attribution inline via def-section.js's source attribute - a single
-// page-level "view raw source" toggle stopped making sense once every
-// schema file's definitions moved onto one page instead of their own).
+// main-schema.template.html) - a header, then the definitions themselves
+// (each carrying its own source file attribution inline via def-section.js's
+// source attribute - a single page-level "view raw source" toggle stopped
+// making sense once every schema file's definitions moved onto one page
+// instead of their own).
 // Full-width (content--full), not the shared reading-width cap - the
 // side-by-side def/example columns need the room.
-function renderMainSchema({ header, defIndex, definitions }) {
+function renderMainSchema({ header, definitions }) {
   return renderSub("main-schema", {
     content_class: contentClassFor("full"),
     header,
-    def_index: defIndex,
     definitions,
     back_to_top: renderSub("back-to-top", {}),
   });
@@ -1561,7 +1564,6 @@ async function build() {
   // discoverPages()), so a group boundary is just "this page's group
   // differs from the last one," not a re-sort.
   const GROUP_LABELS = { root: "Base", common: "Common", metadata: "Metadata", entries: "Entries", sections: "Sections" };
-  let schemaDefIndexItems = [];
   let schemaDefinitions = [];
   let schemaMarkdownParts = [];
   let schemaDefEntries = []; // {name, anchor} - anchor already matches buildDefIndex()'s scheme
@@ -1579,15 +1581,12 @@ async function build() {
     }
     schemaDefinitions.push(definitions);
     schemaMarkdownParts.push(buildSchemaMarkdown(page));
-    // The def-index links to every file's own definitions, not just the
-    // current file's - reuses the same anchor scheme renderSchemaPage()
-    // and buildDefIndex() (render-prop-table.js) already agree on.
+    // Used by buildJsonLd()'s hasPart - reuses the same anchor scheme
+    // renderSchemaPage() and buildDefIndex() (render-prop-table.js) already
+    // agree on.
     for (const defName of defNames) {
       const anchor = defName === page.title ? baseSlug : `${baseSlug}-${slug(defName)}`;
       schemaDefEntries.push({ name: defName, anchor });
-      schemaDefIndexItems.push(
-        `<li><a href="#${anchor}"><ds-code inline>${esc(defName)}</ds-code></a></li>`,
-      );
     }
   }
 
@@ -1597,13 +1596,8 @@ async function build() {
     source_attr: "",
     badge: "",
   });
-  const schemaDefIndex = renderSub("def-index", {
-    count: schemaDefEntries.length,
-    items: schemaDefIndexItems.join("\n"),
-  });
   const schemaMainHtml = renderMainSchema({
     header: schemaHeader,
-    defIndex: schemaDefIndex,
     definitions: schemaDefinitions.join("\n"),
   });
   const schemaHtml = pageHtml(

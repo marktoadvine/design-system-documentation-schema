@@ -240,13 +240,21 @@ const CODE_CSS = `
   :host([inline]) { display: inline; }
 
   /* ── Block mode ──────────────────────────────────────── */
+  /* No overflow: hidden - it used to pair with a border-radius this no
+     longer has (nothing left to clip), and left in place it's actively
+     harmful: an ancestor with any overflow other than visible becomes
+     position: sticky's positioning reference for descendants (pre,
+     below), so a sticky pre inside an overflow: hidden .wrapper sticks
+     relative to .wrapper's own (always-static) box instead of the
+     viewport - it just scrolls away with the page, never visibly
+     pinning. */
   .wrapper {
     position: relative;
-    overflow: hidden;
     background: var(--ds-color-bg-raised);
     inset: calc(var(--ds-space-4) * -1);
     top: 0;
     width: calc(100% + (var(--ds-space-4) * 2));
+    height: calc(100% + (var(--ds-space-4) * 2));
   }
   .wrapper pre { color: var(--ds-color-text); }
 
@@ -279,7 +287,18 @@ const CODE_CSS = `
     padding: var(--ds-space-2) var(--ds-space-4);
   }
 
+  /* Sticky, not just .wrapper - when a code block sits in a stretched
+     container taller than its own content (the schema page's split-layout
+     .end column, stretched to match its row's .start column - see
+     def-section.js), pre is the thing that visually pins near the top of
+     the viewport as you scroll, same top offset as this site's other
+     sticky elements (the def-section <h2> title, the nav bar itself). In
+     any normal (unstretched) container this is a no-op: pre's containing
+     block is exactly as tall as pre already is, so there's no room to
+     stick within and nothing visibly changes. */
   pre {
+    position: sticky;
+    top: var(--ds-height-nav, 64px);
     margin: 0;
     padding: var(--ds-space-4) var(--ds-space-4);
     font-family: ${FONT.mono};
@@ -379,8 +398,12 @@ export class DsCode extends HTMLElement {
     }
 
     // ── Block mode: render as <pre><code> with syntax highlighting ──
-    const label =
-      this.getAttribute("label") || this.getAttribute("language") || "";
+    // label defaults to the language name (e.g. language="yaml" alone
+    // shows a "yaml" tab) - but an explicit label="" opts out of that
+    // default rather than being treated as "no label given".
+    const label = this.hasAttribute("label")
+      ? this.getAttribute("label")
+      : this.getAttribute("language") || "";
     const lang = this.getAttribute("language") || "";
     const rawBlock = (this.textContent || "").trim();
 

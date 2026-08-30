@@ -57,12 +57,13 @@ No open standard covers the whole of design-system documentation — components,
 | Concern | Source of truth | How DSDS points at it |
 |---|---|---|
 | Token values and platform mappings | [W3C Design Tokens](https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/) (DTCG) files | A token or theme entry's `source` |
-| Component code API facts | [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM), a source file, or framework typings | A component's `sourceFiles` — pointing a tool at the real file to extract from, instead of hand-typing an interface |
+| Component source code, per platform | A source file or framework typings | A component's `sourceFiles` — pointing a tool at the real file to extract from, instead of hand-typing an interface |
+| Component API contract, already generated | [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM), or another standard contract format | A component's `specs` — pointing at the generated document itself, not re-deriving it from source |
 | Live component demos | Storybook or equivalent | A `refs`/`examples` entry with `rel: storybook` |
 | Design artifacts | Design tool files | A `refs` entry with `rel: design`, or `metadata.preview` |
 | Source code | The repository | A `refs` entry with `rel: source`, or a component's own `sourceFiles` |
 
-DTCG owns token *values*; DSDS owns the *meaning and usage* around them. A token entry never carries an actual value, so the two files can never disagree with each other. CEM (and similar manifests) own a component's code-level details; DSDS doesn't repeat them, it points `sourceFiles` at the real source instead. Wherever a machine-readable source of truth already exists, DSDS points at it instead of restating it — DSDS is only ever the source of truth for the documentation itself, never for the values or code it's documenting. See `examples/interop/` in the repo for worked examples of both relationships.
+DTCG owns token *values*; DSDS owns the *meaning and usage* around them. A token entry never carries an actual value, so the two files can never disagree with each other. CEM (and similar manifests) own a component's generated code-level details; DSDS doesn't repeat them, it points `specs` at the generated manifest instead — `sourceFiles` is for the raw source a manifest-generating tool reads *from*, one step earlier in the same pipeline; a component can point at either, both, or neither, depending on what a project's own tooling already produces. Wherever a machine-readable source of truth already exists, DSDS points at it instead of restating it — DSDS is only ever the source of truth for the documentation itself, never for the values or code it's documenting. See `examples/interop/` in the repo for worked examples of both relationships.
 
 ---
 

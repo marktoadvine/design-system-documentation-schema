@@ -58,6 +58,13 @@ const PROP_TABLE_CSS = `
     overflow-wrap: break-word;
   }
 
+  .prop-status {
+    font-family: ${FONT.body};
+    font-weight: var(--ds-font-weight-regular);
+    font-size: var(--ds-font-size-sm);
+    color: var(--ds-color-text);
+  }
+
   /* Deep-link, revealed on row hover — mirrors <ds-heading>'s anchor-link. */
   .prop-anchor {
     order: -1;
@@ -174,11 +181,13 @@ export class DsPropTable extends HTMLElement {
         }
         usedIds[anchor] = true;
 
-        var badge = "";
+        // Plain text, not a badge/pill - required-ness is a fact about
+        // the field, not a tag.
+        var status = "";
         if (prop.hasAttribute("required")) {
-          badge = '<ds-badge variant="kind">Required</ds-badge>';
+          status = '<span class="prop-status" part="status">required</span>';
         } else if (prop.hasAttribute("conditional")) {
-          badge = '<ds-badge variant="experimental">at least 1</ds-badge>';
+          status = '<span class="prop-status" part="status">at least 1 required</span>';
         }
 
         return (
@@ -197,7 +206,7 @@ export class DsPropTable extends HTMLElement {
           '<span class="prop-type" part="type">' +
           type +
           "</span>" +
-          badge +
+          status +
           "</h3>" +
           '<div class="prop-desc" part="desc">' +
           desc +
