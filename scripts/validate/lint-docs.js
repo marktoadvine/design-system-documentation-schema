@@ -92,6 +92,16 @@ function eachGuidelineItem(entry, fn) {
   });
 }
 
+// guidelines.schema.yaml's own `anyOf` lets an item omit `statement` when a `same-as` or
+// `external-link` ref carries the text instead. Such an item declares no rule of its own here -
+// the shared item, or the system the link points at, is where the rule is really stated.
+const BORROWED_STATEMENT_RELS = new Set(["same-as", "external-link"]);
+
+function borrowsItsStatement(item) {
+  if (typeof item.statement === "string") return false;
+  return (item.refs || []).some((r) => r && BORROWED_STATEMENT_RELS.has(r.rel));
+}
+
 const LOWERCASE_RFC_REGEX = /(?<![A-Za-z])(must|should)(?: not)?(?![A-Za-z])/g;
 
 // ---------------------------------------------------------------------------
@@ -280,6 +290,12 @@ const IMPLEMENTATIONS = {
   // automated with no checks ref); this flags checkedBy left out entirely.
   "guideline-missing-checkedby": (entry, emit) => {
     eachGuidelineItem(entry, (item, p) => {
+      // An item that borrows its statement states no rule *here*, so `checkedBy` isn't its to
+      // declare: whatever owns the text owns the verification too. Flagging it would push
+      // authors to restate at every borrowing site exactly what `same-as` exists to avoid -
+      // `level` is the one field the schema makes them repeat, which is why DSDS-10 exists to
+      // reconcile it.
+      if (borrowsItsStatement(item)) return;
       if ((item.level === "must" || item.level === "must-not") && !item.checkedBy) {
         emit(
           `${p}/checkedBy`,

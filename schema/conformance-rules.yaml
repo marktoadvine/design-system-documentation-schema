@@ -173,11 +173,21 @@
     verification - leaving it out entirely means a tool can't tell if the
     rule is verifiable at all, not just that it isn't verified yet. Only
     flagged for `must`/`must-not` items: a `should`/`may` item not
-    declaring how it's checked is a much smaller gap.
+    declaring how it's checked is a much smaller gap. An item that borrows
+    its statement instead of declaring one - the `same-as` or
+    `external-link` form `sections/guidelines`' own `anyOf` allows - is
+    never flagged: it states no rule here, so `checkedBy` is not its to
+    declare.
   note: >-
     DSDS-03 already blocks the narrower case (`checkedBy: automated`
     with no `checks` ref backing it). This is the advisory sibling for
     the case DSDS-03 can't see - `checkedBy` left out entirely.
+
+    The borrowed-statement exemption exists because flagging those items
+    asked authors to restate, at every borrowing site, the verification
+    metadata the shared item already owns - the duplication `same-as`
+    exists to remove. `level` is the one field the schema does make a
+    borrowing site repeat, and DSDS-10 exists to reconcile it.
 
 - id: DSDS-15
   name: component-missing-when-to-use
