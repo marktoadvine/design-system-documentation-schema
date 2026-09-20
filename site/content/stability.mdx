@@ -54,9 +54,13 @@ Every schema file under `schema/` has comments explaining *why* it's shaped the 
 
 ## Migrating a 0.15.2 document
 
-`scripts/tools/migrate-to-0.20.js <files-or-dirs…> [--dry-run]` converts a 0.15.2 `.dsds.json` document (the entity/`documentBlocks` model) to a 0.20.0 `.dsds.yaml` one, following the CHANGELOG's own field-by-field mapping. It writes a new sibling file rather than overwriting the input, and it's best-effort, not a guarantee: a few 0.15.2 structures (most notably the `api` block's inline property/event documentation) have no 0.20.0 equivalent to convert *to* — 0.20.0 points `sourceFiles` at real source instead of inlining an extracted API.
+`scripts/tools/migrate-to-0.20.js <files-or-dirs…> [--dry-run]` converts a 0.15.2 `.dsds.json` document (the entity/`documentBlocks` model) to a `.dsds.yaml` one in the current shape — stamped `schemaVersion: {{VERSION}}`, with component traits already carrying `traitType` — following the CHANGELOG's own field-by-field mapping. That one script is the whole migration from 0.15.2; there is no second step. It writes a new sibling file rather than overwriting the input, and it's best-effort, not a guarantee: a few 0.15.2 structures (most notably the `api` block's inline property/event documentation) have no 0.20.0 equivalent to convert *to* — 0.20.0 points `sourceFiles` at real source instead of inlining an extracted API.
 
 Anything the script can't place in a typed field is preserved under the migrated item's own `$extensions["com.dsds.migration"]` rather than dropped, and every such case — plus every genuinely manual decision, like an `alternatives` pointer that wasn't really id-shaped in the source, or a ref that pointed at a token-group's own id before its children flattened to top-level entries — prints as a `⚠` line in the script's own output. Run `npm run validate` on the result afterward.
+
+## Migrating a 0.20.x document
+
+A document already in the 0.20 YAML shape takes a different script: `scripts/tools/migrate-to-0.21.js <files-or-dirs…> [--dry-run]` brings it to 0.21.0 by adding `traitType` to every component trait and removing `setBy`. It edits the file in place, line by line, so comments survive, and it prints every `traitType` it had to guess for review. Don't run it on the output of `migrate-to-0.20.js` — that output is already in the 0.21.0 shape.
 
 ## Designed to grow without a version bump
 

@@ -148,19 +148,19 @@ There's no single version field — every `schema/**/*.schema.yaml` file's own `
 # 1. Make schema changes under schema/, add examples/ + examples/invalid/ fixtures as needed.
 # 2. Add a CHANGELOG entry.
 # 3. Commit both — --tag below requires a clean working tree.
-npm run bump-version 0.20.3 -- --tag   # rewrite, bundle, sync skills, build, check, commit, tag
-git push && git push origin v0.20.3     # review first, then push
+npm run bump-version 0.21.1 -- --tag   # rewrite, bundle, sync skills, build, check, commit, tag
+git push && git push origin v0.21.1     # review first, then push
 ```
 
 Without `--tag`, the same steps run one at a time, manually:
 
 ```bash
-npm run bump-version 0.20.3     # rewrites every version reference, bundles, syncs skill versions
+npm run bump-version 0.21.1     # rewrites every version reference, bundles, syncs skill versions
 npm run build                   # publishes a new site/dist/v<new-version>/
 npm run check                   # must pass before committing
-git add -A && git commit -m "v0.20.3"
-git tag -a v0.20.3 -m "v0.20.3"
-git push && git push origin v0.20.3
+git add -A && git commit -m "v0.21.1"
+git tag -a v0.21.1 -m "v0.21.1"
+git push && git push origin v0.21.1
 ```
 
 Use `npm run bump-version <version> -- --dry-run` to preview changes first, or `--help` for the rest of the flags.

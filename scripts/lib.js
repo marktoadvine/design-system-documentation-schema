@@ -34,7 +34,7 @@ const EXCLUDED_FROM_DEFAULT = new Set([
   path.join(rootDir, "examples/base/starter-kit-fragments/02-components.dsds.yaml"),
 ]);
 // The repo's own dogfooding corpus: test/site-components documents this site's web components
-// as real 0.20.1 entries. `npm run check` already validates them, but they sat outside the lint
+// as real entries. `npm run check` already validates them, but they sat outside the lint
 // sweep, so a field-order regression in them was invisible to `npm run lint`.
 const docEntryDirs = [
   path.join(rootDir, "test/site-components"),

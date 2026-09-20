@@ -22,7 +22,7 @@
           "type": "string",
           "description": "The version of this spec the document follows.",
           "$comment": "The one authoritative version marker. Distinct from `metadata.version`, which is the design system's own release version.",
-          "example": "0.20.1"
+          "example": "0.21.0"
         },
         "$schema": {
           "type": "string",
