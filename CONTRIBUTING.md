@@ -1,6 +1,6 @@
 # Contributing to DSDS
 
-This is an early-stage, pre-1.0 specification (currently 0.20.1), maintained
+This is an early-stage, pre-1.0 specification (currently 0.21.0), maintained
 by one person. Feedback and contributions are welcome — this file says what
 a contribution needs to land and stay landed.
 
@@ -58,7 +58,7 @@ change" section — adding a validator rule counts, even with no schema edit.
 
 This is the single question that would have caught most of what went wrong
 in the 0.20.0 rewrite: when a release changes how documents are shaped
-(not just adds to the existing shape), **enumerate every guard, fixture,
+(not just adds to what's already there), **enumerate every guard, fixture,
 skill, and example that pointed at the old model, and decide, in writing —
 in the PR description or a CHANGELOG note — whether each one ports or is
 dropped.** A dropped guard is a fine outcome. A guard nobody decided about
@@ -143,7 +143,8 @@ a wrapper for its own sake — if a script isn't listed, it doesn't exist.
 | --- | --- |
 | `npm run generate` | Rewrites every generated artifact: example includes, the schema bundle, the normative index, the rule-catalog table, the examples index, the conformance suite. Run it after editing schema `description`/`$comment` text. |
 | `npm run generate:check` | Asserts those artifacts are current without rewriting them. Part of `check`; useful alone when a check fails and you want to know whether it's just staleness. |
-| `npm run migrate` | Converts a 0.15.2 `.dsds.json` document to 0.20.1 `.dsds.yaml`: `npm run migrate -- <files-or-dirs…> [--dry-run]`. Best-effort — run `validate` on the output. |
+| `npm run migrate` | Converts a 0.15.2 `.dsds.json` document to a `.dsds.yaml` one in the current shape: `npm run migrate -- <files-or-dirs…> [--dry-run]`. This is the whole migration from 0.15.2 — no second step. Best-effort — run `validate` on the output. |
+| `node scripts/tools/migrate-to-0.21.js` | For a document already in 0.20.x YAML: adds `traitType` to every component trait and removes `setBy`, in place: `<files-or-dirs…> [--dry-run]`. Not an npm script, and not needed after `npm run migrate`. |
 | `npm run compose` | Concatenates hand-split `.dsds.yaml` fragments into one document before validation. |
 | `npm run bump-version` | The release driver. Rewrites every version reference, regenerates, builds, checks, commits, tags. |
 | `npm run og:generate` | Regenerates `site/assets/og-image.png`. Needs Chromium. Run it and commit the result only when the logo or the accent/text tokens change — the build does not do this for you. |
@@ -170,7 +171,7 @@ something fails.
 - Every schema file explains *why* it's shaped the way it is, in `$comment`,
   not just what it is — a future reader (including you, in six months)
   should be able to tell what the file replaced or why an alternative
-  shape was rejected.
+  was rejected.
 - README stays brief and current; it is not a place to duplicate content
   that belongs on the site or in the schema's own descriptions.
 - MDX content must never hardcode the current version — use `{{VERSION}}`.

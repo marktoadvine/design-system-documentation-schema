@@ -6,7 +6,7 @@ description: "What it means for a document to follow the DSDS spec: the four con
 
 # Conformance
 
-What it means for a document to follow the DSDS spec: every rule it enforces, and how each one is checked. For what might still change before 1.0, see [Stability](stability.html). For how the schema itself is organized — the shapes every entry, section, and reference is built from — see [How the schema is organized](schema.html#how-the-schema-is-organized).
+What it means for a document to follow the DSDS spec: every rule it enforces, and how each one is checked. For what might still change before 1.0, see [Stability](stability.html). For how the schema itself is organized — the building blocks every entry, section, and reference is built from — see [How the schema is organized](schema.html#how-the-schema-is-organized).
 
 The words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** have a specific meaning on this page and inside the DSDS schema files, as defined by [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) (updated by [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)). They only carry that meaning when written in capital letters.
 
@@ -27,7 +27,7 @@ A document that passes schema validation for the version named in its `schemaVer
 A tool or person that creates DSDS documents. A conforming producer:
 
 - MUST only create documents that follow the spec
-- MUST NOT use an outdated field or shape in new documents (old shapes are kept around only so existing documents keep working)
+- MUST NOT use an outdated field or structure in new documents (old ones are kept around only so existing documents keep working)
 - SHOULD record how a document was created, using `metadata.origin`
 
 ### Conforming consumer
@@ -43,7 +43,28 @@ A tool, renderer, or AI agent that reads DSDS documents. A conforming consumer:
 
 ### Conforming validator
 
-A tool that checks documents. A conforming validator MUST enforce both the schema itself (with format checks on) and the extra rules below (`DSDS-01`–`DSDS-11`). `scripts/validate/validate.js` is the reference implementation. Its [`examples/invalid/`](examples.html#invalid) folder holds one broken example per semantic rule (`DSDS-XX-*.yaml`) plus a set of schema-shape fixtures (`schema-*.yaml`, no rule id — a pure JSON Schema rejection) pinning constraints like enum casing, empty arrays, and `$extensions` namespacing. Every fixture declares its own contract in a leading comment — `# rejectedBy: schema|semantic`, plus `# expect: DSDS-XX` or `# errorAt: /json/pointer` as applicable — and `scripts/validate/conformance-test.js` confirms each one fails for the exact reason and at the exact layer it claims to, not just that it fails at all.
+A tool that checks documents. A conforming validator MUST enforce both the schema itself (with format checks on) and the extra rules below (`DSDS-01`–`DSDS-11`). `scripts/validate/validate.js` is the reference implementation. Its [`examples/invalid/`](examples.html#invalid) folder holds one broken example per semantic rule (`DSDS-XX-*.yaml`) plus a set of plain schema fixtures (`schema-*.yaml`, no rule id — a pure JSON Schema rejection) pinning constraints like enum casing, empty arrays, and `$extensions` namespacing. Every fixture declares its own contract in a leading comment — `# rejectedBy: schema|semantic`, plus `# expect: DSDS-XX` or `# errorAt: /json/pointer` as applicable — and `scripts/validate/conformance-test.js` confirms each one fails for the exact reason and at the exact layer it claims to, not just that it fails at all.
+
+## The words this spec uses
+
+One term per concept, so a reader and a generator mean the same thing by it. The right-hand column is what a reviewer should flag — each of those synonyms was in use somewhere before this table existed.
+
+{/* dsds:terms */}
+
+| Use | For | Not | Defined in |
+|---|---|---|---|
+| **entry** | One documented thing in the design system graph - a component, token, theme, or anything else. | entity, record, item, node | `entries/entry.schema.yaml` |
+| **document** | One `.dsds.yaml` or `.dsds.json` file, whether it holds a whole system or a single entry. | spec, spec file, doc | `base.schema.yaml` |
+| **spec** | The DSDS specification itself - this repo, the schema files, and the site that publishes them. | (never a document) |  |
+| **section** | One member of an entry's `sections[]`. | block, documentBlock, chunk | `sections/section.schema.yaml` |
+| **field** | A named slot on an object. | property, key, attribute | (property table is the one allowed exception - it names the generated tables) |
+| **kind** | The discriminator value that says which shape an entry or section is. | type, variant | `entry.kind`, `section.kind` |
+| **item** | One member of a section's `items[]`. | entry, rule, criterion |  |
+| **conforming consumer** | Anything that reads a document - a renderer, an agent, a site generator. | tool, reader, client, parser, renderer | [Conformance](https://designsystemdocspec.org/conformance#conformance-classes) |
+| **conforming producer** | Anything that writes a document. | generator, author tool, writer | [Conformance](https://designsystemdocspec.org/conformance#conformance-classes) |
+| **conforming validator** | Anything that checks a document against the schema and the rule catalog. | linter, checker | [Conformance](https://designsystemdocspec.org/conformance#conformance-classes) |
+
+{/* /dsds:terms */}
 
 ## Enforcement tiers
 
@@ -107,11 +128,11 @@ Versions through 0.15.2 used a three-digit catalog (`DSDS-001`–`DSDS-006` and 
 | `DSDS-20` | A base document's own top-level fields don't follow STYLE_GUIDE.md's field order. |
 | `DSDS-21` | A base document's `entries[]` aren't ordered by `kind`. |
 | `DSDS-22` | A nested object's fields don't follow the order its own schema file declares. |
-| `DSDS-23` | An entry's `combos[]` aren't sorted by `subject`, then by `level`. |
+| `DSDS-23` | An entry's `combos[]` don't keep one `subject` together, in `level` order. |
 
 {/* /dsds:rule-catalog */}
 
-`DSDS-06` and `DSDS-07` restore a cycle check the pre-0.20.0 spec had — nothing should point back at itself through a chain of `composes` or `depends-on` links. The 0.20.0 rewrite dropped it by accident; it's enforced by the validator's own code now, not the schema shape.
+`DSDS-06` and `DSDS-07` restore a cycle check the pre-0.20.0 spec had — nothing should point back at itself through a chain of `composes` or `depends-on` links. The 0.20.0 rewrite dropped it by accident; it's enforced by the validator's own code now, not the schema itself.
 
 ### Project-scope resolution
 
@@ -184,17 +205,61 @@ A document with zero errors and zero warnings can still be bad documentation —
 
 ## Index of every normative statement
 
-Every RFC 2119 sentence (MUST, MUST NOT, SHOULD, SHOULD NOT, MAY) inside the schema's own `description` text, extracted and indexed by `scripts/generate/extract-normative.mjs` directly from `schema/**/*.schema.yaml` — not hand-copied, and regenerated on every build (`npm run generate`, checked via `--check` in `postvalidate`). Each statement's id is location-based (`<dir>/<file>§<jsonPath>.<n>`), so citing one and having the schema move underneath it is a visible, checkable break rather than a silent one.
+Every RFC 2119 sentence (MUST, MUST NOT, SHOULD, SHOULD NOT, MAY) in the schema's own text — both `description` and `$comment` — extracted and indexed by `scripts/generate/extract-normative.mjs` directly from `schema/**/*.schema.yaml`, not hand-copied, and regenerated on every build (`npm run generate`, checked with `--check` in `generate:check`). Every statement below is in a `description`, where this spec keeps its rules. `$comment` holds the reasoning beside them; a requirement that turns up there is marked *(in `$comment`)* and fails `npm run check`. Each statement's id is location-based (`<dir>/<file>§<jsonPath>.<n>`), so citing one and having the schema move underneath it is a visible, checkable break rather than a silent one.
 
 {/* dsds:normative-index */}
 
-*Generated from the v{{VERSION}} schemas by `scripts/generate/extract-normative.mjs` — do not edit by hand. 2 statements: 0 MUST, 1 MUST NOT, 1 SHOULD, 0 SHOULD NOT, 0 MAY.*
+*Generated from the v{{VERSION}} schemas by `scripts/generate/extract-normative.mjs` — do not edit by hand. 16 statements: 12 MUST, 1 MUST NOT, 3 SHOULD, 0 SHOULD NOT, 0 MAY.*
+
+### common
+
+#### common/extensions
+
+- **MUST** — Each top-level key MUST be a dotted namespace, like `com.acme`, matching the Design Tokens Community Group's own `$extensions` convention. <small>`common/extensions§(root).1`</small>
+
+#### common/id
+
+- **MUST** — A section item's own `id` is optional, but a conforming consumer MUST be able to address every item. <small>`common/id§(root).1`</small>
+- **MUST** — When an item has no `id`, consumers MUST derive one from the item's own text so content has a consistent id. <small>`common/id§(root).2`</small>
+
+### entries
+
+#### entries/component
+
+- **MUST** — When the document declares a `metadata.platforms` list, this MUST be one of its entries. <small>`entries/component§[allOf][1].sourceFiles.items.platform.1`</small>
+- **MUST** — When the document declares a `metadata.platforms` list, this MUST be one of its entries. <small>`entries/component§[allOf][1].imports.items.platform.1`</small>
 
 ### metadata
 
 #### metadata/metadata
 
 - **MUST NOT** — MUST NOT contain markup. <small>`metadata/metadata§note.1`</small>
-- **SHOULD** — Tools SHOULD treat `updated.date` as the cache key for this item's documentation specifically. <small>`metadata/metadata§.updated.1`</small>
+- **SHOULD** — A conforming consumer SHOULD treat `updated.date` as the cache key for this item's documentation specifically. <small>`metadata/metadata§.updated.1`</small>
+
+#### metadata/system-metadata
+
+- **MUST** — When this list is present, every other `platform` value used anywhere in the document MUST match one of these. <small>`metadata/system-metadata§[allOf][1].platforms.1`</small>
+
+### sections
+
+#### sections/definitions
+
+- **MUST** — `id` is optional, but a conforming consumer MUST derive one from this item's own text. <small>`sections/definitions§[allOf][1].items.items.id.1`</small>
+
+#### sections/guidelines
+
+- **SHOULD** — When an item carries a `level` and a ref but no `statement`, a conforming consumer SHOULD show the level and the link rather than rendering it as empty content. <small>`sections/guidelines§(root).1`</small>
+- **SHOULD** — An author who expects a person to read the guideline without following the link SHOULD add a `statement` instead. <small>`sections/guidelines§(root).2`</small>
+- **MUST** — `id` is optional, but a conforming consumer MUST derive one from this item's own text. <small>`sections/guidelines§[allOf][1].items.items.id.1`</small>
+- **MUST** — It MUST reflect `level`. <small>`sections/guidelines§[allOf][1].items.items.example.1`</small>
+- **MUST** — A `must-not` item's example MUST show what not to do. <small>`sections/guidelines§[allOf][1].items.items.example.2`</small>
+
+#### sections/section
+
+- **MUST** — `id` is optional, but conforming consumer MUST derive one from this item's own text. <small>`sections/section§freeformEntry.id.1`</small>
+
+#### sections/steps
+
+- **MUST** — `id` is optional, but a conforming consumer MUST derive one from this item's own text. <small>`sections/steps§[allOf][1].items.items.id.1`</small>
 
 {/* /dsds:normative-index */}

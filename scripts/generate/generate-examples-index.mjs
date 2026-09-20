@@ -13,14 +13,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { syncRegion } from "./regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
 const EXAMPLES_DIR = path.join(ROOT, "examples");
 const PAGE = path.join(ROOT, "site", "content", "examples.mdx");
 
-const BEGIN = "{/* dsds:examples-index */}";
-const END = "{/* /dsds:examples-index */}";
+const REGION = "examples-index";
 
 // One-line blurb per top-level category, hand-written and stable; the file list under each is
 // what's generated.
@@ -29,7 +29,7 @@ const GROUP_BLURBS = {
   entries: "Standalone entry files, one per kind, plus the source/manifest/story files a couple of them point at.",
   quickstart: "The Quick Start guide's own snippets, one per step, building up from a bare base document to a described, related entry.",
   interop: "Worked pairs showing a DSDS entry pointing at a real DTCG token file or CEM manifest, instead of restating it.",
-  invalid: "One broken example per semantic rule (`DSDS-XX-*.yaml`) plus schema-shape fixtures (`schema-*.yaml`) — the negative-test corpus `scripts/validate/conformance-test.js` runs against.",
+  invalid: "One broken example per semantic rule (`DSDS-XX-*.yaml`) plus plain schema fixtures (`schema-*.yaml`) — the negative-test corpus `scripts/validate/conformance-test.js` runs against.",
   "anti-patterns": "Documents that validate cleanly and are still worth avoiding — the schema checks structure, not judgment. See each file's own leading comment.",
 };
 
@@ -51,7 +51,7 @@ function renderIndex() {
     .map((e) => e.name)
     .sort();
 
-  const lines = [BEGIN, ""];
+  const lines = [];
   let total = 0;
   for (const group of groups) {
     const groupDir = path.join(EXAMPLES_DIR, group);
@@ -70,42 +70,18 @@ function renderIndex() {
     lines.push("");
   }
   lines.push(`*${total} files across ${groups.length} categories, generated from the \`examples/\` directory by \`scripts/generate/generate-examples-index.mjs\` — do not edit by hand.*`);
-  lines.push("");
-  lines.push(END);
   return lines.join("\n");
 }
 
 function main() {
   const check = process.argv.includes("--check");
-
-  if (!fs.existsSync(PAGE)) {
-    console.error(`✗ ${path.relative(ROOT, PAGE)} not found.`);
-    process.exit(1);
-  }
-  const page = fs.readFileSync(PAGE, "utf-8");
-  const begin = page.indexOf(BEGIN);
-  const end = page.indexOf(END);
-  if (begin === -1 || end === -1) {
-    console.error(`✗ Marker comments missing in ${path.relative(ROOT, PAGE)}.`);
-    process.exit(1);
-  }
-
-  const generated = renderIndex();
-  const updated = page.slice(0, begin) + generated + page.slice(end + END.length);
-
-  if (check) {
-    if (updated !== page) {
-      console.error(
-        "✗ Examples index is out of date. Run `npm run generate` to regenerate.",
-      );
-      process.exit(1);
-    }
-    console.log("✓ Examples index is up to date.");
-    return;
-  }
-
-  fs.writeFileSync(PAGE, updated, "utf-8");
-  console.log(`✓ Examples index regenerated in ${path.relative(ROOT, PAGE)}.`);
+  syncRegion({
+    file: PAGE,
+    name: REGION,
+    render: renderIndex,
+    check,
+    label: "Examples index",
+  });
 }
 
 main();

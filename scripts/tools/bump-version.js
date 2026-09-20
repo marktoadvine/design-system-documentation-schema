@@ -3,8 +3,9 @@
  * Cuts a new versioned DSDS spec build. There's no single version field - every
  * schema/**\/*.schema.yaml file's own `$id`/`$ref` independently encodes the version as a
  * `designsystemdocspec.org/v<version>/` URL segment, alongside bundle.js's two hardcoded
- * literals, every example/test document's `schemaVersion`, README's $schema URL suggestion,
- * and package.json#version. This script finds and rewrites all of them in one pass. MDX
+ * literals, every example/test document's `schemaVersion`, base.schema.yaml's own
+ * `schemaVersion` example, README's $schema URL suggestion and its "currently DSDS <version>"
+ * line, and package.json#version. This script finds and rewrites all of them in one pass. MDX
  * content pages are NOT rewritten - they use the {{VERSION}} token, substituted at build time.
  *
  * After a successful bump it runs `npm run bundle` and `npm run sync-skill-versions`. Run
@@ -232,9 +233,32 @@ function processFile(absPath, rewriters) {
   return true;
 }
 
-// 1. Every schema/**/*.schema.yaml file's own $id/$ref URLs.
+// base.schema.yaml's `schemaVersion` example is a bare quoted literal, not a URL, so the URL
+// rewrite misses it and it stays at the previous version. Anchored to that one property so
+// other version-shaped examples (`since`, `metadata.version`) are left alone.
+const BASE_SCHEMA = path.join(SCHEMA_DIR, "base.schema.yaml");
+const BASE_EXAMPLE_REGEX = /(\n  schemaVersion:\n(?:    [^\n]*\n)*?    example: ")([^"]+)(")/;
+
+function rewriteBaseSchemaExample(text) {
+  let count = 0;
+  const updated = text.replace(BASE_EXAMPLE_REGEX, (match, before, oldVer, after) => {
+    if (oldVer === NEW_VERSION) return match;
+    count++;
+    return before + NEW_VERSION + after;
+  });
+  return { updated, count };
+}
+
+// A silent no-match is exactly how that example went stale, so fail before writing anything.
+if (!BASE_EXAMPLE_REGEX.test(fs.readFileSync(BASE_SCHEMA, "utf-8"))) {
+  console.error("✗ Couldn't find the `schemaVersion` example in schema/base.schema.yaml.");
+  console.error("  Its shape changed; update BASE_EXAMPLE_REGEX in scripts/tools/bump-version.js.");
+  process.exit(1);
+}
+
+// 1. Every schema/**/*.schema.yaml file's own $id/$ref URLs (plus base.schema.yaml's example).
 for (const file of schemaFiles) {
-  processFile(file, [rewriteUrlsInText]);
+  processFile(file, file === BASE_SCHEMA ? [rewriteUrlsInText, rewriteBaseSchemaExample] : [rewriteUrlsInText]);
 }
 
 // 2. bundle.js's two hardcoded literals ($id, title) - plain URL rewrite covers $id; title
@@ -256,7 +280,7 @@ processFile(BUNDLE_SCRIPT, [
 // 2b. migrate-to-0.20.js's TARGET_VERSION - the `schemaVersion` it stamps onto every
 //     document it converts. It is a bare literal, not a URL, so nothing above caught it:
 //     the 0.20.1 bump left it at "0.20.0" and freshly-migrated documents claimed a version
-//     older than the spec they were migrated to. Harmless for validity (no shape change
+//     older than the spec they were migrated to. Harmless for validity (no schema change
 //     between those two) but wrong, and silently so.
 const MIGRATE_SCRIPT = path.join(ROOT, "scripts", "tools", "migrate-to-0.20.js");
 const MIGRATE_TARGET_REGEX = /(const TARGET_VERSION = ")[A-Za-z0-9.\-]+(")/;
@@ -278,9 +302,14 @@ for (const file of dsdsDocFiles) {
   processFile(file, [rewriteSchemaVersionValue, rewriteUrlsInText]);
 }
 
-// 4. README.md's hardcoded $schema URL suggestion (and any other stray version URL).
+// 4. README.md's hardcoded $schema URL suggestion (and any other stray version URL), plus
+// the prose "currently DSDS <version>" line, which carries a bare version with no URL around
+// it and so is invisible to rewriteUrlsInText.
+function rewriteProseVersion(text) {
+  return text.split(`currently DSDS ${CURRENT_VERSION}`).join(`currently DSDS ${NEW_VERSION}`);
+}
 if (!SCHEMAS_ONLY && fs.existsSync(README)) {
-  processFile(README, [rewriteUrlsInText]);
+  processFile(README, [rewriteUrlsInText, rewriteProseVersion]);
 }
 
 // 5. package.json#version.

@@ -421,10 +421,10 @@ imports:
   - platform: react
     package: "@acme/ui"
 traits:
-  - kind: boolean
+  - traitType: state
+    kind: boolean
     id: loading
     description: Shows a spinner in place of the label and blocks interaction while active.
-    setBy: consumer
 combos:
   - subject: loading
     level: must-not
@@ -594,7 +594,7 @@ combos:
   metadata: {status: {status: stable}}
   items:
     - title: Note
-      body: Generic items have no fixed shape - use freeform for prose instead.
+      body: Generic items have no fixed fields - use freeform for prose instead.
   freeform:
     - title: Styles don't apply
       body: Confirm the base theme is imported before any component renders - a component's own CSS assumes the theme's custom properties already exist.
@@ -952,7 +952,7 @@ function renderDefinitionMarkdown(defName, defSchema, exampleData) {
   }
 
   // Bare string/enum def (e.g. a status vocabulary) — show the enum and stop,
-  // mirroring renderDefinition()'s early return for the same shape.
+  // mirroring renderDefinition()'s early return for the same case.
   if (defSchema.type === "string" && !defSchema.properties) {
     if (defSchema.enum) {
       lines.push("Allowed values:", "");
@@ -1454,7 +1454,7 @@ function formatLlmsEntry(entry) {
   return `- [${entry.title}](${urlForSlug(entry.slug)}): ${entry.description}${mdLink}`;
 }
 
-function buildLlmsTxt(entries, version) {
+function buildLlmsTxt(entries, version, definitionCount) {
   // Schema is just one more top-level page now (TOP_LINKS' last entry), ordered the same way.
   const guideOrder = TOP_LINKS.map((l) => l.slug);
   const guides = entries
@@ -1483,6 +1483,15 @@ function buildLlmsTxt(entries, version) {
   );
   lines.push(
     `- [Bundled schema, v${version}](${SITE_URL}/v${version}/dsds.bundled.yaml): every definition in one file`,
+  );
+  // The curated index used to send every agent to the 115 KB whole-schema mirror and never
+  // mention the small ones, so the cheap route existed but nothing pointed at it.
+  lines.push(
+    `- [Per-definition markdown](${SITE_URL}/manifest.json): ${definitionCount} small files, one per ` +
+      `schema definition, a few KB each and in the schema's own field order — e.g. ` +
+      `[entries-component](${SITE_URL}/schema/entries-component.md) or ` +
+      `[common-ref](${SITE_URL}/schema/common-ref.md). Fetch one of these to learn a single ` +
+      `definition instead of the whole bundle; manifest.json lists all of them under \`definitions\`.`,
   );
   lines.push(
     `- [llms-full.txt](${SITE_URL}/llms-full.txt): every guide's full text plus the bundled schema, in one file for one-request ingestion`,
@@ -1548,7 +1557,7 @@ function buildManifest(pages, version) {
   const sectionPages = pages.filter((p) => p.group === "sections");
 
   // `schema` points at that kind's own split file, not the whole bundle, so a consumer wanting
-  // one kind's shape doesn't have to fetch and re-parse every other kind's too.
+  // one kind's fields doesn't have to fetch and re-parse every other kind's too.
   const entries = entryPages.map((page) => {
     const kind = page.filename.replace(/\.schema\.yaml$/, "");
     const anchor = `entries-${kind}`;
@@ -1580,10 +1589,32 @@ function buildManifest(pages, version) {
   });
   sections.sort((a, b) => a.kind.localeCompare(b.kind));
 
+  // Every schema file's own small markdown mirror, not just the entry and section kinds. The
+  // build emits 23 of these; the manifest linked the 9 that happen to be kinds, so the other 14
+  // - `common-ref` among them, the shape behind refs/related/extends/checks/evidence/specs/
+  // alternatives - were reachable from nothing at all. An agent that can fetch 4 KB for one
+  // definition will; one offered only the 115 KB whole-schema mirror guesses instead.
+  const definitions = pages
+    .map((page) => {
+      const baseName = page.filename.replace(/\.schema\.yaml$/, "");
+      const defSlug = page.group === "root" ? baseName : `${page.group}-${baseName}`;
+      const relPath =
+        page.group && page.group !== "root" ? `${page.group}/${page.filename}` : page.filename;
+      return {
+        name: page.title,
+        page: `${SITE_URL}/schema#${defSlug}`,
+        markdown: `${SITE_URL}/schema/${defSlug}.md`,
+        schema: `${SITE_URL}/v${version}/${relPath}`,
+      };
+    })
+    .sort((a, b) => a.markdown.localeCompare(b.markdown));
+
   const manifest = {
     schemaVersion: version,
     bundledSchema: `${SITE_URL}/v${version}/dsds.bundled.yaml`,
-    // dsds-mcp@0.4.0 added real 0.20.0 support (auto-detects document shape instead of
+    // Prefer one of these over bundledSchema when you only need a single definition.
+    definitions,
+    // dsds-mcp@0.4.0 added real 0.20.0 support (auto-detects document format instead of
     // hard-checking the renamed dsdsVersion field, which made 0.3.0 reject every valid document).
     // minVersion is the floor this repo has actually tested.
     mcp: {
@@ -1976,7 +2007,7 @@ async function build() {
   );
 
   // One small markdown file per schema file, alongside the big schema.md mirror, so a
-  // consumer wanting one kind's shape doesn't fetch the whole thing (minus the raw YAML dump).
+  // consumer wanting one kind's fields doesn't fetch the whole thing (minus the raw YAML dump).
   const perDefMarkdownDir = path.join(DIST_DIR, "schema");
   fs.mkdirSync(perDefMarkdownDir, { recursive: true });
 
@@ -2003,7 +2034,7 @@ async function build() {
 
   const schemaHeader = renderSub("header", {
     title: "Schema",
-    description_attr: ` description="${esc("Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared common shape - each with a real, working example next to it.")}"`,
+    description_attr: ` description="${esc("Every DSDS schema definition, on one page: the base document, every entry kind, every section kind, and every shared building block - each with a real, working example next to it.")}"`,
     source_attr: "",
     badge: "",
   });
@@ -2134,9 +2165,14 @@ async function build() {
     buildSitemapXml(sitemapEntries),
     "utf-8",
   );
+  // Counted off the files actually written to site/dist/schema/, so llms.txt can't claim a
+  // number the build doesn't emit.
+  const schemaPageCount = fs
+    .readdirSync(path.join(DIST_DIR, "schema"))
+    .filter((f) => f.endsWith(".md")).length;
   fs.writeFileSync(
     path.join(DIST_DIR, "llms.txt"),
-    buildLlmsTxt(sitemapEntries, version),
+    buildLlmsTxt(sitemapEntries, version, schemaPageCount),
     "utf-8",
   );
 

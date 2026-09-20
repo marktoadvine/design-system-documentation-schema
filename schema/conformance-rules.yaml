@@ -23,9 +23,15 @@
   title: "A `checkedBy: automated` rule needs somewhere to actually run."
   description: >-
     A guideline item that claims `automated` verification must carry at
-    least one `refs` or `checks` entry with `rel: test` or `rel:
-    lint-rule`. Otherwise, "automated" is just an unverifiable label, not
-    a real connection to a check.
+    least one `refs` or `checks` entry with `rel: test`, `rel:
+    lint-rule`, or `rel: agent-test`. Otherwise, "automated" is just an
+    unverifiable label, not a real connection to a check.
+  note: >-
+    This only checks that a ref exists, not what it proves. A `rel:
+    agent-test` fixture's result is often a pass rate or a judged
+    rubric rather than a strict boolean (see common/ref.schema.yaml's
+    own note) - `checkedBy: assisted` is the more honest choice unless
+    the fixture's assertion really is deterministic pass/fail.
 
 - id: DSDS-04
   name: UNIQUE_ENTRY_ID
@@ -144,7 +150,7 @@
   note: >-
     Ported from origin/0.16.0's scripts/lint-docs.js, adapted to check
     sections[].items[].statement instead of the pre-0.20.0
-    documentBlocks/criteria shape.
+    documentBlocks/criteria layout.
 
 - id: DSDS-13
   name: token-description-restates-identifier
@@ -258,11 +264,13 @@
     section legitimately follows a `for: human` one, so comparing across
     tiers on `for` would be a false positive.
 
-    The third breadth tier is the only sort not read off a field. A
-    section counts as being about one tag when it has at least two items
-    and every one of them names the same tag. Two items are required
-    because a single item shares a tag with itself no matter what, which
-    would sort every lone tagged item to the end of the run.
+    The third breadth tier reads `tags` on the section: a section
+    declaring `tags` is about that topic, and the first tag is the scope.
+    It used to be inferred instead - two or more items all naming the same
+    tag - which made the tier depend on how many items a section had and on
+    whether their tags happened to intersect. Adding a rule to a section
+    could move it, and a section with ten tagged items could still miss the
+    tier if no single tag ran through all of them.
 
 - id: DSDS-19
   name: guideline-item-level-order
@@ -304,27 +312,32 @@
   enforcement: advisory
   title: A nested object's fields don't follow the order its own schema file declares.
   description: >-
-    Per STYLE_GUIDE.md §3, §4, §5 and §6, the fields of a `metadata` block,
-    a section, a `guidelines`/`definitions`/`steps` item, a `combo` and a
-    `ref` each go in the order that shape's own schema file lists them. A
-    section is the one composition: `kind`, `for`, then the single field its
-    kind adds (`framing` for guidelines, `ordered` for steps), then the rest
-    of sections/section.schema.yaml's order.
+    Per STYLE_GUIDE.md §2, §3, §4, §5 and §6, the fields of a `metadata`
+    block, a component `trait` and its `values`, a section, a
+    `guidelines`/`definitions`/`steps` item, a `combo` and a `ref` each go
+    in the order that thing's own schema file lists them. Two compose
+    rather than concatenate: a section leads with `kind`, `for`, then the
+    single field its kind adds (`framing` for guidelines, `ordered` for
+    steps), then the rest of sections/section.schema.yaml's order; a trait
+    leads with `traitType`, then `kind`, then the fields every trait
+    shares, then the rest its own boolean or enum branch adds.
   note: >-
     Reads every order out of the schema files at runtime, the way DSDS-17
     and DSDS-20 do, so this rule keeps no second copy of any order. Skips
-    `$extensions` subtrees: their contents are vendor data, not DSDS shapes,
+    `$extensions` subtrees: their contents are vendor data, not DSDS objects,
     and an object in there that happens to carry `href` is not a ref.
 
 - id: DSDS-23
   name: combo-order
   enforcement: advisory
-  title: An entry's `combos[]` aren't sorted by `subject`, then by `level`.
+  title: An entry's `combos[]` don't keep one `subject` together, in `level` order.
   description: >-
-    Per STYLE_GUIDE.md §6, `combos[]` is sorted by `subject`, then by
-    `level` within one subject, so every rule about the same trait or token
-    sits together.
+    Per STYLE_GUIDE.md §6, every combo for one `subject` stays together in
+    `combos[]`, and within a subject they run in `level` order, so a reader
+    checking one trait or token finds all of its rules in one place.
   note: >-
-    `subject` sorts as a plain string comparison. `level` uses the order
+    Grouping, not sorting. Which subject comes first is the author's call -
+    STYLE_GUIDE.md's global rule is "don't alphabetize", so this reports only a
+    subject that appears, stops, and appears again. `level` uses the order
     common/requirement-level.schema.yaml declares, the same order DSDS-19
     applies to guideline items.

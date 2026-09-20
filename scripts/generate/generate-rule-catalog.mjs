@@ -13,25 +13,24 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
+import { syncRegion } from "./regions.mjs";
 
 const require = createRequire(import.meta.url);
 const yaml = require("js-yaml");
+const { validateConfig } = require("../config-schema.js");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
 const CATALOG_PATH = path.join(ROOT, "schema", "conformance-rules.yaml");
 const PAGE = path.join(ROOT, "site", "content", "conformance.mdx");
 
-// MDX comment syntax, not `<!-- -->` - a plain HTML comment isn't valid MDX.
-const BEGIN = "{/* dsds:rule-catalog */}";
-const END = "{/* /dsds:rule-catalog */}";
+const REGION = "rule-catalog";
 
 function renderTable(rules) {
-  const lines = [BEGIN, "", "| ID | Rule |", "|---|---|"];
+  const lines = ["| ID | Rule |", "|---|---|"];
   for (const rule of rules) {
     lines.push(`| \`${rule.id}\` | ${rule.title} |`);
   }
-  lines.push("", END);
   return lines.join("\n");
 }
 
@@ -42,40 +41,23 @@ function main() {
     console.error(`✗ ${path.relative(ROOT, CATALOG_PATH)} not found.`);
     process.exit(1);
   }
-  const rules = yaml.load(fs.readFileSync(CATALOG_PATH, "utf-8"));
+  const rules = validateConfig(
+    "conformance-rules",
+    yaml.load(fs.readFileSync(CATALOG_PATH, "utf-8")),
+    "schema/conformance-rules.yaml"
+  );
   if (!Array.isArray(rules) || rules.length === 0) {
     console.error(`✗ ${path.relative(ROOT, CATALOG_PATH)} has no rules.`);
     process.exit(1);
   }
 
-  if (!fs.existsSync(PAGE)) {
-    console.error(`✗ ${path.relative(ROOT, PAGE)} not found.`);
-    process.exit(1);
-  }
-  const page = fs.readFileSync(PAGE, "utf-8");
-  const begin = page.indexOf(BEGIN);
-  const end = page.indexOf(END);
-  if (begin === -1 || end === -1) {
-    console.error(`✗ Marker comments missing in ${path.relative(ROOT, PAGE)}.`);
-    process.exit(1);
-  }
-
-  const generated = renderTable(rules);
-  const updated = page.slice(0, begin) + generated + page.slice(end + END.length);
-
-  if (check) {
-    if (updated !== page) {
-      console.error(
-        "✗ Rule catalog table is out of date. Run `npm run generate` to regenerate.",
-      );
-      process.exit(1);
-    }
-    console.log(`✓ Rule catalog table is up to date (${rules.length} rules).`);
-    return;
-  }
-
-  fs.writeFileSync(PAGE, updated, "utf-8");
-  console.log(`✓ Rule catalog table regenerated (${rules.length} rules) in ${path.relative(ROOT, PAGE)}.`);
+  syncRegion({
+    file: PAGE,
+    name: REGION,
+    render: () => renderTable(rules),
+    check,
+    label: `Rule catalog table (${rules.length} rules)`,
+  });
 }
 
 main();
