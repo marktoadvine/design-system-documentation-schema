@@ -19,13 +19,17 @@ This validates every file given against the DSDS v0.21.0 bundled schema using Aj
 
 ## Documentation-Quality Checks (advisory)
 
-A second, separate tier (`DSDS-12`–`DSDS-23`) that answers "is this documentation good?" rather than "is this document allowed?" — RFC 2119 keyword casing, a token description that just restates its id or its scale position, a hard-requirement guideline with no `checkedBy`, a component with no `when-to-use` guidance, and (`DSDS-17`–`DSDS-23`) whether an entry/document follows [STYLE_GUIDE.md](../../../STYLE_GUIDE.md)'s field order, section grouping, and guideline-item ordering. Warnings only; never blocks a build on their own. Not part of the published `dsds-validate` package — it runs from a clone of the DSDS repo itself: `node scripts/validate/lint-docs.js <files-or-globs>`.
+A second, separate tier (`DSDS-12`–`DSDS-23`) that answers "is this documentation good?" rather than "is this document allowed?" — RFC 2119 keyword casing, a token description that just restates its id or its scale position, a hard-requirement guideline with no `checkedBy`, a component with no `when-to-use` guidance, and (`DSDS-17`–`DSDS-23`) whether an entry/document follows [the style guide](https://designsystemdocspec.org/style-guide)'s field order, section grouping, and guideline-item ordering. Warnings only; never blocks a build on their own. Ships in the published package as its own command:
+
+```bash
+npx dsds-lint <files-or-globs>
+```
 
 ## Full Validation
 
 1. Schema compliance (every file validates against the bundled schema)
 2. Semantic rules (`DSDS-01`–`DSDS-11`, via `npx dsds-validate`)
-3. Documentation-quality advisories (`DSDS-12`–`DSDS-23`, informational, repo-only — see above)
+3. Documentation-quality advisories (`DSDS-12`–`DSDS-23`, informational, via `npx dsds-lint`)
 
 ## Interpreting Failures
 
@@ -33,7 +37,11 @@ A second, separate tier (`DSDS-12`–`DSDS-23`) that answers "is this documentat
 | --- | --- |
 | `must have required property 'id'/'kind'/'name'/'description'` | Every entry needs all four — add the missing field |
 | `must have required property 'entries'` | A base document (has `schemaVersion`) needs a non-empty `entries` array |
-| `must match pattern` (on `id`) | Use lowercase, dash-separated segments, optionally dot-chained (e.g. `color.action.primary`) |
+| `must match pattern` (on an entry `id`) | Use lowercase, dash-separated segments, optionally dot-chained (e.g. `color.action.primary`) |
+| `must match pattern` (on a trait `id` or enum value) | Copy the real prop/attribute name in whatever case it uses (`isDisabled`) — any case is accepted, but a dot never is, since a combo addresses a value as `traitId.valueId` |
+| `must match pattern` (on a token `id`) | Same as a trait id, plus dot or slash chaining — a design tool's own path (`Color/Action/Primary`) is valid as written |
+| `must have required property 'traitType'` | Every trait declares `traitType: variant` or `traitType: state` alongside its `kind` |
+| `unevaluatedProperty` on a trait | A trait's fields are closed: `traitType`, `kind`, `id`, `name`, `description`, `purpose`, `examples`, `since`, `refs`, and `values` on an enum. A trait carries no `$extensions` of its own — put vendor data on the entry instead |
 | `[DSDS-04] id "..." is declared more than once` | Two entries (or an entry and a `shared` item) share an `id` — rename one |
 | `[DSDS-05] ... targets unknown entry/shared / unknown item` | A ref's `to: "entryId#itemId"` doesn't resolve — check the target `id` and item `id` both exist |
 | `[DSDS-06]`/`[DSDS-07]` cycle | A `composes` or `depends-on` ref chain loops back on itself — break the cycle |
