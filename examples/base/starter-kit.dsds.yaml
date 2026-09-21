@@ -289,8 +289,9 @@ shared:
         items:
           - level: must
             statement: When generating a component, emit the accessible name, keyboard handling, and focus indicator in the first pass. Do not defer them to a follow-up.
-          - level: should
-            refs:
+          # A pure pointer: statement and level both come from the target,
+          # so neither is restated here.
+          - refs:
               - to: shared-a11y#native-semantics-first
                 rel: same-as
 

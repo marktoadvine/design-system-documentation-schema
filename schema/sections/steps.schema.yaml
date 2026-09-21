@@ -24,7 +24,14 @@ allOf:
         minItems: 1
         items:
           type: object
-          required: [title]
+          # `title` is required only when the entry states its own content. An
+          # entry that points elsewhere via `refs` takes the target's and
+          # doesn't restate it.
+          if:
+            not:
+              required: [refs]
+          then:
+            required: [title]
           properties:
             id:
               $ref: https://designsystemdocspec.org/v0.21.0/common/id.schema.yaml

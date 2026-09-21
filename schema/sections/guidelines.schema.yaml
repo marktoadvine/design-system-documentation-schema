@@ -57,18 +57,28 @@ allOf:
         description: The rules, in order.
         items:
           type: object
-          anyOf:
-            - required: [statement]
-            - required: [refs]
-              properties:
-                refs:
-                  contains:
-                    type: object
-                    required: [rel]
-                    properties:
-                      rel:
-                        enum: [same-as, external-link]
-          required: [level]
+          allOf:
+            # Every item either states its rule here, or points at where the
+            # rule really lives.
+            - anyOf:
+                - required: [statement]
+                - required: [refs]
+                  properties:
+                    refs:
+                      contains:
+                        type: object
+                        required: [rel]
+                        properties:
+                          rel:
+                            enum: [same-as, external-link]
+            # `level` is required only when the item states its own rule. An
+            # item that points elsewhere via `refs` takes the target's level
+            # and doesn't restate it.
+            - if:
+                not:
+                  required: [refs]
+              then:
+                required: [level]
           properties:
             id:
               $ref: https://designsystemdocspec.org/v0.21.0/common/id.schema.yaml

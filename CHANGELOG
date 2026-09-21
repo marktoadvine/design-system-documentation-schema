@@ -4,6 +4,17 @@ All notable changes to the DSDS specification are documented in this file.
 
 ---
 
+## [0.21.1] — 2026-09-21
+
+Patch release — one relaxation, applied consistently across all three section kinds. No document changes validity: everything valid at 0.21.0 is valid here, and there is nothing to migrate.
+
+- **An item that points elsewhere no longer restates what it borrows.** A section item carrying `refs` is now exempt from its kind's normally-required content fields: a `guidelines` item no longer needs `level`, a `definitions` item no longer needs `term`/`definition`, and a `steps` item no longer needs `title`. Borrowing a shared rule via `rel: same-as` previously meant copying the target's `level` alongside the pointer, with `DSDS-10` existing largely to police that the copy agreed with the original — the schema forced the duplication, then validated it. The pointer is now the whole item. **Consumers: these fields are no longer guaranteed present.** Resolve the `same-as` target to obtain them.
+- **`refs` on a `definitions` item.** The kind carried no pointer field at all, so a term declared once in `base.shared` could not be referenced from anywhere — the only option was to restate it.
+- **`DSDS-10` reframed** from "must match" to "when declared, must match". Declaring `level` on a same-as item stays legal and is still checked against the target; omitting it is now the ordinary form. An item that means to state a *different* level is a `refines`, not a `same-as`.
+- **Starter kit** demonstrates the pure-pointer form instead of the redundant one.
+
+---
+
 ## [0.21.0] — 2026-09-15
 
 Minor release — component traits change twice, plus documentation, tooling and vocabulary. Pre-1.0, a minor may carry a breaking change with no deprecation window first; see [Stability](https://designsystemdocspec.org/stability). Run `node scripts/tools/migrate-to-0.21.js` over a 0.20.x document to bring it forward — it adds the new field and removes the old one in a single pass.

@@ -1017,9 +1017,14 @@ $defs:
             description: One entry per term.
             items:
               type: object
-              required:
-                - term
-                - definition
+              if:
+                not:
+                  required:
+                    - refs
+              then:
+                required:
+                  - term
+                  - definition
               properties:
                 id:
                   $ref: https://designsystemdocspec.org/v0.21.0/common/id.schema.yaml
@@ -1045,6 +1050,12 @@ $defs:
                     type: string
                     description: Related terms often confused with this one.
                     example: Confirm
+                refs:
+                  $ref: https://designsystemdocspec.org/v0.21.0/common/ref.schema.yaml#/$defs/list
+                  description: 'Pointers from this term, including `rel: same-as` to borrow a term declared once in `base.shared`.'
+                  example:
+                    - to: shared-terms#ok
+                      rel: same-as
                 $extensions:
                   $ref: https://designsystemdocspec.org/v0.21.0/common/extensions.schema.yaml
                   description: Escape hatch for tool data scoped to just this one term, keyed by namespace.
@@ -1082,24 +1093,30 @@ $defs:
             description: The rules, in order.
             items:
               type: object
-              anyOf:
-                - required:
-                    - statement
-                - required:
-                    - refs
-                  properties:
-                    refs:
-                      contains:
-                        type: object
-                        required:
-                          - rel
-                        properties:
-                          rel:
-                            enum:
-                              - same-as
-                              - external-link
-              required:
-                - level
+              allOf:
+                - anyOf:
+                    - required:
+                        - statement
+                    - required:
+                        - refs
+                      properties:
+                        refs:
+                          contains:
+                            type: object
+                            required:
+                              - rel
+                            properties:
+                              rel:
+                                enum:
+                                  - same-as
+                                  - external-link
+                - if:
+                    not:
+                      required:
+                        - refs
+                  then:
+                    required:
+                      - level
               properties:
                 id:
                   $ref: https://designsystemdocspec.org/v0.21.0/common/id.schema.yaml
@@ -1361,8 +1378,13 @@ $defs:
             minItems: 1
             items:
               type: object
-              required:
-                - title
+              if:
+                not:
+                  required:
+                    - refs
+              then:
+                required:
+                  - title
               properties:
                 id:
                   $ref: https://designsystemdocspec.org/v0.21.0/common/id.schema.yaml

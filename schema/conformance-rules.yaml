@@ -108,13 +108,16 @@
 - id: DSDS-10
   name: SAME_AS_LEVEL_MATCHES
   enforcement: semantic
-  title: A `same-as` item's `level` must match its target's.
+  title: A `same-as` item's `level`, when declared, must match its target's.
   description: >-
-    `level` is required on every guidelines item, even one that borrows
-    its `statement` from elsewhere via a `same-as` ref - so the
-    borrowing site and the shared rule each carry their own copy of
-    `level`, with nothing checking the two agree. Whenever the same-as
-    target resolves and has its own `level`, this checks they match.
+    An item that borrows its content via a `same-as` ref inherits the
+    target's `level` and does not need to restate it - the pointer is
+    the whole item. An author may still declare `level` explicitly, and
+    when they do, the borrowing site and the shared rule each carry
+    their own copy with nothing else checking the two agree. Whenever
+    the same-as target resolves, has its own `level`, and the borrowing
+    item declares one too, this checks they match. An item that means to
+    state a different level is a `refines`, not a `same-as`.
 
 - id: DSDS-11
   name: FILE_REF_EXISTS
