@@ -306,7 +306,14 @@ for (const file of dsdsDocFiles) {
 // the prose "currently DSDS <version>" line, which carries a bare version with no URL around
 // it and so is invisible to rewriteUrlsInText.
 function rewriteProseVersion(text) {
-  return text.split(`currently DSDS ${CURRENT_VERSION}`).join(`currently DSDS ${NEW_VERSION}`);
+  // Must return the same { updated, count } shape every other rewriter does -
+  // processFile threads `updated` through the whole list, so a bare string here
+  // makes the next read undefined and writes undefined to disk.
+  const parts = text.split(`currently DSDS ${CURRENT_VERSION}`);
+  return {
+    updated: parts.join(`currently DSDS ${NEW_VERSION}`),
+    count: parts.length - 1,
+  };
 }
 if (!SCHEMAS_ONLY && fs.existsSync(README)) {
   processFile(README, [rewriteUrlsInText, rewriteProseVersion]);
