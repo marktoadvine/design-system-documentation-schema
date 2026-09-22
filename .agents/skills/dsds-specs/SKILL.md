@@ -119,7 +119,7 @@ The bundled schema is published at `https://designsystemdocspec.org/v0.21.0/dsds
 npx dsds-validate <files-or-globs>
 ```
 
-See the `dsds-validate` skill for the full rule catalog (`DSDS-01`–`DSDS-23`) and how to interpret failures.
+See the `dsds-validate` skill for the full rule catalog (`DSDS-01`–`DSDS-24`) and how to interpret failures.
 
 ## Deep-Dive References
 

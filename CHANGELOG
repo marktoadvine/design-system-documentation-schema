@@ -25,6 +25,7 @@ Minor release — component traits change twice, plus documentation, tooling and
 - Normative sentences name a declared conformance class instead of an undeclared "tool" or "renderer".
 - Schema `$id`s move to `/v0.21.0/`. `/v0.20.0/` and `/v0.20.1/` stay frozen at the bytes they shipped with.
 - **`DSDS-14`** — fixed a false positive: a `must`/`must-not` guideline item that borrows its content via a `same-as` ref no longer gets flagged for a missing `checkedBy` when the resolved target declares one. The check is now document-scoped (like `DSDS-10`'s same-as resolution) instead of per-entity, since a same-as target is often a sibling entry (e.g. a shared accessibility rule) the old per-entity check couldn't see.
+- **`DSDS-24`** — advisory: stable components should identify their accessibility guidance with an `accessibility` tag, whether the guidance is local or points to shared rules. Contributed by Mark Toadvine.
 
 
 ---

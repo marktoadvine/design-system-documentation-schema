@@ -16,7 +16,7 @@ Create a new standalone `.dsds.yaml` entry file in your project's documentation 
 3. Create `{directory}/{id}.dsds.yaml` using the template below.
 4. Add a `refs` entry (`rel: file`) in `index.dsds.yaml` pointing at the new file.
 5. Run `npx dsds-validate {directory}/{id}.dsds.yaml` — fix errors until it passes.
-6. Keep the template's field order. It follows [the style guide](https://designsystemdocspec.org/style-guide), which asks you to write an entry's fields in the order the schema files list them — so the guide and the schema are the only two places that order lives, and this skill doesn't keep a third copy. Order never affects validity, and nothing in your project checks it: `npx dsds-validate` won't mention it, and the `DSDS-17`–`DSDS-23` advisory rules that report it live in the spec repo's own tooling, which the published package doesn't ship.
+6. Keep the template's field order. It follows [the style guide](https://designsystemdocspec.org/style-guide), which asks you to write an entry's fields in the order the schema files list them — so the guide and the schema are the only two places that order lives, and this skill doesn't keep a third copy. Order never affects validity, and nothing in your project checks it: `npx dsds-validate` won't mention it, and the `DSDS-17`–`DSDS-23` advisory rules that report it live in the spec repo's own tooling, which the published package doesn't ship. `DSDS-24` separately warns there when a stable component has no section or guideline item tagged `accessibility`.
 7. If your project generates its own index or catalog from these documents, regenerate it now.
 
 ## File Placement

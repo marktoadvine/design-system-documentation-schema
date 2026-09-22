@@ -43,6 +43,7 @@ Modify an existing `.dsds.yaml` file.
   reader benefits, not because a tool will catch you. Don't reshuffle
   fields that were already there just to comply; that turns a one-line edit
   into an unreviewable diff.
+- `DSDS-24` separately warns when a stable component has no section or guideline item tagged `accessibility`.
 - When adding trait values, place them in logical order (not necessarily alphabetical) — the first value is implied as the default.
 - Update `metadata.status` if the change constitutes a breaking API modification.
 - If adding a new relationship, use `common/ref`'s one form: `{to: "<id>", rel: "<depends-on|extends|alternative-to|composes|...>"}` for something in this document's own graph, or `{href: "<url>", rel: "..."}` for something outside it.

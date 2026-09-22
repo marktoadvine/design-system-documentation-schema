@@ -341,3 +341,15 @@
     subject that appears, stops, and appears again. `level` uses the order
     common/requirement-level.schema.yaml declares, the same order DSDS-19
     applies to guideline items.
+
+- id: DSDS-24
+  name: stable-component-missing-accessibility-guidance
+  enforcement: advisory
+  title: A stable component should identify its accessibility guidance.
+  description: >-
+    A component with an overall `stable` status, or any platform status
+    marked `stable`, should have a section or guideline item tagged
+    `accessibility`. The tagged guidance can be stated directly or point
+    to shared rules. This is a documentation-quality warning only; it does
+    not affect whether the document conforms.
+  note: Contributed by Mark Toadvine.

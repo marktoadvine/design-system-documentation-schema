@@ -98,7 +98,7 @@ One more runs in CI without gating it — the **advisory tier**, meant to be
 visible rather than blocking:
 
 ```bash
-npm run lint  # documentation-quality rules (DSDS-12–DSDS-16)
+npm run lint  # documentation-quality rules (DSDS-12+)
 ```
 
 It can't fail a build; its findings are warnings by design.
