@@ -320,6 +320,26 @@ const IMPLEMENTATIONS = {
     }
   },
 
+  "stable-component-missing-accessibility-guidance": (entry, emit) => {
+    if (entry.kind !== "component") return;
+    const status = entry.metadata && entry.metadata.status;
+    const statuses = Array.isArray(status) ? status : [status];
+    if (!statuses.some((item) => item && item.status === "stable")) return;
+    const hasAccessibilityGuidance = (entry.sections || []).some((section) => {
+      if (!section) return false;
+      if ((section.tags || []).includes("accessibility")) return true;
+      return section.kind === "guidelines" && (section.items || []).some(
+        (item) => item && (item.tags || []).includes("accessibility"),
+      );
+    });
+    if (!hasAccessibilityGuidance) {
+      emit(
+        "/sections",
+        `stable component "${entry.id}" has no section or guideline item tagged accessibility — identify its accessibility guidance with an accessibility tag, whether the guidance is stated here or points to shared rules.`,
+      );
+    }
+  },
+
   // The scale-position companion to token-description-restates-identifier (DSDS-13): flags a
   // description that reduces to a single leading scale word plus a number and nothing else -
   // the ordinal the id and the token's metadata.group position already carry.
